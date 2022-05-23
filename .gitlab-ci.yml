@@ -2,9 +2,7 @@ image: mcr.microsoft.com/dotnet/sdk:6.0
 
 .shared_windows_runners:
   tags:
-    - shared-windows
-    - windows
-    - windows-1809
+    - kubertolar
 
 stages:
   - build
