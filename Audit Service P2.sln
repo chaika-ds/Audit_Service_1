@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit Service P2", "Audit Service P2\Audit Service P2.csproj", "{C582F329-2695-4ED8-9078-D99C84AC3613}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.WebApi", "src\AuditService.WebApi\AuditService.WebApi.csproj", "{297EA223-F1CE-45C1-B580-F09E2DBF30E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C582F329-2695-4ED8-9078-D99C84AC3613}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C582F329-2695-4ED8-9078-D99C84AC3613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C582F329-2695-4ED8-9078-D99C84AC3613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
