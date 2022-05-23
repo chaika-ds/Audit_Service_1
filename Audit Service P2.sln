@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit Service P2", "Audit Service P2\Audit Service P2.csproj", "{C582F329-2695-4ED8-9078-D99C84AC3613}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.WebApi", "src\AuditService.WebApi\AuditService.WebApi.csproj", "{297EA223-F1CE-45C1-B580-F09E2DBF30E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.WebApi", "src\AuditService.WebApi\AuditService.WebApi.csproj", "{297EA223-F1CE-45C1-B580-F09E2DBF30E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9D65AA5D-55CC-49C9-A83A-911FF1EF2617}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ELK", "ELK", "{F46D6D7F-D199-4BE5-A582-FB8EB6AEB57B}"
+	ProjectSection(SolutionItems) = preProject
+		ELK\docker-compose.yml = ELK\docker-compose.yml
+		ELK\README.txt = ELK\README.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C582F329-2695-4ED8-9078-D99C84AC3613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C582F329-2695-4ED8-9078-D99C84AC3613}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C582F329-2695-4ED8-9078-D99C84AC3613}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C582F329-2695-4ED8-9078-D99C84AC3613}.Release|Any CPU.Build.0 = Release|Any CPU
 		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{297EA223-F1CE-45C1-B580-F09E2DBF30E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{297EA223-F1CE-45C1-B580-F09E2DBF30E1} = {9D65AA5D-55CC-49C9-A83A-911FF1EF2617}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73685254-724E-430F-81DA-68858654B836}
