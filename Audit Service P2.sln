@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.WebApi", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9D65AA5D-55CC-49C9-A83A-911FF1EF2617}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ELK", "ELK", "{F46D6D7F-D199-4BE5-A582-FB8EB6AEB57B}"
+	ProjectSection(SolutionItems) = preProject
+		ELK\docker-compose.yml = ELK\docker-compose.yml
+		ELK\README.txt = ELK\README.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
