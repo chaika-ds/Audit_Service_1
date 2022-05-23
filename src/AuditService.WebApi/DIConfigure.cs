@@ -5,24 +5,15 @@ namespace AuditService.WebApi;
 
 public static class DiConfigure
 {
-    public static IServiceCollection Configure(IServiceCollection services, IConfiguration ñonfiguration)
+    public static void Configure(IServiceCollection services)
     {
-        RegisterElasticSearch(services, ñonfiguration);
-
-        return services;
-    }
-
-    /// <summary>
-    ///     Çàðåãèñòðèðîâàòü ElasticSearch
-    /// </summary>
-    private static void RegisterElasticSearch(IServiceCollection services, IConfiguration configuration)
-    {
-        var nodes = configuration.GetSection("ElasticSearch:Uris").Get<string[]>().Select(w => new Uri(w)).ToArray();
-        if (!nodes.Any())
-            return;
-
-        services.AddScoped(typeof(IElasticClient), _ =>
+        services.AddScoped(typeof(IElasticClient), serviceProvider =>
         {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+            var uris = configuration.GetSection("ElasticSearch:Uris").Get<string[]>();
+            var nodes = uris.Select(w => new Uri(w)).ToArray();
+
             var pool = new StaticConnectionPool(nodes);
             var settings = new ConnectionSettings(pool);
 

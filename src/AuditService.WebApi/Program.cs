@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 
-DiConfigure.Configure(builder.Services, builder.Configuration);
+DiConfigure.Configure(builder.Services);
 
 var app = builder.Build();
 
