@@ -1,4 +1,5 @@
 using AuditService.WebApi;
+using AuditService.WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 
 DiConfigure.Configure(builder.Services);
+ElasticConfiguration.Configure(builder.Services);
 
 var app = builder.Build();
 
