@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+    auditservice:
+        container_name: auditservice-p2
+        image: auditservice
+        build:
+            args:
+                - PORT=3000
+                - APPNAME=AuditService.WebApi
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 3000:3000
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        volumes:
+        - ~/.vsdbg:/remote_debugger:rw
