@@ -48,7 +48,7 @@ namespace AuditService.Common.Kafka
         {
             if (obj == null)
             {
-               // throw new KafkaProducerException("Notification is null");
+              //  throw new KafkaProducerException("Notification is null");
             }
 
             var objStr = JsonConvert.SerializeObject(obj, _serializerSettings);

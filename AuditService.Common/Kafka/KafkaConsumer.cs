@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AuditService.Common.Kafka
 {
-    public sealed class KafkaConsumer : IDisposable
+    public sealed class KafkaConsumer : IKafkaConsumer, IDisposable
     {
         private const int NO_ROLLBACK = 0;
 
@@ -44,8 +44,6 @@ namespace AuditService.Common.Kafka
                 .SetPartitionsAssignedHandler((c, partitions) =>
                 {
                     _logger.LogInformation($"Assigned to partitions: {string.Join(',', partitions.Select(x => $"{x.Topic}#{x.Partition.Value}"))}");
-                    // при отладке можно раскомменитровать чтобы прочитать партицию с начала
-                    // return partitions.Select(tp => new TopicPartitionOffset(tp, Offset.Beginning));
                 })
                 .SetPartitionsLostHandler((c, partitions) => _logger.LogError($"Lost partitions: {string.Join(',', partitions.Select(x => $"{x.Topic}#{x.Partition.Value}"))}"))
                 .SetPartitionsRevokedHandler((c, partitions) => _logger.LogError($"Revoked partitions: {string.Join(',', partitions.Select(x => $"{x.Topic}#{x.Partition.Value}"))}"))
@@ -278,11 +276,11 @@ namespace AuditService.Common.Kafka
             var topicMetadata = metadata.Topics.FirstOrDefault(topic => topic.Topic == _topic);
             var partitions = topicMetadata?.Partitions;
 
-            if (partitions.NullOrEmpty())
-            {
-                _logger.LogError($"Topic {_topic} has no partitions");
-                return INVALID_PARTITION;
-            }
+            //if (partitions.NullOrEmpty())
+            //{
+            //    _logger.LogError($"Topic {_topic} has no partitions");
+            //    return INVALID_PARTITION;
+            //}
 
             var topicPartitionIds = partitions.Select(item => item.PartitionId).ToArray();
 
