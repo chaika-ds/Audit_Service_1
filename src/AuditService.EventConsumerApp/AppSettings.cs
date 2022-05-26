@@ -21,7 +21,6 @@ namespace AuditService.EventConsumerApp
 
         public AppSettings(IConfiguration config)
         {
-            //ConnectionString = config.GetConnectionString("ReportsDb");
             MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
             MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
 

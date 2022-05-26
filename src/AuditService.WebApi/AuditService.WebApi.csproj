@@ -22,4 +22,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\AuditService.WebApiApp\AuditService.WebApiApp.csproj" />
+      <ProjectReference Include="..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
