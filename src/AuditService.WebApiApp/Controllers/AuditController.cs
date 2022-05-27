@@ -1,8 +1,8 @@
 using AuditService.Data.Domain.Dto;
-using AuditService.WebApiApp;
+using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuditService.WebApiApp;
+namespace AuditService.WebApiApp.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]

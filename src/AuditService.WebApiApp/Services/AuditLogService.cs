@@ -1,8 +1,8 @@
 using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
-using AuditService.WebApiApp;
+using AuditService.WebApiApp.Services.Interfaces;
 
-namespace AuditService.WebApi.Services;
+namespace AuditService.WebApiApp.Services;
 
 public class AuditLogService : IAuditLog
 {

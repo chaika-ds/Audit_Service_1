@@ -1,6 +1,6 @@
 using AuditService.Data.Domain.Dto;
 
-namespace AuditService.WebApiApp;
+namespace AuditService.WebApiApp.Services.Interfaces;
 
 public interface IAuditLog
 {

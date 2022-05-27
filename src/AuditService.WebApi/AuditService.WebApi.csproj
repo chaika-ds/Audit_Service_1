@@ -23,8 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\AuditService.WebApiApp\AuditService.WebApiApp.csproj" />
       <ProjectReference Include="..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
+      <ProjectReference Include="..\AuditService.WebApiApp\AuditService.WebApiApp.csproj" />
     </ItemGroup>
 
 </Project>
