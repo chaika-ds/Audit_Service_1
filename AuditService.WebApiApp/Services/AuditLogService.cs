@@ -1,22 +1,23 @@
-using AuditService.WebApi.Models;
-using AuditService.WebApi.Services.Interfaces;
+using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Enums;
+using AuditService.WebApiApp;
 
 namespace AuditService.WebApi.Services;
 
 public class AuditLogService : IAuditLog
 {
-    public IEnumerable<KafkaMessage> GetMockedLog()
+    public IEnumerable<AuditLogTransactionDto> GetMockedLog()
     {
-        var kafkaMessages = new List<KafkaMessage>();
+        var kafkaMessages = new List<AuditLogTransactionDto>();
 
         for (var i = 0; i < 10; i++)
         {
-            KafkaMessage kafkaMessage = new KafkaMessage()
+            var kafkaMessage = new AuditLogTransactionDto()
             {
-                ServiceName = $"Service Name {i}",
+                ServiceName = ServiceName.SETTINGSERVICE,
                 NodeId = Guid.NewGuid(),
-                NodeType = $"Node Type {i}",
-                ActionName = $"Action Name {i}",
+                NodeType = NodeTypes.ROOT,
+                ActionName = ActionNameType.CREATE,
                 CategoryCode = $"Category Code {i}",
                 RequestUrl = $"Request Url {i}",
                 RequestBody = $"Request body {i}",

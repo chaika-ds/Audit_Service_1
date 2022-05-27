@@ -1,8 +1,8 @@
-using AuditService.WebApi.Models;
-using AuditService.WebApi.Services.Interfaces;
+using AuditService.Data.Domain.Dto;
+using AuditService.WebApiApp;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuditService.WebApi.Controllers;
+namespace AuditService.WebApiApp;
 
 [ApiController]
 [Route("[controller]/[action]")]
@@ -17,7 +17,7 @@ public class AuditController : ControllerBase
     
     // GET
     [HttpGet]
-    public IEnumerable<KafkaMessage> Log()
+    public IEnumerable<AuditLogTransactionDto> Log()
     {
         return _auditLog.GetMockedLog();
     }

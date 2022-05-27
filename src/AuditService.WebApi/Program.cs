@@ -1,5 +1,5 @@
-using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
+using AuditService.WebApiApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 
-DiConfigure.Configure(builder.Services);
+DIConfigure.Configure(builder.Services);
 ElasticConfiguration.Configure(builder.Services);
 
 var app = builder.Build();
