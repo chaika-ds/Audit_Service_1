@@ -115,10 +115,13 @@ internal class ElasticSearchDataFiller
             OldValue = "{ 'value': '0' }",
             NewValue = "{ 'value': '1' }",
             ProjectId = Guid.NewGuid(),
-            UserId = Guid.NewGuid(),
-            UserIp = "127.0.0.0",
-            UserLogin = "login",
-            UserAgent = "agent"
+            User = new IdentityUserDto
+            {
+                Id = Guid.NewGuid(),
+                Ip = "127.0.0.0",
+                Login = "login",
+                UserAgent = "agent"
+            }
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)

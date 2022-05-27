@@ -8,6 +8,11 @@ namespace AuditService.Data.Domain.Dto;
 /// </summary>
 public class AuditLogTransactionDto
 {
+    public AuditLogTransactionDto()
+    {
+        User = new IdentityUserDto();
+    }
+
     /// <summary>
     ///     Идентификатор сервиса.
     /// </summary>
@@ -80,22 +85,7 @@ public class AuditLogTransactionDto
     public Guid ProjectId { get; set; }
 
     /// <summary>
-    ///     Id пользователя админпанели или игрока, который сделал изменения.
+    ///     Пользователь
     /// </summary>
-    public Guid UserId { get; set; }
-
-    /// <summary>
-    ///     IP-адрес пользователя.
-    /// </summary>
-    public string UserIp { get; set; }
-
-    /// <summary>
-    ///     Login пользователя.
-    /// </summary>
-    public string UserLogin { get; set; }
-
-    /// <summary>
-    ///     Данные о браузере пользователя.
-    /// </summary>
-    public string UserAgent { get; set; }
+    public IdentityUserDto User { get; set; }
 }
