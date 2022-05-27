@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
+    <ProjectReference Include="..\..\src\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
   </ItemGroup>
 
 </Project>
