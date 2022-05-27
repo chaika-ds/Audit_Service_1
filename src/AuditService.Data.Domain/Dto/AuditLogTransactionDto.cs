@@ -1,102 +1,101 @@
-﻿using AuditService.Data.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using AuditService.Data.Domain.Enums;
 
-namespace AuditService.Data.Domain.Dto
+namespace AuditService.Data.Domain.Dto;
+
+/// <summary>
+///     Audit log tramsaction.
+/// </summary>
+public class AuditLogTransactionDto
 {
     /// <summary>
-    /// Audit log tramsaction.
+    ///     Идентификатор сервиса.
     /// </summary>
-    public class AuditLogTransactionDto
-    {
-        /// <summary>
-        /// Идентификатор сервиса.
-        /// </summary>
-        [Required()]
-        public ServiceName ServiceName { get; set; }
+    [Required]
+    public ServiceName ServiceName { get; set; }
 
-        /// <summary>
-        /// Идентификатор узла, на котором произошло изменение.
-        /// </summary>
-        [Required()]
-        public Guid NodeId { get; set; }
+    /// <summary>
+    ///     Идентификатор узла, на котором произошло изменение.
+    /// </summary>
+    [Required]
+    public Guid NodeId { get; set; }
 
-        /// <summary>
-        /// Тип узла.
-        /// </summary>
-        [Required()]
-        public NodeTypes NodeType { get; set; }
+    /// <summary>
+    ///     Тип узла.
+    /// </summary>
+    [Required]
+    public NodeTypes NodeType { get; set; }
 
-        /// <summary>
-        /// сумма депозита.
-        /// </summary>
-        [Required()]
-        public ActionNameType ActionName { get; set; }
+    /// <summary>
+    ///     сумма депозита.
+    /// </summary>
+    [Required]
+    public ActionNameType ActionName { get; set; }
 
-        /// <summary>
-        /// Категория действий (в зависимости от модулей).
-        /// </summary>
-        [Required()]
-        public string CategoryCode { get; set; }
+    /// <summary>
+    ///     Категория действий (в зависимости от модулей).
+    /// </summary>
+    [Required]
+    public string CategoryCode { get; set; }
 
-        /// <summary>
-        /// Текстовое представление запроса.
-        /// </summary>
-        public string RequestUrl { get; set; }
+    /// <summary>
+    ///     Текстовое представление запроса.
+    /// </summary>
+    public string RequestUrl { get; set; }
 
-        /// <summary>
-        /// JSON представление тела запроса.
-        /// </summary>
-        public string RequestBody { get; set; }
+    /// <summary>
+    ///     JSON представление тела запроса.
+    /// </summary>
+    public string RequestBody { get; set; }
 
-        /// <summary>
-        /// Дата и время события(стандарт ISO 8601 UTC).
-        /// </summary>
-        [Required()]
-        public DateTime Timestamp { get; set; }
+    /// <summary>
+    ///     Дата и время события(стандарт ISO 8601 UTC).
+    /// </summary>
+    [Required]
+    public DateTime Timestamp { get; set; }
 
-        /// <summary>
-        /// Название класса (или таблицы в базе) логируемой сущности.
-        /// </summary>
-        public string EntityName { get; set; }
+    /// <summary>
+    ///     Название класса (или таблицы в базе) логируемой сущности.
+    /// </summary>
+    public string EntityName { get; set; }
 
-        /// <summary>
-        /// Идентификатор логируемой сущности(возможные типы значений UUID/Long).
-        /// </summary>
-        public string EntityId { get; set; }
+    /// <summary>
+    ///     Идентификатор логируемой сущности(возможные типы значений UUID/Long).
+    /// </summary>
+    public string EntityId { get; set; }
 
-        /// <summary>
-        /// JSON представление предыдущего значения сущности.
-        /// </summary>
-        public string OldValue { get; set; }
+    /// <summary>
+    ///     JSON представление предыдущего значения сущности.
+    /// </summary>
+    public string OldValue { get; set; }
 
-        /// <summary>
-        /// JSON представление нового значения сущности.
-        /// </summary>
-        public string NewValue { get; set; }
+    /// <summary>
+    ///     JSON представление нового значения сущности.
+    /// </summary>
+    public string NewValue { get; set; }
 
-        /// <summary>
-        /// ID проекта, с которого логируется изменение в аудит.
-        /// </summary>
-        public Guid ProjectId { get; set; }
+    /// <summary>
+    ///     ID проекта, с которого логируется изменение в аудит.
+    /// </summary>
+    public Guid ProjectId { get; set; }
 
-        /// <summary>
-        /// Id пользователя админпанели или игрока, который сделал изменения.
-        /// </summary>
-        public Guid UserId { get; set; }
+    /// <summary>
+    ///     Id пользователя админпанели или игрока, который сделал изменения.
+    /// </summary>
+    public Guid UserId { get; set; }
 
-        /// <summary>
-        /// IP-адрес пользователя.
-        /// </summary>
-        public string UserIp { get; set; }
+    /// <summary>
+    ///     IP-адрес пользователя.
+    /// </summary>
+    public string UserIp { get; set; }
 
-        /// <summary>
-        /// Login пользователя.
-        /// </summary>
-        public string UserLogin { get; set; }
+    /// <summary>
+    ///     Login пользователя.
+    /// </summary>
+    public string UserLogin { get; set; }
 
-        /// <summary>
-        /// Данные о браузере пользователя.
-        /// </summary>
-        public string UserAgent { get; set; }
-    }
+    /// <summary>
+    ///     Данные о браузере пользователя.
+    /// </summary>
+    public string UserAgent { get; set; }
 }
