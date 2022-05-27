@@ -1,4 +1,5 @@
-﻿using AuditService.WebApi.Services;
+﻿using AuditService.WebApiApp.Services;
+using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.WebApiApp;
