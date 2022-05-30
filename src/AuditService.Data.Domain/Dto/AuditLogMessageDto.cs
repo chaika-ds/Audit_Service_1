@@ -6,7 +6,7 @@ namespace AuditService.Data.Domain.Dto
     /// <summary>
     /// Audit log tramsaction.
     /// </summary>
-    public class AuditLogTransactionDto
+    public class AuditLogMessageDto
     {
         /// <summary>
         /// Идентификатор сервиса.
@@ -62,7 +62,7 @@ namespace AuditService.Data.Domain.Dto
         /// <summary>
         /// Идентификатор логируемой сущности(возможные типы значений UUID/Long).
         /// </summary>
-        public string EntityId { get; set; }
+        public Guid EntityId { get; set; }
 
         /// <summary>
         /// JSON представление предыдущего значения сущности.

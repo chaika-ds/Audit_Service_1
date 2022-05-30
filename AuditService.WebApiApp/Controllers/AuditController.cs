@@ -17,7 +17,7 @@ public class AuditController : ControllerBase
     
     // GET
     [HttpGet]
-    public IEnumerable<AuditLogTransactionDto> Log()
+    public IEnumerable<AuditLogMessageDto> Log()
     {
         return _auditLog.GetMockedLog();
     }
