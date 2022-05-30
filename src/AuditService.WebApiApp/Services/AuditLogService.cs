@@ -1,8 +1,8 @@
 using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
-using AuditService.WebApiApp;
+using AuditService.WebApiApp.Services.Interfaces;
 
-namespace AuditService.WebApi.Services;
+namespace AuditService.WebApiApp.Services;
 
 public class AuditLogService : IAuditLog
 {
@@ -27,10 +27,13 @@ public class AuditLogService : IAuditLog
                 OldValue = $"Old Value {i}",
                 NewValue = $"New Value {i}",
                 ProjectId = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                UserIp = $"User Ip {i}",
-                UserLogin = $"User Login {i}",
-                UserAgent = $"User Agent {i}"
+                User = new IdentityUserDto
+                {
+                    Id = Guid.NewGuid(),
+                    Ip = $"User Ip {i}",
+                    Login = $"User Login {i}",
+                    UserAgent = $"User Agent {i}"
+                }
             };
             kafkaMessages.Add(kafkaMessage);
         }
