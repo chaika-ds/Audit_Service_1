@@ -17,7 +17,7 @@ public class IsUserAuthenticateResponse
     /// <summary>
     /// User info
     /// </summary>
-    public UserDto UserDto { get; set; }
+    public UserDto User { get; set; }
     
     /// <summary>
     /// IssuedAt
