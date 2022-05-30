@@ -7,6 +7,7 @@ public static class DIConfigure
 {
     public static void Configure(IServiceCollection services)
     {
-        services.AddScoped<IAuditLog, AuditLogService>();
+        services.AddTransient<IAuditLog, AuditLogService>();
+        services.AddTransient<IAuthorization, AuthorizationService>();
     }
 }
