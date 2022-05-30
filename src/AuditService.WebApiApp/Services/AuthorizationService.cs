@@ -22,16 +22,15 @@ public class AuthorizationService: IAuthorization
         const string relativeUri = $"{BaseUrl}/{ServiceLogin}";
         return await PostJson<ServiceLoginResponse>(relativeUri, svRequest);;
     }
-    
-    public async Task<IsUserAuthenticateResponse> GetIsUserAuthenticate(IsUserAuthenticateRequest isUserAuthenticateRequest)
+    public async Task<IsUserAuthenticateResponse> GetIsUserAuthenticate(IsUserAuthenticateRequest inputModel)
     {
-        string relativeUri = $"{BaseUrl}/{IsUserAuthenticate}";
+        string relativeUri = $"{BaseUrl}/{IsUserAuthenticate}?token={inputModel.Token}&nodeId={inputModel.NodeId}";
         
         using var httpClient = new HttpClient();
         using var request = new HttpRequestMessage(HttpMethod.Get, relativeUri);
         
-        request.Headers.Add("Token", isUserAuthenticateRequest.Token);
-        request.Headers.Add("X-Node-Id", isUserAuthenticateRequest.NodeId);
+        request.Headers.Add("Token", inputModel.Token);
+        request.Headers.Add("X-Node-Id", inputModel.NodeId);
 
         using var response = await httpClient.SendAsync(request);
         
@@ -45,7 +44,7 @@ public class AuthorizationService: IAuthorization
         return JsonConvert.DeserializeObject<IsUserAuthenticateResponse>(contentString);
     }
     
-    private  async Task<TResponse> PostJson<TResponse>(string relativeUri, object requestBody, bool ensureSuccessStatusCode = true)
+    private static async Task<TResponse> PostJson<TResponse>(string relativeUri, object requestBody, bool ensureSuccessStatusCode = true)
     {
         var json = JsonConvert.SerializeObject(requestBody);
 
