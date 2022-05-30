@@ -3,18 +3,18 @@ using AuditService.Data.Domain.Dto;
 
 namespace AuditService.IntegrationTests;
 
-public class AuditLogMessageDtoBuilder : BuilderBase<AuditLogMessageDto>
+public class AuditLogMessageDtoBuilder : BuilderBase<AuditLogTransactionDto>
 {
     public AuditLogMessageDtoBuilder()
         : base()
     {
     }
 
-    public override AuditLogMessageDto Get()
+    public override AuditLogTransactionDto Get()
     {
         var result = base.Get();
-        result.OldValue = Helper.GetJson("OldValueEntity.json");
-        result.NewValue = Helper.GetJson("NewValueEntity.json");
+        result.OldValue = Helper.GetJson(@"JsonModels/OldValueEntity.json");
+        result.NewValue = Helper.GetJson(@"JsonModels/NewValueEntity.json");
 
         return result;
     }

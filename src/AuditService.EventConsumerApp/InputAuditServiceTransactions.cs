@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace AuditService.EventConsumerApp
 {
-    public class InputAuditServiceTransactions :  BaseInputService<AuditLogMessageDto>
+    public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDto>
     {
         public InputAuditServiceTransactions(
             ILogger<InputAuditServiceTransactions> logger,
             IKafkaConsumerFactory consumerFactory,
-            IInputSettings<AuditLogMessageDto> inputSettings,
+            IInputSettings<AuditLogTransactionDto> inputSettings,
             IHealthMarkService healthService)
                 : base(logger, consumerFactory, inputSettings, healthService)
         {
@@ -31,17 +31,17 @@ namespace AuditService.EventConsumerApp
 
             try
             {
-                var inputObject = JsonConvert.DeserializeObject<AuditLogMessageDto>(args.Data);
+                var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDto>(args.Data);
 
                 await CreateAndSaveAsync(inputObject).ConfigureAwait(false);                
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error processing {typeof(AuditLogMessageDto).Name}");
+                _logger.LogError(ex, $"Error processing {typeof(AuditLogTransactionDto).Name}");
             }
         }
 
-        protected Task CreateAndSaveAsync(AuditLogMessageDto inputObject)
+        protected Task CreateAndSaveAsync(AuditLogTransactionDto inputObject)
         {
             //return _outputService.MapToEntityAndSaveAsync<PaymentTransactionDto, SuccessDeposit>(inputObject);
 

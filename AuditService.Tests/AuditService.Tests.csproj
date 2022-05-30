@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\src\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\src\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
+    <ProjectReference Include="..\src\AuditService.IntegrationTests\AuditService.IntegrationTests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

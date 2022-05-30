@@ -21,7 +21,7 @@ namespace AuditService.EventConsumerApp
                 .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
                 .AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>()
 
-                .AddSingleton<IInputSettings<AuditLogMessageDto>, InputSettings<AuditLogMessageDto>>()
+                .AddSingleton<IInputSettings<AuditLogTransactionDto>, InputSettings<AuditLogTransactionDto>>()
                 .AddSingleton<IInputService, InputAuditServiceTransactions>();
 
             services

@@ -74,23 +74,23 @@ namespace AuditService.IntegrationTests
         protected virtual Guid GetNodeId()
         {
             return Guid.NewGuid();
-        } 
-        
+        }
+
         protected virtual string GetCategoryCode()
         {
             return _catrgoryCodes[_random.Next(0, _catrgoryCodes.Length - 1)];
         }
-        
+
         protected virtual string GetRequestUrl()
         {
             return _requestUrls[_random.Next(0, _requestUrls.Length - 1)];
         }
-        
+
         protected virtual string GetRequestBody()
         {
             return _requestBodyCodes[_random.Next(0, _requestBodyCodes.Length - 1)];
         }
-        
+
         protected virtual DateTime GetTimeStamp()
         {
             var rnd = _random.Next(-2, 1);
