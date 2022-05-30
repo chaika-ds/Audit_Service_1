@@ -10,6 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["RedisCache:ConnectionString"];
+    options.InstanceName = builder.Configuration["RedisCache:InstanceName"];
+});
 
 DIConfigure.Configure(builder.Services);
 ElasticConfiguration.Configure(builder.Services);
