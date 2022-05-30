@@ -6,13 +6,13 @@ namespace AuditService.WebApi.Services;
 
 public class AuditLogService : IAuditLog
 {
-    public IEnumerable<AuditLogTransactionDto> GetMockedLog()
+    public IEnumerable<AuditLogMessageDto> GetMockedLog()
     {
-        var kafkaMessages = new List<AuditLogTransactionDto>();
+        var kafkaMessages = new List<AuditLogMessageDto>();
 
         for (var i = 0; i < 10; i++)
         {
-            var kafkaMessage = new AuditLogTransactionDto()
+            var kafkaMessage = new AuditLogMessageDto()
             {
                 ServiceName = ServiceName.SETTINGSERVICE,
                 NodeId = Guid.NewGuid(),
@@ -23,7 +23,7 @@ public class AuditLogService : IAuditLog
                 RequestBody = $"Request body {i}",
                 Timestamp = DateTime.UtcNow,
                 EntityName = $"Entity Name {i}",
-                EntityId =  $"Entity Id {i}",
+                EntityId = Guid.NewGuid(),
                 OldValue = $"Old Value {i}",
                 NewValue = $"New Value {i}",
                 ProjectId = Guid.NewGuid(),

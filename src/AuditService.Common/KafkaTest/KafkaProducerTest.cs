@@ -4,7 +4,7 @@ namespace AuditService.Common.KafkaTest
 {
     public class KafkaProducerTest
     {
-        public async Task KafkaProducerStart()
+        public async Task KafkaProducerStart(string topicTest, string serializedObj)
         {
             var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
 
@@ -15,7 +15,7 @@ namespace AuditService.Common.KafkaTest
             {
                 try
                 {
-                    var dr = await p.ProduceAsync("test-topic2", new Message<Null, string> { Value = "test2" });
+                    var dr = await p.ProduceAsync(topicTest, new Message<Null, string> { Value = serializedObj });
                     Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
                 }
                 catch (ProduceException<Null, string> e)

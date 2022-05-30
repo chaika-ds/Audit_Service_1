@@ -48,7 +48,7 @@ namespace AuditService.Common.Kafka
         {
             if (obj == null)
             {
-              //  throw new KafkaProducerException("Notification is null");
+                throw new KafkaProducerException("Notification is null");
             }
 
             var objStr = JsonConvert.SerializeObject(obj, _serializerSettings);
@@ -68,12 +68,12 @@ namespace AuditService.Common.Kafka
 
                 if (dr.Status == PersistenceStatus.NotPersisted)
                 {
-                   // throw new KafkaProducerException("Message wasn't transmit");
+                    throw new KafkaProducerException("Message wasn't transmit");
                 }
             }
             catch (KafkaException ex)
             {
-                //throw new KafkaProducerException("Error in kafka on send message: " + ex.Message);
+                throw new KafkaProducerException("Error in kafka on send message: " + ex.Message);
             }
         }
 
