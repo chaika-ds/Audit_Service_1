@@ -1,4 +1,4 @@
-namespace AuditService.WebApiApp.Models.InputModels;
+namespace AuditService.WebApiApp.Models.Requests;
 
 public class ServiceLoginRequest
 {

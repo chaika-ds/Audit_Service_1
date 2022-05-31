@@ -1,6 +1,6 @@
 using AuditService.Data.Domain.Dto;
 
-namespace AuditService.WebApiApp.Models.OutputModels;
+namespace AuditService.WebApiApp.Models.Responses;
 
 public class IsUserAuthenticateResponse
 {
