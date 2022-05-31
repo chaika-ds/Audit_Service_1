@@ -1,4 +1,4 @@
-namespace AuditService.WebApiApp.Models.OutputModels;
+namespace AuditService.WebApiApp.Models.Responses;
 
 public abstract class ServiceLoginResponse
 {
