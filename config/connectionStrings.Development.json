@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "ReportsDb": "User ID=reptolarps;Password=gkeoTe5hrFItSD7kCamiuZ9IB;Host=185.132.177.60;Port=15432;Database=reports;Timeout=1000;Include Error Detail=true",
+    "TestReportsDb": "User ID=reptolarpstest;Password=gke7kCamiuZoTe5hrFItSD9IB;Host=185.132.177.60;Port=15432;Database=reportstest;Timeout=1000;Include Error Detail=true"
+  }
+}

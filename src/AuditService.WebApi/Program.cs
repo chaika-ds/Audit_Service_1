@@ -1,12 +1,21 @@
 using AuditService.WebApi.Configurations;
 using AuditService.WebApiApp;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true);
+builder.Configuration.AddJsonFile($"aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true);
+
+//var configsPath = Directory.GetParent(builder.Environment.ContentRootPath)?.Parent?.Parent?.FullName;
+//if (!string.IsNullOrEmpty(configsPath))
+//{
+//    builder.Configuration.AddJsonFile(new PhysicalFileProvider(Path.Combine(configsPath, "config")), $"aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true, true);
+//}
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();

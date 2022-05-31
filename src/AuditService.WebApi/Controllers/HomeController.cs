@@ -14,11 +14,13 @@ namespace AuditService.WebApi.Controllers
     {
         private readonly IElasticClient _elasticClient;
         private readonly IDistributedCache _redisCache;
-        
-        public HomeController(IElasticClient client, IDistributedCache redisCache)
+        private readonly IWebHostEnvironment _webHost;
+
+        public HomeController(IElasticClient client, IDistributedCache redisCache, IWebHostEnvironment webHost)
         {
             _elasticClient = client;
             _redisCache = redisCache;
+            _webHost = webHost;
         }
 
         [HttpGet]
@@ -26,13 +28,12 @@ namespace AuditService.WebApi.Controllers
         {
             await Task.Delay(1);
             Console.WriteLine($"New call. BaseMethod: {value}. Result = {value}");
-            return $"BaseMethod: {value}. Result = {value}";
+            return $"BaseMethod: {_webHost.ContentRootPath}. Result = {value}";
         }
 
         [HttpGet]
         public async Task<string> GetOrSetStringWithRedisAsync(string value)
         {
-       
             var valueCashe = await _redisCache.GetAsync(value);
             if (valueCashe != null)
                 return Encoding.UTF8.GetString(valueCashe);
