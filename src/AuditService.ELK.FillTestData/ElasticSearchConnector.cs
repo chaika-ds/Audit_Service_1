@@ -13,10 +13,8 @@ public class ElasticSearchConnector
     /// <summary>
     ///     Создать новый инстанс
     /// </summary>
-    public IElasticClient CreateInstance(IServiceProvider services)
+    public IElasticClient CreateInstance(IConfiguration configuration)
     {
-        var configuration = services.GetRequiredService<IConfiguration>();
-
         var uris = configuration.GetSection("ElasticSearch:Uris").Get<string[]>();
         var nodes = uris.Select(w => new Uri(w)).ToArray();
 

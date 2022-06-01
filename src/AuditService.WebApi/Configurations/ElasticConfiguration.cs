@@ -5,6 +5,9 @@ namespace AuditService.WebApi.Configurations;
 
 public static class ElasticConfiguration
 {
+    /// <summary>
+    ///     Create scope for ElasticSearch
+    /// </summary>
     public static void Configure(IServiceCollection services)
     {
         services.AddScoped(typeof(IElasticClient), serviceProvider =>

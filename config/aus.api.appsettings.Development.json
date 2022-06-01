@@ -1,10 +1,10 @@
 {
   "RedisCache": {
     "ConnectionString": "redis:6379,abortConnect=false",
-    "InstanceName": "RedisCache"
+    "InstanceName": "DevelopRedisCache"
   },
   "ElasticSearch": {
-    "Uris": [ "http://elasticsearch:9200" ],
+    "Uris": [ "http://elasticsearch:9200", "http://localhost:9200" ],
     "DefaultIndex": "testaudit",
     "UserName": "",
     "Password": ""

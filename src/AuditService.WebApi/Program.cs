@@ -1,18 +1,15 @@
+using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApiApp;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true);
-builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true);
 
-//var configsPath = Directory.GetParent(builder.Environment.ContentRootPath)?.Parent?.Parent?.FullName;
-//if (!string.IsNullOrEmpty(configsPath))
-//{
-//    builder.Configuration.AddJsonFile(new PhysicalFileProvider(Path.Combine(configsPath, "config")), $"aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true, true);
-//}
+new AdditionalEnvironmentConfiguration()
+    .AddJsonFile(builder, $"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json");
+
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
@@ -22,10 +19,10 @@ builder.Services.AddHealthChecks();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration["RedisCache:ConnectionString"];
-    options.InstanceName = builder.Configuration["RedisCache:InstanceName"];
+    options.InstanceName = builder.Configuration["RedisCache:InstanceName"] ?? "RedisCache";
 });
 
-DIConfigure.Configure(builder.Services);
+DiConfigure.Configure(builder.Services);
 ElasticConfiguration.Configure(builder.Services);
 
 var app = builder.Build();
