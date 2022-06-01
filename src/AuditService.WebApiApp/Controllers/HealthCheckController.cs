@@ -9,7 +9,7 @@ using Nest;
 namespace AuditService.WebApiApp.Controllers;
 
 [ApiController]
-[Route("_hcc")]
+[Route("_hc")]
 public class HealthCheckController : ControllerBase
 {
     private readonly IHealthCheck _healthCheck;
