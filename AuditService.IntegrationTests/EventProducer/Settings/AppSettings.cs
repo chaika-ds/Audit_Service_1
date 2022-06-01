@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace AuditService.IntegrationTests
 {
     public class AppSettings : IKafkaSettings, IDirectorSettings
@@ -23,8 +22,7 @@ namespace AuditService.IntegrationTests
         private void AddTestConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.Development.json", optional: false);
+                .AddJsonFile($"appsettings.json", optional: false);
             var configuration = builder.Build();
 
             GroupId = configuration["Kafka:GroupId"];

@@ -4,5 +4,5 @@ namespace AuditService.WebApiApp.Services.Interfaces;
 
 public interface IAuditLog
 {
-    IEnumerable<AuditLogMessageDto> GetMockedLog();
+    IEnumerable<AuditLogTransactionDto> GetMockedLog();
 }

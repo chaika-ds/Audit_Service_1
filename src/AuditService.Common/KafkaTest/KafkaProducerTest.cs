@@ -6,7 +6,13 @@ namespace AuditService.Common.KafkaTest
     {
         public async Task KafkaProducerStart(string topicTest, string serializedObj)
         {
-            var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
+            var config = new ProducerConfig { 
+                BootstrapServers = "localhost:9092",
+                //SaslMechanism = SaslMechanism.Plain,
+                //SecurityProtocol = SecurityProtocol.SaslPlaintext,
+                //SaslUsername = "1",
+                //SaslPassword = "1",
+            };
 
             // If serializers are not specified, default serializers from
             // `Confluent.Kafka.Serializers` will be automatically used where

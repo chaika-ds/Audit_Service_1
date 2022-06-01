@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace AuditService.IntegrationTests
 {
-    public class BuilderBase<T> : IBuilderDto<T>
+    public abstract class BuilderBase<T> : IBuilderDto<T>
     {
         protected static readonly Random _random = new Random();
         protected static readonly string[] _provider = new string[] { "provaider 1", "provaider 2", "provaider 3", };

@@ -25,6 +25,8 @@ namespace AuditService.IntegrationTests
             using var scope = _services.CreateScope();
             var builder = scope?.ServiceProvider?.GetService<IBuilderDto<T>>();
 
+            var cc = builder?.Get();
+
             var msgTasks = Enumerable.Range(0, count)
                 .Select(async x => await Push(builder.Get()))
                 .ToArray();
