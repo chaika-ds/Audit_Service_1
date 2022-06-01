@@ -16,8 +16,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = builder.Configuration["RedisCache:InstanceName"];
 });
 
+
 DIConfigure.Configure(builder.Services);
-ElasticConfiguration.Configure(builder.Services);
+ElasticConfiguration.Configure(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
