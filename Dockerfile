@@ -10,8 +10,10 @@ ARG SRCDIR="src"
 ARG APPNAME=""
 ARG APPATH=""
 
+COPY ../config/ /config/
 COPY ${SRCDIR}/ /src/
 WORKDIR /src
+
 RUN dotnet restore "${APPATH}${APPNAME}/${APPNAME}.csproj"
 RUN dotnet publish "/src/${APPATH}${APPNAME}/${APPNAME}.csproj" -c Release -o /app/publish --no-restore
 RUN echo "#!/bin/bash\nset -e\nruncmd=\"dotnet ${APPNAME}.dll\"\nexec \$runcmd" > /app/publish/entrypoint.sh && chmod +x /app/publish/entrypoint.sh

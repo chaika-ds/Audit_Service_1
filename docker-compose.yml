@@ -59,6 +59,22 @@ services:
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    ports:
+      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
+  kafka:
+    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    container_name: kafka
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: ${KAFKA_ADVERTISED_HOST_NAME}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
+
 networks:
   auditservice:
     driver: ${NETWORKS_DRIVER}

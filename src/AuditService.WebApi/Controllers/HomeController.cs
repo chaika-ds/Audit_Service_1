@@ -15,12 +15,14 @@ namespace AuditService.WebApi.Controllers
         private readonly IElasticClient _elasticClient;
         private readonly IDistributedCache _redisCache;
         private readonly IWebHostEnvironment _webHost;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(IElasticClient client, IDistributedCache redisCache, IWebHostEnvironment webHost)
+        public HomeController(IElasticClient client, IDistributedCache redisCache, IWebHostEnvironment webHost, IConfiguration configuration)
         {
             _elasticClient = client;
             _redisCache = redisCache;
             _webHost = webHost;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -28,6 +30,10 @@ namespace AuditService.WebApi.Controllers
         {
             await Task.Delay(1);
             Console.WriteLine($"New call. BaseMethod: {value}. Result = {value}");
+
+            Console.WriteLine(string.Join("\r\n", Directory.GetDirectories(_webHost.ContentRootPath)));
+            Console.WriteLine(_configuration["RedisCache:ConnectionString"]);
+
             return $"BaseMethod: {_webHost.ContentRootPath}. Result = {value}";
         }
 

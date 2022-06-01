@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true);
-builder.Configuration.AddJsonFile($"aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true);
+builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json", true);
 
 //var configsPath = Directory.GetParent(builder.Environment.ContentRootPath)?.Parent?.Parent?.FullName;
 //if (!string.IsNullOrEmpty(configsPath))
