@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+
 WORKDIR /app
 
 ARG PORT=""
@@ -10,7 +11,6 @@ ARG SRCDIR="src"
 ARG APPNAME=""
 ARG APPATH=""
 
-COPY ../config/ /config/
 COPY ${SRCDIR}/ /src/
 WORKDIR /src
 

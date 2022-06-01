@@ -16,6 +16,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${AUS_COFIGURATION}
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
+      - ./config:/app/config
     networks:
       - ${NETWORKS_NAME}
 
