@@ -10,12 +10,12 @@ public class AdditionalEnvironmentConfiguration
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public AdditionalEnvironmentConfiguration AddJsonFile(WebApplicationBuilder builder, string pathFile)
+    public void AddJsonFile(WebApplicationBuilder builder, string pathFile)
     {
         if (builder.Environment.ContentRootPath == "/app/")
         {
             builder.Configuration.AddJsonFile(pathFile, true, true);
-            return this;
+            return;
         }
 
         var directoryInfo = new DirectoryInfo(builder.Environment.ContentRootPath);
@@ -23,13 +23,11 @@ public class AdditionalEnvironmentConfiguration
         if (string.IsNullOrEmpty(configPath))
         {
             Console.WriteLine($"additional config folder in all parts of path '{directoryInfo.FullName}' - not founded!");
-            return this;
+            return;
         }
 
         var fileProvider = new PhysicalFileProvider(configPath);
         builder.Configuration.AddJsonFile(fileProvider, pathFile, true, true);
-
-        return this;
     }
 
     /// <summary>
