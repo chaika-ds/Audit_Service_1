@@ -7,27 +7,25 @@ using bgTeam.DataAccess;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.EventConsumerApp
+namespace AuditService.EventConsumerApp;
+
+public static class DiConfigure
 {
-    public static class DIConfigure
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        {
-            services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, AppSettings>();
+        services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, AppSettings>();
 
-            services
-                .AddSingleton(services)
-                .AddSingleton<HealthService>()
-                .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
-                .AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>()
+        services
+            .AddSingleton(services)
+            .AddSingleton<HealthService>()
+            .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
+            .AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>()
+            .AddSingleton<IInputSettings<AuditLogTransactionDto>, InputSettings<AuditLogTransactionDto>>()
+            .AddSingleton<IInputService, InputAuditServiceTransactions>();
 
-                .AddSingleton<IInputSettings<AuditLogTransactionDto>, InputSettings<AuditLogTransactionDto>>()
-                .AddSingleton<IInputService, InputAuditServiceTransactions>();
+        services
+            .AddHostedService<InputServicesManager>();
 
-            services
-                .AddHostedService<InputServicesManager>();
-
-            return services;
-        }
+        return services;
     }
 }

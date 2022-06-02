@@ -1,6 +1,6 @@
 ﻿using AuditService.Data.Domain.Dto;
 
-namespace AuditService.IntegrationTests
+namespace AuditService.IntegrationTests.EventProducer.Builder
 {
     public class IdentityUserDtoBuilder : BuilderBase<IdentityUserDto>
     {

@@ -39,3 +39,6 @@ packages/
 #
 UpgradeLog.htm
 # exclude everything except directory foo/bar
+
+# Phpstorm
+.idea

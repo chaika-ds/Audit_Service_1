@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AuditService.IntegrationTests;
+namespace AuditService.IntegrationTests.EventProducer.Builder;
 
 public interface IDirectorSettings
 {

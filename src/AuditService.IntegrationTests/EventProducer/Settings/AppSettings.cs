@@ -1,10 +1,10 @@
-﻿using AuditService.Common.Kafka;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AuditService.Common.Kafka;
+using AuditService.IntegrationTests.EventProducer.Builder;
+using Microsoft.Extensions.Configuration;
 
-
-namespace AuditService.IntegrationTests
+namespace AuditService.IntegrationTests.EventProducer.Settings
 {
     public class AppSettings : IKafkaSettings, IDirectorSettings
     {
@@ -23,8 +23,7 @@ namespace AuditService.IntegrationTests
         private void AddTestConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json", optional: false)
-                .AddJsonFile($"appsettings.Development.json", optional: false);
+                .AddJsonFile($"appsettings.json", optional: false);
             var configuration = builder.Build();
 
             GroupId = configuration["Kafka:GroupId"];

@@ -1,0 +1,25 @@
+{
+  "RedisCache": {
+    "ConnectionString": "",
+    "InstanceName": ""
+  },
+  "ElasticSearch": {
+    "Uris": [ "" ],
+    "DefaultIndex": "",
+    "UserName": "",
+    "Password": ""
+  },
+  "Kafka": {
+    "MaxThreadsCount": 0,
+    "MaxTimeoutMsec": 0,
+    "Config": {
+      "bootstrap.servers": "",
+      "group.id": "",
+      "enable.partition.eof": true,
+      "auto.offset.reset": ""
+    },
+    "InputSettings": {
+      "AuditLogTransactionDto": ""
+    }
+  }
+}

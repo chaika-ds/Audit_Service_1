@@ -1,0 +1,31 @@
+{
+  "RedisCache": {
+    "ConnectionString": "redis:6379,abortConnect=false",
+    "InstanceName": "DevelopRedisCache"
+  },
+  "ElasticSearch": {
+    "Uris": [ "http://elasticsearch:9200", "http://localhost:9200" ],
+    "DefaultIndex": "testaudit",
+    "UserName": "",
+    "Password": ""
+  },
+  "Kafka": {
+    "MaxThreadsCount": 10,
+    "MaxTimeoutMsec": 5000,
+    "Config": {
+      "bootstrap.servers": "localhost:9092",
+      "group.id": "AuditService-uat",
+      "enable.partition.eof": true,
+      //"log.connection.close": false,
+      //"enable.auto.commit": false,
+      //"queued.min.messages": 10,
+      //"queued.max.messages.kbytes": 256,
+      "auto.offset.reset": "Earliest"
+      //"socket.blocking.max.ms": 100,
+      //"fetch.error.backoff.ms": 200
+    },
+    "InputSettings": {
+      "AuditLogTransactionDto": "uat.auditlog.messages1"
+    }
+  }
+}

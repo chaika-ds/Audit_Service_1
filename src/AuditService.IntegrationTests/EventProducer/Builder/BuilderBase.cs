@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace AuditService.IntegrationTests
+namespace AuditService.IntegrationTests.EventProducer.Builder
 {
-    public class BuilderBase<T> : IBuilderDto<T>
+    public abstract class BuilderBase<T> : IBuilderDto<T>
     {
         protected static readonly Random _random = new Random();
         protected static readonly string[] _provider = new string[] { "provaider 1", "provaider 2", "provaider 3", };

@@ -1,6 +1,6 @@
+using AuditService.EventConsumer;
 using AuditService.EventConsumerApp;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -14,7 +14,12 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+builder.Configuration.AddEnvironmentVariables();
+
+new AdditionalEnvironmentConfiguration()
+    .AddJsonFile(builder, $"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json");
 
     builder.Services.AddApplicationServices();
 

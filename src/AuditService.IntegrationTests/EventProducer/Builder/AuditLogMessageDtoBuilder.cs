@@ -1,7 +1,7 @@
 ﻿using AuditService.Common;
 using AuditService.Data.Domain.Dto;
 
-namespace AuditService.IntegrationTests;
+namespace AuditService.IntegrationTests.EventProducer.Builder;
 
 public class AuditLogMessageDtoBuilder : BuilderBase<AuditLogTransactionDto>
 {

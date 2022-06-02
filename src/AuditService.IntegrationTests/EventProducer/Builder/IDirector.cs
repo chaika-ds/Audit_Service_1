@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace AuditService.IntegrationTests;
+namespace AuditService.IntegrationTests.EventProducer.Builder;
     public interface IDirector
 {
     Task GenerateDto<T>(int count = 1)
