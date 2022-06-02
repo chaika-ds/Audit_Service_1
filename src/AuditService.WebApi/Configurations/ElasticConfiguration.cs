@@ -1,4 +1,3 @@
-using AuditService.Common.ELK;
 using Elasticsearch.Net;
 using Nest;
 
@@ -6,7 +5,10 @@ namespace AuditService.WebApi.Configurations;
 
 public static class ElasticConfiguration
 {
-    public static void Configure(IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    ///     Create scope for ElasticSearch
+    /// </summary>
+    public static void AddElasticSearch(this IServiceCollection services)
     {
         services.AddScoped(typeof(IElasticClient), serviceProvider =>
         {
@@ -29,7 +31,5 @@ public static class ElasticConfiguration
 
             return new ElasticClient(settings);
         });
-        
-        services.Configure<ElasticOptions>(configuration.GetSection("ElasticSearch"));
     }
 }

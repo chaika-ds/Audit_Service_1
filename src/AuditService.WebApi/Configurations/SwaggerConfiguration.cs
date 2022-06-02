@@ -4,7 +4,10 @@ namespace AuditService.WebApi.Configurations;
 
 public static class SwaggerConfiguration
 {
-    public static void Configure(IServiceCollection services)
+    /// <summary>
+    ///     Create scope for Swagger
+    /// </summary>
+    public static void AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {
@@ -14,9 +17,12 @@ public static class SwaggerConfiguration
         });
     }
     
-    public static void UseConfigure(WebApplication app)
+    /// <summary>
+    ///     Use swagger configuration UI
+    /// </summary>
+    public static void UseSwagger(this WebApplication app)
     {
-        app.UseSwagger();
+        SwaggerBuilderExtensions.UseSwagger(app);
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuditService.WebApi v1"));
     }
 }
