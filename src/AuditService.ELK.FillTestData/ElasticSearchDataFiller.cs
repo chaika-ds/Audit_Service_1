@@ -112,7 +112,7 @@ internal class ElasticSearchDataFiller
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
             EntityName = nameof(AuditLogTransactionDto),
-            EntityId = Guid.NewGuid().ToString(),
+            EntityId = Guid.NewGuid(),
             OldValue = "{ 'value': '0' }",
             NewValue = "{ 'value': '1' }",
             ProjectId = Guid.NewGuid(),

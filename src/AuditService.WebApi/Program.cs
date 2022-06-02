@@ -15,14 +15,10 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration["RedisCache:ConnectionString"];
-    options.InstanceName = builder.Configuration["RedisCache:InstanceName"] ?? "RedisCache";
-});
+builder.Services.AddRedisCache(builder.Configuration);
+builder.Services.AddElasticSearch();
+builder.Services.AddSwagger();
 
-ElasticConfiguration.Configure(builder.Services);
-SwaggerConfiguration.Configure(builder.Services);
 DiConfigure.Configure(builder.Services);
 
 var app = builder.Build();
@@ -31,8 +27,7 @@ var app = builder.Build();
 if (!app.Environment.IsProduction())
     app.UseDeveloperExceptionPage();
 
-SwaggerConfiguration.UseConfigure(app);
-
+app.UseSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHealthChecks("/healthy");

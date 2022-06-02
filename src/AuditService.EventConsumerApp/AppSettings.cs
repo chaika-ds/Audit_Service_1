@@ -24,7 +24,7 @@ namespace AuditService.EventConsumerApp
             MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
             MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
 
-            Config = config.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+            Config = config.GetSection("KafkaConfig").GetChildren().ToDictionary(x => x.Key, v => v.Value);
 
             ApplyKafkaAliases(config, Config);
 

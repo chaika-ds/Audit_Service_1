@@ -8,7 +8,7 @@ public static class ElasticConfiguration
     /// <summary>
     ///     Create scope for ElasticSearch
     /// </summary>
-    public static void Configure(IServiceCollection services)
+    public static void AddElasticSearch(this IServiceCollection services)
     {
         services.AddScoped(typeof(IElasticClient), serviceProvider =>
         {

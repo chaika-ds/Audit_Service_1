@@ -33,7 +33,9 @@ namespace AuditService.EventConsumerApp
             {
                 var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDto>(args.Data);
 
-                await CreateAndSaveAsync(inputObject).ConfigureAwait(false);                
+                //await CreateAndSaveAsync(inputObject).ConfigureAwait(false);
+                await Task.Delay(1);
+                return;
             }
             catch (Exception ex)
             {
@@ -41,11 +43,11 @@ namespace AuditService.EventConsumerApp
             }
         }
 
-        protected Task CreateAndSaveAsync(AuditLogTransactionDto inputObject)
-        {
-            //return _outputService.MapToEntityAndSaveAsync<PaymentTransactionDto, SuccessDeposit>(inputObject);
+        //protected Task CreateAndSaveAsync(AuditLogTransactionDto inputObject)
+        //{
+        //    //return _outputService.MapToEntityAndSaveAsync<PaymentTransactionDto, SuccessDeposit>(inputObject);
 
-            return null;
-        }
+        //    return new Task();
+        //}
     }
 }

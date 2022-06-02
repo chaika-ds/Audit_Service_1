@@ -3,20 +3,19 @@ using AuditService.Data.Domain.Enums;
 
 namespace AuditService.Data.Domain.Dto;
 
-/// <summary>
-///     Audit log tramsaction.
-/// </summary>
+ /// <summary>
+ /// Audit log tramsaction.
+ /// </summary>
 public class AuditLogTransactionDto
 {
     public AuditLogTransactionDto()
     {
         User = new IdentityUserDto();
     }
-
     /// <summary>
-    ///     Идентификатор сервиса.
+    /// Идентификатор сервиса.
     /// </summary>
-    [Required]
+    [Required()]
     public ServiceName ServiceName { get; set; }
 
     /// <summary>
@@ -65,9 +64,9 @@ public class AuditLogTransactionDto
     public string EntityName { get; set; }
 
     /// <summary>
-    ///     Идентификатор логируемой сущности(возможные типы значений UUID/Long).
+    /// Идентификатор логируемой сущности(возможные типы значений UUID/Long).
     /// </summary>
-    public string EntityId { get; set; }
+    public Guid EntityId { get; set; }
 
     /// <summary>
     ///     JSON представление предыдущего значения сущности.
