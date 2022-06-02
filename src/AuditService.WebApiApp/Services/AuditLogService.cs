@@ -23,7 +23,7 @@ public class AuditLogService : IAuditLog
                 RequestBody = $"Request body {i}",
                 Timestamp = DateTime.UtcNow,
                 EntityName = $"Entity Name {i}",
-                EntityId =  $"Entity Id {i}",
+                EntityId = Guid.NewGuid(),
                 OldValue = $"Old Value {i}",
                 NewValue = $"New Value {i}",
                 ProjectId = Guid.NewGuid(),

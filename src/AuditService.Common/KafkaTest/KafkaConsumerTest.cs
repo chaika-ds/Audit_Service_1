@@ -4,25 +4,28 @@ namespace AuditService.Common.KafkaTest
 {
     public class KafkaConsumerTest
     {
-        public void KafkaConsumerStart()
+        public void KafkaConsumerStart(string topicName)
         {
             var conf = new ConsumerConfig
             {
-                GroupId = "test-consumer-group",
+                GroupId = "AuditService-uat",
                 BootstrapServers = "localhost:9092",
                 // Note: The AutoOffsetReset property determines the start offset in the event
                 // there are not yet any committed offsets for the consumer group for the
                 // topic/partitions of interest. By default, offsets are committed
                 // automatically, so in this example, consumption will only start from the
                 // earliest message in the topic 'my-topic' the first time you run the program.
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Latest,
+                //EnablePartitionEof = true
             };
 
-            using (var c = new ConsumerBuilder<Ignore, string>(conf).Build())
+            using (var c = new ConsumerBuilder<Ignore, string>(conf)
+                .SetValueDeserializer(Deserializers.Utf8)
+                .Build())
             {
-                c.Subscribe("test-topic1");
+                c.Subscribe(topicName);
 
-                CancellationTokenSource cts = new CancellationTokenSource();
+                var cts = new CancellationTokenSource();
                 Console.CancelKeyPress += (_, e) =>
                 {
                     e.Cancel = true; // prevent the process from terminating.
