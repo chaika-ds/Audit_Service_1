@@ -15,7 +15,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 DIConfigure.Configure(builder.Services);
-ElasticConfiguration.Configure(builder.Services);
+ElasticConfiguration.Configure(builder.Services, builder.Configuration);
 
 SwaggerConfiguration.Configure(builder.Services);
 builder.Services.AddHealthChecks();
@@ -26,14 +26,15 @@ var app = builder.Build();
 if (!app.Environment.IsProduction())
 {
     app.UseDeveloperExceptionPage();
-    SwaggerConfiguration.UseConfigure(app);
 }
+// Added here for docker support in production no need
+SwaggerConfiguration.UseConfigure(app);
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseHealthChecks("/_hc");
+app.UseHealthChecks("/healthy");
 app.MapControllers();
 
 app.Run();
