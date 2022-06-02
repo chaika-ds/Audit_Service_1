@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuditService.Common.Health
+﻿namespace AuditService.Common.Health
 {
     public class HealthService : IHealthService, IHealthMarkService
     {
