@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace AuditService.ELK.FillTestData;
 
 /// <summary>
-///     Генератор тестовых данных в ЕЛК
+///     Generator test data for ELK
 /// </summary>
 internal class ElasticSearchDataFiller
 {
@@ -25,7 +25,7 @@ internal class ElasticSearchDataFiller
     }
 
     /// <summary>
-    ///     Начать генерацию
+    ///     Start generation
     /// </summary>
     public async Task Execute()
     {
@@ -34,61 +34,61 @@ internal class ElasticSearchDataFiller
             var cleanBefore = _configuration.GetValue<bool>("CleanBefore");
             if (cleanBefore)
             {
-                Console.WriteLine("Запуск полной очистки");
+                Console.WriteLine("Start force clean data");
 
                 await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDto>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
                 await _elasticClient.Indices.DeleteAsync(_configuration["ElasticSearch:DefaultIndex"]);
 
-                Console.WriteLine("Полная очистка успешно завершена");
+                Console.WriteLine("Force clean has been comlpete!");
             }
 
             var index = await _elasticClient.Indices.ExistsAsync(_configuration["ElasticSearch:DefaultIndex"]);
             if (!index.Exists)
             {
-                Console.WriteLine("Создание индекса " + _configuration["ElasticSearch:DefaultIndex"]);
+                Console.WriteLine("Creating index " + _configuration["ElasticSearch:DefaultIndex"]);
 
                 var response = await _elasticClient.Indices.CreateAsync(_configuration["ElasticSearch:DefaultIndex"], r => r.Map<AuditLogTransactionDto>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
-                Console.WriteLine("Создание индекса успешно завершено");
+                Console.WriteLine("Index successfully created!");
             }
 
-            Console.WriteLine("Получение конфигурации для генерации данных");
+            Console.WriteLine("Get configuration for generation data");
             
             var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
             foreach (var configurationModel in configurationModels)
             {
                 Console.WriteLine("");
-                Console.WriteLine("Модель конфигурации:");
+                Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
                 
                 var data = GenerateData(configurationModel);
 
-                Console.WriteLine("Генерация завершена");
+                Console.WriteLine("Generation is completed");
 
                 foreach (var dto in data)
                     await _elasticClient.CreateAsync(dto, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]).Id(dto.EntityId));
 
-                Console.WriteLine("Сохранение завершено");
+                Console.WriteLine("Data has been saving");
                 Console.WriteLine("");
             }
 
             Console.WriteLine("");
-            Console.WriteLine("Все модели конфигурации были обработаны успешно");
+            Console.WriteLine("All configuration models has been saving");
 
-            Console.WriteLine($"Всего было записано {configurationModels.Sum(w => w.Count)} записи.");
+            Console.WriteLine($"Total records: {configurationModels.Sum(w => w.Count)}.");
         }
         catch (Exception e)
         {
-            Console.WriteLine("Исключение: " + e);
+            Console.WriteLine("Error: " + e);
         }
     }
 
     /// <summary>
-    ///     Генератор данных
+    ///     Data generation
     /// </summary>
-    /// <param name="configurationModel">Модель конфигурации</param>
+    /// <param name="configurationModel">Configuration model</param>
     private IEnumerable<AuditLogTransactionDto> GenerateData(ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
@@ -96,14 +96,15 @@ internal class ElasticSearchDataFiller
     }
 
     /// <summary>
-    ///     Создать модель Dto на основе конфигурации
+    ///     Create model Dto on base configuration model
     /// </summary>
-    /// <param name="configurationModel">Модель конфигурации</param>
+    /// <param name="configurationModel">Configuration model</param>
     private AuditLogTransactionDto CreateNewDto(ConfigurationModel configurationModel)
     {
+        var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDto
         {
-            NodeId = Guid.NewGuid(),
+            NodeId = uid,
             ServiceName = configurationModel.ServiceName ?? Enum.GetValues<ServiceName>().GetRandomItem(_random),
             NodeType = configurationModel.NodeType ?? Enum.GetValues<NodeTypes>().GetRandomItem(_random),
             ActionName = configurationModel.ActionName ?? Enum.GetValues<ActionNameType>().GetRandomItem(_random),
@@ -117,10 +118,10 @@ internal class ElasticSearchDataFiller
             ProjectId = Guid.NewGuid(),
             User = new IdentityUserDto
             {
-                Id = Guid.NewGuid(),
+                Id = uid,
                 Ip = "127.0.0.0",
-                Login = "login",
-                UserAgent = "agent"
+                Login = $"login_{uid}",
+                UserAgent = $"agent_{uid}"
             }
         };
 

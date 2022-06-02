@@ -5,29 +5,31 @@ namespace AuditService.WebApi;
 public class AdditionalEnvironmentConfiguration
 {
     /// <summary>
-    /// Adds the JSON configuration provider at <paramref name="pathFile"/> to <paramref name="builder"/>.
+    ///     Adds the JSON configuration provider at <paramref name="pathFile"/> to <paramref name="builder"/>.
     /// </summary>
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public void AddJsonFile(WebApplicationBuilder builder, string pathFile)
+    public AdditionalEnvironmentConfiguration AddJsonFile(WebApplicationBuilder builder, string pathFile)
     {
         if (builder.Environment.ContentRootPath == "/app/")
         {
             builder.Configuration.AddJsonFile(pathFile, true, true);
-            return;
+            return this;
         }
 
         var directoryInfo = new DirectoryInfo(builder.Environment.ContentRootPath);
         var configPath = GetParent(directoryInfo)?.FullName;
         if (string.IsNullOrEmpty(configPath))
         {
-            Console.WriteLine("additional config folder not found!");
-            return;
+            Console.WriteLine($"additional config folder in all parts of path '{directoryInfo.FullName}' - not founded!");
+            return this;
         }
 
         var fileProvider = new PhysicalFileProvider(configPath);
         builder.Configuration.AddJsonFile(fileProvider, pathFile, true, true);
+
+        return this;
     }
 
     /// <summary>

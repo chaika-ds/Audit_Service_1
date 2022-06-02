@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using AuditService.WebApiApp.Models.InputModels;
-using AuditService.WebApiApp.Models.OutputModels;
+using AuditService.WebApiApp.Models.Requests;
+using AuditService.WebApiApp.Models.Responses;
 using AuditService.WebApiApp.Services.Interfaces;
 using Nest;
 using Newtonsoft.Json;

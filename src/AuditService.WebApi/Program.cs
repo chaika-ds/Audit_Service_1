@@ -14,7 +14,6 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -22,24 +21,21 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = builder.Configuration["RedisCache:InstanceName"] ?? "RedisCache";
 });
 
-DiConfigure.Configure(builder.Services);
 ElasticConfiguration.Configure(builder.Services);
+SwaggerConfiguration.Configure(builder.Services);
+DiConfigure.Configure(builder.Services);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsProduction())
-{
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuditService.WebApi v1"));
-}
+
+SwaggerConfiguration.UseConfigure(app);
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
-app.UseHealthChecks("/_hc");
+app.UseHealthChecks("/healthy");
 app.MapControllers();
 
 app.Run();

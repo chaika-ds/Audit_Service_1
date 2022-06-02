@@ -1,5 +1,6 @@
 using AuditService.Data.Domain.Dto;
 using AuditService.WebApiApp.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuditService.WebApiApp.Controllers;
@@ -17,7 +18,10 @@ public class AuditController : ControllerBase
     
     // GET
     [HttpGet]
-    public IEnumerable<AuditLogTransactionDto> Log()
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public IEnumerable<AuditLogTransactionDto> Log(string name)
     {
         return _auditLog.GetMockedLog();
     }
