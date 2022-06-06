@@ -1,21 +1,27 @@
-namespace AuditService.WebApiApp.Models;
+namespace AuditService.Data.Domain.Dto;
 
-public class Category
+/// <summary>
+///     Category data model
+/// </summary>
+public class CategoryDto
 {
     /// <summary>
-    /// Category Code
+    ///     Code of category
     /// </summary>
     public string CategoryCode { get; set; }
+
     /// <summary>
-    /// Category Name
+    ///     Name of category
     /// </summary>
     public string CategoryName { get; set; }
+
     /// <summary>
-    /// Action Name
+    ///     Action
     /// </summary>
     public string ActionName { get; set; }
+
     /// <summary>
-    /// Comment
+    ///     Comment
     /// </summary>
     public string Comment { get; set; }
 }

@@ -14,11 +14,11 @@ public class AuditLogService : IAuditLog
         {
             var kafkaMessage = new AuditLogTransactionDto()
             {
-                ServiceName = ServiceName.SETTINGSERVICE,
+                ServiceName = ServiceIdentity.SETTINGSERVICE,
                 NodeId = Guid.NewGuid(),
                 NodeType = NodeTypes.ROOT,
                 ActionName = ActionNameType.CREATE,
-                CategoryCode = $"Category Code {i}",
+                CategoryCode = $"CategoryDto Code {i}",
                 RequestUrl = $"Request Url {i}",
                 RequestBody = $"Request body {i}",
                 Timestamp = DateTime.UtcNow,

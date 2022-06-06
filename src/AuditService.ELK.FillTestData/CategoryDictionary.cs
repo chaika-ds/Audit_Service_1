@@ -18,11 +18,11 @@ internal class CategoryDictionary
     /// <summary>
     ///     Получить случайную категорию
     /// </summary>
-    /// <param name="serviceName">Тип сервиса</param>
+    /// <param name="serviceIdentity">Тип сервиса</param>
     /// <param name="random">Рандомайзер</param>
-    public string GetCategory(ServiceName serviceName, Random random)
+    public string GetCategory(ServiceIdentity serviceIdentity, Random random)
     {
-        var category = _configuration.GetSection("Categories").Get<CategoryConfigurationModel[]>().FirstOrDefault(w => w.ServiceName == serviceName);
+        var category = _configuration.GetSection("Categories").Get<CategoryConfigurationModel[]>().FirstOrDefault(w => w.ServiceName == serviceIdentity);
         if (category?.Items == null || !category.Items.Any())
             return string.Empty;
 

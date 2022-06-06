@@ -10,7 +10,7 @@ internal class ConfigurationModel
     /// <summary>
     ///     Идентификатор сервиса
     /// </summary>
-    public ServiceName? ServiceName { get; set; }
+    public ServiceIdentity? ServiceName { get; set; }
 
     /// <summary>
     ///     Тип действия

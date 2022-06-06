@@ -15,7 +15,7 @@ internal class CategoryConfigurationModel
     /// <summary>
     ///     Тип сервиса
     /// </summary>
-    public ServiceName ServiceName { get; set; }
+    public ServiceIdentity ServiceName { get; set; }
 
     /// <summary>
     ///     Список категорий
