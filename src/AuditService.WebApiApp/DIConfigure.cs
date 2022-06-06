@@ -18,6 +18,7 @@ public static class DiConfigure
         services.AddTransient<IAuditLog, AuditLogService>();
         services.AddTransient<IAuthorization, AuthorizationService>();
         services.AddTransient<IHealthCheck, HealthCheckService>();
+        services.AddTransient<ICategory, CategoryService>();
 
         services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, AppSettings>();
         

@@ -20,5 +20,7 @@
         RMSERVICE = 6,
         
         CONSTRUCTORSERVICE = 7,
+        
+        DEFAULT = 10
     }
 }

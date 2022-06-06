@@ -29,4 +29,8 @@
       <ProjectReference Include="..\AuditService.WebApiApp\AuditService.WebApiApp.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="JsonModels\ServiceCategory.json" />
+    </ItemGroup>
+
 </Project>

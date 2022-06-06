@@ -6,5 +6,5 @@ namespace AuditService.WebApiApp.Services.Interfaces;
 public interface IAuthorization
 {
     Task<ServiceLoginResponse> ServiceLoginAuthorization(ServiceLoginRequest svRequest);
-    Task<IsUserAuthenticateResponse> GetIsUserAuthenticate(IsUserAuthenticateRequest isUserAuthenticateRequest);
+    Task<IsUserAuthenticateResponse?> GetIsUserAuthenticate(IsUserAuthenticateRequest isUserAuthenticateRequest);
 }
