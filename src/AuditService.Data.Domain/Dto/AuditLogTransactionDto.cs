@@ -16,7 +16,7 @@ public class AuditLogTransactionDto
     /// Идентификатор сервиса.
     /// </summary>
     [Required()]
-    public ServiceName ServiceName { get; set; }
+    public ServiceIdentity ServiceName { get; set; }
 
     /// <summary>
     ///     Идентификатор узла, на котором произошло изменение.

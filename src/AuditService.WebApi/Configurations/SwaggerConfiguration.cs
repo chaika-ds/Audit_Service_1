@@ -1,5 +1,5 @@
-using System.Reflection;
 using Microsoft.OpenApi.Models;
+using Tolar.Authenticate;
 
 namespace AuditService.WebApi.Configurations;
 
@@ -14,48 +14,48 @@ public static class SwaggerConfiguration
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuditService", Version = "v1" });
             c.DescribeAllParametersInCamelCase();
+            c.UseInlineDefinitionsForEnums();
             c.CustomSchemaIds(x => x.FullName);
-            //c.OperationFilter<>();
-
-            var paths = configuration.GetSection("SwaggerXmlComments").Get<string[]>();
-            foreach (var path in paths) 
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, path), true);
             
-            //c.AddSecurityDefinition(
-            //    IAuthenticateService.NODE_ID_KEY,
-            //    new OpenApiSecurityScheme
-            //    {
-            //        Name = IAuthenticateService.NODE_ID_KEY,
-            //        Type = SecuritySchemeType.ApiKey,
-            //        In = ParameterLocation.Header,
-            //    });
+            var paths = configuration.GetSection("SwaggerXmlComments").Get<string[]>();
+            foreach (var path in paths)
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, path), true);
 
-            //c.AddSecurityDefinition(
-            //    IAuthenticateService.TOKEN_KEY,
-            //    new OpenApiSecurityScheme
-            //    {
-            //        Name = IAuthenticateService.TOKEN_KEY,
-            //        Type = SecuritySchemeType.ApiKey,
-            //        In = ParameterLocation.Header,
-            //        Description = "Copy value from a return sso api /Account/Login or /Account/ServiceLogin.",
-            //    }
-            //);
+            c.AddSecurityDefinition(
+                IAuthenticateService.NODE_ID_KEY,
+                new OpenApiSecurityScheme
+                {
+                    Name = IAuthenticateService.NODE_ID_KEY,
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                });
 
-            //var tokenSecurity = new OpenApiSecurityScheme
-            //{
-            //    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = IAuthenticateService.TOKEN_KEY }
-            //};
+            c.AddSecurityDefinition(
+                IAuthenticateService.TOKEN_KEY,
+                new OpenApiSecurityScheme
+                {
+                    Name = IAuthenticateService.TOKEN_KEY,
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                    Description = "Copy value from a return sso api /Account/Login or /Account/ServiceLogin.",
+                }
+            );
 
-            //var xNodeIdSecurity = new OpenApiSecurityScheme
-            //{
-            //    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = IAuthenticateService.NODE_ID_KEY }
-            //};
+            var tokenSecurity = new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = IAuthenticateService.TOKEN_KEY }
+            };
 
-            //c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            //{
-            //    [tokenSecurity] = Array.Empty<string>(),
-            //    [xNodeIdSecurity] = Array.Empty<string>(),
-            //});
+            var xNodeIdSecurity = new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = IAuthenticateService.NODE_ID_KEY }
+            };
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                [tokenSecurity] = Array.Empty<string>(),
+                [xNodeIdSecurity] = Array.Empty<string>(),
+            });
         });
     }
     

@@ -27,5 +27,9 @@
     "InputSettings": {
       "AuditLogTransactionDto": "uat.auditlog.transactions"
     }
+  },
+  "Health": {
+    "CriticalErrorsCount": 20,
+    "ForPeriodInSec": 20
   }
 }

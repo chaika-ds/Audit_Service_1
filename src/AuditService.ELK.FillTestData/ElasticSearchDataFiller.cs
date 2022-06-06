@@ -105,7 +105,7 @@ internal class ElasticSearchDataFiller
         var dto = new AuditLogTransactionDto
         {
             NodeId = uid,
-            ServiceName = configurationModel.ServiceName ?? Enum.GetValues<ServiceName>().GetRandomItem(_random),
+            ServiceName = configurationModel.ServiceName ?? Enum.GetValues<ServiceIdentity>().GetRandomItem(_random),
             NodeType = configurationModel.NodeType ?? Enum.GetValues<NodeTypes>().GetRandomItem(_random),
             ActionName = configurationModel.ActionName ?? Enum.GetValues<ActionNameType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",

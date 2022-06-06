@@ -1,4 +1,7 @@
-﻿namespace AuditService.WebApiApp.Services.Interfaces;
+﻿using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Enums;
+
+namespace AuditService.WebApiApp.Services.Interfaces;
 
 /// <summary>
 ///     Reference provider (services\categories)
@@ -8,11 +11,11 @@ public interface IReferenceProvider
     /// <summary>
     ///     Get available services
     /// </summary>
-    Task<IEnumerable<object>> GetServicesAsync();
+    Task<IEnumerable<ServiceIdentity>> GetServicesAsync();
 
     /// <summary>
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    Task<IEnumerable<object>> GetCategoriesAsync(Guid? serviceId = null);
+    Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity? serviceId = null);
 }

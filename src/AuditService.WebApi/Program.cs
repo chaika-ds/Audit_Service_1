@@ -54,5 +54,6 @@ app.UseHealthChecks("/healthy");
 app.MapControllers();
 
 app.UseMiddleware<AppMiddlewareException>();
+app.UseMiddleware<AuthenticateMiddleware>();
 
 app.Run();

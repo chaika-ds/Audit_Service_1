@@ -27,6 +27,10 @@ public class AppMiddlewareException
         {
             await _next(context);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            await HandleExceptionAsync(context, ex, HttpStatusCode.Unauthorized);
+        }
         catch (BadRequestException ex)
         {
             await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);

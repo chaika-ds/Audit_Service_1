@@ -1,5 +1,6 @@
-﻿using AuditService.WebApiApp.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Enums;
+using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuditService.WebApiApp.Controllers;
@@ -26,12 +27,8 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("services")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IEnumerable<object>> GetServicesAsync()
+    public async Task<IEnumerable<ServiceIdentity>> GetServicesAsync()
     {
-        throw new UnauthorizedAccessException("resdd");
         return await _referenceProvider.GetServicesAsync();
     }
 
@@ -40,7 +37,7 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("categories")]
-    public async Task<IEnumerable<object>> GetCategoriesAsync()
+    public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync()
     {
         return await _referenceProvider.GetCategoriesAsync();
     }
@@ -50,8 +47,8 @@ public class ReferenceController
     /// </summary>
     /// <param name="serviceId">Selected service id</param>
     [HttpGet]
-    [Route("categories/{serviceId:guid}")]
-    public async Task<IEnumerable<object>> GetCategoriesAsync(Guid serviceId)
+    [Route("categories/{serviceId}")]
+    public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity serviceId)
     {
         return await _referenceProvider.GetCategoriesAsync(serviceId);
     }
