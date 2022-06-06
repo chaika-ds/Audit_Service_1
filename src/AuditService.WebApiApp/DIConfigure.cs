@@ -19,8 +19,9 @@ public static class DiConfigure
         services.AddTransient<IAuthorization, AuthorizationService>();
         services.AddTransient<IHealthCheck, HealthCheckService>();
         services.AddTransient<ICategory, CategoryService>();
+        
+        services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, IProjectSettings, AppSettings>();
 
-        services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, AppSettings>();
         
         services
             .AddSingleton(services)

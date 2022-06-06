@@ -9,18 +9,22 @@ namespace AuditService.WebApiApp.Services;
 
 public class CategoryService : ICategory
 {
-    private const string ServicePath = @"JsonModels/ServiceCategories.json";
-
-    public async Task<Dictionary<string, object>> GetFilteredCategoryAsync(ServiceName serviceName)
+    private readonly IProjectSettings _projectSettings;
+    public CategoryService(IProjectSettings projectSettings)
+    {
+        _projectSettings = projectSettings;
+    }
+    
+    public async Task<Dictionary<string, object>> GetFilteredCategoryAsync(ServiceName? serviceName)
     {
         var dict = new Dictionary<string, object>();
 
-        using var reader = new StreamReader(ServicePath);
+        using var reader = new StreamReader(_projectSettings.ServiceCategoriesJsonPath);
         var json = await reader.ReadToEndAsync();
 
         var data = JsonConvert.DeserializeObject<ServiceCategories<Category>>(json);
 
-        if (serviceName == ServiceName.DEFAULT)
+        if (serviceName == null)
         {
             foreach (var key in data.Select(x => x.Key))
             {

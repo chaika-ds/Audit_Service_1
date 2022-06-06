@@ -11,20 +11,26 @@ namespace AuditService.WebApiApp.Services;
 
 public class AuthorizationService: IAuthorization
 {
-    private const string JsonMediaType = "application/json";
+    private readonly IProjectSettings _projectSettings;
     
-    private const string BaseUrl = "http://sso-api.netreportservice.xyz";
+    private const string JsonMediaType = "application/json";
     private const string ServiceLogin = "account/servicelogin";
     private const string IsUserAuthenticate = "account/getisuserauthenticate";
 
+    public AuthorizationService(IProjectSettings projectSettings)
+    {
+        _projectSettings = projectSettings;
+    }
+    
     public async Task<ServiceLoginResponse> ServiceLoginAuthorization(ServiceLoginRequest svRequest)
     {
-        const string relativeUri = $"{BaseUrl}/{ServiceLogin}";
+        string relativeUri = $"{_projectSettings.SsoBaseUrl}/{ServiceLogin}";
         return await PostJson<ServiceLoginResponse>(relativeUri, svRequest);;
     }
-    public async Task<IsUserAuthenticateResponse> GetIsUserAuthenticate(IsUserAuthenticateRequest inputModel)
+    
+    public async Task<IsUserAuthenticateResponse?> GetIsUserAuthenticate(IsUserAuthenticateRequest inputModel)
     {
-        string relativeUri = $"{BaseUrl}/{IsUserAuthenticate}?token={inputModel.Token}&nodeId={inputModel.NodeId}";
+        string relativeUri = $"{_projectSettings.SsoBaseUrl}/{IsUserAuthenticate}?token={inputModel.Token}&nodeId={inputModel.NodeId}";
         
         using var httpClient = new HttpClient();
         using var request = new HttpRequestMessage(HttpMethod.Get, relativeUri);

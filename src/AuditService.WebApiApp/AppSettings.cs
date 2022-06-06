@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AuditService.WebApiApp
 {
-    public class AppSettings : IConnectionSetting, IKafkaConsumerSettings, IHealthSettings
+    public class AppSettings : IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, IProjectSettings
     {
         public string ConnectionString { get; set; }
 
@@ -16,7 +16,9 @@ namespace AuditService.WebApiApp
 
         public int CriticalErrorsCount { get; set; }
         public int ForPeriodInSec { get; set; }
-        
+        public string ServiceCategoriesJsonPath { get; set; }
+        public string SsoBaseUrl { get; set; }
+
         public AppSettings(IConfiguration config)
         {
             MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
@@ -28,7 +30,9 @@ namespace AuditService.WebApiApp
 
             CriticalErrorsCount = int.Parse(config["Health:CriticalErrorsCount"]);
             ForPeriodInSec = int.Parse(config["Health:ForPeriodInSec"]);
-
+            
+            ServiceCategoriesJsonPath = config["ProjectSettings:ServiceCategoriesJsonPath"];
+            SsoBaseUrl = config["ProjectSettings:SsoBaseUrl"];
         }
 
         private static void ApplyKafkaAliases(IConfiguration configuration, Dictionary<string, string> config)
