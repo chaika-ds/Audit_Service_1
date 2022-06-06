@@ -19,6 +19,8 @@ public static class DiConfigure
         services.AddTransient<IAuthorization, AuthorizationService>();
         services.AddTransient<IHealthCheck, HealthCheckService>();
 
+        services.AddScoped<IReferenceProvider, ReferenceProvider>();
+
         services.AddSettings<IConnectionSetting, IKafkaConsumerSettings, IHealthSettings, AppSettings>();
         
         services
