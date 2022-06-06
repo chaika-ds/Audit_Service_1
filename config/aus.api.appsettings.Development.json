@@ -27,5 +27,13 @@
     "InputSettings": {
       "AuditLogTransactionDto": "uat.auditlog.messages1"
     }
+  },
+  "Health": {
+    "CriticalErrorsCount": 20,
+    "ForPeriodInSec": 20
+  },
+  "ProjectSettings": {
+    "ServiceCategoriesJsonPath": "JsonModels/ServiceCategories.json",
+    "SsoBaseUrl" : "http://sso-api.netreportservice.xyz"
   }
 }
