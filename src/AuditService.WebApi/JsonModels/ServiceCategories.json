@@ -1,0 +1,120 @@
+{
+  "PAYMENTSERVICE": [
+    {
+      "CategoryCode" : "PAYMENTS_PPS_KEYS",
+      "CategoryName" : "Payments: PPS keys",
+      "ActionName" : "CREATE,EDIT,DELETE",
+      "Comment" : "Факт создания, редактирования либо удаления PPS ключей."
+    },
+    {
+      "CategoryCode" : "PAYMENTS_GLOBAL_PAYMENT_SYSTEMS",
+      "CategoryName" : "Payments: Global Payment systems",
+      "ActionName" : "EDIT",
+      "Comment" : "Факт изменения статуса платежной системы глобально. "
+    },
+    {
+      "CategoryCode" : "PAYMENTS_PAYMENT_SYSTEMS",
+      "CategoryName" : "Payments: Payment systems ",
+      "ActionName" : "EDIT",
+      "Comment" : "Факт изменения статуса платежной системы на проекте. "
+    },
+    {
+      "CategoryCode" : "PAYMENTS_AUTOWITHDRAWALS",
+      "CategoryName" : "Payments: Autowithdrawals",
+      "ActionName" : "EDIT",
+      "Comment" : "Факт редактирования настроек автовыводов для зала."
+    },
+    {
+      "CategoryCode" : "PAYMENTS_PAYMENT_CONTRACTS",
+      "CategoryName" : "Payments: Payment contracts",
+      "ActionName" : "CREATE,EDIT,SOFT_DELETE",
+      "Comment" : ""
+    },
+    {
+      "CategoryCode" : "PAYMENTS_PAYMENT_METHODS",
+      "CategoryName" : "Payments: Payment methods",
+      "ActionName" : "CREATE,EDIT,SOFT_DELETE",
+      "Comment" : ""
+    },
+    {
+      "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTIONS_LIST",
+      "CategoryName" : "Payments: Payment transactions list",
+      "ActionName" : "EXPORT",
+      "Comment" : "Факт выгрузки журнала"
+    },
+    {
+      "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTION_DETAILS",
+      "CategoryName" : "Payments: Payment transaction details",
+      "ActionName" : "",
+      "Comment" : ""
+    },
+    {
+      "CategoryCode" : "PAYMENT_DEPOSIT_REQUESTS_LIST",
+      "CategoryName" : "Payments: Deposit requests list",
+      "ActionName" : "EXPORT",
+      "Comment" : "Факт выгрузки журнала"
+    },
+    {
+      "CategoryCode" : "PAYMENT_WITHDRAWAL_REQUESTS_LIST_DETAILS",
+      "CategoryName" : "Payments: Withdrawal requests list details",
+      "ActionName" : "",
+      "Comment" : ""
+    },
+    {
+      "CategoryCode" : "PAYMENTS_SERVICE_SETTINGS",
+      "CategoryName" : "Payments: Service settings",
+      "ActionName" : "EDIT",
+      "Comment" : "Факт изменения настроек пользователем админпанели"
+    }
+  ],
+  "SSOSERVICE": [
+    {
+      "CategoryCode" : "SSO_USERS_ROLES",
+      "CategoryName" : "Users: Roles",
+      "ActionName" : "CREATE,EDIT,DELETE",
+      "Comment" : "Управление ролями (создание, редактирование, удаление)"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_PLAYER_MANAGEMENT",
+      "CategoryName" : "Users: Player management",
+      "ActionName" : "CREATE",
+      "Comment" : "Создание игрока администратором"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_USERS",
+      "CategoryName" : "Users: Users",
+      "ActionName" : "CREATE,",
+      "Comment" : "EDIT"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_DEFAULT_REGISTRATION_FORM",
+      "CategoryName" : "Users: Authorization and registration",
+      "ActionName" : "EDIT",
+      "Comment" : "Изменение настроек дефолтной формы регистрации\nИзменение набора элементов формы регистрации"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_ADDITIONAL_REGISTRATION_FORM",
+      "CategoryName" : "Users: Authorization and registration",
+      "ActionName" : "CREATE,EDIT",
+      "Comment" : "Создание и редактирование дополнительных форм регистрации"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY",
+      "CategoryName" : "Users: Authorization and registration - Login & Password recovery",
+      "ActionName" : "EDIT",
+      "Comment" : "Настройки логина и восстановления пароля"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA",
+      "CategoryName" : "Users: Authorization and registration - Players data",
+      "ActionName" : "EDIT",
+      "Comment" : "Изменение настроек никнеймов/аватаров"
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PASSWORD_SETTINGS",
+      "CategoryName" : "Users: Authorization and registration - Password settings",
+      "ActionName" : "EDIT",
+      "Comment" : "Настройки поля ввода пароля"
+    }
+  ]
+}

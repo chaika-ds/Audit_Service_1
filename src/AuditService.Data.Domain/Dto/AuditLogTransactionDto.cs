@@ -16,7 +16,7 @@ public class AuditLogTransactionDto
     /// Service identifier.
     /// </summary>
     [Required()]
-    public ServiceName ServiceName { get; set; }
+    public ServiceIdentity ServiceName { get; set; }
 
     /// <summary>
     /// The ID of the host where the change occurred.

@@ -1,7 +1,10 @@
+using System.IO.Compression;
 using AuditService.Common.Excaptions;
 using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApiApp;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddElasticSearch();
-builder.Services.AddSwagger();
+builder.Services.AddSwagger(builder.Configuration);
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json; charset=utf-8" });
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Optimal;
+});
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.All;
+    options.ForwardedForHeaderName = "X-Original-Forwarded-For";
+    options.RequireHeaderSymmetry = false;
+    options.ForwardLimit = null;
+});
 
 DiConfigure.Configure(builder.Services);
 
@@ -34,5 +54,8 @@ app.UseAuthorization();
 app.UseHealthChecks("/healthy");
 app.MapControllers();
 app.UseMiddleware<AppMiddlewareException>();
+
+app.UseMiddleware<AppMiddlewareException>();
+app.UseMiddleware<AuthenticateMiddleware>();
 
 app.Run();
