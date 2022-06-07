@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-
 WORKDIR /app
 
 ARG PORT=""
@@ -12,6 +11,7 @@ ARG APPNAME=""
 ARG APPATH=""
 
 COPY ${SRCDIR}/ /src/
+COPY ["nuget.config", ""]
 WORKDIR /src
 
 RUN dotnet restore "${APPATH}${APPNAME}/${APPNAME}.csproj"
