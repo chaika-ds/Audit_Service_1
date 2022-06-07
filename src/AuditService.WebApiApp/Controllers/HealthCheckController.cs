@@ -1,3 +1,4 @@
+using AuditService.Common.Logger;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ public class HealthCheckController : ControllerBase
         _healthCheck = healthCheck;
     }
 
+    [ServiceFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     public IActionResult Index()
     {

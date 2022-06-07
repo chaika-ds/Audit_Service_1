@@ -1,3 +1,4 @@
+using AuditService.Common.Excaptions;
 using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApiApp;
@@ -32,5 +33,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHealthChecks("/healthy");
 app.MapControllers();
+app.UseMiddleware<AppMiddlewareException>();
 
 app.Run();

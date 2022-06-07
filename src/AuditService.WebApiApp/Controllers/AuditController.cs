@@ -1,3 +1,4 @@
+using AuditService.Common.Logger;
 using AuditService.Data.Domain.Dto;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,8 @@ public class AuditController : ControllerBase
     {
         _auditLog = auditLog;
     }
-    
+
+    [ServiceFilter(typeof(LoggingActionFilter))]
     // GET
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]

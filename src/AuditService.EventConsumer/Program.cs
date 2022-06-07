@@ -1,52 +1,34 @@
+using AuditService.Common.Logger;
 using AuditService.EventConsumer;
 using AuditService.EventConsumerApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NLog;
-using NLog.Web;
 using System;
-
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-logger.Debug("init main");
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var environmentName = builder.Environment.EnvironmentName;
 
-builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
-builder.Configuration.AddEnvironmentVariables();
+    builder.Configuration.AddJsonFile("appsettings.json");
+    builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", optional: true);
+    builder.Configuration.AddEnvironmentVariables();
 
-new AdditionalEnvironmentConfiguration()
-    .AddJsonFile(builder, $"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json");
+    var additionalConfiguration = new AdditionalEnvironmentConfiguration();
+    additionalConfiguration.AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
 
-    builder.Services.AddApplicationServices();
-
-    // NLog: Setup NLog for Dependency injection
-    builder.Logging.ClearProviders();
-    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-    builder.Host.UseNLog();
+    builder.Services.AddApplicationServices(); 
+    
+    additionalConfiguration.AddCustomerLogger(builder, environmentName);
 
     var app = builder.Build();
 
-    IWebHostEnvironment env = app.Environment;
-
-    builder.Configuration.AddJsonFile("appsettings.json");
-    builder.Configuration.AddJsonFile($"appsettings.{env}.json", optional: true);
-    builder.Configuration.AddEnvironmentVariables();
-
     app.Run();
-
 }
 catch (Exception exception)
 {
-    // NLog: catch setup errors
-    logger.Error(exception, "Stopped program because of exception");
+    Console.WriteLine(exception);
+    Console.ReadKey();
     throw;
-}
-finally
-{
-    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-    NLog.LogManager.Shutdown();
 }

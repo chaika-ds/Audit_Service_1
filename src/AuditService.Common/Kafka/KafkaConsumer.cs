@@ -6,6 +6,9 @@ using System.Text;
 
 namespace AuditService.Common.Kafka
 {
+    /// <summary>
+    /// Kafka consumer main class
+    /// </summary>
     public sealed class KafkaConsumer : IKafkaConsumer, IDisposable
     {
         private const int NO_ROLLBACK = 0;
@@ -265,6 +268,7 @@ namespace AuditService.Common.Kafka
         {
             var adminClientBuilder = new AdminClientBuilder(options).SetErrorHandler(Consumer_OnError).SetLogHandler(Consumer_OnLog);
             var adminClient = adminClientBuilder.Build();
+            
             var metadata = adminClient.GetMetadata(TimeSpan.FromSeconds(5));
 
             if (metadata == null)

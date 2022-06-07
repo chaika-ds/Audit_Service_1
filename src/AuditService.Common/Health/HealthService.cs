@@ -1,5 +1,8 @@
 ﻿namespace AuditService.Common.Health
 {
+    /// <summary>
+    /// Health service for kafka
+    /// </summary>
     public class HealthService : IHealthService, IHealthMarkService
     {
         private readonly Timer _decrementTimer;

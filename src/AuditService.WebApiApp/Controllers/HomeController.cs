@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AuditService.Common.Logger;
 using AuditService.Data.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -25,6 +26,7 @@ namespace AuditService.WebApiApp.Controllers
             _configuration = configuration;
         }
 
+        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpGet]
         public async Task<string> BaseMethodAsync(int value)
         {
@@ -33,6 +35,7 @@ namespace AuditService.WebApiApp.Controllers
             return $"BaseMethod. Result = {value}";
         }
 
+        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpGet]
         public async Task<string> GetOrSetStringWithRedisAsync(string value)
         {
@@ -45,6 +48,7 @@ namespace AuditService.WebApiApp.Controllers
             return $"DATA '{value}' HAS BEEN SAVING!";
         }
 
+        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpGet]
         public async Task<IList<AuditLogTransactionDto>> GetAllFromElasticSearchAsync()
         {
@@ -53,6 +57,7 @@ namespace AuditService.WebApiApp.Controllers
             return results.Documents.ToList();
         }
 
+        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpGet]
         public async Task<AuditLogTransactionDto> GetByIdFromElasticSearchAsync(string id)
         {
@@ -60,6 +65,7 @@ namespace AuditService.WebApiApp.Controllers
             return result.Source;
         }
 
+        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpPost]
         public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDto dto)
         {

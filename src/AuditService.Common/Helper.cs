@@ -5,6 +5,11 @@ namespace AuditService.Common;
 
 public static class Helper
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="jsonAdress"></param>
+    /// <returns></returns>
     public static string GetJson(string jsonAdress)
     {
         using (StreamReader r = new StreamReader(jsonAdress))
@@ -18,8 +23,8 @@ public static class Helper
     {
         var _serializerSettings = new JsonSerializerSettings
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Formatting = Formatting.None,
+            Formatting = Formatting.Indented,
+            Converters = new List<JsonConverter>() { new Newtonsoft.Json.Converters.StringEnumConverter() }
         };
 
         var objStr = JsonConvert.SerializeObject(incomeObj, _serializerSettings);

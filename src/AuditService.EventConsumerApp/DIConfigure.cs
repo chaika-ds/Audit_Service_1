@@ -3,12 +3,17 @@ using AuditService.Common.Kafka;
 using AuditService.Common.Services;
 using AuditService.Common.Services.ExternalConnectionServices;
 using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Logging;
 using bgTeam.DataAccess;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AuditService.EventConsumerApp;
 
+/// <summary>
+/// DI configuration for Kafka consumer
+/// </summary>
 public static class DiConfigure
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
