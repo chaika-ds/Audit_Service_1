@@ -6,14 +6,14 @@ using System.Runtime.Versioning;
 namespace AuditService.Data.Domain.Logging
 {
     /// <summary>
-    /// Provider for creating Audit service logger instance
+    /// Provider for custom Audit service logger instance
     /// </summary>
     [UnsupportedOSPlatform("browser")]
     [ProviderAlias("AuditServiceConsole")]
     public class AuditServiceLoggerProvider : ILoggerProvider, IDisposable,  ISupportExternalScope
     {
         IExternalScopeProvider _scopeProvider;
-        private readonly ConcurrentDictionary<string, AuditServiceLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, AuditServiceConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
         private AuditServiceLoggerConfiguration _currentConfig;
         public bool IsDisposed { get; protected set; }
         private IDisposable? _onChangeToken;
@@ -41,7 +41,7 @@ namespace AuditService.Data.Domain.Logging
 
         public ILogger CreateLogger(string categoryName) =>
             _loggers.GetOrAdd(categoryName, category => {
-                return new AuditServiceLogger(categoryName, GetCurrentConfig, this, null);});        
+                return new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null);});        
 
         private AuditServiceLoggerConfiguration GetCurrentConfig() => _currentConfig;
 

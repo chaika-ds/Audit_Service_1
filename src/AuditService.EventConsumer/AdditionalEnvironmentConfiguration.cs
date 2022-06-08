@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AuditService.Common.Helpers;
 using AuditService.Common.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,7 @@ public class AdditionalEnvironmentConfiguration
     /// <summary>
     ///     Find parent root with name from value
     /// </summary>
-    private DirectoryInfo? GetParent(DirectoryInfo? directoryInfo)
+    private DirectoryInfo GetParent(DirectoryInfo directoryInfo)
     {
         while (true)
         {
@@ -61,7 +62,7 @@ public class AdditionalEnvironmentConfiguration
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
         builder.Logging.AddAuditServiceLogger(options => {
             builder.Configuration.Bind(options);
-            options.Channel = LogChannelParsing.CheckAndParseChannel(environmentName.ToLower());
+            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
         });
     }
 }

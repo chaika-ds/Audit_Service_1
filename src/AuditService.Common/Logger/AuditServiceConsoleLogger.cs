@@ -1,19 +1,19 @@
-﻿using AuditService.Common;
+﻿using AuditService.Common.Helpers;
 using Microsoft.Extensions.Logging;
 
 namespace AuditService.Data.Domain.Logging
 {
     /// <summary>
-    /// Custom logger for Audit log service
+    /// Custom logger for console in Audit log service
     /// </summary>
-    public class AuditServiceLogger : ILogger
+    public class AuditServiceConsoleLogger : ILogger
     {
         private readonly string _categoryName;
         private readonly string _logPrefix;
         private readonly Func<AuditServiceLoggerConfiguration> _getCurrentConfig;
         public AuditServiceLoggerProvider _provider { get; private set; }
 
-        public AuditServiceLogger(string categoryName, Func<AuditServiceLoggerConfiguration> getCurrentConfig,
+        public AuditServiceConsoleLogger(string categoryName, Func<AuditServiceLoggerConfiguration> getCurrentConfig,
             AuditServiceLoggerProvider provider, string logPrefix) =>
             (_categoryName, _getCurrentConfig, _provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);           
 
@@ -47,7 +47,7 @@ namespace AuditService.Data.Domain.Logging
                 Message = message,
             };
 
-            var logMessageJson = Helper.SerializeToString(logMessage);
+            var logMessageJson = JsonHelper.SerializeToString(logMessage);
             Console.WriteLine(logMessageJson);
         }
     }

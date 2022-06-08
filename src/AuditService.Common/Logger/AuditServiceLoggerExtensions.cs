@@ -34,26 +34,5 @@ namespace AuditService.Common.Logger
 
             return builder;
         }
-
-        //private static void AddAuditServiceLogger(this Action<ILoggingBuilder> builder, IServiceCollection services, IConfiguration configuration)
-        //{
-       
-        //    builder.AddConfiguration();
-
-        //    services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, AuditServiceLoggerProvider>());
-
-        //    builder(new LoggingBuilder(services));
-        //    services.AddLogging(configure => configure..AddSerilog())
-        //            .AddTransient<MyClass>();
-
-        //    if (configuration["LOG_LEVEL"] == "true")
-        //    {
-        //        services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Trace);
-        //    }
-        //    else
-        //    {
-        //        services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Error);
-        //    }
-        //}
     }
 }

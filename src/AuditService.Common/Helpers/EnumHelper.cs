@@ -1,18 +1,18 @@
 ﻿using AuditService.Data.Domain.Enums;
 
-namespace AuditService.Common.Logger
+namespace AuditService.Common.Helpers
 {
     /// <summary>
     /// Parsing log channels from environment
     /// </summary>
-    public static class LogChannelParsing
+    public static class EnumHelper
     {
         public static LogChannel CheckAndParseChannel(string environmentName)
         {
             LogChannel name;
 
             if (Enum.TryParse(environmentName, out name))
-                switch (name.GetHashCode())
+                switch ((int)name)
                 {
                     case 0:
                         return LogChannel.uat;

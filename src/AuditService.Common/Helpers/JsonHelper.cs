@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
-namespace AuditService.Common;
+namespace AuditService.Common.Helpers;
 
-public static class Helper
+public static class JsonHelper
 {
     /// <summary>
     /// 

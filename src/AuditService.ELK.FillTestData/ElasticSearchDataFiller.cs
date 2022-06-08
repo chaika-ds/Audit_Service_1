@@ -27,7 +27,7 @@ internal class ElasticSearchDataFiller
     /// <summary>
     ///     Start generation
     /// </summary>
-    public async Task Execute()
+    public async Task ExecuteAsync()
     {
         try
         {

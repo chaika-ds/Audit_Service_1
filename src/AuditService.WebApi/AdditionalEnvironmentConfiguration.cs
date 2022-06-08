@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Logger;
+﻿using AuditService.Common.Helpers;
+using AuditService.Common.Logger;
 using Microsoft.Extensions.FileProviders;
 
 namespace AuditService.WebApi;
@@ -56,7 +57,7 @@ public class AdditionalEnvironmentConfiguration
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
         builder.Logging.AddAuditServiceLogger(options => {
             builder.Configuration.Bind(options);
-            options.Channel = LogChannelParsing.CheckAndParseChannel(environmentName.ToLower());
+            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
         });
     }
 }

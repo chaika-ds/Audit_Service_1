@@ -1,4 +1,3 @@
-using AuditService.Common;
 using AuditService.Common.KafkaTest;
 using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +5,7 @@ using System.Threading.Tasks;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using AuditService.IntegrationTests.EventProducer.Settings;
 using Xunit;
+using AuditService.Common.Helpers;
 
 namespace AuditService.IntegrationTests
 {
@@ -24,7 +24,7 @@ namespace AuditService.IntegrationTests
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var service = serviceProvider.GetService<IDirector>();
-            await service?.GenerateDto<AuditLogTransactionDto>(generatedMessages);
+            await service?.GenerateDtoAsync<AuditLogTransactionDto>(generatedMessages);
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace AuditService.IntegrationTests
             var topicName = "uat.auditlog.messages";
             var dto = builder.Get();
             var topik = topicName;
-            var auditLog = Helper.SerializeToString(dto);
+            var auditLog = JsonHelper.SerializeToString(dto);
             var producerTest = new KafkaProducerTest();
-            await producerTest.KafkaProducerStart(topik, auditLog);
+            await producerTest.KafkaProducerStartAsync(topik, auditLog);
         }
     }
 }

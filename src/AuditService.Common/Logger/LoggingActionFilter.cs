@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AuditService.Common.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace AuditService.Common.Logger
 {
@@ -18,7 +17,6 @@ namespace AuditService.Common.Logger
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var userId = GetUserId(context.HttpContext);
             var isOnRequest = true;
             var requestPath = context.HttpContext.Request.Path.Value;
 
@@ -27,7 +25,7 @@ namespace AuditService.Common.Logger
                 //before execution                
                 var requestBody = GetRequestBodyAsString(context);                
 
-                _logger.LogInformation($"Start execution request for user: {userId}, request path: {requestPath}" +
+                _logger.LogInformation($"Start execution request: {requestPath}" +
                     $" request body: {requestBody}, task is on request: {isOnRequest}");
 
                 var result = await next();
@@ -35,19 +33,12 @@ namespace AuditService.Common.Logger
                 //after execution
                 isOnRequest = false;
 
-                _logger.LogInformation($"Finish execution request for user: {userId}, request body: {requestBody}, task is on request: {isOnRequest}");
+                _logger.LogInformation($"Finish execution request: {requestBody}, task is on request: {isOnRequest}");
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error occured while request: {requestPath}\r\n {ex.Message}");
             }
-        }
-
-        private string GetUserId(HttpContext context)
-        {
-            var claimsIdentity = context?.User?.Identity as ClaimsIdentity;
-            var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
-            return claim?.Value;
         }
 
         private string GetRequestBodyAsString(ActionExecutingContext context)
@@ -56,7 +47,7 @@ namespace AuditService.Common.Logger
 
             foreach (var element in context.ActionArguments)
             {
-                result += Helper.SerializeToString(element.Value);
+                result += JsonHelper.SerializeToString(element.Value);
             }
 
             return result;

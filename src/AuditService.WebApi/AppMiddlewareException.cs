@@ -2,7 +2,7 @@
 using AuditService.Common.Exceptions;
 using AuditService.Data.Domain.Dto;
 using Newtonsoft.Json;
-using AuditService.Common;
+using AuditService.Common.Helpers;
 
 namespace AuditService.WebApi;
 
@@ -72,6 +72,6 @@ public class AppMiddlewareException
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
-        await context.Response.WriteAsync(Helper.SerializeToString(resultObject));
+        await context.Response.WriteAsync(JsonHelper.SerializeToString(resultObject));
     }
 }

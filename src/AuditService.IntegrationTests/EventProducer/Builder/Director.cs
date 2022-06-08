@@ -19,7 +19,7 @@ namespace AuditService.IntegrationTests.EventProducer.Builder
             _settings = settings;
         }
 
-        public async Task GenerateDto<T>(int count = 1)
+        public async Task GenerateDtoAsync<T>(int count = 1)
             where T : class
         {
             using var scope = _services.CreateScope();
@@ -28,18 +28,18 @@ namespace AuditService.IntegrationTests.EventProducer.Builder
             var cc = builder?.Get();
 
             var msgTasks = Enumerable.Range(0, count)
-                .Select(async x => await Push(builder.Get()))
+                .Select(async x => await PushAsync(builder.Get()))
                 .ToArray();
            await Task.WhenAll(msgTasks);            
         }
 
-        public async Task<T> SendDto<T>(T dto) where T : class
+        public async Task<T> SendDtoAsync<T>(T dto) where T : class
         {
-            await Push(dto);
+            await PushAsync(dto);
             return dto;
         }
 
-        private async Task Push<T>(T dto) where T : class
+        private async Task PushAsync<T>(T dto) where T : class
             => await _producer.SendAsync(dto, _settings.Topics[typeof(T).Name]);
     }
 }
