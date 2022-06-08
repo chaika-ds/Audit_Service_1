@@ -50,6 +50,11 @@ public class AdditionalEnvironmentConfiguration
         }
     }
 
+    /// <summary>
+    /// Adds customer logger provider at <paramref name="environmentName"/> to <paramref name="builder"/>.
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="environmentName"></param>
     public void AddCustomerLogger(WebApplicationBuilder builder, string environmentName)
     {
         builder.Logging.ClearProviders();

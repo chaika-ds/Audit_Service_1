@@ -2,6 +2,9 @@
 
 namespace AuditService.Common.Logger
 {
+    /// <summary>
+    /// Parsing log channels from environment
+    /// </summary>
     public static class LogChannelParsing
     {
         public static LogChannel CheckAndParseChannel(string environmentName)
