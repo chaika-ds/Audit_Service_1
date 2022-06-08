@@ -13,19 +13,19 @@ public class AuditLogTransactionDto
         User = new IdentityUserDto();
     }
     /// <summary>
-    /// Идентификатор сервиса.
+    /// Service identifier.
     /// </summary>
     [Required()]
     public ServiceIdentity ServiceName { get; set; }
 
     /// <summary>
-    ///     Идентификатор узла, на котором произошло изменение.
+    /// The ID of the host where the change occurred.
     /// </summary>
     [Required]
     public Guid NodeId { get; set; }
 
     /// <summary>
-    ///     Тип узла.
+    /// Node type.
     /// </summary>
     [Required]
     public NodeTypes NodeType { get; set; }

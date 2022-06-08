@@ -5,6 +5,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace AuditService.Common.Kafka
 {
+    /// <summary>
+    /// Producer for messages to Kafka
+    /// </summary>
     public sealed class KafkaProducer : IDisposable
     {
         private readonly ILogger _logger;
@@ -39,7 +42,7 @@ namespace AuditService.Common.Kafka
             _disposed = false;
         }
 
-        public async Task SendAsync<T>(T obj, string topic, object key = null)
+        public async Task SendAsync<T>(T obj, string topic, object? key = null)
         {
             await SendAsync(obj, topic);
         }
@@ -81,7 +84,7 @@ namespace AuditService.Common.Kafka
 
         private void LogHandler(IProducer<string, string> producer, LogMessage log)
         {
-            _logger?.LogInformation("{level} {name}: {message}. Session: {session}", log.Level, log.Name, log.Message, _sessionId);
+            _logger.LogInformation("{level} {name}: {message}. Session: {session}", log.Level, log.Name, log.Message, _sessionId);
         }
 
         private void ErrorHandler(IProducer<string, string> producer, Error error)

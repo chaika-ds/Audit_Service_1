@@ -1,19 +1,34 @@
+using AuditService.Common.Logger;
 using AuditService.EventConsumer;
 using AuditService.EventConsumerApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System;
 
-var builder = WebApplication.CreateBuilder(args);
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+    var environmentName = builder.Environment.EnvironmentName;
 
-builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
-builder.Configuration.AddEnvironmentVariables();
+    builder.Configuration.AddJsonFile("appsettings.json");
+    builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", optional: true);
+    builder.Configuration.AddEnvironmentVariables();
 
-new AdditionalEnvironmentConfiguration()
-    .AddJsonFile(builder, $"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json");
+    var additionalConfiguration = new AdditionalEnvironmentConfiguration();
+    additionalConfiguration.AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
 
-builder.Services.AddApplicationServices();
+    builder.Services.AddApplicationServices(); 
+    
+    additionalConfiguration.AddCustomerLogger(builder, environmentName);
 
-var app = builder.Build();
+    var app = builder.Build();
 
-app.Run();
+    app.Run();
+}
+catch (Exception exception)
+{
+    Console.WriteLine(exception);
+    Console.ReadKey();
+    throw;
+}

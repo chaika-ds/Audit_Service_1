@@ -1,4 +1,5 @@
-﻿using AuditService.Data.Domain.Dto;
+﻿using AuditService.Common.Logger;
+using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available services
     /// </summary>
+    [ServiceFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     [Route("services")]
     public async Task<IEnumerable<ServiceIdentity>> GetServicesAsync()
@@ -35,6 +37,7 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available categories
     /// </summary>
+    [ServiceFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     [Route("categories")]
     public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync()
@@ -46,6 +49,7 @@ public class ReferenceController
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="serviceId">Selected service id</param>
+    [ServiceFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     [Route("categories/{serviceId}")]
     public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity serviceId)

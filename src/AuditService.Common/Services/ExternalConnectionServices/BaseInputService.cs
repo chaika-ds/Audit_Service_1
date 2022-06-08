@@ -5,6 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace AuditService.Common.Services.ExternalConnectionServices
 {
+    /// <summary>
+    /// Base service for Kafka consumers
+    /// </summary>
+    /// <typeparam name="TInput"></typeparam>
     public abstract class BaseInputService<TInput> : IInputService
         where TInput : class, new()
     {

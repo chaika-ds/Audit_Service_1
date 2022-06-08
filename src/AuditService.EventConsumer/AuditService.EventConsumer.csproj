@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
 	<InternalsVisibleTo Include="AuditService.IntegrationTests" />
   </ItemGroup>

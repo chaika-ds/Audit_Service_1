@@ -3,6 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AuditService.Common.Kafka
 {
+    /// <summary>
+    /// Factory for creating Kafka consumersS
+    /// </summary>
     public class KafkaConsumerFactory : IKafkaConsumerFactory
     {
         private readonly ILoggerFactory _loggerFactory;

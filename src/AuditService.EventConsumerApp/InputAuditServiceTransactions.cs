@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace AuditService.EventConsumerApp
 {
+    /// <summary>
+    /// Service for consuming Audit log messages
+    /// </summary>
     public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDto>
     {
         public InputAuditServiceTransactions(
