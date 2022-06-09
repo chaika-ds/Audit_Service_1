@@ -1,4 +1,3 @@
-using System.Net;
 using AuditService.Data.Domain.Dto;
 using AuditService.Common.Logger;
 using AuditService.WebApiApp.Services.Interfaces;
@@ -21,19 +20,12 @@ public class HealthCheckController : ControllerBase
     [HttpGet]
     public IActionResult Index()
     {
-        bool isElkHealth = _healthCheck.CheckElkHealth();
-        bool isKafkaHealth = _healthCheck.CheckKafkaHealth();
-
         var response = new HealthCheckDto
         {
-            Kafka = isKafkaHealth,
-            Elk = isElkHealth
+            Kafka = _healthCheck.CheckKafkaHealth(),
+            Elk = _healthCheck.CheckElkHealth()
         };
 
-        if (isElkHealth && isKafkaHealth) 
-            return StatusCode(200, response);
-            
-        return StatusCode(500, response);
-
+        return response.Elk && response.Kafka ? StatusCode(200, response) : StatusCode(500, response);
     }
 }
