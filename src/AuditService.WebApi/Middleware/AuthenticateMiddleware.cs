@@ -18,7 +18,9 @@ namespace AuditService.WebApi.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            //await AuthenticateAsync(context);
+            if (!(context.Request.Path.HasValue && context.Request.Path.Value.Equals("/_hc", StringComparison.InvariantCultureIgnoreCase)))
+                await AuthenticateAsync(context);
+            
             await _next(context);
         }
 

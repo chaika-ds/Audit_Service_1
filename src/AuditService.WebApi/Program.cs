@@ -12,6 +12,8 @@ builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", true);
 builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{environmentName}.json", builder.Environment);
 builder.Configuration.AddEnvironmentVariables();
 
+builder.AddCustomerLogger(environmentName);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();

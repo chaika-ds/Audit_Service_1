@@ -4,7 +4,6 @@ using AuditService.Common.Services;
 using AuditService.Common.Services.ExternalConnectionServices;
 using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Dto;
-using AuditService.Data.Domain.Logging;
 using bgTeam.DataAccess;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;

@@ -24,7 +24,7 @@ public static class DiConfigure
                 IJsonData,
                 IAuthenticateServiceSettings,
                 IElasticIndex,
-                AppSettings.AppSettings>()
+                AppSetting>()
             .AddSingleton(services);
         
         services.AddScoped<IReferenceService, ReferenceService>();

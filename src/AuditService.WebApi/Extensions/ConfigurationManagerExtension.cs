@@ -4,15 +4,19 @@ using Microsoft.Extensions.FileProviders;
 
 namespace AuditService.WebApi.Extensions;
 
+/// <summary>
+///     Extension of configuration manager
+/// </summary>
 public static class ConfigurationManagerExtension
 {
     /// <summary>
-    ///     Adds the JSON configuration provider at <paramref name="pathFile"/> to <paramref name="configuration"/>.
+    ///     Adds the JSON configuration provider at <paramref name="pathFile" /> to <paramref name="configuration" />.
     /// </summary>
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static void AddJsonFile(this ConfigurationManager configuration, string pathFile, IWebHostEnvironment environment)
+    public static void AddJsonFile(this ConfigurationManager configuration, string pathFile,
+        IWebHostEnvironment environment)
     {
         if (environment.ContentRootPath == "/app/")
         {
@@ -39,7 +43,7 @@ public static class ConfigurationManagerExtension
     {
         while (true)
         {
-            if (directoryInfo == null || !directoryInfo.FullName.Contains("src"))
+            if (directoryInfo?.FullName.Contains("src") != true)
                 return directoryInfo;
 
             directoryInfo = directoryInfo?.Parent;
@@ -47,15 +51,16 @@ public static class ConfigurationManagerExtension
     }
 
     /// <summary>
-    /// Adds customer logger provider at <paramref name="environmentName"/> to <paramref name="builder"/>.
+    ///     Adds customer logger provider at <paramref name="environmentName" /> to <paramref name="builder" />.
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="environmentName"></param>
-    public static void AddCustomerLogger(WebApplicationBuilder builder, string environmentName)
+    public static void AddCustomerLogger(this WebApplicationBuilder builder, string environmentName)
     {
         builder.Logging.ClearProviders();
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
-        builder.Logging.AddAuditServiceLogger(options => {
+        builder.Logging.AddAuditServiceLogger(options =>
+        {
             builder.Configuration.Bind(options);
             options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
         });

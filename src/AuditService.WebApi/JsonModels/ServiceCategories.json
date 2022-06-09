@@ -1,5 +1,5 @@
 {
-  "PAYMENTSERVICE": [
+  "PAYMENT": [
     {
       "CategoryCode" : "PAYMENTS_PPS_KEYS",
       "CategoryName" : "Payments: PPS keys",
@@ -67,7 +67,7 @@
       "Comment" : "Факт изменения настроек пользователем админпанели"
     }
   ],
-  "SSOSERVICE": [
+  "SSO": [
     {
       "CategoryCode" : "SSO_USERS_ROLES",
       "CategoryName" : "Users: Roles",

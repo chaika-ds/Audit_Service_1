@@ -1,4 +1,4 @@
-﻿namespace AuditService.Common.Exceptions;
+﻿namespace AuditService.Data.Domain.Exceptions;
 
 /// <summary>
 ///     Throw new exception when we have incorrect request data

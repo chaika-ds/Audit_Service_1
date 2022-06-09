@@ -36,9 +36,9 @@ public class AuditController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetLogAsync([FromQuery] AuditLogFilterRequestDto model)
     {
         return await _auditLogService.GetLogsByFilterAsync(model);

@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using AuditService.Common.Exceptions;
-using AuditService.Data.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using AuditService.Common.Helpers;
+using AuditService.Data.Domain.Exceptions;
 
 namespace AuditService.WebApi.Middleware;
 

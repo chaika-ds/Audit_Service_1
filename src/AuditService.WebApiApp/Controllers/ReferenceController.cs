@@ -1,11 +1,8 @@
-﻿using System.Net;
-using AuditService.Data.Domain.Domain;
-using AuditService.Data.Domain.Dto;
+﻿using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.Annotations;
 using AuditService.Common.Logger;
 
 namespace AuditService.WebApiApp.Controllers;
@@ -39,7 +36,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<ServiceId>> GetServicesAsync()
     {
         return await _referenceService.GetServicesAsync();
@@ -56,7 +53,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
         return await _referenceService.GetCategoriesAsync();
@@ -75,7 +72,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
         return await _referenceService.GetCategoriesAsync(serviceId);

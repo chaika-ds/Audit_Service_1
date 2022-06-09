@@ -8,12 +8,12 @@ namespace AuditService.WebApiApp.AppSettings;
 /// <summary>
 ///     Application settings
 /// </summary>
-public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, IAuthenticateServiceSettings, IElasticIndex
+public class AppSetting : IKafkaConsumerSettings, IHealthSettings, IJsonData, IAuthenticateServiceSettings, IElasticIndex
 {
     /// <summary>
     ///     Application settings
     /// </summary>
-    public AppSettings(IConfiguration config)
+    public AppSetting(IConfiguration config)
     {
         ApplySsoSection(config);
         ApplyJsonDataSection(config);

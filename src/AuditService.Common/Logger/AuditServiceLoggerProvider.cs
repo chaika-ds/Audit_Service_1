@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Runtime.Versioning;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace AuditService.Data.Domain.Logging
+namespace AuditService.Common.Logger
 {
     /// <summary>
     /// Provider for custom Audit service logger instance
