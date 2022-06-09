@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Health;
 using AuditService.Common.Kafka;
+using AuditService.WebApiApp.AppSettings;
 using AuditService.WebApiApp.Services;
 using AuditService.WebApiApp.Services.Interfaces;
 using bgTeam.Extensions;
@@ -16,20 +17,20 @@ public static class DiConfigure
     /// </summary>
     public static void Configure(IServiceCollection services)
     {
-        services.AddTransient<IAuditLog, AuditLogService>();
-        services.AddTransient<IHealthCheck, HealthCheckService>();
-        
         services
             .AddSettings<
                 IKafkaConsumerSettings,
                 IHealthSettings,
                 IJsonData,
                 IAuthenticateServiceSettings,
-                AppSettings>()
+                IElasticIndex,
+                AppSettings.AppSettings>()
             .AddSingleton(services);
         
-        services.AddScoped<IReferenceProvider, ReferenceProvider>();
-        
+        services.AddScoped<IReferenceService, ReferenceService>();
+        services.AddScoped<IAuditLogService, AuditLogService>();
+        services.AddScoped<IHealthCheck, HealthCheckService>();
+
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
 
         services

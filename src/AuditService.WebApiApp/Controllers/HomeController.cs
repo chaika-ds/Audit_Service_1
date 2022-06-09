@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -46,24 +47,24 @@ namespace AuditService.WebApiApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IList<AuditLogTransactionDto>> GetAllFromElasticSearchAsync()
+        public async Task<IList<AuditLogTransactionDomainModel>> GetAllFromElasticSearchAsync()
         {
-            var count = await _elasticClient.CountAsync<AuditLogTransactionDto>();
-            var results = await _elasticClient.SearchAsync<AuditLogTransactionDto>(s => s.Take((int)count.Count).Query(q => q.MatchAll()).Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var count = await _elasticClient.CountAsync<AuditLogTransactionDomainModel>();
+            var results = await _elasticClient.SearchAsync<AuditLogTransactionDomainModel>(s => s.Take((int)count.Count).Query(q => q.MatchAll()).Index(_configuration["ElasticSearch:DefaultIndex"]));
             return results.Documents.ToList();
         }
 
         [HttpGet]
-        public async Task<AuditLogTransactionDto> GetByIdFromElasticSearchAsync(string id)
+        public async Task<AuditLogTransactionDomainModel> GetByIdFromElasticSearchAsync(string id)
         {
-            var result = await _elasticClient.GetAsync<AuditLogTransactionDto>(id, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var result = await _elasticClient.GetAsync<AuditLogTransactionDomainModel>(id, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
             return result.Source;
         }
 
         [HttpPost]
-        public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDto dto)
+        public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDomainModel domainModel)
         {
-            var result = await _elasticClient.CreateAsync(dto, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var result = await _elasticClient.CreateAsync(domainModel, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
             return result.Id;
         }
     }

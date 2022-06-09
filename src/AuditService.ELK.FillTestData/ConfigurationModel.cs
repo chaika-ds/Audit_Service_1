@@ -10,12 +10,12 @@ internal class ConfigurationModel
     /// <summary>
     ///     Идентификатор сервиса
     /// </summary>
-    public ServiceIdentity? ServiceName { get; set; }
+    public ServiceId? ServiceName { get; set; }
 
     /// <summary>
     ///     Тип действия
     /// </summary>
-    public ActionNameType? ActionName { get; set; }
+    public ActionType? ActionName { get; set; }
 
     /// <summary>
     ///     Категория действий (в зависимости от модулей)
@@ -25,7 +25,7 @@ internal class ConfigurationModel
     /// <summary>
     ///     Тип узла
     /// </summary>
-    public NodeTypes? NodeType { get; set; }
+    public NodeType? NodeType { get; set; }
 
     /// <summary>
     ///     Количество записей для генерации

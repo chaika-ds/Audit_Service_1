@@ -1,6 +1,6 @@
 ﻿using Tolar.Authenticate;
 
-namespace AuditService.WebApi
+namespace AuditService.WebApi.Middleware
 {
     /// <summary>
     ///     SSO Authentication
@@ -18,7 +18,7 @@ namespace AuditService.WebApi
 
         public async Task InvokeAsync(HttpContext context)
         {
-            await AuthenticateAsync(context);
+            //await AuthenticateAsync(context);
             await _next(context);
         }
 

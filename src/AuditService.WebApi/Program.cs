@@ -1,18 +1,14 @@
-using System.IO.Compression;
-using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
+using AuditService.WebApi.Extensions;
+using AuditService.WebApi.Middleware;
 using AuditService.WebApiApp;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true);
-
-new AdditionalEnvironmentConfiguration()
-    .AddJsonFile(builder, $"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json");
-
+builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json", builder.Environment);
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
@@ -27,17 +23,8 @@ builder.Services.AddResponseCompression(options =>
     options.Providers.Add<GzipCompressionProvider>();
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json; charset=utf-8" });
 });
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-{
-    options.Level = CompressionLevel.Optimal;
-});
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders = ForwardedHeaders.All;
-    options.ForwardedForHeaderName = "X-Original-Forwarded-For";
-    options.RequireHeaderSymmetry = false;
-    options.ForwardLimit = null;
-});
+
+builder.Services.AdditionalConfigurations();
 
 DiConfigure.Configure(builder.Services);
 
@@ -52,6 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHealthChecks("/healthy");
 app.MapControllers();
+app.UseRouting();
 
 app.UseMiddleware<AppMiddlewareException>();
 app.UseMiddleware<AuthenticateMiddleware>();

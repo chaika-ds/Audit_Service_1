@@ -3,12 +3,12 @@ using AuditService.Common.Kafka;
 using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
 
-namespace AuditService.WebApiApp;
+namespace AuditService.WebApiApp.AppSettings;
 
 /// <summary>
 ///     Application settings
 /// </summary>
-public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, IAuthenticateServiceSettings
+public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, IAuthenticateServiceSettings, IElasticIndex
 {
     /// <summary>
     ///     Application settings
@@ -19,6 +19,7 @@ public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, I
         ApplyJsonDataSection(config);
         ApplyKafkaSection(config);
         ApplyHealthSection(config);
+        ApplyElasticSearchIndexesSection(config);
     }
     
     #region Health
@@ -120,6 +121,29 @@ public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, I
     {
         ServiceCategories = configuration["JsonData:ServiceCategories"];
     }
+
+    #endregion
+
+    #region ElasticSearch Indexes
+
+    /// <summary>
+    ///     Apply ELK indexes configs
+    /// </summary>
+    private void ApplyElasticSearchIndexesSection(IConfiguration config)
+    {
+        AuditLog = config["ElasticSearch:Indexes:AuditLog"];
+        ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
+    }
+
+    /// <summary>
+    ///     Audit logs from services
+    /// </summary>
+    public string AuditLog { get; set; }
+
+    /// <summary>
+    ///     Internal application logs
+    /// </summary>
+    public string ApplicationLog { get; set; }
 
     #endregion
 }

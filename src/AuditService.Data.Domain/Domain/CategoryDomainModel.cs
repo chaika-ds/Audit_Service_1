@@ -1,9 +1,9 @@
-namespace AuditService.Data.Domain.Dto;
+namespace AuditService.Data.Domain.Domain;
 
 /// <summary>
 ///     Category data model
 /// </summary>
-public class CategoryDto
+public class CategoryDomainModel
 {
     /// <summary>
     ///     Code of category
