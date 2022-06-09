@@ -5,10 +5,11 @@ using AuditService.WebApiApp;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
+var environmentName = builder.Environment.EnvironmentName;
 
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true);
-builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{builder.Environment.EnvironmentName}.json", builder.Environment);
+builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", true);
+builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{environmentName}.json", builder.Environment);
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();

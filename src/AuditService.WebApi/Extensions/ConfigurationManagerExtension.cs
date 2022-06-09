@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using AuditService.Common.Helpers;
+using AuditService.Common.Logger;
+using Microsoft.Extensions.FileProviders;
 
 namespace AuditService.WebApi.Extensions;
 
@@ -42,5 +44,20 @@ public static class ConfigurationManagerExtension
 
             directoryInfo = directoryInfo?.Parent;
         }
+    }
+
+    /// <summary>
+    /// Adds customer logger provider at <paramref name="environmentName"/> to <paramref name="builder"/>.
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="environmentName"></param>
+    public static void AddCustomerLogger(WebApplicationBuilder builder, string environmentName)
+    {
+        builder.Logging.ClearProviders();
+        builder.Logging.SetMinimumLevel(LogLevel.Trace);
+        builder.Logging.AddAuditServiceLogger(options => {
+            builder.Configuration.Bind(options);
+            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
+        });
     }
 }

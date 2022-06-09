@@ -25,5 +25,13 @@
     "InputSettings": {
       "AuditLogTransactionDto": ""
     }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft": "Information",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "System": "Information"
+    }
   }
 }

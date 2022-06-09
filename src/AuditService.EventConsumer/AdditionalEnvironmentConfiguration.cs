@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using AuditService.Common.Helpers;
+using AuditService.Common.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 
 namespace AuditService.EventConsumer;
 
@@ -37,7 +40,7 @@ public class AdditionalEnvironmentConfiguration
     /// <summary>
     ///     Find parent root with name from value
     /// </summary>
-    private DirectoryInfo? GetParent(DirectoryInfo? directoryInfo)
+    private DirectoryInfo GetParent(DirectoryInfo directoryInfo)
     {
         while (true)
         {
@@ -46,5 +49,20 @@ public class AdditionalEnvironmentConfiguration
 
             directoryInfo = directoryInfo?.Parent;
         }
+    }
+
+    /// <summary>
+    /// Adds customer logger provider at <paramref name="environmentName"/> to <paramref name="builder"/>.
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="environmentName"></param>
+    public void AddCustomerLogger(WebApplicationBuilder builder, string environmentName)
+    {
+        builder.Logging.ClearProviders();
+        builder.Logging.SetMinimumLevel(LogLevel.Trace);
+        builder.Logging.AddAuditServiceLogger(options => {
+            builder.Configuration.Bind(options);
+            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
+        });
     }
 }

@@ -51,9 +51,9 @@ namespace AuditService.IntegrationTests.EventProducer.Builder
             }
             return result;
         }
-        protected virtual T GetEnum<T>()
+        protected virtual T GetEnum<TEnum>()
         {
-            return (T)GetEnum(typeof(T));
+            return (T)GetEnum(typeof(TEnum));
         }
 
         private object GetEnum(Type type)

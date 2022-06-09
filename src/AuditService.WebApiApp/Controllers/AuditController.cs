@@ -4,6 +4,7 @@ using AuditService.Data.Domain.Dto.Filter;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AuditService.Common.Logger;
 
 namespace AuditService.WebApiApp.Controllers;
 
@@ -37,6 +38,7 @@ public class AuditController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetLogAsync([FromQuery] AuditLogFilterRequestDto model)
     {
         return await _auditLogService.GetLogsByFilterAsync(model);

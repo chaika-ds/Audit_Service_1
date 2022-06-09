@@ -3,7 +3,6 @@ using AuditService.Common.Health;
 using AuditService.Common.Kafka;
 using AuditService.Common.Services;
 using AuditService.Common.Services.ExternalConnectionServices;
-using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +11,9 @@ using AuditService.Data.Domain.Domain;
 
 namespace AuditService.EventConsumerApp
 {
+    /// <summary>
+    /// Service for consuming Audit log messages
+    /// </summary>
     public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDomainModel>
     {
         public InputAuditServiceTransactions(

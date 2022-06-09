@@ -3,6 +3,7 @@ using AuditService.Common.Exceptions;
 using AuditService.Data.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using AuditService.Common.Helpers;
 
 namespace AuditService.WebApi.Middleware;
 
@@ -57,7 +58,7 @@ public class AppMiddlewareException
     /// <summary>
     ///     Create error response
     /// </summary>
-    private Task HandleExceptionAsync(HttpContext context, Exception exp, HttpStatusCode code)
+    private async Task HandleExceptionAsync(HttpContext context, Exception exp, HttpStatusCode code)
     {
         _logger.LogError(exp, $"{code}: {exp.Message}\r\n{exp.StackTrace}");
 
@@ -74,7 +75,6 @@ public class AppMiddlewareException
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
-
-        return context.Response.WriteAsync(JsonConvert.SerializeObject(resultObject));
+        await context.Response.WriteAsync(JsonHelper.SerializeToString(resultObject));
     }
 }

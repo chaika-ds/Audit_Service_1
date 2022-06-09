@@ -4,7 +4,7 @@ namespace AuditService.Common.KafkaTest
 {
     public class KafkaProducerTest
     {
-        public async Task KafkaProducerStart(string topicTest, string serializedObj)
+        public async Task KafkaProducerStartAsync(string topicTest, string serializedObj)
         {
             var config = new ProducerConfig { 
                 BootstrapServers = "localhost:9092",

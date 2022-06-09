@@ -28,8 +28,15 @@
       "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
     },
-    "InputSettings": {
-      "AuditLogTransactionDto": "uat.auditlog.transactions"
+    "InputSettings": {      "AuditLogTransactionDto": "uat.auditlog.transactions"
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Information",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "System": "Information"
     }
   },
   "Health": {
