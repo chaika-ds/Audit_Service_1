@@ -1,9 +1,9 @@
-namespace AuditService.Data.Domain.Dto;
+namespace AuditService.Data.Domain.Domain;
 
 /// <summary>
 ///     Action data model
 /// </summary>
-public class ActionDto
+public class ActionDomainModel
 {
     /// <summary>
     ///     Name
