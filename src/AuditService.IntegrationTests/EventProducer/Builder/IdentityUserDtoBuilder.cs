@@ -1,8 +1,9 @@
-﻿using AuditService.Data.Domain.Dto;
+﻿using AuditService.Data.Domain.Domain;
+using AuditService.Data.Domain.Dto;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder
 {
-    public class IdentityUserDtoBuilder : BuilderBase<IdentityUserDto>
+    public class IdentityUserDtoBuilder : BuilderBase<IdentityUserDomainModel>
     {
 
         public IdentityUserDtoBuilder()
@@ -10,7 +11,7 @@ namespace AuditService.IntegrationTests.EventProducer.Builder
         {
         }
 
-        public override IdentityUserDto Get()
+        public override IdentityUserDomainModel Get()
         {
             var result = base.Get();
             return result;

@@ -15,7 +15,7 @@ public static class SwaggerConfiguration
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuditService", Version = "v1" });
             c.DescribeAllParametersInCamelCase();
             c.UseInlineDefinitionsForEnums();
-            c.CustomSchemaIds(x => x.FullName);
+            c.CustomSchemaIds(x => x.Name);
             
             var paths = configuration.GetSection("SwaggerXmlComments").Get<string[]>();
             foreach (var path in paths)
@@ -65,6 +65,9 @@ public static class SwaggerConfiguration
     public static void UseSwagger(this WebApplication app)
     {
         SwaggerBuilderExtensions.UseSwagger(app);
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuditService.WebApi v1"));
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuditService v1");
+        });
     }
 }

@@ -1,16 +1,16 @@
 ﻿using AuditService.Common.Helpers;
-using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Domain;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder;
 
-public class AuditLogMessageDtoBuilder : BuilderBase<AuditLogTransactionDto>
+public class AuditLogMessageDtoBuilder : BuilderBase<AuditLogTransactionDomainModel>
 {
     public AuditLogMessageDtoBuilder()
         : base()
     {
     }
 
-    public override AuditLogTransactionDto Get()
+    public override AuditLogTransactionDomainModel Get()
     {
         var result = base.Get();
         result.OldValue = JsonHelper.GetJson(@"JsonModels/OldValueEntity.json");

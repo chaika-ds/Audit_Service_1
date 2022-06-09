@@ -3,23 +3,23 @@ using AuditService.Common.Health;
 using AuditService.Common.Kafka;
 using AuditService.Common.Services;
 using AuditService.Common.Services.ExternalConnectionServices;
-using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using AuditService.Data.Domain.Domain;
 
 namespace AuditService.EventConsumerApp
 {
     /// <summary>
     /// Service for consuming Audit log messages
     /// </summary>
-    public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDto>
+    public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDomainModel>
     {
         public InputAuditServiceTransactions(
             ILogger<InputAuditServiceTransactions> logger,
             IKafkaConsumerFactory consumerFactory,
-            IInputSettings<AuditLogTransactionDto> inputSettings,
+            IInputSettings<AuditLogTransactionDomainModel> inputSettings,
             IHealthMarkService healthService)
                 : base(logger, consumerFactory, inputSettings, healthService)
         {
@@ -34,7 +34,7 @@ namespace AuditService.EventConsumerApp
 
             try
             {
-                var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDto>(args.Data);
+                var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDomainModel>(args.Data);
 
                 //await CreateAndSaveAsync(inputObject).ConfigureAwait(false);
                 await Task.Delay(1);
@@ -42,11 +42,11 @@ namespace AuditService.EventConsumerApp
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error processing {typeof(AuditLogTransactionDto).Name}");
+                _logger.LogError(ex, $"Error processing {typeof(AuditLogTransactionDomainModel).Name}");
             }
         }
 
-        //protected Task CreateAndSaveAsync(AuditLogTransactionDto inputObject)
+        //protected Task CreateAndSaveAsync(AuditLogTransactionDomainModel inputObject)
         //{
         //    //return _outputService.MapToEntityAndSaveAsync<PaymentTransactionDto, SuccessDeposit>(inputObject);
 

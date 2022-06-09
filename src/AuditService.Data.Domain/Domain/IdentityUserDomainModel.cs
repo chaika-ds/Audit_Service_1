@@ -1,27 +1,27 @@
-﻿namespace AuditService.Data.Domain.Dto;
+﻿namespace AuditService.Data.Domain.Domain;
 
 /// <summary>
-///     Аккаунт пользователя
+///     User info
 /// </summary>
-public class IdentityUserDto
+public class IdentityUserDomainModel
 {
     /// <summary>
-    ///     Id пользователя
+    ///     User ID
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    ///     IP-адрес пользователя
+    ///     IP-adress
     /// </summary>
     public string Ip { get; set; }
 
     /// <summary>
-    ///     Логин пользователя
+    ///     Login
     /// </summary>
     public string Login { get; set; }
 
     /// <summary>
-    ///     Данные о браузере пользователя
+    ///     Data about internet browser
     /// </summary>
     public string UserAgent { get; set; }
 }

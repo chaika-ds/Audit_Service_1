@@ -2,6 +2,7 @@ using AuditService.Common.KafkaTest;
 using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using AuditService.Data.Domain.Domain;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using AuditService.IntegrationTests.EventProducer.Settings;
 using Xunit;
@@ -24,7 +25,7 @@ namespace AuditService.IntegrationTests
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var service = serviceProvider.GetService<IDirector>();
-            await service?.GenerateDtoAsync<AuditLogTransactionDto>(generatedMessages);
+            await service?.GenerateDtoAsync<AuditLogTransactionDomainModel>(generatedMessages);
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
-﻿using AuditService.Data.Domain.Dto;
+﻿using AuditService.Data.Domain.Domain;
+using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
+using AuditService.WebApiApp.AppSettings;
 using AuditService.WebApiApp.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -8,11 +10,11 @@ namespace AuditService.WebApiApp.Services;
 /// <summary>
 ///     Reference provider (services\categories)
 /// </summary>
-internal class ReferenceProvider : IReferenceProvider
+internal class ReferenceService : IReferenceService
 {
     private readonly IJsonData _jsonData;
 
-    public ReferenceProvider(IJsonData jsonData)
+    public ReferenceService(IJsonData jsonData)
     {
         _jsonData = jsonData;
     }
@@ -20,21 +22,21 @@ internal class ReferenceProvider : IReferenceProvider
     /// <summary>
     ///     Get available services
     /// </summary>
-    public Task<IEnumerable<ServiceIdentity>> GetServicesAsync()
+    public Task<IEnumerable<ServiceId>> GetServicesAsync()
     {
-        return Task.FromResult(Enum.GetValues(typeof(ServiceIdentity)).Cast<ServiceIdentity>());
+        return Task.FromResult(Enum.GetValues(typeof(ServiceId)).Cast<ServiceId>());
     }
 
     /// <summary>
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity? serviceId = null)
+    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null)
     {
         using var reader = new StreamReader(_jsonData.ServiceCategories);
         var json = await reader.ReadToEndAsync();
 
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceIdentity, CategoryDto[]>>(json);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException($"File {_jsonData.ServiceCategories} not found or not include data of categories.");
 
