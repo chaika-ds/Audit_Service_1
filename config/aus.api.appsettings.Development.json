@@ -24,7 +24,8 @@
       "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
     },
-    "InputSettings": {      "AuditLogTransactionDto": "uat.auditlog.transactions"
+    "InputSettings": { 
+      "AuditLogTransactionDto": "uat.auditlog.transactions"
     }
   },
   "Logging": {
