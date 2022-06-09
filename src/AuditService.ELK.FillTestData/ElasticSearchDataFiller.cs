@@ -1,8 +1,10 @@
-﻿using AuditService.Data.Domain.Dto;
+﻿using AuditService.Data.Domain.Domain;
+using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
+using ActionType = AuditService.Data.Domain.Enums.ActionType;
 
 namespace AuditService.ELK.FillTestData;
 
@@ -36,7 +38,7 @@ internal class ElasticSearchDataFiller
             {
                 Console.WriteLine("Start force clean data");
 
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDto>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
+                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
                 await _elasticClient.Indices.DeleteAsync(_configuration["ElasticSearch:DefaultIndex"]);
 
                 Console.WriteLine("Force clean has been comlpete!");
@@ -47,7 +49,7 @@ internal class ElasticSearchDataFiller
             {
                 Console.WriteLine("Creating index " + _configuration["ElasticSearch:DefaultIndex"]);
 
-                var response = await _elasticClient.Indices.CreateAsync(_configuration["ElasticSearch:DefaultIndex"], r => r.Map<AuditLogTransactionDto>(x => x.AutoMap()));
+                var response = await _elasticClient.Indices.CreateAsync(_configuration["ElasticSearch:DefaultIndex"], r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
@@ -89,7 +91,7 @@ internal class ElasticSearchDataFiller
     ///     Data generation
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private IEnumerable<AuditLogTransactionDto> GenerateData(ConfigurationModel configurationModel)
+    private IEnumerable<AuditLogTransactionDomainModel> GenerateData(ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
             yield return CreateNewDto(configurationModel);
@@ -99,24 +101,24 @@ internal class ElasticSearchDataFiller
     ///     Create model Dto on base configuration model
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private AuditLogTransactionDto CreateNewDto(ConfigurationModel configurationModel)
+    private AuditLogTransactionDomainModel CreateNewDto(ConfigurationModel configurationModel)
     {
         var uid = Guid.NewGuid();
-        var dto = new AuditLogTransactionDto
+        var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            ServiceName = configurationModel.ServiceName ?? Enum.GetValues<ServiceIdentity>().GetRandomItem(_random),
-            NodeType = configurationModel.NodeType ?? Enum.GetValues<NodeTypes>().GetRandomItem(_random),
-            ActionName = configurationModel.ActionName ?? Enum.GetValues<ActionNameType>().GetRandomItem(_random),
+            Service = configurationModel.ServiceName ?? Enum.GetValues<ServiceId>().GetRandomItem(_random),
+            Node = configurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
+            Action = configurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
-            EntityName = nameof(AuditLogTransactionDto),
+            EntityName = nameof(AuditLogTransactionDomainModel),
             EntityId = Guid.NewGuid(),
             OldValue = "{ 'value': '0' }",
             NewValue = "{ 'value': '1' }",
             ProjectId = Guid.NewGuid(),
-            User = new IdentityUserDto
+            User = new IdentityUserDomainModel
             {
                 Id = uid,
                 Ip = "127.0.0.0",
@@ -126,7 +128,7 @@ internal class ElasticSearchDataFiller
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)
-            ? _categoryDictionary.GetCategory(dto.ServiceName, _random)
+            ? _categoryDictionary.GetCategory(dto.Service, _random)
             : configurationModel.CategoryCode;
 
         return dto;

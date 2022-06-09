@@ -1,24 +1,18 @@
-using System.IO.Compression;
-using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
+using AuditService.WebApi.Extensions;
+using AuditService.WebApi.Middleware;
 using AuditService.WebApiApp;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var environmentName = builder.Environment.EnvironmentName;
-
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", true);
-
-var additionalConfiguration = new AdditionalEnvironmentConfiguration();
-additionalConfiguration
-    .AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
-additionalConfiguration.AddCustomerLogger(builder, environmentName);
-
+builder.Configuration.AddJsonFile($"config/aus.api.appsettings.{environmentName}.json", builder.Environment);
 builder.Configuration.AddEnvironmentVariables();
+
+builder.AddCustomerLogger(environmentName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -32,17 +26,8 @@ builder.Services.AddResponseCompression(options =>
     options.Providers.Add<GzipCompressionProvider>();
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json; charset=utf-8" });
 });
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-{
-    options.Level = CompressionLevel.Optimal;
-});
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders = ForwardedHeaders.All;
-    options.ForwardedForHeaderName = "X-Original-Forwarded-For";
-    options.RequireHeaderSymmetry = false;
-    options.ForwardLimit = null;
-});
+
+builder.Services.AdditionalConfigurations();
 
 DiConfigure.Configure(builder.Services);
 
@@ -57,7 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHealthChecks("/healthy");
 app.MapControllers();
-app.UseMiddleware<AppMiddlewareException>();
+app.UseRouting();
 
 app.UseMiddleware<AppMiddlewareException>();
 app.UseMiddleware<AuthenticateMiddleware>();

@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Helpers;
+﻿using System.Text;
+using AuditService.Common.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
@@ -17,23 +18,17 @@ namespace AuditService.Common.Logger
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var isOnRequest = true;
-            var requestPath = context.HttpContext.Request.Path.Value;
+            var requestPath = context.HttpContext?.Request?.Path.Value;
 
             try
             {
-                //before execution                
                 var requestBody = GetRequestBodyAsString(context);                
 
-                _logger.LogInformation($"Start execution request: {requestPath}" +
-                    $" request body: {requestBody}, task is on request: {isOnRequest}");
+                _logger.LogInformation($"Start execution request: {requestPath} request body: {requestBody}");
 
-                var result = await next();
+                await next();
 
-                //after execution
-                isOnRequest = false;
-
-                _logger.LogInformation($"Finish execution request: {requestBody}, task is on request: {isOnRequest}");
+                _logger.LogInformation($"Finish execution request: {requestBody}");
             }
             catch (Exception ex)
             {
@@ -43,14 +38,12 @@ namespace AuditService.Common.Logger
 
         private string GetRequestBodyAsString(ActionExecutingContext context)
         {
-            var result = string.Empty;
+            var builder = new StringBuilder();
 
             foreach (var element in context.ActionArguments)
-            {
-                result += JsonHelper.SerializeToString(element.Value);
-            }
+                builder.Append(JsonHelper.SerializeToString(element.Value));
 
-            return result;
+            return builder.ToString();
         }
     }
 }

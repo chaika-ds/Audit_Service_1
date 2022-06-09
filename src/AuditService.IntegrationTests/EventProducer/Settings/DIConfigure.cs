@@ -1,4 +1,5 @@
 ﻿using AuditService.Common.Kafka;
+using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Dto;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using bgTeam.Extensions;
@@ -16,8 +17,8 @@ namespace AuditService.IntegrationTests.EventProducer.Settings
             services
                 .AddLogging()
                 .AddSingleton(services)
-                .AddSingleton<IBuilderDto<AuditLogTransactionDto>, AuditLogMessageDtoBuilder>()
-                .AddSingleton<IBuilderDto<IdentityUserDto>, IdentityUserDtoBuilder>()
+                .AddSingleton<IBuilderDto<AuditLogTransactionDomainModel>, AuditLogMessageDtoBuilder>()
+                .AddSingleton<IBuilderDto<IdentityUserDomainModel>, IdentityUserDtoBuilder>()
                 .AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<KafkaProducer>>())
                 .AddSingleton<KafkaProducer>()
                 .AddSingleton<IDirector, Director>();

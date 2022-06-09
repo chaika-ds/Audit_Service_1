@@ -5,9 +5,13 @@
   },
   "ElasticSearch": {
     "Uris": [ "http://elasticsearch:9200", "http://localhost:9200" ],
-    "DefaultIndex": "testaudit",
     "UserName": "",
-    "Password": ""
+    "Password": "",
+    "DefaultIndex": "testaudit",
+    "Indexes": {
+      "AuditLog": "testaudit",
+      "ApplicationLog": "applog"
+    }
   },
   "Kafka": {
     "MaxThreadsCount": 10,

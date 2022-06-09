@@ -1,5 +1,5 @@
 {
-  "PAYMENTSERVICE": [
+  "PAYMENT": [
     {
       "CategoryCode" : "PAYMENTS_PPS_KEYS",
       "CategoryName" : "Payments: PPS keys",
@@ -143,7 +143,7 @@
       ]
     }
   ],
-  "SSOSERVICE": [
+  "SSO": [
     {
       "CategoryCode" : "SSO_USERS_ROLES",
       "CategoryName" : "Users: Roles",

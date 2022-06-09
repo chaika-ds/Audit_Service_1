@@ -1,7 +1,7 @@
 ﻿using AuditService.Common.Helpers;
 using Microsoft.Extensions.Logging;
 
-namespace AuditService.Data.Domain.Logging
+namespace AuditService.Common.Logger
 {
     /// <summary>
     /// Custom logger for console in Audit log service

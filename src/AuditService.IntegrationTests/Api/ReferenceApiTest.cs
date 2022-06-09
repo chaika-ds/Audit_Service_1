@@ -41,8 +41,8 @@ public class ReferenceApiTest
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceIdentity.SSOSERVICE.ToString(), resultRequest);
-        Assert.Contains(ServiceIdentity.PAYMENTSERVICE.ToString(), resultRequest);
+        Assert.Contains(ServiceId.SSO.ToString(), resultRequest);
+        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
     }
     
     [Fact]
@@ -54,20 +54,20 @@ public class ReferenceApiTest
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceIdentity.SSOSERVICE.ToString(), resultRequest);
-        Assert.Contains(ServiceIdentity.PAYMENTSERVICE.ToString(), resultRequest);
+        Assert.Contains(ServiceId.SSO.ToString(), resultRequest);
+        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
     }
     
     [Fact]
     public async Task GET_Referance_Categories_Return_AllCategoriesByServiceAsync()
     {
-        var url = $"{_localhost}/reference/categories/{ServiceIdentity.PAYMENTSERVICE.ToString()}";
+        var url = $"{_localhost}/reference/categories/{ServiceId.PAYMENT.ToString()}";
         
         var response = await Post(url);
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceIdentity.PAYMENTSERVICE.ToString(), resultRequest);
+        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
     }
 
     private async Task<HttpResponseMessage> Post(string url)
