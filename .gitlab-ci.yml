@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 .build:
   stage: build
@@ -12,13 +13,17 @@ stages:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - echo $CI_PROJECT_DIR
-
     - if [ -f $CI_PROJECT_DIR/nuget.config ]; then
       cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/${APPATH:-}${APPNAME}/;
       cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/;
       fi
     - CI_IMAGE_TAG=$(cat version/current.ver)
-
+  script:
+    - if echo $CI_COMMIT_TAG | grep -Eq "$JIRA_FIX_VERSION_PREFIX" ; then
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --destination $REGISTRY/$DEPLOY_IMAGE:prod_$CI_IMAGE_TAG --build-arg APPNAME="$APPNAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
+      else
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --build-arg APPNAME="$APPNAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
+      fi
   tags:
     - build
   retry: 1
