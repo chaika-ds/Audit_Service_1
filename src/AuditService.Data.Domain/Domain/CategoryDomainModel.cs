@@ -1,3 +1,5 @@
+using AuditService.Data.Domain.Dto;
+
 namespace AuditService.Data.Domain.Domain;
 
 /// <summary>
@@ -9,19 +11,13 @@ public class CategoryDomainModel
     ///     Code of category
     /// </summary>
     public string CategoryCode { get; set; }
-
     /// <summary>
     ///     Name of category
     /// </summary>
     public string CategoryName { get; set; }
 
     /// <summary>
-    ///     Action
+    ///  ActionDto of reference
     /// </summary>
-    public string ActionName { get; set; }
-
-    /// <summary>
-    ///     Comment
-    /// </summary>
-    public string Comment { get; set; }
+    public ActionDomainModel[] Action { get; set; }
 }
