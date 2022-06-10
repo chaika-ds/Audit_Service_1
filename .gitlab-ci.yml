@@ -2,7 +2,7 @@ stages:
   - build
   - test
 
-.build:
+build:
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:debug
