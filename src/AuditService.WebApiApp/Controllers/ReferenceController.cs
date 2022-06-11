@@ -30,15 +30,9 @@ public class ReferenceController
     [HttpGet]
     [Route("services")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     //[ServiceFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<ServiceId>> GetServicesAsync()
-    {
+    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    { 
         return await _referenceService.GetServicesAsync();
     }
 
@@ -48,11 +42,6 @@ public class ReferenceController
     [HttpGet]
     [Route("categories")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
@@ -66,12 +55,6 @@ public class ReferenceController
     [HttpGet]
     [Route("categories/{serviceId}")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     //[ServiceFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {

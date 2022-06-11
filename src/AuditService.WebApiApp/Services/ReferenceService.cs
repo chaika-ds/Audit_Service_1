@@ -22,9 +22,16 @@ internal class ReferenceService : IReferenceService
     /// <summary>
     ///     Get available services
     /// </summary>
-    public Task<IEnumerable<ServiceId>> GetServicesAsync()
+    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return Task.FromResult(Enum.GetValues(typeof(ServiceId)).Cast<ServiceId>());
+        var categoryBaseDomainModels = new List<CategoryBaseDomainModel>();
+
+        var allCategories = await GetCategoriesAsync();
+
+        foreach (var item in allCategories.Values)
+            categoryBaseDomainModels.AddRange(item);
+        
+        return categoryBaseDomainModels;
     }
 
     /// <summary>

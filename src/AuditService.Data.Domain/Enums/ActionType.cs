@@ -33,5 +33,7 @@ public enum ActionType
 
     LOGIN = 11,
 
-    LOGOUT = 12
+    LOGOUT = 12,
+    
+    VIEW = 13
 }

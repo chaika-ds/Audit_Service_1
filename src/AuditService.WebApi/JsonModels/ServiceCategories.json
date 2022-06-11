@@ -96,21 +96,13 @@
       "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTIONS_LIST",
       "CategoryName" : "Payments: Payment transactions list",
       "Action" : [
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт выгрузки журнала"
-        }
+
       ]
     },
     {
       "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTION_DETAILS",
       "CategoryName" : "Payments: Payment transaction details",
-      "Action" : [
-        {
-          "Name" : "",
-          "Description" : ""
-        }
-      ]
+      "Action" : []
     },
     {
       "CategoryCode" : "PAYMENT_DEPOSIT_REQUESTS_LIST",
@@ -125,12 +117,7 @@
     {
       "CategoryCode" : "PAYMENT_WITHDRAWAL_REQUESTS_LIST_DETAILS",
       "CategoryName" : "Payments: Withdrawal requests list details",
-      "Action" : [
-        {
-          "Name" : "",
-          "Description" : ""
-        }
-      ]
+      "Action" : []
     },
     {
       "CategoryCode" : "PAYMENTS_SERVICE_SETTINGS",
@@ -245,7 +232,7 @@
       ]
     }
   ],
-  "SETTINGSERVICE": [
+  "SETTING": [
     {
       "CategoryCode" : "SETTINGS_NODES",
       "CategoryName" : "Settings: Node details",
@@ -290,7 +277,6 @@
       "CategoryCode" : "SETTINGS_BLOCKED_IPS_AND_COUNTRIES",
       "CategoryName" : "Settings: Blocked IPs and countries",
       "Action" : [
-
         {
           "Name" : "EDIT",
           "Description" : "Добавление/удаление новых записей в список\nАктивация/деактивация списка"
@@ -350,7 +336,7 @@
       ]
     }
   ],
-  "REPORTSERVICE": [
+  "REPORT": [
     {
       "CategoryCode" : "REPORTS_DEPOSITS_WITHDRAWALS",
       "CategoryName" : "Reports: Deposits-withdrawals",
@@ -360,7 +346,7 @@
           "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "EXPORTS",
+          "Name" : "EXPORT",
           "Description" : "Факт экспорта отчета"
         }
       ]
@@ -374,7 +360,7 @@
           "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "EXPORTS",
+          "Name" : "EXPORT",
           "Description" : "Факт экспорта отчета"
         }
       ]
@@ -388,7 +374,7 @@
           "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "EXPORTS",
+          "Name" : "EXPORT",
           "Description" : "Факт экспорта отчета"
         }
       ]
@@ -402,7 +388,7 @@
           "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "EXPORTS",
+          "Name" : "EXPORT",
           "Description" : "Факт экспорта отчета"
         }
       ]
@@ -416,13 +402,13 @@
           "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "EXPORTS",
+          "Name" : "EXPORT",
           "Description" : "Факт экспорта отчета"
         }
       ]
     }
   ],
-  "GSSERVICE": [
+  "GS": [
     {
       "CategoryCode" : "GAMES_ADMIN_API_PROVIDERS",
       "CategoryName" : "Games: Admin API providers",

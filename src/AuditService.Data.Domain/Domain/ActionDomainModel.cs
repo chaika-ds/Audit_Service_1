@@ -1,3 +1,5 @@
+using AuditService.Data.Domain.Enums;
+
 namespace AuditService.Data.Domain.Domain;
 
 /// <summary>
@@ -8,7 +10,7 @@ public class ActionDomainModel
     /// <summary>
     ///     Name
     /// </summary>
-    public string Name { get; set; }
+    public ActionType Name { get; set; }
 
     /// <summary>
     ///   Description
