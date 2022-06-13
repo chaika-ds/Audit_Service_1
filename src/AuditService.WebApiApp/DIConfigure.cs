@@ -1,10 +1,13 @@
 ﻿using AuditService.Common.Health;
 using AuditService.Common.Kafka;
 using AuditService.WebApiApp.AppSettings;
+using AuditService.WebApiApp.Providers;
 using AuditService.WebApiApp.Services;
 using AuditService.WebApiApp.Services.Interfaces;
 using bgTeam.Extensions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 
@@ -17,6 +20,8 @@ public static class DiConfigure
     /// </summary>
     public static void Configure(IServiceCollection services)
     {
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeModelProvider>());
+        
         services
             .AddSettings<
                 IKafkaConsumerSettings,
