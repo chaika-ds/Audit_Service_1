@@ -7,6 +7,8 @@ namespace AuditService.WebApiApp.Providers;
 
 public class ProduceResponseTypeModelProvider : IApplicationModelProvider
 {
+    // It's all in the documentation https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/application-model?view=aspnetcore-6.0#iapplicationmodelprovider
+    // Order property is for when you have multiple IApplicationModelProvider and you can set which one runs first. 3 is just a random number!
     public int Order => 3;
 
     public void OnProvidersExecuted(ApplicationModelProviderContext context)
@@ -45,14 +47,9 @@ public class ProduceResponseTypeModelProvider : IApplicationModelProvider
 
     private void AddProducesResponseTypeAttribute(ActionModel action, Type? returnType, int statusCodeResult)
     {
-        if (returnType != null)
-        {
-            action.Filters.Add(new ProducesResponseTypeAttribute(returnType, statusCodeResult));
-        }
-        else if (returnType == null)
-        {
-            action.Filters.Add(new ProducesResponseTypeAttribute(statusCodeResult));
-        }
+        var newAttr = returnType != null ? new ProducesResponseTypeAttribute(returnType, statusCodeResult) : new ProducesResponseTypeAttribute(statusCodeResult);
+        
+        action.Filters.Add(newAttr);
     }
 
     private void AddUniversalStatusCodes(ActionModel action, Type? returnType)
