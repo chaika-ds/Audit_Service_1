@@ -26,14 +26,11 @@ internal class ReferenceService : IReferenceService
     {
         var allCategories = await GetCategoriesAsync();
 
-        var items = allCategories.SelectMany(x => x.Value).Select(s =>
-            new CategoryBaseDomainModel()
-            {
-                CategoryCode = s.CategoryCode,
-                CategoryName = s.CategoryName
-            });
-
-        return items;
+        var categoryBaseDomainModels = new List<CategoryBaseDomainModel>();
+        
+        categoryBaseDomainModels.AddRange(allCategories.SelectMany(x => x.Value));
+        
+        return categoryBaseDomainModels;
     }
 
     /// <summary>
