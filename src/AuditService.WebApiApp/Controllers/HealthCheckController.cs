@@ -16,7 +16,7 @@ public class HealthCheckController : ControllerBase
         _healthCheck = healthCheck;
     }
 
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     public IActionResult Index()
     {
