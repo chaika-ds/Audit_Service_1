@@ -30,7 +30,7 @@ public class ReferenceController
     [HttpGet]
     [Route("services")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     { 
         return await _referenceService.GetServicesAsync();
@@ -42,7 +42,7 @@ public class ReferenceController
     [HttpGet]
     [Route("categories")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
         return await _referenceService.GetCategoriesAsync();
@@ -55,7 +55,7 @@ public class ReferenceController
     [HttpGet]
     [Route("categories/{serviceId}")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
         return await _referenceService.GetCategoriesAsync(serviceId);
