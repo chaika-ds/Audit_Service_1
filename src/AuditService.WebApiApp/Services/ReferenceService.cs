@@ -24,14 +24,16 @@ internal class ReferenceService : IReferenceService
     /// </summary>
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        var categoryBaseDomainModels = new List<CategoryBaseDomainModel>();
-
         var allCategories = await GetCategoriesAsync();
 
-        foreach (var item in allCategories.Values)
-            categoryBaseDomainModels.AddRange(item);
-        
-        return categoryBaseDomainModels;
+        var items = allCategories.SelectMany(x => x.Value).Select(s =>
+            new CategoryBaseDomainModel()
+            {
+                CategoryCode = s.CategoryCode,
+                CategoryName = s.CategoryName
+            });
+
+        return items;
     }
 
     /// <summary>
@@ -45,7 +47,8 @@ internal class ReferenceService : IReferenceService
 
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
         if (categories == null)
-            throw new FileNotFoundException($"File {_jsonData.ServiceCategories} not found or not include data of categories.");
+            throw new FileNotFoundException(
+                $"File {_jsonData.ServiceCategories} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories
