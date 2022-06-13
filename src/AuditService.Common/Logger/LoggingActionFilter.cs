@@ -10,8 +10,8 @@ namespace AuditService.Common.Logger
     /// </summary>
     public class LoggingActionFilter : IAsyncActionFilter
     {
-        private readonly ILogger _logger;
-        public LoggingActionFilter(ILogger logger)
+        private readonly ILogger<LoggingActionFilter> _logger;
+        public LoggingActionFilter(ILogger<LoggingActionFilter> logger)
         {
             _logger = logger;
         }

@@ -36,7 +36,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<ServiceId>> GetServicesAsync()
     {
         return await _referenceService.GetServicesAsync();
@@ -53,7 +53,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
         return await _referenceService.GetCategoriesAsync();
@@ -72,7 +72,7 @@ public class ReferenceController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
         return await _referenceService.GetCategoriesAsync(serviceId);
