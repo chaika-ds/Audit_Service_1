@@ -2,6 +2,9 @@ stages:
   - build
   - test
 
+# ========================================================================================================================
+# build template job - build .net app and push docker images
+# ========================================================================================================================
 build:
   stage: build
   image:
@@ -27,3 +30,84 @@ build:
   tags:
     - build
   retry: 1
+
+.savejson:
+  stage: build
+  image: theharbor.xyz/docker-images/alpine-curl:latest
+  script:
+    - curl $SWAGGER_JSON_URL > $CI_PROJECT_DIR/swagger-dif/old-swager.json
+  except:
+    - master
+  tags:
+    - kuberkyc
+  retry: 1
+  artifacts:
+    paths:
+    - swagger-dif/*.json
+    expire_in: 1 days
+
+# ========================================================================================================================
+# sonarqube test job template - test app in sonarqube
+# ========================================================================================================================
+
+.sonartest:
+  image: theharbor.xyz/docker-images/dotnet/sdk:6.0
+  stage: test
+  except:
+    - master
+  retry: 0
+  tags:
+    - kuberkyc
+  before_script:
+    - export ASPNETCORE_ENVIRONMENT="Development"
+    - mkdir $CI_PROJECT_DIR/coverage
+    - mkdir $CI_PROJECT_DIR/build
+    - echo "deb http://deb.debian.org/debian stretch-backports main" >> /etc/apt/sources.list
+    - cat /etc/apt/sources.list
+    - mkdir -p /usr/share/man/man1
+    - apt-get update
+    - apt-get -t stretch-backports install openjdk-11-jre-headless -y --no-install-recommends
+    - export PATH="$PATH:/usr/bin:/root/.dotnet/tools"
+    - dotnet tool install --global dotnet-sonarscanner
+    - CI_IMAGE_TAG=$(cat version/current.ver)
+  script:
+    - cd $CI_PROJECT_DIR/
+    - dotnet new tool-manifest
+    - dotnet tool install --global coverlet.console
+    - dotnet restore
+    - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
+    - dotnet build-server shutdown
+    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs
+    - dotnet build ./AuditService P2.sln -c Debug --no-restore
+    - dotnet tool restore -v q
+    - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
+    - pwd
+    - dotnet test --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[NUnit3.TestAdapter]* ./tests/AuditService.Tests/AuditService.Tests.csproj
+    - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
+    - ls -lah $CI_PROJECT_DIR/
+    - echo "$OCPATH"
+    - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+
+# ========================================================================================================================
+# sonarqube test jobs
+# ========================================================================================================================
+
+api-sq test:
+  extends: .sonartest
+  needs:
+    - apiVersion
+    - api build
+    - migration build
+    - consumer build
+  dependencies:
+    - apiVersion
+    - api build
+    - migration build
+    - consumer build
+  variables:
+    APPNAME: "AuditService.WebApi"
+    TESTDIR: "tests"
+    NUGETSRC: "https://api.nuget.org/v3/index.json"
+    PROJECTKEY: "$SONAR_PROJECT_KEY"
+    SONARURL: "$SONAR_URL"
+    SONARLOGIN: "$SONAR_TOKEN"

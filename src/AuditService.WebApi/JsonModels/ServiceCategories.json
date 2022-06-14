@@ -245,7 +245,7 @@
       ]
     }
   ],
-  "SETTINGSERVICE": [
+  "SETTING": [
     {
       "CategoryCode" : "SETTINGS_NODES",
       "CategoryName" : "Settings: Node details",
@@ -350,7 +350,7 @@
       ]
     }
   ],
-  "REPORTSERVICE": [
+  "REPORT": [
     {
       "CategoryCode" : "REPORTS_DEPOSITS_WITHDRAWALS",
       "CategoryName" : "Reports: Deposits-withdrawals",
@@ -422,7 +422,7 @@
       ]
     }
   ],
-  "GSSERVICE": [
+  "GS": [
     {
       "CategoryCode" : "GAMES_ADMIN_API_PROVIDERS",
       "CategoryName" : "Games: Admin API providers",
