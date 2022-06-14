@@ -15,7 +15,6 @@ build:
     APPNAME: "AuditService.WebApi"
     DEPLOY_IMAGE: "audit-service/api"
     DOCKERFILE: "$CI_PROJECT_DIR/Dockerfile"
-    CI_IMAGE_TAG: 1
   except:
     - master
   before_script:
