@@ -1,17 +1,22 @@
 using AuditService.Kafka.Services.Health;
 using AuditService.Kafka.Settings;
 using AuditService.WebApiApp.Services.Interfaces;
-using Elasticsearch.Net;
 using Nest;
 
 namespace AuditService.WebApiApp.Services;
 
-public class HealthCheckService :IHealthCheck
+/// <summary>
+///     Health check
+/// </summary>
+internal class HealthCheckService : IHealthCheck
 {
-    private readonly IHealthService _healthService;
     private readonly IElasticClient _elasticClient;
+    private readonly IHealthService _healthService;
     private readonly IHealthSettings _settings;
 
+    /// <summary>
+    ///     Health check
+    /// </summary>
     public HealthCheckService(IHealthSettings settings, IHealthService healthService, IElasticClient elasticClient)
     {
         _settings = settings;
@@ -19,12 +24,18 @@ public class HealthCheckService :IHealthCheck
         _elasticClient = elasticClient;
     }
 
+    /// <summary>
+    ///     Check ElasticSearch
+    /// </summary>
     public bool CheckElkHealth()
     {
         var elkResponse = _elasticClient.Cluster.Health();
         return elkResponse.ApiCall.Success;
     }
 
+    /// <summary>
+    ///     Check Kafka
+    /// </summary>
     public bool CheckKafkaHealth()
     {
         var t = _healthService.GetErrorsCount();

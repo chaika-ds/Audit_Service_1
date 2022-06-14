@@ -16,23 +16,16 @@ public class HealthCheckController : ControllerBase
         _healthCheck = healthCheck;
     }
 
-    [ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     [HttpGet]
     public IActionResult Index()
     {
-        bool isElkHealth = _healthCheck.CheckElkHealth();
-        bool isKafkaHealth = _healthCheck.CheckKafkaHealth();
-
         var response = new HealthCheckDto
         {
-            Kafka = isKafkaHealth,
-            Elk = isElkHealth
+            Kafka = _healthCheck.CheckKafkaHealth(),
+            Elk = _healthCheck.CheckElkHealth()
         };
 
-        if (isElkHealth && isKafkaHealth) 
-            return StatusCode(200, response);
-            
-        return StatusCode(500, response);
-
+        return response.Elk && response.Kafka ? StatusCode(200, response) : StatusCode(500, response);
     }
 }

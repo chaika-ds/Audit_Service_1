@@ -10,31 +10,25 @@ namespace AuditService.Utility.Logger
     /// </summary>
     public class LoggingActionFilter : IAsyncActionFilter
     {
-        private readonly ILogger _logger;
-        public LoggingActionFilter(ILogger logger)
+        private readonly ILogger<LoggingActionFilter> _logger;
+        public LoggingActionFilter(ILogger<LoggingActionFilter> logger)
         {
             _logger = logger;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var isOnRequest = true;
-            var requestPath = context.HttpContext.Request.Path.Value;
+            var requestPath = context.HttpContext?.Request?.Path.Value;
 
             try
             {
-                //before execution                
-                var requestBody = GetRequestBodyAsString(context);
+                var requestBody = GetRequestBodyAsString(context);                
 
-                _logger.LogInformation($"Start execution request: {requestPath}" +
-                    $" request body: {requestBody}, task is on request: {isOnRequest}");
+                _logger.LogInformation($"Start execution request: {requestPath} request body: {requestBody}");
 
-                var result = await next();
+                await next();
 
-                //after execution
-                isOnRequest = false;
-
-                _logger.LogInformation($"Finish execution request: {requestBody}, task is on request: {isOnRequest}");
+                _logger.LogInformation($"Finish execution request: {requestBody}");
             }
             catch (Exception ex)
             {
@@ -47,9 +41,7 @@ namespace AuditService.Utility.Logger
             var builder = new StringBuilder();
 
             foreach (var element in context.ActionArguments)
-            {
                 builder.Append(JsonHelper.SerializeToString(element.Value));
-            }
 
             return builder.ToString();
         }

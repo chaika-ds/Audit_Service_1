@@ -1,7 +1,9 @@
 ﻿using AuditService.Utility.Logger;
 using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tolar.Authenticate;
 
@@ -14,50 +16,53 @@ namespace AuditService.WebApiApp.Controllers;
 [Route("reference")]
 public class ReferenceController
 {
-    private readonly IReferenceProvider _referenceProvider;
+    private readonly IReferenceService _referenceService;
 
     /// <summary>
     ///  Allows you to get a list of available services and categories
     /// </summary>
-    public ReferenceController(IReferenceProvider referenceProvider)
+    public ReferenceController(IReferenceService referenceService)
     {
-        _referenceProvider = referenceProvider;
+        _referenceService = referenceService;
     }
 
     /// <summary>
     /// Allows you to get a list of available services
     /// </summary>
-    [ServiceFilter(typeof(LoggingActionFilter))]
     [Authorize("AuditService.Reference.viewServices")]
     [HttpGet]
     [Route("services")]
-    public async Task<IEnumerable<ServiceIdentity>> GetServicesAsync()
-    {
-        return await _referenceProvider.GetServicesAsync();
+    [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
+    [TypeFilter(typeof(LoggingActionFilter))]
+    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    { 
+        return await _referenceService.GetServicesAsync();
     }
 
     /// <summary>
     /// Allows you to get a list of available categories
     /// </summary>
-    [ServiceFilter(typeof(LoggingActionFilter))]
     [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories")]
-    public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync()
+    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [TypeFilter(typeof(LoggingActionFilter))]
+    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
-        return await _referenceProvider.GetCategoriesAsync();
+        return await _referenceService.GetCategoriesAsync();
     }
 
     /// <summary>
     /// Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="serviceId">Selected service id</param>
-    [ServiceFilter(typeof(LoggingActionFilter))]
     [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories/{serviceId}")]
-    public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity serviceId)
+    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [TypeFilter(typeof(LoggingActionFilter))]
+    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
-        return await _referenceProvider.GetCategoriesAsync(serviceId);
+        return await _referenceService.GetCategoriesAsync(serviceId);
     }
 }

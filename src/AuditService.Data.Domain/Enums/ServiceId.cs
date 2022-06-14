@@ -7,45 +7,45 @@ namespace AuditService.Data.Domain.Enums;
 /// </summary>
 // ReSharper disable InconsistentNaming
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum ServiceIdentity
+public enum ServiceId
 {
     /// <summary>
     ///     PAYMENT SERVICE
     /// </summary>
-    PAYMENTSERVICE = 0,
+    PAYMENT = 0,
 
     /// <summary>
     ///     SETTING
     /// </summary>
-    SETTINGSERVICE = 1,
+    SETTING = 1,
 
     /// <summary>
     ///     SSO
     /// </summary>
-    SSOSERVICE = 2,
+    SSO = 2,
 
     /// <summary>
     ///     GS
     /// </summary>
-    GSSERVICE = 3,
+    GS = 3,
 
     /// <summary>
     ///     REPORT
     /// </summary>
-    REPORTSERVICE = 4,
+    REPORT = 4,
 
     /// <summary>
     ///     BO
     /// </summary>
-    BOSERVICE = 5,
+    BO = 5,
 
     /// <summary>
     ///     RM
     /// </summary>
-    RMSERVICE = 6,
+    RM = 6,
 
     /// <summary>
     ///     CONSTRUCTOR
     /// </summary>
-    CONSTRUCTORSERVICE = 7
+    CONSTRUCTOR = 7
 }

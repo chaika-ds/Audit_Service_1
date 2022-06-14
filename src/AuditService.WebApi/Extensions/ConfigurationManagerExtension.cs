@@ -2,25 +2,29 @@
 using AuditService.Utility.Logger;
 using Microsoft.Extensions.FileProviders;
 
-namespace AuditService.WebApi;
+namespace AuditService.WebApi.Extensions;
 
-public class AdditionalEnvironmentConfiguration
+/// <summary>
+///     Extension of configuration manager
+/// </summary>
+public static class ConfigurationManagerExtension
 {
     /// <summary>
-    ///     Adds the JSON configuration provider at <paramref name="pathFile"/> to <paramref name="builder"/>.
+    ///     Adds the JSON configuration provider at <paramref name="pathFile" /> to <paramref name="configuration" />.
     /// </summary>
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public void AddJsonFile(WebApplicationBuilder builder, string pathFile)
+    public static void AddJsonFile(this ConfigurationManager configuration, string pathFile,
+        IWebHostEnvironment environment)
     {
-        if (builder.Environment.ContentRootPath == "/app/")
+        if (environment.ContentRootPath == "/app/")
         {
-            builder.Configuration.AddJsonFile(pathFile, true, true);
+            configuration.AddJsonFile(pathFile, true, true);
             return;
         }
 
-        var directoryInfo = new DirectoryInfo(builder.Environment.ContentRootPath);
+        var directoryInfo = new DirectoryInfo(environment.ContentRootPath);
         var configPath = GetParent(directoryInfo)?.FullName;
         if (string.IsNullOrEmpty(configPath))
         {
@@ -29,17 +33,17 @@ public class AdditionalEnvironmentConfiguration
         }
 
         var fileProvider = new PhysicalFileProvider(configPath);
-        builder.Configuration.AddJsonFile(fileProvider, pathFile, true, true);
+        configuration.AddJsonFile(fileProvider, pathFile, true, true);
     }
 
     /// <summary>
     ///     Find parent root with name from value
     /// </summary>
-    private DirectoryInfo? GetParent(DirectoryInfo? directoryInfo)
+    private static DirectoryInfo? GetParent(DirectoryInfo? directoryInfo)
     {
         while (true)
         {
-            if (directoryInfo == null || !directoryInfo.FullName.Contains("src"))
+            if (directoryInfo?.FullName.Contains("src") != true)
                 return directoryInfo;
 
             directoryInfo = directoryInfo?.Parent;
@@ -47,15 +51,16 @@ public class AdditionalEnvironmentConfiguration
     }
 
     /// <summary>
-    /// Adds customer logger provider at <paramref name="environmentName"/> to <paramref name="builder"/>.
+    ///     Adds customer logger provider at <paramref name="environmentName" /> to <paramref name="builder" />.
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="environmentName"></param>
-    public void AddCustomerLogger(WebApplicationBuilder builder, string environmentName)
+    public static void AddCustomerLogger(this WebApplicationBuilder builder, string environmentName)
     {
         builder.Logging.ClearProviders();
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
-       var cc = builder.Logging.AddAuditServiceLogger(options => {
+        builder.Logging.AddAuditServiceLogger(options =>
+        {
             builder.Configuration.Bind(options);
             options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
         });        

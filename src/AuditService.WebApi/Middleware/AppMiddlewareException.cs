@@ -1,10 +1,13 @@
 ﻿using System.Net;
 using AuditService.Kafka.Exceptions;
 using AuditService.Data.Domain.Dto;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using AuditService.Common.Helpers;
+using AuditService.Data.Domain.Exceptions;
 using AuditService.Utility.Helpers;
 
-namespace AuditService.WebApi;
+namespace AuditService.WebApi.Middleware;
 
 /// <summary>
 ///     Middleware handle for exceptions
@@ -61,14 +64,16 @@ public class AppMiddlewareException
     {
         _logger.LogError(exp, $"{code}: {exp.Message}\r\n{exp.StackTrace}");
 
-        var resultObject = new ErrorResponseDto
+        var resultObject = new ProblemDetails
         {
-            Code = code,
-            Message = exp.Message
+            Status = (int)code,
+            Title = exp.Message,
+            Instance = context.Request.Path,
+            Type = code.ToString()
         };
 
         if (!_environment.IsProduction())
-            resultObject.StackTrace = exp.StackTrace;
+            resultObject.Detail = exp.StackTrace;
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;

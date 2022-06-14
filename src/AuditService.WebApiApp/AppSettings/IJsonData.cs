@@ -1,4 +1,4 @@
-namespace AuditService.WebApiApp;
+namespace AuditService.WebApiApp.AppSettings;
 
 /// <summary>
 ///     JSON data configs

@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using AuditService.Data.Domain.Dto;
+using AuditService.Data.Domain.Domain;
+using AuditService.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,8 @@ namespace AuditService.WebApiApp.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]/[action]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Obsolete("Заготовка для компонентов. Удалить до релиза")]
     public class HomeController : ControllerBase
     {
         private readonly IElasticClient _elasticClient;
@@ -27,7 +30,6 @@ namespace AuditService.WebApiApp.Controllers
             _configuration = configuration;
         }
 
-        [ServiceFilter(typeof(LoggingActionFilter))]
         [HttpGet]
         public async Task<string> BaseMethodAsync(int value)
         {
@@ -62,10 +64,10 @@ namespace AuditService.WebApiApp.Controllers
         [ServiceFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
-        public async Task<IList<AuditLogTransactionDto>> GetAllFromElasticSearchAsync()
+        public async Task<IList<AuditLogTransactionDomainModel>> GetAllFromElasticSearchAsync()
         {
-            var count = await _elasticClient.CountAsync<AuditLogTransactionDto>();
-            var results = await _elasticClient.SearchAsync<AuditLogTransactionDto>(s => s.Take((int)count.Count).Query(q => q.MatchAll()).Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var count = await _elasticClient.CountAsync<AuditLogTransactionDomainModel>();
+            var results = await _elasticClient.SearchAsync<AuditLogTransactionDomainModel>(s => s.Take((int)count.Count).Query(q => q.MatchAll()).Index(_configuration["ElasticSearch:DefaultIndex"]));
             return results.Documents.ToList();
         }
 
@@ -77,9 +79,9 @@ namespace AuditService.WebApiApp.Controllers
         [ServiceFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
-        public async Task<AuditLogTransactionDto> GetByIdFromElasticSearchAsync(string id)
+        public async Task<AuditLogTransactionDomainModel> GetByIdFromElasticSearchAsync(string id)
         {
-            var result = await _elasticClient.GetAsync<AuditLogTransactionDto>(id, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var result = await _elasticClient.GetAsync<AuditLogTransactionDomainModel>(id, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
             return result.Source;
         }
 
@@ -91,9 +93,9 @@ namespace AuditService.WebApiApp.Controllers
         [ServiceFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.createAuditLogInElastic")]
         [HttpPost]
-        public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDto dto)
+        public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDomainModel domainModel)
         {
-            var result = await _elasticClient.CreateAsync(dto, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
+            var result = await _elasticClient.CreateAsync(domainModel, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]));
             return result.Id;
         }
     }

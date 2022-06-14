@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
 
-namespace AuditService.WebApiApp;
+namespace AuditService.WebApiApp.AppSettings;
 
 /// <summary>
 ///     Application settings
@@ -19,7 +19,7 @@ public class AppSettings :
     /// <summary>
     ///     Application settings
     /// </summary>
-    public AppSettings(IConfiguration config)
+    public AppSetting(IConfiguration config)
     {
         ApplySsoSection(config);
         ApplyJsonDataSection(config);
@@ -145,6 +145,29 @@ public class AppSettings :
     {
         ServiceCategories = configuration["JsonData:ServiceCategories"];
     }
+
+    #endregion
+
+    #region ElasticSearch Indexes
+
+    /// <summary>
+    ///     Apply ELK indexes configs
+    /// </summary>
+    private void ApplyElasticSearchIndexesSection(IConfiguration config)
+    {
+        AuditLog = config["ElasticSearch:Indexes:AuditLog"];
+        ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
+    }
+
+    /// <summary>
+    ///     Audit logs from services
+    /// </summary>
+    public string AuditLog { get; set; }
+
+    /// <summary>
+    ///     Internal application logs
+    /// </summary>
+    public string ApplicationLog { get; set; }
 
     #endregion
 

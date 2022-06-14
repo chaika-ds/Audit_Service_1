@@ -1,11 +1,17 @@
 ﻿using AuditService.Kafka.Kafka;
 using AuditService.Utility.Logger;
 using AuditService.Kafka.Settings;
+using AuditService.Common.Health;
+using AuditService.Common.Kafka;
+using AuditService.WebApiApp.AppSettings;
+using AuditService.WebApiApp.Providers;
 using AuditService.WebApiApp.Services;
 using AuditService.WebApiApp.Services.Interfaces;
 using bgTeam.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
@@ -20,8 +26,7 @@ public static class DiConfigure
     /// </summary>
     public static void Configure(IServiceCollection services)
     {
-        services.AddTransient<IAuditLog, AuditLogService>();
-        services.AddTransient<IHealthCheck, HealthCheckService>();
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ProduceResponseTypeModelProvider>());
         
         services
             .AddSettings<
@@ -34,8 +39,10 @@ public static class DiConfigure
             .AddSingleton(services)
             .AddSingleton<IKafkaProducer, Kafka.Kafka.KafkaProducer>();
         
-        services.AddScoped<IReferenceProvider, ReferenceProvider>();
-        
+        services.AddScoped<IReferenceService, ReferenceService>();
+        services.AddScoped<IAuditLogService, AuditLogService>();
+        services.AddScoped<IHealthCheck, HealthCheckService>();
+
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
 
         services

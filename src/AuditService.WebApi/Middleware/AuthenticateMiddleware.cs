@@ -1,7 +1,7 @@
 ﻿using AuditService.WebApiApp.Services.Interfaces;
 using Tolar.Authenticate;
 
-namespace AuditService.WebApi
+namespace AuditService.WebApi.Middleware
 {
     /// <summary>
     ///     SSO Authentication
@@ -20,7 +20,9 @@ namespace AuditService.WebApi
 
         public async Task InvokeAsync(HttpContext context)
         {
-            //await AuthenticateAsync(context);
+            if (!(context.Request.Path.HasValue && context.Request.Path.Value.Equals("/_hc", StringComparison.InvariantCultureIgnoreCase)))
+                await AuthenticateAsync(context);
+            
             await _next(context);
         }
 

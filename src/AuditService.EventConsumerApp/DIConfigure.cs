@@ -1,8 +1,12 @@
 ﻿using AuditService.Kafka.Kafka;
 using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
+using AuditService.Common.Health;
+using AuditService.Common.Kafka;
+using AuditService.Common.Services;
+using AuditService.Common.Services.ExternalConnectionServices;
+using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Dto;
-using AuditService.Data.Domain.Logging;
 using bgTeam.DataAccess;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +30,8 @@ public static class DiConfigure
             .AddSingleton(services)
             .AddSingleton<HealthService>()
             .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
+            .AddSingleton<IInputSettings<AuditLogTransactionDomainModel>, InputSettings<AuditLogTransactionDomainModel>>()
             .AddSingleton<IKafkaConsumerFactory, Kafka.Kafka.KafkaConsumerFactory>()
-            .AddSingleton<IInputSettings<AuditLogTransactionDto>, InputSettings<AuditLogTransactionDto>>()
             .AddSingleton<IInputService, InputAuditServiceTransactions>();
 
         services

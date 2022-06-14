@@ -26,7 +26,7 @@
         <PackageReference Include="NEST" Version="7.17.2" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-        <PackageReference Include="Tolar.Authenticate" Version="6.0.793" />
+        <PackageReference Include="Tolar.Authenticate" Version="6.0.808" />
     </ItemGroup>
 
     <ItemGroup>

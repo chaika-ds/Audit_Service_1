@@ -5,9 +5,13 @@
   },
   "ElasticSearch": {
     "Uris": [ "" ],
-    "DefaultIndex": "",
     "UserName": "",
-    "Password": ""
+    "Password": "",
+    "DefaultIndex": "",
+    "Indexes": {
+      "AuditLog": "",
+      "ApplicationLog": ""
+    }
   },
   "Kafka": {
     "MaxThreadsCount": 0,
