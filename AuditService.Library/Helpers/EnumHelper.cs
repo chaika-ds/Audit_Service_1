@@ -2,11 +2,13 @@
 
 namespace AuditService.Utility.Helpers;
 
-/// <summary>
-/// Parsing log channels from environment
-/// </summary>
 public static class EnumHelper
 {
+    /// <summary>
+    /// Parsing log channels from environment
+    /// </summary>
+    /// <param name="environmentName"></param>
+    /// <returns></returns>
     public static LogChannel CheckAndParseChannel(string environmentName)
     {
         LogChannel name;

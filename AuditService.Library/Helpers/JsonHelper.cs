@@ -5,7 +5,7 @@ namespace AuditService.Utility.Helpers;
 public static class JsonHelper
 {
     /// <summary>
-    /// 
+    /// Get JSON in string format from file
     /// </summary>
     /// <param name="jsonAdress"></param>
     /// <returns></returns>
@@ -18,6 +18,12 @@ public static class JsonHelper
         }
     }
 
+    /// <summary>
+    /// Serialize from model T to JSON in string format
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="incomeObj"></param>
+    /// <returns></returns>
     public static string SerializeToString<T>(T incomeObj) where T : class
     {
         var _serializerSettings = new JsonSerializerSettings
