@@ -1,5 +1,4 @@
-﻿using AuditService.Common.Logger;
-using AuditService.ELK.FillTestData;
+﻿using AuditService.ELK.FillTestData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

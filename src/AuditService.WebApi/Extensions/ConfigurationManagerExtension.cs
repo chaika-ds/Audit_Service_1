@@ -1,5 +1,5 @@
-﻿using AuditService.Common.Helpers;
-using AuditService.Common.Logger;
+﻿using AuditService.Utility.Helpers;
+using AuditService.Utility.Logger;
 using Microsoft.Extensions.FileProviders;
 
 namespace AuditService.WebApi.Extensions;
@@ -63,6 +63,6 @@ public static class ConfigurationManagerExtension
         {
             builder.Configuration.Bind(options);
             options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
-        });
+        });        
     }
 }

@@ -1,4 +1,4 @@
-using AuditService.Common.Logger;
+using AuditService.Utility.Logger;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApi.Extensions;
 using AuditService.WebApi.Middleware;

@@ -1,5 +1,5 @@
 using AuditService.Data.Domain.Dto;
-using AuditService.Common.Logger;
+using AuditService.Utility.Logger;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

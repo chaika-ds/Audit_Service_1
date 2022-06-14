@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Helpers;
+﻿using AuditService.Utility.Helpers;
 using AuditService.Data.Domain.Domain;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder;
