@@ -42,10 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AuditService.Library\AuditService.Utility.csproj" />
-    <ProjectReference Include="..\AuditService.Common\AuditService.Kafka.csproj" />
-    <ProjectReference Include="..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
-    <ProjectReference Include="..\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
+    <ProjectReference Include="..\..\src\AuditService.Kafka\AuditService.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>

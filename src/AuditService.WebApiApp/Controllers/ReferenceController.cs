@@ -1,9 +1,7 @@
 ﻿using AuditService.Utility.Logger;
-using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tolar.Authenticate;
 
