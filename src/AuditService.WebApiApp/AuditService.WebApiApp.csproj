@@ -11,16 +11,19 @@
         <PackageReference Include="bgTeam.DataAccess" Version="6.1.6" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="NEST" Version="7.17.2" />
         <PackageReference Include="Tolar.Authenticate" Version="6.0.793" />
         <PackageReference Include="Tolar.DataAccess" Version="6.0.793" />
+        <PackageReference Include="Tolar.Kafka" Version="6.0.808" />
         <PackageReference Include="Tolar.Web" Version="6.0.793" />
         <PackageReference Include="Tolat.DataAccess" Version="6.0.710" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+        <ProjectReference Include="..\..\AuditService.Library\AuditService.Utility.csproj" />
+        <ProjectReference Include="..\AuditService.Common\AuditService.Kafka.csproj" />
         <ProjectReference Include="..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
     </ItemGroup>
 

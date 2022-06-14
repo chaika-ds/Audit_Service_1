@@ -1,4 +1,4 @@
-﻿namespace AuditService.Common.Kafka
+﻿namespace AuditService.Kafka.Kafka
 {
     public class KafkaProducerException : Exception
     {

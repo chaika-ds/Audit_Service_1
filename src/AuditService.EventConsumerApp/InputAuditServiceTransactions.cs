@@ -1,13 +1,14 @@
-﻿using AuditService.Common.Args;
-using AuditService.Common.Health;
-using AuditService.Common.Kafka;
-using AuditService.Common.Services;
-using AuditService.Common.Services.ExternalConnectionServices;
+﻿using AuditService.Kafka.Args;
+using AuditService.Kafka.Kafka;
+using AuditService.Kafka.Services;
+using AuditService.Kafka.Services.ExternalConnectionServices;
 using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using AuditService.Kafka.Services.Health;
+using Tolar.Kafka;
 
 namespace AuditService.EventConsumerApp
 {
@@ -25,7 +26,7 @@ namespace AuditService.EventConsumerApp
         {
         }
 
-        protected override async Task OnMessageReceivedAsync(object sender, MessageReceivedArgumentEventArgs args)
+        protected override async Task OnMessageReceivedAsync(object sender, MessageReceivedEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.Data))
             {

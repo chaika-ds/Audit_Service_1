@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AuditService.Data.Domain.Logging;
+using AuditService.Utility.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Runtime.Versioning;
 
-namespace AuditService.Data.Domain.Logging
+namespace AuditService.Utility.Logger
 {
     /// <summary>
     /// Provider for custom Audit service logger instance
     /// </summary>
     [UnsupportedOSPlatform("browser")]
     [ProviderAlias("AuditServiceConsole")]
-    public class AuditServiceLoggerProvider : ILoggerProvider, IDisposable,  ISupportExternalScope
+    public class AuditServiceLoggerProvider : ILoggerProvider, IDisposable, ISupportExternalScope
     {
         IExternalScopeProvider _scopeProvider;
         private readonly ConcurrentDictionary<string, AuditServiceConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
@@ -40,8 +42,10 @@ namespace AuditService.Data.Domain.Logging
         }
 
         public ILogger CreateLogger(string categoryName) =>
-            _loggers.GetOrAdd(categoryName, category => {
-                return new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null);});        
+            _loggers.GetOrAdd(categoryName, category =>
+            {
+                return new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null);
+            });
 
         private AuditServiceLoggerConfiguration GetCurrentConfig() => _currentConfig;
 
@@ -62,6 +66,6 @@ namespace AuditService.Data.Domain.Logging
                 _onChangeToken.Dispose();
                 _onChangeToken = null;
             }
-        }        
+        }
     }
 }

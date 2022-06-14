@@ -1,14 +1,20 @@
-﻿using AuditService.Common.Health;
-using AuditService.Common.Kafka;
+﻿using AuditService.Kafka.Settings;
+using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
+using Tolar.Kafka;
 
 namespace AuditService.WebApiApp;
 
 /// <summary>
 ///     Application settings
 /// </summary>
-public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, IAuthenticateServiceSettings
+public class AppSettings :
+    Kafka.Settings.IKafkaSettings,
+    IHealthSettings,
+    IJsonData,
+    IAuthenticateServiceSettings,
+    IPermissionPusherSettings
 {
     /// <summary>
     ///     Application settings
@@ -17,10 +23,12 @@ public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, I
     {
         ApplySsoSection(config);
         ApplyJsonDataSection(config);
-        ApplyKafkaSection(config);
+        ApplyKafkaSettings(config);
         ApplyHealthSection(config);
+        _permissionPusherTopic = config["Kafka:PermissionsTopic"];
+        ApplyPermissionsSection(config);
     }
-    
+
     #region Health
 
     public int CriticalErrorsCount { get; set; }
@@ -39,34 +47,51 @@ public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, I
 
     #region Kafka
 
-    public int MaxTimeoutMsec { get; set; }
-    public int MaxThreadsCount { get; set; }
+    //public int MaxTimeoutMsec { get; set; }
+    //public int MaxThreadsCount { get; set; }
+
+    //public Dictionary<string, string> Config { get; set; }
+
+    ///// <summary>
+    /////     Apply Kafka configs
+    ///// </summary>
+    //private void ApplyKafkaSection(IConfiguration config)
+    //{
+    //    MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
+    //    MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
+
+    //    Config = config.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+
+    //    ApplyKafkaAliases(config, Config);
+    //}
+
+    //private void ApplyKafkaAliases(IConfiguration configuration, Dictionary<string, string> config)
+    //{
+    //    var aliases = configuration.GetSection("Kafka:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+
+    //    foreach (var item in aliases)
+    //    {
+    //        var value = configuration[$"Kafka:{item.Key}"];
+
+    //        if (!string.IsNullOrEmpty(value)) config[item.Value] = value;
+    //    }
+    //}
+
+    #endregion
+
+    #region KafkaSettings
+    public string GroupId { get; set; }
+    public string Address { get; set; }
+    public string Topic { get; set; }
 
     public Dictionary<string, string> Config { get; set; }
 
-    /// <summary>
-    ///     Apply Kafka configs
-    /// </summary>
-    private void ApplyKafkaSection(IConfiguration config)
+    private void ApplyKafkaSettings(IConfiguration configuration)
     {
-        MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
-        MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
+        //Address = config["Kafka:Address"];
+        //Topic = config["Kafka:AuditlogTopic"];
+        Config = configuration.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
 
-        Config = config.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-        ApplyKafkaAliases(config, Config);
-    }
-
-    private void ApplyKafkaAliases(IConfiguration configuration, Dictionary<string, string> config)
-    {
-        var aliases = configuration.GetSection("Kafka:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-        foreach (var item in aliases)
-        {
-            var value = configuration[$"Kafka:{item.Key}"];
-
-            if (!string.IsNullOrEmpty(value)) config[item.Value] = value;
-        }
     }
 
     #endregion
@@ -119,6 +144,25 @@ public class AppSettings : IKafkaConsumerSettings, IHealthSettings, IJsonData, I
     private void ApplyJsonDataSection(IConfiguration configuration)
     {
         ServiceCategories = configuration["JsonData:ServiceCategories"];
+    }
+
+    #endregion
+
+    #region PermisionPusher
+    Guid IPermissionPusherSettings.ServiceId { get => ServiceId; set { throw new NotSupportedException(); } }
+
+    public string ServiceName { get; set; }
+
+    private readonly string _permissionPusherTopic;
+
+    string IPermissionPusherSettings.Topic => _permissionPusherTopic;
+
+    /// <summary>
+    ///     Apply Permission configs
+    /// </summary>
+    private void ApplyPermissionsSection(IConfiguration config)
+    {
+        ServiceName = config["ServiceName"];
     }
 
     #endregion

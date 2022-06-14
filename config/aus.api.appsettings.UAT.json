@@ -12,6 +12,7 @@
   "Kafka": {
     "MaxThreadsCount": 0,
     "MaxTimeoutMsec": 0,
+    "PermissionsTopic": "uat.sso.sync.permission",
     "Config": {
       "bootstrap.servers": "",
       "group.id": "",

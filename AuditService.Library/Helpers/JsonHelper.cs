@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AuditService.Common.Helpers;
+namespace AuditService.Utility.Helpers;
 
 public static class JsonHelper
 {

@@ -1,4 +1,4 @@
-using AuditService.Common.Logger;
+using AuditService.Utility.Logger;
 using AuditService.Data.Domain.Dto;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;

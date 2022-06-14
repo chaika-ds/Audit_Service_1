@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using AuditService.Common.Helpers;
-using AuditService.Common.Logger;
+using AuditService.Utility.Helpers;
+using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;

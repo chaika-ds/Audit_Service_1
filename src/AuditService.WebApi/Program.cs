@@ -1,7 +1,10 @@
 using System.IO.Compression;
+using AuditService.Utility.Logger;
 using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApiApp;
+using bgTeam;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -20,7 +23,13 @@ additionalConfiguration.AddCustomerLogger(builder, environmentName);
 
 builder.Configuration.AddEnvironmentVariables();
 
+builder.Services.AddControllers(config =>
+{
+    config.Filters.Add<LoggingActionFilter>();
+});
+
 builder.Services.AddControllers();
+//builder.Services.AddScoped<LoggingActionFilter>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddRedisCache(builder.Configuration);
@@ -57,7 +66,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHealthChecks("/healthy");
 app.MapControllers();
-app.UseMiddleware<AppMiddlewareException>();
 
 app.UseMiddleware<AppMiddlewareException>();
 app.UseMiddleware<AuthenticateMiddleware>();

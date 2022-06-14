@@ -1,9 +1,7 @@
-using AuditService.Common.Logger;
 using AuditService.EventConsumer;
 using AuditService.EventConsumerApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 
 try

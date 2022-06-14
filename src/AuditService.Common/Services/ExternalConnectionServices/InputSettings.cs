@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace AuditService.Common.Services.ExternalConnectionServices
+namespace AuditService.Kafka.Services.ExternalConnectionServices
 {
     public class InputSettings<T> : IInputSettings<T>
     {

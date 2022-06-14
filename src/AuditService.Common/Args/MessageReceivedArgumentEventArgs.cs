@@ -1,4 +1,4 @@
-﻿namespace AuditService.Common.Args
+﻿namespace AuditService.Kafka.Args
 {
     public class MessageReceivedArgumentEventArgs : EventArgs
     {

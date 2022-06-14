@@ -1,11 +1,15 @@
-﻿using AuditService.Common.Health;
-using AuditService.Common.Kafka;
+﻿using AuditService.Kafka.Kafka;
+using AuditService.Utility.Logger;
+using AuditService.Kafka.Settings;
 using AuditService.WebApiApp.Services;
 using AuditService.WebApiApp.Services.Interfaces;
 using bgTeam.Extensions;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
+using Tolar.Kafka;
+using AuditService.Kafka.Services.Health;
 
 namespace AuditService.WebApiApp;
 
@@ -21,12 +25,14 @@ public static class DiConfigure
         
         services
             .AddSettings<
-                IKafkaConsumerSettings,
+                Kafka.Settings.IKafkaSettings,
                 IHealthSettings,
                 IJsonData,
                 IAuthenticateServiceSettings,
+                IPermissionPusherSettings,
                 AppSettings>()
-            .AddSingleton(services);
+            .AddSingleton(services)
+            .AddSingleton<IKafkaProducer, Kafka.Kafka.KafkaProducer>();
         
         services.AddScoped<IReferenceProvider, ReferenceProvider>();
         
@@ -36,5 +42,7 @@ public static class DiConfigure
             .AddSingleton<HealthService>()
             .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
             .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>());
+
+        services.AddHostedService<PermissionPusherImpl>();
     }
 }

@@ -1,8 +1,9 @@
-﻿using AuditService.Common.Helpers;
+﻿using AuditService.Utility.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
-namespace AuditService.Common.Logger
+namespace AuditService.Utility.Logger
 {
     /// <summary>
     /// Logging attribute for incoming requests
@@ -23,7 +24,7 @@ namespace AuditService.Common.Logger
             try
             {
                 //before execution                
-                var requestBody = GetRequestBodyAsString(context);                
+                var requestBody = GetRequestBodyAsString(context);
 
                 _logger.LogInformation($"Start execution request: {requestPath}" +
                     $" request body: {requestBody}, task is on request: {isOnRequest}");
@@ -43,14 +44,14 @@ namespace AuditService.Common.Logger
 
         private string GetRequestBodyAsString(ActionExecutingContext context)
         {
-            var result = string.Empty;
+            var builder = new StringBuilder();
 
             foreach (var element in context.ActionArguments)
             {
-                result += JsonHelper.SerializeToString(element.Value);
+                builder.Append(JsonHelper.SerializeToString(element.Value));
             }
 
-            return result;
+            return builder.ToString();
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using bgTeam.Extensions;
+﻿using AuditService.Kafka.Settings;
+using bgTeam.Extensions;
 using Microsoft.Extensions.Logging;
+using Tolar.Kafka;
 
-namespace AuditService.Common.Kafka
+namespace AuditService.Kafka.Kafka
 {
     /// <summary>
-    /// Factory for creating Kafka consumersS
+    /// Factory for creating Kafka consumers
     /// </summary>
     public class KafkaConsumerFactory : IKafkaConsumerFactory
     {
@@ -21,6 +23,11 @@ namespace AuditService.Common.Kafka
         {
             topic.CheckNull(nameof(topic));
             return new KafkaConsumer(_loggerFactory.CreateLogger<KafkaConsumer>(), _kafkaSettings, topic);
+        }
+
+        Tolar.Kafka.IKafkaConsumer IKafkaConsumerFactory.CreateConsumer(string topic)
+        {
+            throw new NotImplementedException();
         }
     }
 }

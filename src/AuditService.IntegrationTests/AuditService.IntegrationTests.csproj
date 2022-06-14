@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="Tolar.Authenticate" Version="6.0.793" />
+    <PackageReference Include="Tolar.Authenticate" Version="6.0.808" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,7 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\..\AuditService.Library\AuditService.Utility.csproj" />
+    <ProjectReference Include="..\AuditService.Common\AuditService.Kafka.csproj" />
     <ProjectReference Include="..\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
     <ProjectReference Include="..\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
   </ItemGroup>

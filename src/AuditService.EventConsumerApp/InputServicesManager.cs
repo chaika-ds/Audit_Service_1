@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Services;
+﻿using AuditService.Kafka.Services;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Threading;

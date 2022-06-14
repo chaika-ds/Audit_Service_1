@@ -1,11 +1,11 @@
-using AuditService.Common.KafkaTest;
+using AuditService.Kafka.KafkaTest;
 using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using AuditService.IntegrationTests.EventProducer.Settings;
 using Xunit;
-using AuditService.Common.Helpers;
+using AuditService.Utility.Helpers;
 
 namespace AuditService.IntegrationTests
 {

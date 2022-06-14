@@ -1,4 +1,6 @@
-﻿namespace AuditService.Common.Health
+﻿using AuditService.Kafka.Settings;
+
+namespace AuditService.Kafka.Services.Health
 {
     /// <summary>
     /// Health service for kafka

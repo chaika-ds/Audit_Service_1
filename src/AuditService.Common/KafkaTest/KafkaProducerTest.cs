@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
 
-namespace AuditService.Common.KafkaTest
+namespace AuditService.Kafka.KafkaTest
 {
     public class KafkaProducerTest
     {

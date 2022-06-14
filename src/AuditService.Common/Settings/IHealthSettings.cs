@@ -1,4 +1,4 @@
-﻿namespace AuditService.Common.Health
+﻿namespace AuditService.Kafka.Settings
 {
     public interface IHealthSettings
     {

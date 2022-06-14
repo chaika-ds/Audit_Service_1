@@ -1,14 +1,15 @@
-﻿using Confluent.Kafka;
+﻿using AuditService.Kafka.Settings;
+using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AuditService.Common.Kafka
+namespace AuditService.Kafka.Kafka
 {
     /// <summary>
     /// Producer for messages to Kafka
     /// </summary>
-    public sealed class KafkaProducer : IDisposable
+    public sealed class KafkaProducer : Tolar.Kafka.IKafkaProducer, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IKafkaSettings _settings;

@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using AuditService.Common.Exceptions;
+using AuditService.Kafka.Exceptions;
 using AuditService.Data.Domain.Dto;
 using Newtonsoft.Json;
-using AuditService.Common.Helpers;
+using AuditService.Utility.Helpers;
 
 namespace AuditService.WebApi;
 

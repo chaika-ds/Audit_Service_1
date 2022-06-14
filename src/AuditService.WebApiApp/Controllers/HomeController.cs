@@ -1,10 +1,11 @@
 ﻿using System.Text;
-using AuditService.Common.Logger;
 using AuditService.Data.Domain.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Nest;
+using Tolar.Authenticate;
+using AuditService.Utility.Logger;
 
 namespace AuditService.WebApiApp.Controllers
 {
@@ -35,7 +36,13 @@ namespace AuditService.WebApiApp.Controllers
             return $"BaseMethod. Result = {value}";
         }
 
+        /// <summary>
+        /// Get or set value with RedisCache
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [ServiceFilter(typeof(LoggingActionFilter))]
+        [Authorize("AuditService.Home.exportValueToRedis")]
         [HttpGet]
         public async Task<string> GetOrSetStringWithRedisAsync(string value)
         {
@@ -48,7 +55,12 @@ namespace AuditService.WebApiApp.Controllers
             return $"DATA '{value}' HAS BEEN SAVING!";
         }
 
+        /// <summary>
+        /// GET all Audit log from Elastic search
+        /// </summary>
+        /// <returns></returns>
         [ServiceFilter(typeof(LoggingActionFilter))]
+        [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
         public async Task<IList<AuditLogTransactionDto>> GetAllFromElasticSearchAsync()
         {
@@ -57,7 +69,13 @@ namespace AuditService.WebApiApp.Controllers
             return results.Documents.ToList();
         }
 
+        /// <summary>
+        /// GET Audit log from Elastic search by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [ServiceFilter(typeof(LoggingActionFilter))]
+        [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
         public async Task<AuditLogTransactionDto> GetByIdFromElasticSearchAsync(string id)
         {
@@ -65,7 +83,13 @@ namespace AuditService.WebApiApp.Controllers
             return result.Source;
         }
 
+        /// <summary>
+        /// PUT request to ElasticSearch for Audit log
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [ServiceFilter(typeof(LoggingActionFilter))]
+        [Authorize("AuditService.Home.createAuditLogInElastic")]
         [HttpPost]
         public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDto dto)
         {

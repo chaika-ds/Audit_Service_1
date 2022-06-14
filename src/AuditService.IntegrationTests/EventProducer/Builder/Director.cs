@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AuditService.Common.Kafka;
+using AuditService.Kafka.Kafka;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder

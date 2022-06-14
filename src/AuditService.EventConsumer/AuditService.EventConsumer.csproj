@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\..\AuditService.Library\AuditService.Utility.csproj" />
+    <ProjectReference Include="..\AuditService.Common\AuditService.Kafka.csproj" />
     <ProjectReference Include="..\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
 	<InternalsVisibleTo Include="AuditService.IntegrationTests" />
   </ItemGroup>

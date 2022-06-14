@@ -12,6 +12,9 @@
   "Kafka": {
     "MaxThreadsCount": 10,
     "MaxTimeoutMsec": 5000,
+    "PermissionsTopic": "uat.sso.sync.permission",
+    "PermissionsSystemName": "AditlogV2.viewAuditLog",
+    "PermissionsServiceName": "AditLog",
     "Config": {
       "bootstrap.servers": "localhost:9092",
       "group.id": "AuditService-test",
@@ -24,7 +27,7 @@
       "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
     },
-    "InputSettings": { 
+    "InputSettings": {
       "AuditLogTransactionDto": "uat.auditlog.transactions"
     }
   },

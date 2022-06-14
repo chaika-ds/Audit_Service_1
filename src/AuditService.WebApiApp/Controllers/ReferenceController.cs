@@ -1,8 +1,9 @@
-﻿using AuditService.Common.Logger;
+﻿using AuditService.Utility.Logger;
 using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Tolar.Authenticate;
 
 namespace AuditService.WebApiApp.Controllers;
 
@@ -16,7 +17,7 @@ public class ReferenceController
     private readonly IReferenceProvider _referenceProvider;
 
     /// <summary>
-    ///     Allows you to get a list of available services and categories
+    ///  Allows you to get a list of available services and categories
     /// </summary>
     public ReferenceController(IReferenceProvider referenceProvider)
     {
@@ -24,9 +25,10 @@ public class ReferenceController
     }
 
     /// <summary>
-    ///     Allows you to get a list of available services
+    /// Allows you to get a list of available services
     /// </summary>
     [ServiceFilter(typeof(LoggingActionFilter))]
+    [Authorize("AuditService.Reference.viewServices")]
     [HttpGet]
     [Route("services")]
     public async Task<IEnumerable<ServiceIdentity>> GetServicesAsync()
@@ -35,9 +37,10 @@ public class ReferenceController
     }
 
     /// <summary>
-    ///     Allows you to get a list of available categories
+    /// Allows you to get a list of available categories
     /// </summary>
     [ServiceFilter(typeof(LoggingActionFilter))]
+    [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories")]
     public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync()
@@ -46,10 +49,11 @@ public class ReferenceController
     }
 
     /// <summary>
-    ///     Allows you to get a list of available categories by serviceId
+    /// Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="serviceId">Selected service id</param>
     [ServiceFilter(typeof(LoggingActionFilter))]
+    [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories/{serviceId}")]
     public async Task<IDictionary<ServiceIdentity, CategoryDto[]>> GetCategoriesAsync(ServiceIdentity serviceId)

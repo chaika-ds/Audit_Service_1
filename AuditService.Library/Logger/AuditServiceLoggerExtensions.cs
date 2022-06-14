@@ -1,11 +1,12 @@
 ﻿using AuditService.Data.Domain.Logging;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 
-namespace AuditService.Common.Logger
+namespace AuditService.Utility.Logger
 {
     /// <summary>
     /// Etension methods on ILoggingBuilder that used to register the Audit service logger custom provider

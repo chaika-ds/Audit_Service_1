@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace AuditService.Common.Services
+namespace AuditService.Kafka.Services
 {
     public interface IOutputService
     {

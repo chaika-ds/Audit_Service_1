@@ -1,4 +1,5 @@
-using AuditService.Common.Health;
+using AuditService.Kafka.Services.Health;
+using AuditService.Kafka.Settings;
 using AuditService.WebApiApp.Services.Interfaces;
 using Elasticsearch.Net;
 using Nest;

@@ -1,10 +1,12 @@
-﻿using AuditService.Common.Args;
+﻿using AuditService.Kafka.Args;
+using AuditService.Kafka.Exceptions;
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 using System.Text;
+using Tolar.Kafka;
 
-namespace AuditService.Common.Kafka
+namespace AuditService.Kafka.Kafka
 {
     /// <summary>
     /// Kafka consumer main class
@@ -57,9 +59,9 @@ namespace AuditService.Common.Kafka
 
             _logger.LogInformation($"Value of MaxThreadsCount = {settings.MaxThreadsCount}");
             _semaphore = new SemaphoreSlim(settings.MaxThreadsCount, settings.MaxThreadsCount);
-        }
+        }       
 
-        public event AsyncEventHandler<MessageReceivedArgumentEventArgs> MessageReceived;
+        public event AsyncEventHandler<MessageReceivedEventArgs> MessageReceived;
 
         public event EventHandler ConsumerInitialized;
 
@@ -143,13 +145,13 @@ namespace AuditService.Common.Kafka
 
             if (_topicPartitionToAssign == INVALID_PARTITION)
             {
-                throw new KafkaConsumerException("Failed to start Kafka consumer");
+                throw new Exceptions.KafkaConsumerException("Failed to start Kafka consumer");
             }
 
             var offsetWithRollback = GetTopicOffsetByTimeRollback(rollbackInMinutes, _topicPartitionToAssign);
             if (offsetWithRollback == Offset.Unset)
             {
-                throw new KafkaConsumerException("Failed to start Kafka consumer");
+                throw new Exceptions.KafkaConsumerException("Failed to start Kafka consumer");
             }
 
             var topicPartition = new TopicPartition(_topic, _topicPartitionToAssign);
@@ -227,8 +229,8 @@ namespace AuditService.Common.Kafka
                 var data = consumeResult.Message.Value;
                 var key = consumeResult.Message.Key;
 
-                var argument = new MessageReceivedArgumentEventArgs(consumeResult.Offset.Value, key, data, consumeResult.Message.Timestamp.UtcDateTime);
-                await MessageReceived?.InvokeAsync(this, argument);
+                var argument = new MessageReceivedEventArgs(_topicPartitionToAssign, consumeResult.Offset.Value, key, data, consumeResult.Message.Timestamp.UtcDateTime);
+                await MessageReceived.InvokeAsync(this, argument);
             }
             catch (Exception exc)
             {
