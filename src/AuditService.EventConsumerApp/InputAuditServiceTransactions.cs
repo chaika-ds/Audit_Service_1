@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
+using AuditService.Data.Domain.Domain;
 
 namespace AuditService.EventConsumerApp
 {

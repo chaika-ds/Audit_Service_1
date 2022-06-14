@@ -1,5 +1,4 @@
-﻿using AuditService.WebApiApp.Services.Interfaces;
-using Tolar.Authenticate;
+﻿using Tolar.Authenticate;
 
 namespace AuditService.WebApi.Middleware
 {
@@ -30,7 +29,7 @@ namespace AuditService.WebApi.Middleware
         ///     Autorize service and user in SSO
         /// </summary>
         /// <param name="context">Current context</param>
-        private async Task AuthenticateServiceAsync(HttpContext context)
+        private async Task AuthenticateAsync(HttpContext context)
         {
             await _authenticateService.AuthenticationService();
 

@@ -1,7 +1,8 @@
-﻿using AuditService.Data.Domain.Logging;
-using AuditService.Utility.Logging;
+﻿using AuditService.Utility.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
+using System.Runtime.Versioning;
 
 namespace AuditService.Utility.Logger
 {

@@ -1,6 +1,4 @@
-﻿using AuditService.Kafka.Args;
-using AuditService.Kafka.Kafka;
-using AuditService.Kafka.Services.Health;
+﻿using AuditService.Kafka.Services.Health;
 using Microsoft.Extensions.Logging;
 using Tolar.Kafka;
 

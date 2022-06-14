@@ -2,19 +2,19 @@
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
-using Tolar.Kafka;
 
 namespace AuditService.WebApiApp.AppSettings;
 
 /// <summary>
 ///     Application settings
 /// </summary>
-public class AppSettings :
+public class AppSetting :
     Kafka.Settings.IKafkaSettings,
     IHealthSettings,
     IJsonData,
     IAuthenticateServiceSettings,
-    IPermissionPusherSettings
+    IPermissionPusherSettings,
+    IElasticIndex
 {
     /// <summary>
     ///     Application settings
@@ -27,6 +27,7 @@ public class AppSettings :
         ApplyHealthSection(config);
         _permissionPusherTopic = config["Kafka:PermissionsTopic"];
         ApplyPermissionsSection(config);
+        ApplyElasticSearchIndexesSection(config);
     }
 
     #region Health
@@ -43,41 +44,7 @@ public class AppSettings :
         ForPeriodInSec = int.Parse(config["Health:ForPeriodInSec"]);
     }
 
-    #endregion
-
-    #region Kafka
-
-    //public int MaxTimeoutMsec { get; set; }
-    //public int MaxThreadsCount { get; set; }
-
-    //public Dictionary<string, string> Config { get; set; }
-
-    ///// <summary>
-    /////     Apply Kafka configs
-    ///// </summary>
-    //private void ApplyKafkaSection(IConfiguration config)
-    //{
-    //    MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
-    //    MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
-
-    //    Config = config.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-    //    ApplyKafkaAliases(config, Config);
-    //}
-
-    //private void ApplyKafkaAliases(IConfiguration configuration, Dictionary<string, string> config)
-    //{
-    //    var aliases = configuration.GetSection("Kafka:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-    //    foreach (var item in aliases)
-    //    {
-    //        var value = configuration[$"Kafka:{item.Key}"];
-
-    //        if (!string.IsNullOrEmpty(value)) config[item.Value] = value;
-    //    }
-    //}
-
-    #endregion
+    #endregion   
 
     #region KafkaSettings
     public string GroupId { get; set; }
@@ -188,5 +155,6 @@ public class AppSettings :
         ServiceName = config["ServiceName"];
     }
 
-    #endregion
+    #endregion   
+
 }

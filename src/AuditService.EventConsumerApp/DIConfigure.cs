@@ -1,13 +1,6 @@
-﻿using AuditService.Kafka.Kafka;
-using AuditService.Kafka.Services;
+﻿using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
-using AuditService.Common.Health;
-using AuditService.Common.Kafka;
-using AuditService.Common.Services;
-using AuditService.Common.Services.ExternalConnectionServices;
 using AuditService.Data.Domain.Domain;
-using AuditService.Data.Domain.Dto;
-using bgTeam.DataAccess;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate.Impl;

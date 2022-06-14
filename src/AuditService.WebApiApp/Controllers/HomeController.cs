@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using AuditService.Data.Domain.Domain;
-using AuditService.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +42,7 @@ namespace AuditService.WebApiApp.Controllers
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        [ServiceFilter(typeof(LoggingActionFilter))]
+        [TypeFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.exportValueToRedis")]
         [HttpGet]
         public async Task<string> GetOrSetStringWithRedisAsync(string value)
@@ -61,7 +60,7 @@ namespace AuditService.WebApiApp.Controllers
         /// GET all Audit log from Elastic search
         /// </summary>
         /// <returns></returns>
-        [ServiceFilter(typeof(LoggingActionFilter))]
+        [TypeFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
         public async Task<IList<AuditLogTransactionDomainModel>> GetAllFromElasticSearchAsync()
@@ -76,7 +75,7 @@ namespace AuditService.WebApiApp.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ServiceFilter(typeof(LoggingActionFilter))]
+        [TypeFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.viewAuditLogFromElastic")]
         [HttpGet]
         public async Task<AuditLogTransactionDomainModel> GetByIdFromElasticSearchAsync(string id)
@@ -90,7 +89,7 @@ namespace AuditService.WebApiApp.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [ServiceFilter(typeof(LoggingActionFilter))]
+        [TypeFilter(typeof(LoggingActionFilter))]
         [Authorize("AuditService.Home.createAuditLogInElastic")]
         [HttpPost]
         public async Task<string> CreateInElasticSearchAsync(AuditLogTransactionDomainModel domainModel)

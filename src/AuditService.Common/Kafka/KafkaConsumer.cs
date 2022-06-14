@@ -1,6 +1,4 @@
-﻿using AuditService.Kafka.Args;
-using AuditService.Kafka.Exceptions;
-using Confluent.Kafka;
+﻿using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 using System.Text;

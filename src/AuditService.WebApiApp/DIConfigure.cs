@@ -1,14 +1,9 @@
-﻿using AuditService.Kafka.Kafka;
-using AuditService.Utility.Logger;
-using AuditService.Kafka.Settings;
-using AuditService.Common.Health;
-using AuditService.Common.Kafka;
+﻿using AuditService.Kafka.Settings;
 using AuditService.WebApiApp.AppSettings;
 using AuditService.WebApiApp.Providers;
 using AuditService.WebApiApp.Services;
 using AuditService.WebApiApp.Services.Interfaces;
 using bgTeam.Extensions;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -35,7 +30,8 @@ public static class DiConfigure
                 IJsonData,
                 IAuthenticateServiceSettings,
                 IPermissionPusherSettings,
-                AppSettings>()
+                IElasticIndex,
+                AppSetting >()
             .AddSingleton(services)
             .AddSingleton<IKafkaProducer, Kafka.Kafka.KafkaProducer>();
         

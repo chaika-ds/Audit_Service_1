@@ -1,5 +1,4 @@
 using AuditService.Kafka.KafkaTest;
-using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using AuditService.Data.Domain.Domain;

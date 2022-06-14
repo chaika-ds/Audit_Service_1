@@ -1,13 +1,8 @@
-using System.IO.Compression;
 using AuditService.Utility.Logger;
-using AuditService.WebApi;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApi.Extensions;
 using AuditService.WebApi.Middleware;
 using AuditService.WebApiApp;
-using bgTeam;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);

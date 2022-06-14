@@ -1,6 +1,5 @@
-﻿using AuditService.Data.Domain.Logging;
+﻿using AuditService.Utility.Logger;
 using AuditService.Utility.Helpers;
-using AuditService.Utility.Logger;
 using Microsoft.Extensions.Logging;
 
 namespace AuditService.Utility.Logging

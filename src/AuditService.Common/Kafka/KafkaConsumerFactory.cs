@@ -1,5 +1,4 @@
-﻿using AuditService.Kafka.Settings;
-using bgTeam.Extensions;
+﻿using bgTeam.Extensions;
 using Microsoft.Extensions.Logging;
 using Tolar.Kafka;
 

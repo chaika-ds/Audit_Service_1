@@ -1,7 +1,7 @@
 ﻿using AuditService.Data.Domain.Enums;
 using Microsoft.Extensions.Logging;
 
-namespace AuditService.Common.Logger
+namespace AuditService.Utility.Logger
 {
     public class AuditServiceLoggerConfiguration
     {
