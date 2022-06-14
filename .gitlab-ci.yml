@@ -92,22 +92,22 @@ build:
 # sonarqube test jobs
 # ========================================================================================================================
 
-api-sq test:
-  extends: .sonartest
-  needs:
-    - apiVersion
-    - api build
-    - migration build
-    - consumer build
-  dependencies:
-    - apiVersion
-    - api build
-    - migration build
-    - consumer build
-  variables:
-    APPNAME: "AuditService.WebApi"
-    TESTDIR: "tests"
-    NUGETSRC: "https://api.nuget.org/v3/index.json"
-    PROJECTKEY: "$SONAR_PROJECT_KEY"
-    SONARURL: "$SONAR_URL"
-    SONARLOGIN: "$SONAR_TOKEN"
+# api-sq test:
+#   extends: .sonartest
+#   needs:
+#     - apiVersion
+#     - api build
+#     - migration build
+#     - consumer build
+#   dependencies:
+#     - apiVersion
+#     - api build
+#     - migration build
+#     - consumer build
+#   variables:
+#     APPNAME: "AuditService.WebApi"
+#     TESTDIR: "tests"
+#     NUGETSRC: "https://api.nuget.org/v3/index.json"
+#     PROJECTKEY: "$SONAR_PROJECT_KEY"
+#     SONARURL: "$SONAR_URL"
+#     SONARLOGIN: "$SONAR_TOKEN"
