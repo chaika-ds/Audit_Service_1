@@ -60,8 +60,8 @@ build:
   except:
     - master
   retry: 0
-  # tags:
-  #   - kuberkyc
+  tags:
+    - build
   before_script:
     - export ASPNETCORE_ENVIRONMENT="Development"
     - mkdir $CI_PROJECT_DIR/coverage
