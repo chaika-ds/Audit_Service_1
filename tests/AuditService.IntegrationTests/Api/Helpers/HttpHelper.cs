@@ -3,7 +3,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace AuditService.IntegrationTests.Api.Helper;
+
+namespace AuditService.IntegrationTests.Api.Helpers;
 
 public static class HttpHelper
 {
@@ -22,7 +23,7 @@ public static class HttpHelper
         request.Headers.Add("Token",  token);
         request.Content = requestContent;
 
-       return await httpClient.SendAsync(request);
+        return await httpClient.SendAsync(request);
        
     }
 }

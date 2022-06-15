@@ -3,7 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 
-namespace AuditService.IntegrationTests.Api.Helper;
+
+namespace AuditService.IntegrationTests.Api.Helpers;
 
 public class BaseApiTest
 {

@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AuditService.Data.Domain.Enums;
-using AuditService.IntegrationTests.Api.Helper;
+using AuditService.IntegrationTests.Api.Helpers;
 
 
 namespace AuditService.IntegrationTests.Api;
