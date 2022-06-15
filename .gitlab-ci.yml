@@ -1,6 +1,6 @@
 stages:
   - build
-  - test
+  - sonar
 
 # ========================================================================================================================
 # build template job - build .net app and push docker images
@@ -12,7 +12,7 @@ build:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   variables:
-    APPNAME: "AuditService.WebApi"
+    APP_NAME: "AuditService.WebApi"
     DEPLOY_IMAGE: "audit-service/api"
     DOCKERFILE: "$CI_PROJECT_DIR/Dockerfile"
   except:
@@ -22,14 +22,14 @@ build:
     - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - echo $CI_PROJECT_DIR
     - if [ -f $CI_PROJECT_DIR/nuget.config ]; then
-      cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/${APPATH:-}${APPNAME}/;
+      cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/${APPATH:-}${APP_NAME}/;
       cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/;
       fi
   script:
     - if echo $CI_COMMIT_TAG | grep -Eq "$JIRA_FIX_VERSION_PREFIX" ; then
-      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --destination $REGISTRY/$DEPLOY_IMAGE:prod_$CI_IMAGE_TAG --build-arg APPNAME="$APPNAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --destination $REGISTRY/$DEPLOY_IMAGE:prod_$CI_IMAGE_TAG --build-arg APP_NAME="$APP_NAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
       else
-      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --build-arg APPNAME="$APPNAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
+      /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --build-arg APP_NAME="$APP_NAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
       fi
   tags:
     - build
@@ -41,7 +41,7 @@ build:
 
 .sonartest:
   image: theharbor.xyz/docker-images/dotnet/sdk:6.0
-  stage: test
+  stage: sonar
   except:
     - master
   retry: 0
@@ -70,32 +70,15 @@ build:
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
     - pwd
-    - dotnet test --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[NUnit3.TestAdapter]* ./tests/AuditService.Tests/AuditService.Tests.csproj
+    - dotnet test --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=coverage /p:Exclude=[NUnit3.TestAdapter]* ./tests/AuditService.Tests/AuditService.Tests.csproj
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
     - ls -lah $CI_PROJECT_DIR/
     - echo "$OCPATH"
     - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
-# ========================================================================================================================
-# sonarqube test jobs
-# ========================================================================================================================
-
-api-sq test:
+sonar:
   extends: .sonartest
-  # needs:
-    # - apiVersion
-    # - api build
-    # - migration build
-    # - consumer build
-  # dependencies:
-    # - apiVersion
-    # - api build
-    # - migration build
-    # - consumer build
-  variables:
-    APPNAME: "AuditService.WebApi"
-    TESTDIR: "tests"
-    NUGETSRC: "https://api.nuget.org/v3/index.json"
-    SONAR_PROJECT_KEY: "p2-t11-test"
-    SONAR_URL: "http://sonarqube.netreportservice.xyz"
-    SONAR_TOKEN: "8f5ca0ab07059fc27b68365dc6f0d4ef922b54e5"
+  needs:
+    - build
+  dependencies:
+    - build
