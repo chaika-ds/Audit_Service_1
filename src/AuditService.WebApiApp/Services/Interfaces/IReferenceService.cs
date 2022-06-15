@@ -11,7 +11,7 @@ public interface IReferenceService
     /// <summary>
     ///     Get available services
     /// </summary>
-    Task<IEnumerable<ServiceId>> GetServicesAsync();
+    Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync();
 
     /// <summary>
     ///     Get available categories by filter

@@ -10,6 +10,7 @@ namespace AuditService.WebApi.Middleware
         private readonly RequestDelegate _next;
         private readonly IAuthenticateService _authenticateService;
 
+
         public AuthenticateMiddleware(RequestDelegate next, IAuthenticateService authenticateService)
         {
             _next = next;

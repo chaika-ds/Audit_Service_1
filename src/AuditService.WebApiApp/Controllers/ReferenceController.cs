@@ -1,9 +1,9 @@
-﻿using AuditService.Data.Domain.Domain;
+﻿using AuditService.Utility.Logger;
+using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AuditService.Common.Logger;
+using Tolar.Authenticate;
 
 namespace AuditService.WebApiApp.Controllers;
 
@@ -17,7 +17,7 @@ public class ReferenceController
     private readonly IReferenceService _referenceService;
 
     /// <summary>
-    ///     Allows you to get a list of available services and categories
+    ///  Allows you to get a list of available services and categories
     /// </summary>
     public ReferenceController(IReferenceService referenceService)
     {
@@ -25,54 +25,40 @@ public class ReferenceController
     }
 
     /// <summary>
-    ///     Allows you to get a list of available services
+    /// Allows you to get a list of available services
     /// </summary>
+    [Authorize("AuditService.Reference.viewServices")]
     [HttpGet]
     [Route("services")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<ServiceId>> GetServicesAsync()
-    {
+    [TypeFilter(typeof(LoggingActionFilter))]
+    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    { 
         return await _referenceService.GetServicesAsync();
     }
 
     /// <summary>
-    ///     Allows you to get a list of available categories
+    /// Allows you to get a list of available categories
     /// </summary>
+    [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
         return await _referenceService.GetCategoriesAsync();
     }
 
     /// <summary>
-    ///     Allows you to get a list of available categories by serviceId
+    /// Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="serviceId">Selected service id</param>
+    [Authorize("AuditService.Reference.viewCategories")]
     [HttpGet]
     [Route("categories/{serviceId}")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
         return await _referenceService.GetCategoriesAsync(serviceId);

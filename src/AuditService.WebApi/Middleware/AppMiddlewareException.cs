@@ -1,8 +1,8 @@
 ﻿using System.Net;
+using AuditService.Kafka.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using AuditService.Common.Helpers;
-using AuditService.Data.Domain.Exceptions;
+using AuditService.Utility.Helpers;
 
 namespace AuditService.WebApi.Middleware;
 

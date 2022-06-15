@@ -1,3 +1,4 @@
+using AuditService.Utility.Logger;
 using AuditService.WebApi.Configurations;
 using AuditService.WebApi.Extensions;
 using AuditService.WebApi.Middleware;
@@ -14,7 +15,8 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.AddCustomerLogger(environmentName);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddRedisCache(builder.Configuration);
@@ -24,7 +26,7 @@ builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AddResponseCompression(options =>
 {
     options.Providers.Add<GzipCompressionProvider>();
-    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json; charset=utf-8" });
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/json; charset=utf-8"});
 });
 
 builder.Services.AdditionalConfigurations();

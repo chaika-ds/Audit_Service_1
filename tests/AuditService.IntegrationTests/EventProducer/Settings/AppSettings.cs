@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AuditService.Common.Kafka;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using Microsoft.Extensions.Configuration;
+using AuditService.Kafka.Settings;
 
 namespace AuditService.IntegrationTests.EventProducer.Settings
 {

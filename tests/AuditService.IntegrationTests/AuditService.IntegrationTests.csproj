@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="Tolar.Authenticate" Version="6.0.793" />
+    <PackageReference Include="Tolar.Authenticate" Version="6.0.808" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,9 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AuditService.Common\AuditService.Common.csproj" />
-    <ProjectReference Include="..\..\src\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
-    <ProjectReference Include="..\..\src\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
+    <ProjectReference Include="..\..\src\AuditService.Kafka\AuditService.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,5 +51,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

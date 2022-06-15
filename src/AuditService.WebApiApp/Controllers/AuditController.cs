@@ -1,10 +1,10 @@
-using AuditService.Data.Domain.Domain;
+using AuditService.Utility.Logger;
 using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Dto.Filter;
 using AuditService.WebApiApp.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AuditService.Common.Logger;
+using AuditService.Data.Domain.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuditService.WebApiApp.Controllers;
 
@@ -31,14 +31,9 @@ public class AuditController : ControllerBase
     /// <param name="model">Filter model</param>
     [HttpGet]
     [Route("log")]
+    [Authorize("AuditService.Audit.viewLogsByFilter")]
     [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    //[ServiceFilter(typeof(LoggingActionFilter))]
+    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetLogAsync([FromQuery] AuditLogFilterRequestDto model)
     {
         return await _auditLogService.GetLogsByFilterAsync(model);
