@@ -8,7 +8,7 @@ using AuditService.IntegrationTests.Api.Helper;
 namespace AuditService.IntegrationTests.Api;
 using Xunit;
 
-public class ReferenceApiTestTest : BaseApiTest
+public class ReferenceApiTest : BaseApiTest
 {
     [Fact]
     public async Task GET_Referance_Services_Return_AllServiceAsync()
