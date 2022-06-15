@@ -1,43 +1,24 @@
-using System;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using AuditService.Data.Domain.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Tolar.Authenticate;
-using Tolar.Authenticate.Impl;
+using AuditService.IntegrationTests.Api.Helpers;
 
 
 namespace AuditService.IntegrationTests.Api;
 using Xunit;
 
-public class ReferenceApiTest
+public class ReferenceApiTest : BaseApiTest
 {
-    private readonly IAuthenticateService _auth;
-    private readonly string _localhost;
-    private const string JsonMediaType = "application/json";
-    
-    public ReferenceApiTest()
-    {
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
-        
-        _localhost = configuration.GetSection("Project:Address").Value;
-        
-        _auth = new AuthenticateService(new TestSettings(), new HttpClient());
-    }
-    
     [Fact]
     public async Task GET_Referance_Services_Return_AllServiceAsync()
     {
-        var url = $"{_localhost}/reference/services";
+        await Auth.AuthenticationService();
         
-        var response = await Post(url);
+        var url = $"{Localhost}/reference/services";
+        
+        var response = await HttpHelper.SendAsync(url, "", Auth.NodeId.ToString(), Auth.Token, HttpMethod.Get);
+        
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -48,9 +29,12 @@ public class ReferenceApiTest
     [Fact]
     public async Task GET_Referance_Categories_Return_AllCategoriesAsync()
     {
-        var url = $"{_localhost}/reference/categories";
+        await Auth.AuthenticationService();
         
-        var response = await Post(url);
+        var url = $"{Localhost}/reference/categories";
+        
+        var response = await HttpHelper.SendAsync(url, "", Auth.NodeId.ToString(), Auth.Token, HttpMethod.Get);
+        
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -61,27 +45,16 @@ public class ReferenceApiTest
     [Fact]
     public async Task GET_Referance_Categories_Return_AllCategoriesByServiceAsync()
     {
-        var url = $"{_localhost}/reference/categories/{ServiceId.PAYMENT.ToString()}";
+        await Auth.AuthenticationService();
         
-        var response = await Post(url);
+        var url = $"{Localhost}/reference/categories/{ServiceId.PAYMENT.ToString()}";
+        
+        var response = await HttpHelper.SendAsync(url, "", Auth.NodeId.ToString(), Auth.Token, HttpMethod.Get);
+        
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
     }
-
-    private async Task<HttpResponseMessage> Post(string url)
-    {
-        await _auth.AuthenticationService();
-        
-        using var httpClient = new HttpClient();
-        using var requestContent = new StringContent("", Encoding.UTF8, JsonMediaType);
-        using var request = new HttpRequestMessage(HttpMethod.Get, url );
-        
-        request.Headers.Add("X-Node-Id", _auth.NodeId.ToString());
-        request.Headers.Add("Token",  _auth.Token);
-        request.Content = requestContent;
-        
-        return await httpClient.SendAsync(request);
-    }
+    
 }
