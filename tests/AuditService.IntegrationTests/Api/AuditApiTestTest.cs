@@ -3,8 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AuditService.Data.Domain.Dto.Filter;
 using AuditService.Data.Domain.Dto.Pagination;
-using AuditService.IntegrationTests.Api.Helper;
+using AuditService.IntegrationTests.Api.Helpers;
 using Xunit;
+
 
 namespace AuditService.IntegrationTests.Api;
 
@@ -30,4 +31,4 @@ public class AuditApiTestTest : BaseApiTest
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
-} 
+}
