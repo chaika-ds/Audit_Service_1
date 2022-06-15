@@ -81,7 +81,7 @@ build:
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
     - dotnet build-server shutdown
     - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN"
-    - dotnet build ./AuditService P2.sln -c Debug --no-restore
+    - dotnet build ./AuditServiceP2.sln -c Debug --no-restore
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
     - pwd
