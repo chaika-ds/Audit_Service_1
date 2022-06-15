@@ -35,21 +35,6 @@ build:
     - build
   retry: 1
 
-# .savejson:
-#   stage: build
-#   image: theharbor.xyz/docker-images/alpine-curl:latest
-#   script:
-#     - curl $SWAGGER_JSON_URL > $CI_PROJECT_DIR/swagger-dif/old-swager.json
-#   except:
-#     - master
-#   tags:
-#     - kuberkyc
-#   retry: 1
-#   artifacts:
-#     paths:
-#     - swagger-dif/*.json
-#     expire_in: 1 days
-
 # ========================================================================================================================
 # sonarqube test job template - test app in sonarqube
 # ========================================================================================================================
@@ -81,7 +66,6 @@ build:
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
     - dotnet build-server shutdown
     - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs
-
     - dotnet build ./AuditServiceP2.sln -c Debug --no-restore
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
