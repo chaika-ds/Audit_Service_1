@@ -46,5 +46,8 @@
   "Health": {
     "CriticalErrorsCount": 20,
     "ForPeriodInSec": 20
+  },
+  "JsonData": {
+    "ServiceCategories": "JsonModels/ServiceCategories.json"
   }
 }

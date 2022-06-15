@@ -28,6 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AuditService.Data.Domain\AuditService.Data.Domain.csproj" />
     <ProjectReference Include="..\AuditService.Common\AuditService.Kafka.csproj" />
+    <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
+    <ProjectReference Include="..\AuditService.WebApiApp\AuditService.WebApiApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 ﻿using AuditService.Data.Domain.Domain;
-using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
 using AuditService.WebApiApp.AppSettings;
 using AuditService.WebApiApp.Services.Interfaces;
@@ -10,7 +9,7 @@ namespace AuditService.WebApiApp.Services;
 /// <summary>
 ///     Reference provider (services\categories)
 /// </summary>
-internal class ReferenceService : IReferenceService
+public class ReferenceService : IReferenceService
 {
     private readonly IJsonData _jsonData;
 
