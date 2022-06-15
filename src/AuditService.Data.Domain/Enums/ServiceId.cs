@@ -47,5 +47,35 @@ public enum ServiceId
     /// <summary>
     ///     CONSTRUCTOR
     /// </summary>
-    CONSTRUCTOR = 7
+    CONSTRUCTOR = 7,
+    
+    /// <summary>
+    ///     KYC
+    /// </summary>
+    KYC = 8,
+    
+    /// <summary>
+    ///     BONUS
+    /// </summary>
+    BONUS = 9,
+    
+    /// <summary>
+    ///     TOURNAMENTS
+    /// </summary>
+    TOURNAMENTS = 10,
+    
+    /// <summary>
+    ///     SEGMENTATION
+    /// </summary>
+    SEGMENTATION = 11,
+    
+    /// <summary>
+    ///     BI
+    /// </summary>
+    BI = 12,
+    
+    /// <summary>
+    ///     AFFILIATE
+    /// </summary>
+    AFFILIATE = 13
 }
