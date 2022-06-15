@@ -7,7 +7,7 @@ services:
     build:
       args:
         - PORT=${AUS_PORT}
-        - APPNAME=${AUS_APPNAME}
+        - APP_NAME=${AUS_APP_NAME}
       context: .
       dockerfile: Dockerfile
     ports:
