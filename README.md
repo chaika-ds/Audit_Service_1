@@ -33,18 +33,3 @@
 > 1. wsl -d docker-desktop
 > 2. sysctl -w vm.max_map_count=262144
 >````
----
-### NEST - Интерфейс для работы с ELK
-
-Для работы .NET используем [оффициальный фреймворк](https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/nest.html#nest) от ElasticSearch.
-
-*Для использования интерфейса NEST, принимаем его в конструкторе класса*
-
-```` c#
-private readonly IElasticClient _elasticClient;
-
-public MyClass(IElasticClient client)
-{
-    _elasticClient = client;
-}
-````
