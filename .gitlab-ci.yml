@@ -43,6 +43,9 @@ build:
 # ========================================================================================================================
 
 .sonartest:
+  only:
+    - web
+    - triggers
   image: theharbor.xyz/docker-images/dotnet/sdk:6.0
   stage: sonar
   except:
@@ -80,6 +83,9 @@ build:
     - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
 sonar:
+  only:
+    - web
+    - triggers
   extends: .sonartest
   needs:
     - build
