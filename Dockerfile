@@ -1,22 +1,22 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM theharbor.xyz/docker-images/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 
 ARG PORT=""
 ENV ASPNETCORE_URLS=http://+:${PORT}
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM theharbor.xyz/docker-images/dotnet/sdk:6.0 AS build
 
 ARG SRCDIR="src"
-ARG APPNAME=""
+ARG APP_NAME=""
 ARG APPATH=""
 
 COPY ${SRCDIR}/ /src/
 COPY ["nuget.config", ""]
 WORKDIR /src
 
-RUN dotnet restore "${APPATH}${APPNAME}/${APPNAME}.csproj"
-RUN dotnet publish "/src/${APPATH}${APPNAME}/${APPNAME}.csproj" -c Release -o /app/publish --no-restore
-RUN echo "#!/bin/bash\nset -e\nruncmd=\"dotnet ${APPNAME}.dll\"\nexec \$runcmd" > /app/publish/entrypoint.sh && chmod +x /app/publish/entrypoint.sh
+RUN dotnet restore "${APPATH}${APP_NAME}/${APP_NAME}.csproj"
+RUN dotnet publish "/src/${APPATH}${APP_NAME}/${APP_NAME}.csproj" -c Release -o /app/publish --no-restore
+RUN echo "#!/bin/bash\nset -e\nruncmd=\"dotnet ${APP_NAME}.dll\"\nexec \$runcmd" > /app/publish/entrypoint.sh && chmod +x /app/publish/entrypoint.sh
 
 FROM base AS final
 
