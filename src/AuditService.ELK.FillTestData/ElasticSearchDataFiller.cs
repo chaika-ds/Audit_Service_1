@@ -1,6 +1,9 @@
 ﻿using AuditService.Data.Domain.Domain;
 using AuditService.Data.Domain.Dto;
 using AuditService.Data.Domain.Enums;
+using AuditService.WebApiApp.AppSettings;
+using AuditService.WebApiApp.Services;
+using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
@@ -17,6 +20,8 @@ internal class ElasticSearchDataFiller
     private readonly IConfiguration _configuration;
     private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
+    private readonly IReferenceService _referenceService;
+    private IJsonData _jsonData;
 
     public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration)
     {
