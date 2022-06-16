@@ -1,5 +1,5 @@
-﻿using AuditService.Utility.Helpers;
-using AuditService.Data.Domain.Domain;
+﻿using AuditService.Common.Models.Domain;
+using AuditService.Utility.Helpers;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder;
 

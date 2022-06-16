@@ -1,5 +1,5 @@
-﻿using AuditService.Kafka.Kafka;
-using AuditService.Data.Domain.Domain;
+﻿using AuditService.Common.Models.Domain;
+using AuditService.Kafka.Kafka;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;

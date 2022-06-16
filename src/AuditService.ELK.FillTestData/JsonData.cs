@@ -1,9 +1,9 @@
-﻿using AuditService.WebApiApp.AppSettings;
+﻿using AuditService.Setup.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace AuditService.ELK.FillTestData
 {
-    internal class JsonData : IJsonData
+    public class JsonData : IJsonData
     {
         /// <summary>
         ///     JSON data settings
@@ -18,7 +18,7 @@ namespace AuditService.ELK.FillTestData
         /// <summary>
         ///     Categories of service
         /// </summary>
-        public string ServiceCategories { get; set; }
+        public string? ServiceCategories { get; set; }
 
         /// <summary>
         ///     Apply JSON Data configs
