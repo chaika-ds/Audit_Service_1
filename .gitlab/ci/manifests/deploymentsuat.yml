@@ -1,0 +1,120 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: audit-service-api
+  namespace: from_ci_NS
+  labels:
+    project: audit-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audit-service-api
+  template:
+    metadata:
+      labels:
+        app: audit-service-api
+    spec:
+      containers:
+        - name: audit-service-api
+          image: 'theharbor.xyz/audit-service/api:from_ci_TAG'
+          envFrom:
+            - configMapRef:
+                name: audit-service-api-conf
+            - secretRef:
+                name: audit-service
+          resources: {}
+          imagePullPolicy: Always
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: harbor
+      hostAliases:
+        - ip: from_ci_IPS1
+          hostnames:
+            - from_ci_KAFKA1
+        - ip: from_ci_IPS2
+          hostnames:
+            - from_ci_KAFKA2
+        - ip: from_ci_IPS3
+          hostnames:
+            - from_ci_KAFKA3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 1
+  progressDeadlineSeconds: 120
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: audit-service-api-conf
+  namespace: from_ci_NS
+  labels:
+    project: audit-service-api
+data:
+  PHP_FPM_PORT: "9000"
+  APP_NAME: "from_ci_APPNAME"
+  APP_ENV: "from_ci_APP_ENV"
+  APP_DEBUG: "true"
+  APP_URL: "from_ci_NS.domain_CI"
+  LOG_CHANNEL: "stdout"
+  LOG_LEVEL: "debug"
+  DB_CONNECTION: "pgsql"
+  BROADCAST_DRIVER: "log"
+  CACHE_DRIVER: "redis"
+  QUEUE_CONNECTION: "sync"
+  SESSION_DRIVER: "redis"
+  SESSION_LIFETIME: "120"
+  SSO_URL: "http://test.sso-api.domain_CI"
+  BONUS_API_URL: "http://test-bonus.domain_CI"
+  KAFKA_SASL_MECHANISM: "PLAIN"
+  KAFKA_SECURITY_PROTOCOL: "SASL_PLAINTEXT"
+  KAFKA_TOPIC_PREFIX: "from_ci_KAFKAPREFIXES"
+  KAFKA_SEND_TIMEOUT: "3000"
+  KAFKA_PRODUCER_REQUEST_REQUIRED_ACKS: "1"
+  KAFKA_PERMISSIONS_TOPIC: "system.permission"
+  KAFKA_BROKER: "from_ci_KAFKA_BROKER"
+  JSON_FORMATTER_MAX_NORMALIZE_DEPTH: "5"
+  JSON_FORMATTER_MAX_NORMALIZE_ITEM_COUNT: "100"
+  JSON_FORMATTER_MAX_STRING_LENGTH: "512"
+  REQUEST_LOG: "audit-serviceService,lobby"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: audit-service-api-service
+  namespace: from_ci_NS
+  labels:
+    project: audit-service-api
+spec:
+  ports:
+    - name: fastcgi
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: audit-service-api
+  type: ClusterIP
+  sessionAffinity: None
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: audit-service-api-ingress
+  namespace: from_ci_NS
+  labels:
+    project: audit-service-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: from_ci_NS.domain_CI
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            backend:
+              serviceName: audit-service-api-service
+              servicePort: fastcgi
