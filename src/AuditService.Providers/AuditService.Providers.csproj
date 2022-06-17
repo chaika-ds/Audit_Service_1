@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="bgTeam.DataAccess" Version="6.1.6" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="NEST" Version="7.17.2" />
+        <PackageReference Include="Tolar.Authenticate" Version="6.0.818" />
+        <PackageReference Include="Tolar.DataAccess" Version="6.0.818" />
+        <PackageReference Include="Tolar.Kafka" Version="6.0.818" />
+        <PackageReference Include="Tolar.Web" Version="6.0.818" />
+        <PackageReference Include="Tolat.DataAccess" Version="6.0.710" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+        <ProjectReference Include="..\AuditService.Kafka\AuditService.Kafka.csproj" />
+        <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
+        <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-﻿using AuditService.Data.Domain.Enums;
+﻿using AuditService.Common.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace AuditService.Utility.Logger

@@ -1,53 +1,39 @@
 {
-  "RedisCache": {
-    "ConnectionString": "redis:6379,abortConnect=false",
-    "InstanceName": "DevelopRedisCache"
-  },
-  "ElasticSearch": {
-    "Uris": [ "http://elasticsearch:9200", "http://localhost:9200" ],
-    "UserName": "",
-    "Password": "",
-    "DefaultIndex": "testaudit",
-    "Indexes": {
-      "AuditLog": "testaudit",
-      "ApplicationLog": "applog"
+  "REDIS": {
+    "REDIS_CONNECTION_URL": "redis:6379,abortConnect=false",
+    "REDIS_PREFIX": "DevRedisCache"
+  },   
+  "ELASTIC_SEARCH": {
+    "ELK_CONNECTION_URL": "http://elasticsearch:9200",
+    "INDEXES": {
+      "ELK_INDEX_AUDITLOG": "testaudit",
+      "ELK_INDEX_APPLOG": "applog"
     }
   },
-  "Kafka": {
-    "MaxThreadsCount": 10,
-    "MaxTimeoutMsec": 5000,
-    "PermissionsTopic": "uat.sso.sync.permission",
-    "PermissionsSystemName": "AditlogV2.viewAuditLog",
-    "PermissionsServiceName": "AditLog",
-    "Config": {
-      "bootstrap.servers": "localhost:9092",
-      "group.id": "AuditService-test",
-      "enable.partition.eof": true,
-      "log.connection.close": false,
-      "enable.auto.commit": false,
-      "queued.min.messages": 10,
-      "queued.max.messages.kbytes": 256,
-      "auto.offset.reset": "smallest",
-      "socket.blocking.max.ms": 100,
-      "fetch.error.backoff.ms": 200
+  "KAFKA": {
+    "CONFIGS": {
+      "KAFKA_BROKER": "localhost:9092",
+      "KAFKA_CONSUMER_GROUP": "AuditService-test",
+      "KAFKA_USERNAME": "",
+      "KAFKA_PASSWORD": "",
+      "KAFKA_PREFIX": ""
     },
-    "InputSettings": {
-      "AuditLogTransactionDto": "uat.auditlog.transactions"
+    "KAFKA_TOPICS": {
+      "KAFKA_TOPIC_AUDITLOG": "uat.auditlog.transactions"
+    },
+    "HEALTH_CHECK": {
+      "CRITICAL_ERRORS_COUNT": 20,
+      "FOR_PERIOD_IN_SEC": 20
     }
   },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Information",
-      "Microsoft.Hosting.Lifetime": "Information",
-      "System": "Information"
-    }
+  "SSO":{
+    "SSO_SERVICE_NAME": "AuditService",
+    "SSO_AUTH_SERVICE_ID": "66617ac6-a959-46b6-aafa-3433ce800554",
+    "SSO_AUTH_ROOT_NODE_ID": "f3213089-6b89-16eb-9430-00000442af32",
+    "SSO_SERVICE_URL": "http://sso-api.netreportservice.xyz/",
+    "SSO_AUTH_API_KEY": "h8ajQdEMQhLp77hLasmXNVw09PNImZRdRfqBlDfxuDTTEdJghugPsJar1imsxG6e4qUxdmzVDieo9pnZv0tJcb6jOVlpWR7muqfLNuDEeMUNPy5McMrQyxyIFfhtD0iO6ff9sRXCc79mB3MsHjw6CmxDeoAm05kSX9nQQ7sishyhMFiSBVlaOUPGic4R8pFJAteL66ePUVOurGtxTqzjFgBFL7eA6ClKCRMBbouH60IQPZjxzTCscpPOIchoCKRV"
   },
-  "Health": {
-    "CriticalErrorsCount": 20,
-    "ForPeriodInSec": 20
-  },
-  "JsonData": {
-    "ServiceCategories": "AuditService.Utility/JsonModels/ServiceCategories.json"
+  "JSON_DATA": {
+    "SERVICE_CATEGORIES_PATH": "../../src/AuditService.Common/JsonData/ServiceCategories.json"
   }
 }
