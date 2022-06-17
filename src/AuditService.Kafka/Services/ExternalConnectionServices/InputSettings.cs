@@ -4,7 +4,7 @@ namespace AuditService.Kafka.Services.ExternalConnectionServices
 {
     public class InputSettings<T> : IInputSettings<T>
     {
-        private const string KAFKA_INPUT_SECTION = "Kafka:InputSettings";
+        private const string KAFKA_INPUT_SECTION = "KAFKA:KAFKA_TOPICS";
 
         public InputSettings(IConfiguration config)
         {

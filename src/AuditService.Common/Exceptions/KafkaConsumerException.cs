@@ -2,8 +2,11 @@
 
 public class KafkaConsumerException : Exception
 {
-    public KafkaConsumerException(string message)
-        : base(message)
+    /// <summary>
+    ///     Kafka cunsumer exception
+    /// </summary>
+    /// <param name="message">Message</param>
+    public KafkaConsumerException(string message) : base(message)
     {
     }
 }

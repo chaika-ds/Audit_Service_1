@@ -10,6 +10,7 @@ namespace AuditService.WebApi.Controllers;
 /// </summary>
 [ApiController]
 [Route("_hc")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class HealthCheckController : ControllerBase
 {
     private readonly IHealthCheckProvider _healthCheckProvider;

@@ -5,6 +5,13 @@
 /// </summary>
 public class IdentityUserDomainModel
 {
+    public IdentityUserDomainModel()
+    {
+        Ip = string.Empty;
+        Login = string.Empty;
+        UserAgent = string.Empty;
+    }
+
     /// <summary>
     ///     User ID
     /// </summary>

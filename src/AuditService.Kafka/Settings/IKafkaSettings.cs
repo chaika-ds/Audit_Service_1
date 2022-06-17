@@ -8,6 +8,6 @@
 
         string? Topic { get; }
 
-        Dictionary<string, string>? Config { get; }
+        Dictionary<string, string> Config { get; }
     }
 }

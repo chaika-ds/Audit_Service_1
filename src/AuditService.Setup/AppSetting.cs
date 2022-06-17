@@ -39,8 +39,8 @@ public class AppSetting :
     /// </summary>
     private void ApplyHealthSection(IConfiguration config)
     {
-        CriticalErrorsCount = int.Parse(config["Health:CriticalErrorsCount"]);
-        ForPeriodInSec = int.Parse(config["Health:ForPeriodInSec"]);
+        CriticalErrorsCount = int.Parse(config["KAFKA:HEALTH_CHECK:CRITICAL_ERRORS_COUNT"]);
+        ForPeriodInSec = int.Parse(config["KAFKA:HEALTH_CHECK:FOR_PERIOD_IN_SEC"]);
     }
 
     #endregion
@@ -55,9 +55,21 @@ public class AppSetting :
 
     private void ApplyKafkaSettings(IConfiguration configuration)
     {
-        //Address = config["Kafka:Address"];
-        //Topic = config["Kafka:AuditlogTopic"];
-        Config = configuration.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+        //Address = configuration["KAFKA:CONFIGS:KAFKA_BROKER"];
+        //Topic = configuration["KAFKA:KAFKA_TOPICS:KAFKA_TOPIC_AUDITLOG"];
+        // todo это прям лютый костыляка, надо это ЧИНИТЬ
+        var excludeConfigs = new List<string> { "KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_PREFIX" };
+        Config = configuration.GetSection("KAFKA:CONFIGS").GetChildren().Where(w=> !excludeConfigs.Contains(w.Key) ).ToDictionary(x => MapperKafkaKey(x.Key), v => v.Value);
+    }
+    private string MapperKafkaKey(string key)
+    {
+        switch (key)
+        {
+            case "KAFKA_BROKER": return "bootstrap.servers";
+            case "KAFKA_CONSUMER_GROUP": return "group.id";
+        }
+
+        return key;
     }
 
     #endregion
@@ -89,10 +101,10 @@ public class AppSetting :
     /// </summary>
     private void ApplySsoSection(IConfiguration config)
     {
-        Connection = config["AuthConnection"];
-        ServiceId = Guid.Parse(config["ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
-        ApiKey = config["ApiKey"];
-        RootNodeId = Guid.Parse(config["RootNodeId"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
+        Connection = config["SSO:SSO_SERVICE_URL"];
+        ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId."));
+        ApiKey = config["SSO:SSO_AUTH_API_KEY"];
+        RootNodeId = Guid.Parse(config["SSO:SSO_AUTH_ROOT_NODE_ID"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
     }
 
     #endregion
@@ -109,7 +121,7 @@ public class AppSetting :
     /// </summary>
     private void ApplyJsonDataSection(IConfiguration configuration)
     {
-        ServiceCategories = configuration["JsonData:ServiceCategories"];
+        ServiceCategories = configuration["JSON_DATA:SERVICE_CATEGORIES_PATH"];
     }
 
     #endregion
@@ -121,8 +133,8 @@ public class AppSetting :
     /// </summary>
     private void ApplyElasticSearchIndexesSection(IConfiguration config)
     {
-        AuditLog = config["ElasticSearch:Indexes:AuditLog"];
-        ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
+        AuditLog = config["ELASTIC_SEARCH:INDEXES:ELK_INDEX_AUDITLOG"];
+        ApplicationLog = config["ELASTIC_SEARCH:INDEXES:ELK_INDEX_APPLOG"];
     }
 
     /// <summary>
@@ -150,9 +162,9 @@ public class AppSetting :
     /// </summary>
     private void ApplyPermissionsSection(IConfiguration config)
     {
-        ServiceIdentificator = Guid.Parse(config["ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId.")); ;
-        TopicOfKafka = config["Kafka:PermissionsTopic"];
-        ServiceName = config["ServiceName"];
+        ServiceIdentificator = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId.")); ;
+        TopicOfKafka = config["KAFKA:PermissionsTopic"];
+        ServiceName = config["SSO:SSO_SERVICE_NAME"];
     }
 
     #endregion

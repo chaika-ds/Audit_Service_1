@@ -25,7 +25,7 @@ namespace AuditService.ELK.FillTestData
         /// </summary>
         private void ApplyJsonDataSection(IConfiguration configuration)
         {
-            ServiceCategories = configuration["JsonData:ServiceCategories"];
+            ServiceCategories = configuration["JSON_DATA:SERVICE_CATEGORIES_PATH"];
         }
 
         #endregion

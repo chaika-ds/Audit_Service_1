@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace AuditService.ELK.FillTestData;
 
 /// <summary>
-///     Справочник категорий сервисов
+///     Reference of service categories
 /// </summary>
 internal class CategoryDictionary
 {
@@ -19,10 +19,10 @@ internal class CategoryDictionary
     }
 
     /// <summary>
-    ///     Получить случайную категорию
+    ///     Get random category of service
     /// </summary>
-    /// <param name="service">Тип сервиса</param>
-    /// <param name="random">Рандомайзер</param>
+    /// <param name="service">Serive type</param>
+    /// <param name="random">Instance of random function</param>
     public string GetCategory(ServiceId service, Random random)
     {
         var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);

@@ -10,6 +10,7 @@ var fileProvider = new EnvironmentPathBuilder().GetParentRootPath();
 
 builder.AddJsonFile("appsettings.json");
 builder.AddJsonFile(fileProvider, "config/aus.api.appsettings.Development.json", true, true);
+builder.AddJsonFile(fileProvider, "config/aus.api.logger.Development.json", true, true);
 builder.AddEnvironmentVariables();
 
 var configuration = builder.Build();

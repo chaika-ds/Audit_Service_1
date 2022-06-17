@@ -5,8 +5,13 @@ namespace AuditService.Common.Models.Domain;
 /// </summary>
 public class CategoryDomainModel : CategoryBaseDomainModel
 {
+    public CategoryDomainModel()
+    {
+        Action = new List<ActionDomainModel>().ToArray();
+    }
+
     /// <summary>
-    ///  ActionDto of reference
+    ///     ActionDto of reference
     /// </summary>
     public ActionDomainModel[] Action { get; set; }
 }

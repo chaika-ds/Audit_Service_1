@@ -15,8 +15,8 @@ public static class RedisCacheConfiguration
     {
         services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration = configuration["RedisCache:ConnectionString"];
-            options.InstanceName = configuration["RedisCache:InstanceName"] ?? "RedisCache";
+            options.Configuration = configuration["REDIS:REDIS_CONNECTION_URL"];
+            options.InstanceName = configuration["REDIS:REDIS_PREFIX"];
         });
     }
 }

@@ -29,7 +29,7 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("services")]
-    [Authorize("AuditService.Reference.viewServices")]
+    //[Authorize("AuditService.Reference.viewServices")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()

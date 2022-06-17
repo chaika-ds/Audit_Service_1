@@ -38,7 +38,6 @@ public class HealthCheckProvider : IHealthCheckProvider
     /// </summary>
     public bool CheckKafkaHealth()
     {
-        var t = _healthService.GetErrorsCount();
         return _healthService.GetErrorsCount() < _settings.CriticalErrorsCount;
     }
 }

@@ -7,6 +7,11 @@ namespace AuditService.Common.Models.Domain;
 /// </summary>
 public class ActionDomainModel
 {
+    public ActionDomainModel()
+    {
+        Description = string.Empty;
+    }
+
     /// <summary>
     ///     Name
     /// </summary>

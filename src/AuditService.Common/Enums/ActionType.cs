@@ -11,7 +11,7 @@ public enum ActionType
 {
     CREATE = 0,
 
-    EDIT = 1,
+    UPDATE = 1,
 
     DELETE = 2,
 
@@ -27,7 +27,7 @@ public enum ActionType
 
     UNBIND = 8,
 
-    SYNCHRONIZATION = 9,
+    SYNC = 9,
 
     VERIFICATION = 10,
 

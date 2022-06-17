@@ -9,18 +9,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuditService.WebApi.Controllers;
 
 /// <summary>
-///     Allows you to get a list of audit journal
+///     Allows you to get a list of audit journals
 /// </summary>
 [ApiController]
 [Route("journal")]
-public class JournalController : ControllerBase
+public class AuditController : ControllerBase
 {
     private readonly IAuditLogProvider _auditLogProcessor;
 
     /// <summary>
-    ///     Allows you to get a list of audit journal
+    ///     Allows you to get a list of audit journals
     /// </summary>
-    public JournalController(IAuditLogProvider auditLogProcessor)
+    public AuditController(IAuditLogProvider auditLogProcessor)
     {
         _auditLogProcessor = auditLogProcessor;
     }

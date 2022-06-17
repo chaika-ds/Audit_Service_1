@@ -15,7 +15,7 @@ public static class SwaggerConfiguration
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuditService", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = configuration["SSO:SSO_SERVICE_NAME"], Version = "v1" });
             c.DescribeAllParametersInCamelCase();
             c.UseInlineDefinitionsForEnums();
             c.CustomSchemaIds(x => x.Name);
@@ -70,7 +70,7 @@ public static class SwaggerConfiguration
         SwaggerBuilderExtensions.UseSwagger(app);
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuditService v1");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{app.Configuration["SSO:SSO_SERVICE_NAME"]} v1");
         });
     }
 }

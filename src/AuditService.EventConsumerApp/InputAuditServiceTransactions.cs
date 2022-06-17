@@ -1,6 +1,4 @@
-﻿using AuditService.Kafka.Args;
-using AuditService.Kafka.Kafka;
-using AuditService.Kafka.Services;
+﻿using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

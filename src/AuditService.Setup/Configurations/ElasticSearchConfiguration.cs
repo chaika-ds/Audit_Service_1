@@ -19,20 +19,9 @@ public static class ElasticSearchConfiguration
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-            var uris = configuration.GetSection("ElasticSearch").GetChildren();
-            var nodes = uris.Select(w => new Uri(w.Value)).ToArray();
-
-            var pool = new StaticConnectionPool(nodes);
+            var uri = new Uri(configuration["ELASTIC_SEARCH:ELK_CONNECTION_URL"]);
+            var pool = new SingleNodeConnectionPool(uri);
             var settings = new ConnectionSettings(pool);
-
-            var defaultIndex = configuration["ElasticSearch:DefaultIndex"];
-            if (!string.IsNullOrEmpty(defaultIndex))
-                settings.DefaultIndex(defaultIndex);
-
-            var userName = configuration["ElasticSearch:UserName"];
-            var password = configuration["ElasticSearch:Password"];
-            if (!string.IsNullOrEmpty(userName))
-                settings.BasicAuthentication(userName, password);
 
             return new ElasticClient(settings);
         });

@@ -17,6 +17,8 @@ internal class ElasticSearchDataFiller
     private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
 
+    private const string ElkIndexAuditLog = "ELASTIC_SEARCH:INDEXES:ELK_INDEX_AUDITLOG";
+
     public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration)
     {
         _elasticClient = elasticClient;
@@ -38,17 +40,17 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine("Start force clean data");
 
                 await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
-                await _elasticClient.Indices.DeleteAsync(_configuration["ElasticSearch:DefaultIndex"]);
+                await _elasticClient.Indices.DeleteAsync(_configuration[ElkIndexAuditLog]);
 
                 Console.WriteLine("Force clean has been comlpete!");
             }
 
-            var index = await _elasticClient.Indices.ExistsAsync(_configuration["ElasticSearch:DefaultIndex"]);
+            var index = await _elasticClient.Indices.ExistsAsync(_configuration[ElkIndexAuditLog]);
             if (!index.Exists)
             {
-                Console.WriteLine("Creating index " + _configuration["ElasticSearch:DefaultIndex"]);
+                Console.WriteLine("Creating index " + _configuration[ElkIndexAuditLog]);
 
-                var response = await _elasticClient.Indices.CreateAsync(_configuration["ElasticSearch:DefaultIndex"], r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
+                var response = await _elasticClient.Indices.CreateAsync(_configuration[ElkIndexAuditLog], r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
@@ -69,7 +71,7 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine("Generation is completed");
 
                 foreach (var dto in data)
-                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration["ElasticSearch:DefaultIndex"]).Id(dto.EntityId));
+                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
 
                 Console.WriteLine("Data has been saving");
                 Console.WriteLine("");
