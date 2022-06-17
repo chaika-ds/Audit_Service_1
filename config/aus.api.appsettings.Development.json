@@ -48,6 +48,6 @@
     "ForPeriodInSec": 20
   },
   "JsonData": {
-    "ServiceCategories": "JsonModels/ServiceCategories.json"
+    "ServiceCategories": "AuditService.Utility/JsonModels/ServiceCategories.json"
   }
 }

@@ -18,7 +18,7 @@ internal class CategoryDictionary
     {
         _configuration = configuration;
         var jsonData = new JsonData(configuration);
-        _referenceService = new ReferenceService(jsonData);
+        _referenceService = new ReferenceService(jsonData, null);
     }
 
     /// <summary>

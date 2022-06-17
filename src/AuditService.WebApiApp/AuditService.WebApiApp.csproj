@@ -17,6 +17,7 @@
         <PackageReference Include="Tolar.Authenticate" Version="6.0.793" />
         <PackageReference Include="Tolar.DataAccess" Version="6.0.793" />
         <PackageReference Include="Tolar.Kafka" Version="6.0.808" />
+        <PackageReference Include="Tolar.Redis" Version="6.0.818" />
         <PackageReference Include="Tolar.Web" Version="6.0.793" />
         <PackageReference Include="Tolat.DataAccess" Version="6.0.710" />
     </ItemGroup>

@@ -2,6 +2,7 @@
 using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
+using Tolar.Redis;
 
 namespace AuditService.WebApiApp.AppSettings;
 
@@ -14,7 +15,8 @@ public class AppSetting :
     IJsonData,
     IAuthenticateServiceSettings,
     IPermissionPusherSettings,
-    IElasticIndex
+    IElasticIndex,
+    IRedisSettings
 {
     /// <summary>
     ///     Application settings
@@ -27,6 +29,7 @@ public class AppSetting :
         ApplyHealthSection(config);
         _permissionPusherTopic = config["Kafka:PermissionsTopic"];
         ApplyPermissionsSection(config);
+        ApplyRedisSection(config);
         ApplyElasticSearchIndexesSection(config);
     }
 
@@ -155,6 +158,19 @@ public class AppSetting :
         ServiceName = config["ServiceName"];
     }
 
-    #endregion   
+    #endregion
 
+    #region Redis
+    /// <summary>
+    ///     Apply Redis configs
+    /// </summary>
+    public string RedisConnectionString { get; private set; }
+    public string RedisPrefix { get; private set; }
+    
+    private void ApplyRedisSection(IConfiguration config)
+    {
+        RedisConnectionString = config["RedisCache:ConnectionString"];
+        RedisPrefix = config["RedisCache:InstanceName"] ?? "RedisCache";
+    }
+    #endregion
 }

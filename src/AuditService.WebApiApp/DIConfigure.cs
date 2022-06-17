@@ -11,6 +11,7 @@ using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
 using AuditService.Kafka.Services.Health;
+using Tolar.Redis;
 
 namespace AuditService.WebApiApp;
 
@@ -31,6 +32,7 @@ public static class DiConfigure
                 IAuthenticateServiceSettings,
                 IPermissionPusherSettings,
                 IElasticIndex,
+                IRedisSettings,
                 AppSetting >()
             .AddSingleton(services)
             .AddSingleton<IKafkaProducer, Kafka.Kafka.KafkaProducer>();
@@ -40,6 +42,7 @@ public static class DiConfigure
         services.AddScoped<IHealthCheck, HealthCheckService>();
 
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
+        services.AddTransient<IRedisRepository, RedisRepository>();
 
         services
             .AddSingleton<HealthService>()

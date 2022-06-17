@@ -7,10 +7,10 @@ public static class RedisConfiguration
     /// </summary>
     public static void AddRedisCache(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = configuration["RedisCache:ConnectionString"];
-            options.InstanceName = configuration["RedisCache:InstanceName"] ?? "RedisCache";
-        });
+        // services.AddStackExchangeRedisCache(options =>
+        // {
+        //     options.Configuration = configuration["RedisCache:ConnectionString"];
+        //     options.InstanceName = configuration["RedisCache:InstanceName"] ?? "RedisCache";
+        // });
     }
 }

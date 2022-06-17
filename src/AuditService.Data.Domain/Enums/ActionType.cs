@@ -11,7 +11,7 @@ public enum ActionType
 {
     CREATE = 0,
 
-    EDIT = 1,
+    UPDATE = 1,
 
     DELETE = 2,
 
@@ -35,5 +35,18 @@ public enum ActionType
 
     LOGOUT = 12,
     
-    VIEW = 13
+    VIEW = 13,
+    
+    SYNC = 14,
+    
+    BULK = 15,
+    
+    START = 16,
+    
+    STOP = 17,
+    
+    ENABLE = 18,
+    
+    DISABLE = 19
+    
 }
