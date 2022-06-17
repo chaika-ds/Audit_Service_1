@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
+using Tolar.Redis;
 using IKafkaSettings = AuditService.Kafka.Settings.IKafkaSettings;
 using KafkaProducer = AuditService.Kafka.Kafka.KafkaProducer;
 
@@ -32,10 +33,12 @@ public static class DiConfigure
                 IAuthenticateServiceSettings,
                 IPermissionPusher,
                 IElasticIndex,
+                IRedisSettings,
                 AppSetting>()
             .AddSingleton(services);
         
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
+        services.AddTransient<IRedisRepository, RedisRepository>();
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
         services

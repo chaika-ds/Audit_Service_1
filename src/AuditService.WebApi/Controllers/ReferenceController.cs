@@ -1,9 +1,11 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Tolar.Authenticate;
+using Tolar.Redis;
 
 namespace AuditService.WebApi.Controllers;
 
@@ -15,13 +17,14 @@ namespace AuditService.WebApi.Controllers;
 public class ReferenceController
 {
     private readonly IReferenceProvider _referenceProcessor;
-
+    private readonly IRedisRepository _redis;
     /// <summary>
     ///     Allows you to get a list of available services and categories
     /// </summary>
-    public ReferenceController(IReferenceProvider referenceProcessor)
+    public ReferenceController(IReferenceProvider referenceProcessor, IRedisRepository redis)
     {
         _referenceProcessor = referenceProcessor;
+        _redis = redis;
     }
 
     /// <summary>
@@ -29,12 +32,22 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("services")]
-    //[Authorize("AuditService.Reference.viewServices")]
+    [Authorize("AuditService.Reference.viewServices")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return await _referenceProcessor.GetServicesAsync();
+        var value = await _redis.GetAsync<IEnumerable<CategoryBaseDomainModel>>("Reference.GetServices");
+
+        if (value != null) return value;
+        
+        var response = await _referenceProcessor.GetServicesAsync();
+
+        var cacheValue = response.ToList();
+       
+        await _redis.SetAsync("Reference.GetServices", cacheValue, TimeSpan.FromMinutes(10));
+        
+        return cacheValue;
     }
 
     /// <summary>
@@ -47,7 +60,15 @@ public class ReferenceController
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
     {
-        return await _referenceProcessor.GetCategoriesAsync();
+        var value = await _redis.GetAsync<IDictionary<ServiceId, CategoryDomainModel[]>>("Reference.GetCategories");
+
+        if (value != null) return value;
+
+        var response = await _referenceProcessor.GetCategoriesAsync();
+       
+        await _redis.SetAsync("Reference.GetCategories", response, TimeSpan.FromMinutes(10));
+        
+        return response;
     }
 
     /// <summary>
@@ -61,6 +82,14 @@ public class ReferenceController
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
     {
-        return await _referenceProcessor.GetCategoriesAsync(serviceId);
+        var value = await _redis.GetAsync<IDictionary<ServiceId, CategoryDomainModel[]>>($"Reference.GetCategories.{serviceId}");
+
+        if (value != null) return value;
+
+        var response = await _referenceProcessor.GetCategoriesAsync(serviceId);
+       
+        await _redis.SetAsync($"Reference.GetCategories.{serviceId}", response, TimeSpan.FromMinutes(10));
+        
+        return response;
     }
 }

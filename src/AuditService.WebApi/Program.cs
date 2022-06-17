@@ -18,7 +18,6 @@ builder.AddCustomerLogger(environmentName);
 builder.Services.AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
-builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddElasticSearch();
 builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AdditionalConfigurations();

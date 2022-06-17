@@ -36,17 +36,15 @@ public enum ActionType
     LOGOUT = 12,
     
     VIEW = 13,
+
+    BULK = 14,
     
-    SYNC = 14,
+    START = 15,
     
-    BULK = 15,
+    STOP = 16,
     
-    START = 16,
+    ENABLE = 17,
     
-    STOP = 17,
-    
-    ENABLE = 18,
-    
-    DISABLE = 19
+    DISABLE = 18
     
 }

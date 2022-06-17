@@ -2,6 +2,7 @@
 using AuditService.Setup.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Tolar.Authenticate.Impl;
+using Tolar.Redis;
 
 namespace AuditService.Setup;
 
@@ -14,7 +15,8 @@ public class AppSetting :
     IJsonData,
     IAuthenticateServiceSettings,
     IPermissionPusher,
-    IElasticIndex
+    IElasticIndex,
+    IRedisSettings
 {
     /// <summary>
     ///     Application settings
@@ -27,6 +29,7 @@ public class AppSetting :
         ApplyHealthSection(config);
         ApplyPermissionsSection(config);
         ApplyElasticSearchIndexesSection(config);
+        ApplyRedisSection(config);
     }
 
     #region Health
@@ -58,9 +61,11 @@ public class AppSetting :
         //Address = configuration["KAFKA:CONFIGS:KAFKA_BROKER"];
         //Topic = configuration["KAFKA:KAFKA_TOPICS:KAFKA_TOPIC_AUDITLOG"];
         // todo это прям лютый костыляка, надо это ЧИНИТЬ
-        var excludeConfigs = new List<string> { "KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_PREFIX" };
-        Config = configuration.GetSection("KAFKA:CONFIGS").GetChildren().Where(w=> !excludeConfigs.Contains(w.Key) ).ToDictionary(x => MapperKafkaKey(x.Key), v => v.Value);
+        var excludeConfigs = new List<string> {"KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_PREFIX"};
+        Config = configuration.GetSection("KAFKA:CONFIGS").GetChildren().Where(w => !excludeConfigs.Contains(w.Key))
+            .ToDictionary(x => MapperKafkaKey(x.Key), v => v.Value);
     }
+
     private string MapperKafkaKey(string key)
     {
         switch (key)
@@ -102,9 +107,11 @@ public class AppSetting :
     private void ApplySsoSection(IConfiguration config)
     {
         Connection = config["SSO:SSO_SERVICE_URL"];
-        ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId."));
+        ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ??
+                               throw new InvalidOperationException("Wrong ServiceId."));
         ApiKey = config["SSO:SSO_AUTH_API_KEY"];
-        RootNodeId = Guid.Parse(config["SSO:SSO_AUTH_ROOT_NODE_ID"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
+        RootNodeId = Guid.Parse(config["SSO:SSO_AUTH_ROOT_NODE_ID"] ??
+                                throw new InvalidOperationException("Wrong RootNodeId."));
     }
 
     #endregion
@@ -162,10 +169,28 @@ public class AppSetting :
     /// </summary>
     private void ApplyPermissionsSection(IConfiguration config)
     {
-        ServiceIdentificator = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId.")); ;
+        ServiceIdentificator = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ??
+                                          throw new InvalidOperationException("Wrong ServiceId."));
+        ;
         TopicOfKafka = config["KAFKA:PermissionsTopic"];
         ServiceName = config["SSO:SSO_SERVICE_NAME"];
     }
+
+    #endregion
+
+    #region Redis
+
+    /// <summary>
+    ///     Apply Permission configs
+    /// </summary>
+    private void ApplyRedisSection(IConfiguration config)
+    {
+        RedisConnectionString = config["REDIS:REDIS_CONNECTION_URL"];
+        RedisPrefix = config["REDIS:REDIS_PREFIX"];
+    }
+
+    public string RedisConnectionString { get; private set; }
+    public string RedisPrefix { get; private set; }
 
     #endregion
 }
