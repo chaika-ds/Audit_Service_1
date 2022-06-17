@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Threading;
 using System.Text;
 using Tolar.Kafka;
+using KafkaConsumerException = AuditService.Common.Exceptions.KafkaConsumerException;
 
 namespace AuditService.Kafka.Kafka
 {
@@ -143,13 +144,13 @@ namespace AuditService.Kafka.Kafka
 
             if (_topicPartitionToAssign == INVALID_PARTITION)
             {
-                throw new Exceptions.KafkaConsumerException("Failed to start Kafka consumer");
+                throw new KafkaConsumerException("Failed to start Kafka consumer");
             }
 
             var offsetWithRollback = GetTopicOffsetByTimeRollback(rollbackInMinutes, _topicPartitionToAssign);
             if (offsetWithRollback == Offset.Unset)
             {
-                throw new Exceptions.KafkaConsumerException("Failed to start Kafka consumer");
+                throw new KafkaConsumerException("Failed to start Kafka consumer");
             }
 
             var topicPartition = new TopicPartition(_topic, _topicPartitionToAssign);

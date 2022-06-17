@@ -1,16 +1,16 @@
 ﻿namespace AuditService.ELK.FillTestData;
 
 /// <summary>
-///     Класс для расширения рандомайзера
+///     Extension class for random fuction
 /// </summary>
 internal static class RandomExtension
 {
     /// <summary>
-    ///     Получить случайный элемент коллекции
+    ///     Get random item from collection
     /// </summary>
-    /// <typeparam name="TItem">Тип элемента коллекции</typeparam>
-    /// <param name="collection">Коллекция</param>
-    /// <param name="random">Рандомайзер</param>
+    /// <typeparam name="TItem">Type item of colletion</typeparam>
+    /// <param name="collection">Collection</param>
+    /// <param name="random">Random fuction</param>
     public static TItem GetRandomItem<TItem>(this IList<TItem> collection, Random random)
     {
         var index = random.Next(collection.Count - 1);
@@ -18,10 +18,10 @@ internal static class RandomExtension
     }
 
     /// <summary>
-    ///     Получить случайную дату
+    ///     Get random date & time
     /// </summary>
-    /// <param name="dateTime">Текущая дата</param>
-    /// <param name="random">Рандомайзер</param>
+    /// <param name="dateTime">Current date</param>
+    /// <param name="random">Random fuction</param>
     public static DateTime GetRandomItem(this DateTime dateTime, Random random)
     {
         var days = random.Next(29);

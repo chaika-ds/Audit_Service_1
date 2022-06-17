@@ -1,34 +1,34 @@
-﻿using AuditService.Data.Domain.Enums;
+﻿using AuditService.Common.Enums;
 
 namespace AuditService.ELK.FillTestData;
 
 /// <summary>
-///     Модель генерации данных
+///     Model of generator
 /// </summary>
 internal class ConfigurationModel
 {
     /// <summary>
-    ///     Идентификатор сервиса
+    ///     Service ID
     /// </summary>
     public ServiceId? ServiceName { get; set; }
 
     /// <summary>
-    ///     Тип действия
+    ///     Action type
     /// </summary>
     public ActionType? ActionName { get; set; }
 
     /// <summary>
-    ///     Категория действий (в зависимости от модулей)
+    ///     Category of action
     /// </summary>
     public string? CategoryCode { get; set; }
 
     /// <summary>
-    ///     Тип узла
+    ///     Node type
     /// </summary>
     public NodeType? NodeType { get; set; }
 
     /// <summary>
-    ///     Количество записей для генерации
+    ///     Count rows for generation
     /// </summary>
     public int Count { get; set; }
 }

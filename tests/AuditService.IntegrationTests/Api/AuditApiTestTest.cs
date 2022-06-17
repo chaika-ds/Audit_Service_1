@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AuditService.Data.Domain.Dto.Filter;
-using AuditService.Data.Domain.Dto.Pagination;
+using AuditService.Common.Models.Dto.Filter;
+using AuditService.Common.Models.Dto.Pagination;
 using AuditService.IntegrationTests.Api.Helpers;
 using Xunit;
 

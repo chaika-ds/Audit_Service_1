@@ -1,4 +1,4 @@
-﻿using AuditService.Data.Domain.Enums;
+﻿using AuditService.Common.Enums;
 
 namespace AuditService.Utility.Helpers;
 

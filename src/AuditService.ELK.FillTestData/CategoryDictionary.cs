@@ -1,40 +1,35 @@
-﻿using AuditService.Data.Domain.Enums;
+﻿using AuditService.Common.Enums;
+using AuditService.Providers.Implementations;
+using AuditService.Providers.Interfaces;
 using AuditService.Utility.Helpers;
-using AuditService.WebApiApp.Services;
-using AuditService.WebApiApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace AuditService.ELK.FillTestData;
 
 /// <summary>
-///     Справочник категорий сервисов
+///     Reference of service categories
 /// </summary>
 internal class CategoryDictionary
 {
-    private readonly IConfiguration _configuration;
-    private readonly IReferenceService _referenceService;
+    private readonly IReferenceProvider _referenceProvider;
 
     public CategoryDictionary(IConfiguration configuration)
     {
-        _configuration = configuration;
-        var jsonData = new JsonData(configuration);
-        _referenceService = new ReferenceService(jsonData);
+        _referenceProvider = new ReferenceProvider(new JsonData(configuration));
     }
 
     /// <summary>
-    ///     Получить случайную категорию
+    ///     Get random category of service
     /// </summary>
-    /// <param name="service">Тип сервиса</param>
-    /// <param name="random">Рандомайзер</param>
+    /// <param name="service">Serive type</param>
+    /// <param name="random">Instance of random function</param>
     public string GetCategory(ServiceId service, Random random)
     {
-        var cc = _configuration.GetSection("Categories");
-        var category = _referenceService.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
-        
-        if (category.Value == null || !category.Value.Any())
+        var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
+        if (!category.Value.Any())
             return string.Empty;
 
         var index = random.Next(category.Value.Length - 1);
-        return JsonHelper.SerializeToString(category.Value[index]);
+        return category.Value[index].SerializeToString();
     }
 }
