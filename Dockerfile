@@ -1,10 +1,10 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM theharbor.xyz/docker-images/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 
 ARG APP_PORT=""
 ENV ASPNETCORE_URLS=http://+:${APP_PORT}
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM theharbor.xyz/docker-images/dotnet/sdk:6.0 AS build
 
 ARG SRC_DIR="src"
 ARG APP_NAME=""
