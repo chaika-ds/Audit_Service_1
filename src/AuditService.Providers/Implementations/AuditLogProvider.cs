@@ -3,7 +3,7 @@ using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Providers.Interfaces;
-using AuditService.Setup.Interfaces;
+using AuditService.Setup.ConfigurationSettings;
 using Nest;
 
 namespace AuditService.Providers.Implementations;
@@ -14,12 +14,12 @@ namespace AuditService.Providers.Implementations;
 public class AuditLogProvider : IAuditLogProvider
 {
     private readonly IElasticClient _elasticClient;
-    private readonly IElasticIndex _elasticIndex;
+    private readonly IElasticIndexSettings _elasticIndexSettings;
 
-    public AuditLogProvider(IElasticClient elasticClient, IElasticIndex elasticIndex)
+    public AuditLogProvider(IElasticClient elasticClient, IElasticIndexSettings elasticIndexSettings)
     {
         _elasticClient = elasticClient;
-        _elasticIndex = elasticIndex;
+        _elasticIndexSettings = elasticIndexSettings;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class AuditLogProvider : IAuditLogProvider
         if (!string.IsNullOrEmpty(filter.Sort.ColumnName))
             query = query.Sort(w => ApplySorting(w, filter));
 
-        return query.Index(_elasticIndex.AuditLog);
+        return query.Index(_elasticIndexSettings.AuditLog);
     }
 
     /// <summary>

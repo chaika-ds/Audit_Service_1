@@ -2,7 +2,7 @@
 using System.Linq;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using Microsoft.Extensions.Configuration;
-using AuditService.Kafka.Settings;
+using Tolar.Kafka;
 
 namespace AuditService.IntegrationTests.EventProducer.Settings
 {

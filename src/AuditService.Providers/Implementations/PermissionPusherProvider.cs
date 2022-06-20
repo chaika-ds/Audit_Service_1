@@ -1,4 +1,4 @@
-﻿using AuditService.Setup.Interfaces;
+﻿using AuditService.Setup.ConfigurationSettings;
 using Tolar.Authenticate;
 using Tolar.Kafka;
 
@@ -7,9 +7,9 @@ namespace AuditService.Providers.Implementations;
 public class PermissionPusherProvider : PermissionPusher
 {
     private readonly IKafkaProducer _producer;
-    private readonly IPermissionPusher _settings;
+    private readonly IPermissionPusherSettings _settings;
 
-    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusher settings) : base(settings.ServiceIdentificator, settings.ServiceName)
+    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusherSettings settings, IAuthSsoServiceSettings ssoSettings) : base(settings.ServiceId, ssoSettings.ServiceName)
     {
         _producer = producer;
         _settings = settings;
@@ -17,6 +17,6 @@ public class PermissionPusherProvider : PermissionPusher
 
     protected override Task PushAsync(object obj)
     {
-        return _producer.SendAsync(obj, _settings.TopicOfKafka);
+        return _producer.SendAsync(obj, _settings.Topic);
     }
 }

@@ -17,16 +17,11 @@ namespace AuditService.Kafka.Kafka
             _loggerFactory = loggerFactory;
             _kafkaSettings = kafkaSettings;
         }
-
+        
         public IKafkaConsumer CreateConsumer(string topic)
         {
             topic.CheckNull(nameof(topic));
             return new KafkaConsumer(_loggerFactory.CreateLogger<KafkaConsumer>(), _kafkaSettings, topic);
-        }
-
-        Tolar.Kafka.IKafkaConsumer IKafkaConsumerFactory.CreateConsumer(string topic)
-        {
-            throw new NotImplementedException();
         }
     }
 }

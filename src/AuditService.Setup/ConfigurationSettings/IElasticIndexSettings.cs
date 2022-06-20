@@ -1,9 +1,9 @@
-﻿namespace AuditService.Setup.Interfaces;
+﻿namespace AuditService.Setup.ConfigurationSettings;
 
 /// <summary>
 ///     ElasticSearch available indexes
 /// </summary>
-public interface IElasticIndex
+public interface IElasticIndexSettings
 {
     /// <summary>
     ///     Audit logs from services
