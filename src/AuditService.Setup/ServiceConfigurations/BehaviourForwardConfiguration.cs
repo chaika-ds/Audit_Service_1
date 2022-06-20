@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.Setup.Configurations;
+namespace AuditService.Setup.ServiceConfigurations;
 
 /// <summary>
 ///     Configure settings

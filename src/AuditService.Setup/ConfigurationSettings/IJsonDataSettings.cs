@@ -1,9 +1,9 @@
-namespace AuditService.Setup.Interfaces;
+namespace AuditService.Setup.ConfigurationSettings;
 
 /// <summary>
 ///     JSON data configs
 /// </summary>
-public interface IJsonData
+public interface IJsonDataSettings
 {
     /// <summary>
     ///     Path to file with categories
