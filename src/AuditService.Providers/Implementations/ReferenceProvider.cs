@@ -23,7 +23,13 @@ public class ReferenceProvider : IReferenceProvider
     /// </summary>
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return (await GetCategoriesAsync()).SelectMany(x => x.Value).ToList();
+        var categoryBaseDomainModels = new List<CategoryBaseDomainModel>();
+
+        var categories = (await GetCategoriesAsync()).SelectMany(x => x.Value).ToList();
+
+        categoryBaseDomainModels.AddRange(categories);
+
+        return categoryBaseDomainModels;
     }
 
     /// <summary>

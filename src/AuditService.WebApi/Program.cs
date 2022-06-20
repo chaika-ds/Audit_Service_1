@@ -38,5 +38,6 @@ app.UseRouting();
 
 app.UseMiddleware<AppMiddlewareException>();
 app.UseMiddleware<AuthenticateMiddleware>();
+app.UseMiddleware<RedisCacheMiddleware>();
 
 app.Run();
