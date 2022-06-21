@@ -18,9 +18,10 @@ public static class DiConfigure
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
-        services.AddTransient<IRedisRepository, RedisRepository>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
+        services.AddSingleton<IRedisRepository, RedisRepository>();
+
 
         services
             .AddSingleton<HealthService>()
