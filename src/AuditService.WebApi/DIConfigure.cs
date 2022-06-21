@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
+using Tolar.Redis;
 using KafkaProducer = AuditService.Kafka.Kafka.KafkaProducer;
 
 namespace AuditService.WebApi;
@@ -17,6 +18,7 @@ public static class DiConfigure
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
+        services.AddTransient<IRedisRepository, RedisRepository>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
