@@ -1,5 +1,5 @@
 {
-  "PAYMENT": [
+  "PAY": [
     {
       "CategoryCode" : "PAYMENTS_PPS_KEYS",
       "CategoryName" : "Payments: PPS keys",
@@ -199,6 +199,143 @@
       ]
     }
   ],
+  "SS": [
+    {
+      "CategoryCode" : "SETTINGS_NODES",
+      "CategoryName" : "Settings: Node details",
+      "Action" : [
+        {
+          "Name" : "CREATE",
+          "Description" : "Факт создания узла"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование узла"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление узла"
+        },
+        {
+          "Name" : "SOFT_DELETE",
+          "Description" : "Удаление узла"
+        },
+        {
+          "Name" : "VIEW",
+          "Description" : "Переход на другой узел"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_CURRENCIES",
+      "CategoryName" : "Settings: Currencies",
+      "Action" : [
+        {
+          "Name" : "CREATE",
+          "Description" : "Добавление валюты на узел"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение статуса валюты на узле"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_BLOCKED_IPS_AND_COUNTRIES",
+      "CategoryName" : "Settings: Blocked IPs and countries",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Добавление/удаление новых записей в список\nАктивация/деактивация списка"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_GENERAL",
+      "CategoryName" : "Settings: Project settings - General",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Общие настройки проекта"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_MONEY",
+      "CategoryName" : "Settings: Project settings - Money",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Настройки проекта по вводу/выводу средств"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_PLAYER_SETTINGS",
+      "CategoryName" : "Settings: Project settings - Player settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Настройки игроков на проекте"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_MSP_SETTINGS",
+      "CategoryName" : "Settings: MSP settings",
+      "Action" : [
+        {
+          "Name" : "CREATE",
+          "Description" : "Добавление контакта"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование контакта"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление контакта"
+        },
+        {
+          "Name" : "SOFT_DELETE",
+          "Description" : "Удаление контакта"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_SENDERS_SETTINGS",
+      "CategoryName" : "Settings: Senders settings",
+      "Action" : [
+        {
+          "Name" : "SYNC",
+          "Description" : "Обновление списка сервисов"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SETTINGS_DOMAINS",
+      "CategoryName" : "Settings: Domains",
+      "Action" : [
+        {
+          "Name" : "CREATE",
+          "Description" : "Обновление списка сервисов"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование домена"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление домена"
+        },
+        {
+          "Name" : "SOFT_DELETE",
+          "Description" : "Удаление домена"
+        }
+      ]
+    }
+
+  ],
   "SSO": [
     {
       "CategoryCode" : "SSO_USERS_ROLES",
@@ -291,215 +428,6 @@
       ]
     }
   ],
-  "SETTING": [
-    {
-      "CategoryCode" : "SETTINGS_NODES",
-      "CategoryName" : "Settings: Node details",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Факт создания узла"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование узла"
-        },
-        {
-          "Name" : "DELETE",
-          "Description" : "Удаление узла"
-        },
-        {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление узла"
-        },
-        {
-          "Name" : "VIEW",
-          "Description" : "Переход на другой узел"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_CURRENCIES",
-      "CategoryName" : "Settings: Currencies",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Добавление валюты на узел"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Изменение статуса валюты на узле"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_BLOCKED_IPS_AND_COUNTRIES",
-      "CategoryName" : "Settings: Blocked IPs and countries",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Добавление/удаление новых записей в список\nАктивация/деактивация списка"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_GENERAL",
-      "CategoryName" : "Settings: Project settings - General",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Общие настройки проекта"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_MONEY",
-      "CategoryName" : "Settings: Project settings - Money",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Настройки проекта по вводу/выводу средств"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_PLAYER_SETTINGS",
-      "CategoryName" : "Settings: Project settings - Player settings",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Настройки игроков на проекте"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_MSP_SETTINGS",
-      "CategoryName" : "Settings: MSP settings",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Добавление контакта"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование контакта"
-        },     
-        {
-          "Name" : "DELETE",
-          "Description" : "Удаление контакта"
-        },
-        {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление контакта"
-        }
-      ]
-    },  
-    {
-      "CategoryCode" : "SETTINGS_SENDERS_SETTINGS",
-      "CategoryName" : "Settings: Senders settings",
-      "Action" : [
-        {
-          "Name" : "SYNC",
-          "Description" : "Обновление списка сервисов"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SETTINGS_DOMAINS",
-      "CategoryName" : "Settings: Domains",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Обновление списка сервисов"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование домена"
-        },
-        {
-          "Name" : "DELETE",
-          "Description" : "Удаление домена"
-        },
-        {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление домена"
-        }
-      ]
-    }
-
-  ],
-  "REPORT": [
-    {
-      "CategoryCode" : "REPORTS_DEPOSITS_WITHDRAWALS",
-      "CategoryName" : "Reports: Deposits-withdrawals",
-      "Action" : [
-        {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра отчета"
-        },
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт экспорта отчета"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "REPORTS_GAMING_ACTIVITY",
-      "CategoryName" : "Reports: Gaming activity",
-      "Action" : [
-        {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра отчета"
-        },
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт экспорта отчета"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "REPORTS_CREDIT_CONSUMPTION",
-      "CategoryName" : "Reports: Credit consumption",
-      "Action" : [
-        {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра отчета"
-        },
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт экспорта отчета"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "REPORTS_BONUS_REPORT",
-      "CategoryName" : "Reports: Bonus report",
-      "Action" : [
-        {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра отчета"
-        },
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт экспорта отчета"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "REPORTS_PROVIDER_REPORT",
-      "CategoryName" : "Reports: Provider report",
-      "Action" : [
-        {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра отчета"
-        },
-        {
-          "Name" : "EXPORT",
-          "Description" : "Факт экспорта отчета"
-        }
-      ]
-    }
-  ],
   "GS": [
     {
       "CategoryCode" : "GAMES_ADMIN_API_PROVIDERS",
@@ -552,7 +480,7 @@
         {
           "Name" : "SOFT_DELETE",
           "Description" : "Удаление контракта на зале"
-        }        
+        }
       ]
     },
     {
@@ -770,27 +698,79 @@
       ]
     }
   ],
-  "CONSTRUCTOR": [
+  "REP": [
     {
-      "CategoryCode" : "CASINO_CONSTRUCTOR_LOBBY",
-      "CategoryName" : "Casino constructor: Lobby",
+      "CategoryCode" : "REPORTS_DEPOSITS_WITHDRAWALS",
+      "CategoryName" : "Reports: Deposits-withdrawals",
       "Action" : [
         {
-          "Name" : "CREATE",
-          "Description" : "Факт создания лобби"
+          "Name" : "VIEW",
+          "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование лобби (в т. ч. SEO, News)\nПубликация лобби"
+          "Name" : "EXPORT",
+          "Description" : "Факт экспорта отчета"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "REPORTS_GAMING_ACTIVITY",
+      "CategoryName" : "Reports: Gaming activity",
+      "Action" : [
+        {
+          "Name" : "VIEW",
+          "Description" : "Факт просмотра отчета"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление лобби"
+          "Name" : "EXPORT",
+          "Description" : "Факт экспорта отчета"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "REPORTS_CREDIT_CONSUMPTION",
+      "CategoryName" : "Reports: Credit consumption",
+      "Action" : [
+        {
+          "Name" : "VIEW",
+          "Description" : "Факт просмотра отчета"
+        },
+        {
+          "Name" : "EXPORT",
+          "Description" : "Факт экспорта отчета"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "REPORTS_BONUS_REPORT",
+      "CategoryName" : "Reports: Bonus report",
+      "Action" : [
+        {
+          "Name" : "VIEW",
+          "Description" : "Факт просмотра отчета"
+        },
+        {
+          "Name" : "EXPORT",
+          "Description" : "Факт экспорта отчета"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "REPORTS_PROVIDER_REPORT",
+      "CategoryName" : "Reports: Provider report",
+      "Action" : [
+        {
+          "Name" : "VIEW",
+          "Description" : "Факт просмотра отчета"
+        },
+        {
+          "Name" : "EXPORT",
+          "Description" : "Факт экспорта отчета"
         }
       ]
     }
   ],
-  "RM": [
+  "FRAUD": [
     {
       "CategoryCode" : "RISK_MANAGEMENT_SETTINGS",
       "CategoryName" : "Risk management: Settings",
@@ -830,7 +810,7 @@
           "Description" : "Массовая блокировка бонусов клиентам"
         }
       ]
-    },   
+    },
     {
       "CategoryCode" : "RISK_MANAGEMENT_BULK_DISABLE_BONUSES",
       "CategoryName" : "Risk management: Disabling bonuses",
@@ -852,6 +832,26 @@
         {
           "Name" : "STOP",
           "Description" : "Прерывание пересчета"
+        }
+      ]
+    }
+  ], 
+  "CCR": [
+    {
+      "CategoryCode" : "CASINO_CONSTRUCTOR_LOBBY",
+      "CategoryName" : "Casino constructor: Lobby",
+      "Action" : [
+        {
+          "Name" : "CREATE",
+          "Description" : "Факт создания лобби"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование лобби (в т. ч. SEO, News)\nПубликация лобби"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление лобби"
         }
       ]
     }
@@ -940,7 +940,7 @@
       ]
     }
   ],
-  "BONUS": [
+  "LAB": [
     {
       "CategoryCode" : "BONUSES_CASHBACK_CAMPAIGNS",
       "CategoryName" : "Bonuses: Cashback campaigns",
@@ -1120,7 +1120,7 @@
       ]
     }
   ],
-  "TOURNAMENTS": [
+  "TS": [
     {
       "CategoryCode" : "TOURNAMENTS_TOURNAMENTS_LIST",
       "CategoryName" : "Tournaments: Tournaments list",
@@ -1140,7 +1140,7 @@
       ]
     }
   ],
-  "SEGMENTATION": [
+  "SEG": [
     {
       "CategoryCode" : "SEGMENTATION_PRESETS",
       "CategoryName" : "Segmentation: Presets",
@@ -1226,7 +1226,7 @@
       ]
     }
   ],
-  "AFFILIATE": [
+  "AFS": [
     {
       "CategoryCode" : "AFFILIATE_PROVIDERS",
       "CategoryName" : "Affiliate providers",

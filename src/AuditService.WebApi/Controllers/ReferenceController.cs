@@ -31,7 +31,7 @@ public class ReferenceController
     [HttpGet]
     [Route("services")]
     [Authorize("AuditService.Reference.viewServices")]
-    [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
+    [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
@@ -44,9 +44,9 @@ public class ReferenceController
     [HttpGet]
     [Route("categories")]
     [Authorize("AuditService.Reference.viewCategories")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync()
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync()
     {
         return await _referenceProcessor.GetCategoriesAsync();
     }
@@ -54,14 +54,14 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
-    /// <param name="serviceId">Selected service id</param>
+    /// <param name="serviceStructure">Selected service id</param>
     [HttpGet]
     [Route("categories/{serviceId}")]
     [Authorize("AuditService.Reference.viewCategories")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId serviceId)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure serviceStructure)
     {
-        return await _referenceProcessor.GetCategoriesAsync(serviceId);
+        return await _referenceProcessor.GetCategoriesAsync(serviceStructure);
     }
 }

@@ -24,19 +24,21 @@ public class ReferenceProvider : IReferenceProvider
     /// </summary>
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return  (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
+        return (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
     }
 
     /// <summary>
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-        using var reader = new StreamReader(_jsonDataSettings?.ServiceCategories ?? throw new NullReferenceException($"{nameof(_jsonDataSettings.ServiceCategories)} is null"));
+        var path = Directory.GetParent(Environment.CurrentDirectory) + "/AuditService.Common/" + _jsonDataSettings?.ServiceCategories;
+        
+        using var reader = new StreamReader(path ?? throw new NullReferenceException( $"{nameof(_jsonDataSettings.ServiceCategories)} is null"));
         var json = await reader.ReadToEndAsync();
 
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
                 $"File {_jsonDataSettings?.ServiceCategories} not found or not include data of categories.");
