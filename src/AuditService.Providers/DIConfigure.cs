@@ -9,7 +9,7 @@ public static class DiConfigure
     /// <summary>
     ///     Register custom services
     /// </summary>
-    public static void Configure(IServiceCollection services)
+    public static void RegisterServices(IServiceCollection services)
     {
         services.AddScoped<IReferenceProvider, ReferenceProvider>();
         services.AddScoped<IAuditLogProvider, AuditLogProvider>();

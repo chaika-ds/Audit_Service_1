@@ -1,4 +1,4 @@
-﻿using AuditService.Setup.Configurations;
+﻿using AuditService.Setup.ServiceConfigurations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Tests.AuditService.Setup;

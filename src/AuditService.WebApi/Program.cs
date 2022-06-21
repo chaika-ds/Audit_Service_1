@@ -1,7 +1,8 @@
+using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Utility.Logger;
-using AuditService.Setup.Configurations;
 using AuditService.Setup.Extensions;
+using AuditService.Setup.ServiceConfigurations;
 using AuditService.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,15 +16,15 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.AddCustomerLogger(environmentName);
 
+builder.Services.RegisterSettings();
 builder.Services.AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
-builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddElasticSearch();
-builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AdditionalConfigurations();
-
-DiConfigure.Configure(builder.Services);
+builder.Services.AddRedisCache();
+builder.Services.AddSwagger();
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 
