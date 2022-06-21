@@ -21,6 +21,7 @@ services:
     - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
   script:
     - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
     - sed -ie "s/from_ci_TAG/$CI_COMMIT_SHORT_SHA/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
     - sed -ie "s/domain_CI/$DOMAIN_CI/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
     - sed -ie "s/from_ci_IPS1/$IPS1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
@@ -44,7 +45,7 @@ services:
     entrypoint: [""]
   stage: deploy
   dependencies:
-    - unit
+    - sonar
   tags:
     - demo
     - lt
@@ -54,6 +55,7 @@ services:
     - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
   script:
     - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
     - sed -ie "s/from_ci_TAG/$CI_COMMIT_SHORT_SHA/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/domain_CI/$DOMAIN_CI/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/from_ci_IPS1/$IPS1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
@@ -78,6 +80,7 @@ test deploy:
     NAMESPACE: "test-tolar-audit-service"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-b1.netreportservice.xyz
     KAFKA2: kafka-b2.netreportservice.xyz
     KAFKA3: kafka-b3.netreportservice.xyz
@@ -95,7 +98,7 @@ uat deploy:
     NAMESPACE: "tolar-audit-service"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
-    KAFKA_BROKER: "kafka-b1.netreportservice.xyz:9093,kafka-b2.netreportservice.xyz:9093,kafka-b3.netreportservice.xyz:9093"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-b1.netreportservice.xyz
     KAFKA2: kafka-b2.netreportservice.xyz
     KAFKA3: kafka-b3.netreportservice.xyz
@@ -103,8 +106,6 @@ uat deploy:
     IPS2: 10.0.0.30
     IPS3: 10.0.0.25
     TLS: wildcard-tls
-    SSOURL: "http://sso-api.tolar-sso.svc.tolar.testenv.local"
-    BONUSURL: "http://bonus.netreportservice.xyz"
   tags:
     - testuat
 
@@ -115,7 +116,7 @@ t9 deploy:
     NAMESPACE: "t9"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
-    KAFKA_BROKER: "kafka-b1.netreportservice.xyz:9093,kafka-b2.netreportservice.xyz:9093,kafka-b3.netreportservice.xyz:9093"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-b1.netreportservice.xyz
     KAFKA2: kafka-b2.netreportservice.xyz
     KAFKA3: kafka-b3.netreportservice.xyz
@@ -123,8 +124,6 @@ t9 deploy:
     IPS2: 10.0.0.30
     IPS3: 10.0.0.25
     TLS: wildcard-tls
-    SSOURL: "http://sso-api.t9.svc.tolar.testenv.local"
-    BONUSURL: "http://t9-bonus.netreportservice.xyz"
   tags:
     - testuat
 
@@ -135,10 +134,9 @@ demo deploy:
     - master
   variables:
     NAMESPACE: "core2"
-    TLS: cloudflare-tls
     K8SCONF: "$DEMOKUBECFG"
     DOMAIN_CI: "k8demo.cyou"
-    KAFKA_BROKER: "demo-kafka-b1.ganet.pw:9093,demo-kafka-b2.ganet.pw:9093,demo-kafka-b3.ganet.pw:9093"
+    APPDOMAIN: "audit-p2"
     KAFKA1: demo-kafka-b1.ganet.pw
     KAFKA2: demo-kafka-b2.ganet.pw
     KAFKA3: demo-kafka-b3.ganet.pw
@@ -146,8 +144,6 @@ demo deploy:
     IPS2: 212.8.243.109
     IPS3: 212.8.243.107
     TLS: cloudflare-tls
-    SSOURL: "http://sso-api.core2.svc.demoplatform.local"
-    BONUSURL: "https://bonus.k8demo.cyou"
   tags:
     - demo
 
@@ -160,6 +156,7 @@ lt deploy:
     NAMESPACE: "audit"
     K8SCONF: "$LTKUBECFG"
     DOMAIN_CI: "k8slt.work"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-b1.k8slt.work
     KAFKA2: kafka-b2.k8slt.work
     KAFKA3: kafka-b3.k8slt.work
@@ -167,8 +164,6 @@ lt deploy:
     IPS2: 10.77.7.21
     IPS3: 10.77.7.27
     TLS: cloudflare-tls
-    SSOURL: "http://sso-api.sso.svc.c2lt.local"
-    BONUSURL: "https://bonus.k8slt.work"
   tags:
     - lt
 
@@ -181,6 +176,7 @@ pentest deploy:
     NAMESPACE: "audit"
     K8SCONF: "$PENTEST_KUBECFG"
     DOMAIN_CI: "penp2.work"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-b1.penp2.work
     KAFKA2: kafka-b2.penp2.work
     KAFKA3: kafka-b3.penp2.work
@@ -188,8 +184,6 @@ pentest deploy:
     IPS2: 10.45.45.20
     IPS3: 10.45.45.27
     TLS: cloudflare-tls
-    SSOURL: "http://sso-api.sso.svc.platform.local"
-    BONUSURL: "https://bonus.penp2.work"
   tags:
     - pentest
 
@@ -202,6 +196,7 @@ prod deploy:
     NAMESPACE: "audit"
     K8SCONF: "$PROD_KUBECFG"
     DOMAIN_CI: "k8platform.xyz"
+    APPDOMAIN: "audit-p2"
     KAFKA1: kafka-prod-b1.k8platform.xyz
     KAFKA2: kafka-prod-b2.k8platform.xyz
     KAFKA3: kafka-prod-b3.k8platform.xyz
@@ -209,7 +204,5 @@ prod deploy:
     IPS2: 10.66.6.36
     IPS3: 10.66.6.37
     TLS: cloudflare-tls
-    SSOURL: "http://sso-api.sso.svc.platform.local"
-    BONUSURL: "https://bonus.k8platform.xyz"
   tags:
     - prod

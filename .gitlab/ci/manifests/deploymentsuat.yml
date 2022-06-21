@@ -22,8 +22,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: audit-service-api-conf
-            - secretRef:
-                name: audit-service
           resources: {}
           imagePullPolicy: Always
       restartPolicy: Always
@@ -76,7 +74,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: from_ci_NS.domain_CI
+    - host: from_ci_APPDOMAIN.domain_CI
       http:
         paths:
           - pathType: ImplementationSpecific

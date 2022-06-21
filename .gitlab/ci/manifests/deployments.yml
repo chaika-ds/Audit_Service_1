@@ -22,8 +22,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: audit-service-api-conf
-            - secretRef:
-                name: audit-service
           resources: {}
           imagePullPolicy: Always
       restartPolicy: Always
@@ -77,10 +75,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - from_ci_NS.domain_CI
+        - from_ci_APPDOMAIN.domain_CI
       secretName: from_ci_TLS
   rules:
-    - host: from_ci_NS.domain_CI
+    - host: from_ci_APPDOMAIN.domain_CI
       http:
         paths:
           - pathType: ImplementationSpecific
