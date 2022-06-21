@@ -34,7 +34,7 @@ public class RedisCacheMiddleware
         var originalBody = context.Response.Body;
 
         context.Response.ContentType = JsonMediaType;
-
+        
         context.Response.Body = memStream;
 
         if (value == null)
@@ -48,6 +48,13 @@ public class RedisCacheMiddleware
             var responseBody = await streamReader.ReadToEndAsync();
 
             await _redis.SetAsync(checksum, JsonConvert.SerializeObject(responseBody), TimeSpan.FromMinutes(10));
+            
+            memStream.Position = 0;
+            
+            await memStream.CopyToAsync(originalBody);
+            
+            context.Response.Body = originalBody;
+            
         }
         else
         {
@@ -56,12 +63,12 @@ public class RedisCacheMiddleware
             await writer.WriteAsync(value);
 
             await writer.FlushAsync();
+            
+            memStream.Position = 0;
+
+            await memStream.CopyToAsync(originalBody);
+
+            context.Response.Body = memStream;
         }
-
-        memStream.Position = 0;
-
-        await memStream.CopyToAsync(originalBody);
-
-        context.Response.Body = originalBody;
     }
 }
