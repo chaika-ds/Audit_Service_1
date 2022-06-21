@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AuditService.Data.Domain.Enums;
+using AuditService.Common.Enums;
 using AuditService.IntegrationTests.Api.Helpers;
 
 

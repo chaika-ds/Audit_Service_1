@@ -34,8 +34,8 @@ namespace AuditService.EventConsumerApp
         /// </summary>
         private void ApplyHealthSection(IConfiguration config)
         {
-            CriticalErrorsCount = int.Parse(config["Health:CriticalErrorsCount"]);
-            ForPeriodInSec = int.Parse(config["Health:ForPeriodInSec"]);
+            CriticalErrorsCount = int.Parse(config["KAFKA:HEALTH_CHECK:CRITICAL_ERRORS_COUNT"]);
+            ForPeriodInSec = int.Parse(config["KAFKA:HEALTH_CHECK:FOR_PERIOD_IN_SEC"]);
         }
 
         #endregion
@@ -52,21 +52,21 @@ namespace AuditService.EventConsumerApp
         /// </summary>
         private void ApplyKafkaSection(IConfiguration config)
         {
-            MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
-            MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
+            MaxTimeoutMsec = int.Parse(config["KAFKA:MaxTimeoutMsec"]);
+            MaxThreadsCount = int.Parse(config["KAFKA:MaxThreadsCount"]);
 
-            Config = config.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+            Config = config.GetSection("KAFKA:CONFIGS").GetChildren().ToDictionary(x => x.Key, v => v.Value);
 
             ApplyKafkaAliases(config, Config);
         }
 
-        private void ApplyKafkaAliases(IConfiguration configuration, Dictionary<string, string> config)
+        private void ApplyKafkaAliases(IConfiguration configuration, IDictionary<string, string> config)
         {
-            var aliases = configuration.GetSection("Kafka:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+            var aliases = configuration.GetSection("KAFKA:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
 
             foreach (var item in aliases)
             {
-                var value = configuration[$"Kafka:{item.Key}"];
+                var value = configuration[$"KAFKA:{item.Key}"];
 
                 if (!string.IsNullOrEmpty(value)) config[item.Value] = value;
             }
@@ -101,13 +101,12 @@ namespace AuditService.EventConsumerApp
         /// </summary>
         private void ApplySsoSection(IConfiguration config)
         {
-            Connection = config["AuthConnection"];
-            ServiceId = Guid.Parse(config["ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
-            ApiKey = config["ApiKey"];
-            RootNodeId = Guid.Parse(config["RootNodeId"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
+            Connection = config["SSO:SSO_SERVICE_URL"];
+            ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId."));
+            ApiKey = config["SSO:SSO_AUTH_API_KEY"];
+            RootNodeId = Guid.Parse(config["SSO:SSO_AUTH_ROOT_NODE_ID"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
         }
 
         #endregion        
-
     }
 }

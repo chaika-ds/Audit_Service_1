@@ -3,13 +3,14 @@ using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Tolar.Kafka;
 
 namespace AuditService.Kafka.Kafka
 {
     /// <summary>
     /// Producer for messages to Kafka
     /// </summary>
-    public sealed class KafkaProducer : Tolar.Kafka.IKafkaProducer, IDisposable
+    public sealed class KafkaProducer : IKafkaProducer, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IKafkaSettings _settings;

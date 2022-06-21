@@ -1,10 +1,11 @@
-﻿using AuditService.Kafka.Kafka;
-using AuditService.Data.Domain.Domain;
+﻿using AuditService.Common.Models.Domain;
 using AuditService.IntegrationTests.EventProducer.Builder;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AuditService.Kafka.Settings;
+using Tolar.Kafka;
+using KafkaProducer = AuditService.Kafka.Kafka.KafkaProducer;
 
 namespace AuditService.IntegrationTests.EventProducer.Settings
 {

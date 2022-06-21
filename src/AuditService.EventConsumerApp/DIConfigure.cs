@@ -1,6 +1,6 @@
-﻿using AuditService.Kafka.Services;
+﻿using AuditService.Common.Models.Domain;
+using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
-using AuditService.Data.Domain.Domain;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate.Impl;
@@ -15,7 +15,7 @@ namespace AuditService.EventConsumerApp;
 /// </summary>
 public static class DiConfigure
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static void AddApplicationServices(this IServiceCollection services)
     {
         services.AddSettings<IKafkaConsumerSettings, IHealthSettings, IAuthenticateServiceSettings, AppSettings>();
 
@@ -29,7 +29,5 @@ public static class DiConfigure
 
         services
             .AddHostedService<InputServicesManager>();
-
-        return services;
     }
 }

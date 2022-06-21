@@ -1,38 +1,39 @@
 {
-  "RedisCache": {
-    "ConnectionString": "",
-    "InstanceName": ""
-  },
-  "ElasticSearch": {
-    "Uris": [ "" ],
-    "UserName": "",
-    "Password": "",
-    "DefaultIndex": "",
-    "Indexes": {
-      "AuditLog": "",
-      "ApplicationLog": ""
+  "REDIS": {
+    "REDIS_CONNECTION_URL": "",
+    "REDIS_PREFIX": ""
+  },   
+  "ELASTIC_SEARCH": {
+    "ELK_CONNECTION_URL": "",
+    "INDEXES": {
+      "ELK_INDEX_AUDITLOG": "",
+      "ELK_INDEX_APPLOG": ""
     }
   },
-  "Kafka": {
-    "MaxThreadsCount": 0,
-    "MaxTimeoutMsec": 0,
-    "PermissionsTopic": "demo.sso.sync.permission",
-    "Config": {
-      "bootstrap.servers": "",
-      "group.id": "",
-      "enable.partition.eof": true,
-      "auto.offset.reset": ""
+  "KAFKA": {
+    "CONFIGS": {
+      "KAFKA_BROKER": "",
+      "KAFKA_CONSUMER_GROUP": "",
+      "KAFKA_USERNAME": "",
+      "KAFKA_PASSWORD": "",
+      "KAFKA_PREFIX": ""
     },
-    "InputSettings": {
-      "AuditLogTransactionDto": ""
+    "KAFKA_TOPICS": {
+      "KAFKA_TOPIC_AUDITLOG": ""
+    },
+    "HEALTH_CHECK": {
+      "CRITICAL_ERRORS_COUNT": 20,
+      "FOR_PERIOD_IN_SEC": 20
     }
   },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Debug",
-      "Microsoft": "Information",
-      "Microsoft.Hosting.Lifetime": "Information",
-      "System": "Information"
-    }
+  "SSO":{
+    "SSO_SERVICE_NAME": "",
+    "SSO_AUTH_SERVICE_ID": "",
+    "SSO_AUTH_ROOT_NODE_ID": "",
+    "SSO_SERVICE_URL": "",
+    "SSO_AUTH_API_KEY": ""
+  },
+  "JSON_DATA": {
+    "SERVICE_CATEGORIES_PATH": ""
   }
 }

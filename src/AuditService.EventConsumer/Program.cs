@@ -15,6 +15,7 @@ try
 
     var additionalConfiguration = new AdditionalEnvironmentConfiguration();
     additionalConfiguration.AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
+    additionalConfiguration.AddJsonFile(builder, $"config/aus.api.logger.{environmentName}.json");
 
     builder.Services.AddApplicationServices(); 
     

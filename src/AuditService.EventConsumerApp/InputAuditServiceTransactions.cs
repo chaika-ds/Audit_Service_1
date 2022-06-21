@@ -1,15 +1,12 @@
-﻿using AuditService.Kafka.Args;
-using AuditService.Kafka.Kafka;
-using AuditService.Kafka.Services;
+﻿using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
-using AuditService.Data.Domain.Dto;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using AuditService.Common.Models.Domain;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
-using AuditService.Data.Domain.Domain;
 
 namespace AuditService.EventConsumerApp
 {

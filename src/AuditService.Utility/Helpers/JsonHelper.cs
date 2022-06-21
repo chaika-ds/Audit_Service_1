@@ -1,40 +1,28 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AuditService.Utility.Helpers;
 
 public static class JsonHelper
 {
     /// <summary>
-    /// Get JSON in string format from file
+    ///     Get JSON in string format from file
     /// </summary>
-    /// <param name="jsonAdress"></param>
-    /// <returns></returns>
-    public static string GetJson(string jsonAdress)
+    public static string GetJson(string jsonAddress)
     {
-        using (StreamReader r = new StreamReader(jsonAdress))
-        {
-            var json = r.ReadToEnd();
-            return json;
-        }
+        using var r = new StreamReader(jsonAddress);
+        return r.ReadToEnd();
     }
 
     /// <summary>
-    /// Serialize from model T to JSON in string format
+    ///     Serialize from model T to JSON in string format
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="incomeObj"></param>
-    /// <returns></returns>
-    public static string SerializeToString<T>(T incomeObj) where T : class
+    public static string SerializeToString<T>(this T obj) where T : class
     {
-        var _serializerSettings = new JsonSerializerSettings
+        return JsonConvert.SerializeObject(obj, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            Converters = new List<JsonConverter>() { new Newtonsoft.Json.Converters.StringEnumConverter() }
-        };
-
-        var objStr = JsonConvert.SerializeObject(incomeObj, _serializerSettings);
-
-        return objStr;
+            Converters = new List<JsonConverter> { new StringEnumConverter() }
+        });
     }
 }
-

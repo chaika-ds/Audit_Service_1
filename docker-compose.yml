@@ -6,14 +6,15 @@ services:
     image: slotegrator/auditservice
     build:
       args:
-        - PORT=${AUS_PORT}
-        - APP_NAME=${AUS_APP_NAME}
+        - APP_PORT=${APP_PORT}
+        - APP_NAME=${APP_NAME}
       context: .
       dockerfile: Dockerfile
+      target: ${APP_ENV}
     ports:
-      - ${AUS_PORT}:${AUS_PORT}
+      - ${APP_PORT}:${APP_PORT}
     environment:
-      - ASPNETCORE_ENVIRONMENT=${AUS_COFIGURATION}
+      - ASPNETCORE_ENVIRONMENT=${APP_ENV}
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ./config:/app/config

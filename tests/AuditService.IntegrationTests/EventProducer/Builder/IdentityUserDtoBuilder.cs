@@ -1,5 +1,4 @@
-﻿using AuditService.Data.Domain.Domain;
-using AuditService.Data.Domain.Dto;
+﻿using AuditService.Common.Models.Domain;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder
 {
