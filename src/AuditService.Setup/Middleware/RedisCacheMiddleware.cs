@@ -1,4 +1,6 @@
 using System.Text;
+using AuditService.Common.Enums;
+using AuditService.Setup.Extensions;
 using AuditService.Utility.Helpers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -21,18 +23,9 @@ public class RedisCacheMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var redisKey = context.Request.Path + context.Request.QueryString;
+        var redisKey = context.Request.Path + context.Request.QueryString + context.Request.Headers["Token"];
 
-        if (context.Request.Method.ToUpper() == "POST")
-        {
-            using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true);
-
-            var postBody = await reader.ReadToEndAsync();
-
-            redisKey += postBody;
-        }
-
-        var checksum = StringHelper.GetCheckSum(redisKey);
+        var checksum = redisKey.GetHash(HashType.MD5);
 
         var value = await _redis.GetAsync<string>(checksum);
 
