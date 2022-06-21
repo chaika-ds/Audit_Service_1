@@ -1,0 +1,208 @@
+image: docker:20.10.3
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ''
+  DOCKER_DRIVER: overlay2
+  GIT_SUBMODULE_STRATEGY: recursive
+
+services:
+  - name: docker:20.10.3-dind
+
+.k8sdeployuat:
+  image:
+    name: bitnami/kubectl
+    entrypoint: [""]
+  stage: deploy
+  tags:
+    - testuat
+  before_script:
+    - echo "$K8SCONF" > k8sconfig
+    - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
+  script:
+    - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_TAG/$CI_COMMIT_SHORT_SHA/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/domain_CI/$DOMAIN_CI/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_IPS1/$IPS1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_IPS2/$IPS2/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_IPS3/$IPS3/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_KAFKA2/$KAFKA2/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_KAFKA1/$KAFKA1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_KAFKA3/$KAFKA3/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_TLS/$TLS/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - kubectl -n $NAMESPACE apply -f $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - >
+      if ! kubectl -n $NAMESPACE rollout status deployment audit-service-api; then
+        kubectl -n $NAMESPACE rollout undo deployment audit-service-api
+        kubectl -n $NAMESPACE rollout status deployment audit-service-api
+        exit 1
+      fi
+
+.k8sdeploy:
+  image:
+    name: bitnami/kubectl
+    entrypoint: [""]
+  stage: deploy
+  dependencies:
+    - sonar
+  tags:
+    - demo
+    - lt
+    - prod
+  before_script:
+    - echo "$K8SCONF" > k8sconfig
+    - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
+  script:
+    - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_TAG/$CI_COMMIT_SHORT_SHA/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/domain_CI/$DOMAIN_CI/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_IPS1/$IPS1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_IPS2/$IPS2/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_IPS3/$IPS3/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_KAFKA2/$KAFKA2/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_KAFKA1/$KAFKA1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_KAFKA3/$KAFKA3/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - sed -ie "s/from_ci_TLS/$TLS/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - kubectl -n $NAMESPACE apply -f $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
+    - >
+      if ! kubectl -n $NAMESPACE rollout status deployment audit-service-api; then
+        kubectl -n $NAMESPACE rollout undo deployment audit-service-api
+        kubectl -n $NAMESPACE rollout status deployment audit-service-api
+        exit 1
+      fi
+
+test deploy:
+  extends: .k8sdeployuat
+  when: manual
+  variables:
+    NAMESPACE: "test-tolar-audit-service"
+    K8SCONF: "$KUBECFG"
+    DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-b1.netreportservice.xyz
+    KAFKA2: kafka-b2.netreportservice.xyz
+    KAFKA3: kafka-b3.netreportservice.xyz
+    IPS1: 10.0.0.35
+    IPS2: 10.0.0.30
+    IPS3: 10.0.0.25
+    TLS: wildcard-tls
+  tags:
+    - testuat
+
+uat deploy:
+  extends: .k8sdeployuat
+  when: manual
+  variables:
+    NAMESPACE: "tolar-audit-service"
+    K8SCONF: "$KUBECFG"
+    DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-b1.netreportservice.xyz
+    KAFKA2: kafka-b2.netreportservice.xyz
+    KAFKA3: kafka-b3.netreportservice.xyz
+    IPS1: 10.0.0.35
+    IPS2: 10.0.0.30
+    IPS3: 10.0.0.25
+    TLS: wildcard-tls
+  tags:
+    - testuat
+
+t9 deploy:
+  extends: .k8sdeployuat
+  when: manual
+  variables:
+    NAMESPACE: "t9"
+    K8SCONF: "$KUBECFG"
+    DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-b1.netreportservice.xyz
+    KAFKA2: kafka-b2.netreportservice.xyz
+    KAFKA3: kafka-b3.netreportservice.xyz
+    IPS1: 10.0.0.35
+    IPS2: 10.0.0.30
+    IPS3: 10.0.0.25
+    TLS: wildcard-tls
+  tags:
+    - testuat
+
+demo deploy:
+  extends: .k8sdeploy
+  when: manual
+  only:
+    - master
+  variables:
+    NAMESPACE: "core2"
+    K8SCONF: "$DEMOKUBECFG"
+    DOMAIN_CI: "k8demo.cyou"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: demo-kafka-b1.ganet.pw
+    KAFKA2: demo-kafka-b2.ganet.pw
+    KAFKA3: demo-kafka-b3.ganet.pw
+    IPS1: 212.8.243.106
+    IPS2: 212.8.243.109
+    IPS3: 212.8.243.107
+    TLS: cloudflare-tls
+  tags:
+    - demo
+
+lt deploy:
+  extends: .k8sdeploy
+  when: manual
+  only:
+    - master
+  variables:
+    NAMESPACE: "audit"
+    K8SCONF: "$LTKUBECFG"
+    DOMAIN_CI: "k8slt.work"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-b1.k8slt.work
+    KAFKA2: kafka-b2.k8slt.work
+    KAFKA3: kafka-b3.k8slt.work
+    IPS1: 10.77.7.15
+    IPS2: 10.77.7.21
+    IPS3: 10.77.7.27
+    TLS: cloudflare-tls
+  tags:
+    - lt
+
+pentest deploy:
+  extends: .k8sdeploy
+  when: manual
+#  only:
+#    - master
+  variables:
+    NAMESPACE: "audit"
+    K8SCONF: "$PENTEST_KUBECFG"
+    DOMAIN_CI: "penp2.work"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-b1.penp2.work
+    KAFKA2: kafka-b2.penp2.work
+    KAFKA3: kafka-b3.penp2.work
+    IPS1: 10.45.45.12
+    IPS2: 10.45.45.20
+    IPS3: 10.45.45.27
+    TLS: cloudflare-tls
+  tags:
+    - pentest
+
+prod deploy:
+  extends: .k8sdeploy
+  when: manual
+  only:
+    - master
+  variables:
+    NAMESPACE: "audit"
+    K8SCONF: "$PROD_KUBECFG"
+    DOMAIN_CI: "k8platform.xyz"
+    APPDOMAIN: "audit-p2"
+    KAFKA1: kafka-prod-b1.k8platform.xyz
+    KAFKA2: kafka-prod-b2.k8platform.xyz
+    KAFKA3: kafka-prod-b3.k8platform.xyz
+    IPS1: 10.66.6.35
+    IPS2: 10.66.6.36
+    IPS3: 10.66.6.37
+    TLS: cloudflare-tls
+  tags:
+    - prod
