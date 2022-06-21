@@ -10,6 +10,8 @@ services:
   - name: docker:20.10.3-dind
 
 .k8sdeployuat:
+  only:
+    - web
   image:
     name: bitnami/kubectl
     entrypoint: [""]
@@ -40,6 +42,8 @@ services:
       fi
 
 .k8sdeploy:
+  only:
+    - web
   image:
     name: bitnami/kubectl
     entrypoint: [""]
