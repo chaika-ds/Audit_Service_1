@@ -135,7 +135,7 @@ demo deploy:
   extends: .k8sdeploy
   when: manual
   only:
-    - master
+    - develop
   variables:
     NAMESPACE: "core2"
     K8SCONF: "$DEMOKUBECFG"
