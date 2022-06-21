@@ -1,14 +1,14 @@
-﻿using AuditService.Setup.Interfaces;
+﻿using AuditService.Setup.ConfigurationSettings;
 using Microsoft.Extensions.Configuration;
 
 namespace AuditService.ELK.FillTestData
 {
-    public class JsonData : IJsonData
+    public class JsonDataSettings : IJsonDataSettings
     {
         /// <summary>
         ///     JSON data settings
         /// </summary>
-        public JsonData(IConfiguration config)
+        public JsonDataSettings(IConfiguration config)
         {
             ApplyJsonDataSection(config); 
         }
