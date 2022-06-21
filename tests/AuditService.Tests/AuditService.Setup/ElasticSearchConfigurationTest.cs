@@ -1,49 +1,62 @@
-﻿using AuditService.Setup;
+﻿using AuditService.Kafka.Services.Health;
+using AuditService.Providers.Implementations;
+using AuditService.Providers.Interfaces;
+using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
-using bgTeam.Extensions;
+using AuditService.WebApi;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Nest;
+using Tolar.Authenticate;
+using Tolar.Kafka;
 
 namespace AuditService.Tests.AuditService.Setup;
 
 public class ElasticSearchConfigurationTest
 {
-    private readonly IServiceCollection _services;
-
-    public ElasticSearchConfigurationTest()
-    {
-        _services = new ServiceCollection();
-    }
-
     [Fact]
-    public void AddElasticSearchTest()
+    public void CollectionServicesTest()
     {
-        _services.AddElasticSearch();
+        var configuration = new Mock<IConfiguration>();
+        configuration.SetupGet(x => x[It.IsAny<string>()]).Returns("0");
 
-        Assert.False(false, "true");
-    }
-
-    [Fact]
-    public async Task RedisCacheConfiguration_AddRedisCache_TestAsync()
-    {
         var services = new ServiceCollection();
+
+        //services.RegisterSettings();
+
+        //services.AddElasticSearch();
+        //services.AddRedisCache();
+        //services.RegisterServices();
+
+        //var serviceProvider = services.BuildServiceProvider();
         
-        services.RegisterSettings();
-        services.AddRedisCache();
+        //var redis = serviceProvider.GetRequiredService<IDistributedCache>();
+        //Assert.NotNull(redis);
 
-        var serviceProvider = services.BuildServiceProvider();
-        var cache = serviceProvider.GetRequiredService<IDistributedCache>();
+        //var elk = serviceProvider.GetRequiredService<IElasticClient>();
+        //Assert.NotNull(elk);
 
-        var bytesArray = new byte[] { 0, 12, 44, 55, 90 };
+        //var authenticate = serviceProvider.GetRequiredService<IAuthenticateService>();
+        //Assert.NotNull(authenticate);
 
-        await cache.SetAsync("test_cache_key", bytesArray);
+        //var kafkaProducer = serviceProvider.GetRequiredService<IKafkaProducer>();
+        //Assert.NotNull(kafkaProducer);
 
-        Thread.Sleep(100);
+        //var healthService = serviceProvider.GetRequiredService<IHealthService>();
+        //Assert.NotNull(healthService);
 
-        var result = await cache.GetAsync("test_cache_key");
+        //var referenceProvider = serviceProvider.GetRequiredService<IReferenceProvider>();
+        //Assert.NotNull(referenceProvider);
 
-        Assert.NotNull(result);
-        Assert.NotEqual(result, bytesArray);
+        //var auditLogProvider = serviceProvider.GetRequiredService<IAuditLogProvider>();
+        //Assert.NotNull(auditLogProvider);
+
+        //var healthCheckProvider = serviceProvider.GetRequiredService<IHealthCheckProvider>();
+        //Assert.NotNull(healthCheckProvider);
+
+        //var permissionPusherProvider = serviceProvider.GetRequiredService<PermissionPusherProvider>();
+        //Assert.NotNull(permissionPusherProvider);
     }
 }
