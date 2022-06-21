@@ -26,7 +26,7 @@ spec:
           imagePullPolicy: Always
       restartPolicy: Always
       imagePullSecrets:
-        - name: harbor
+        - name: registry-theharbor-xyz
       hostAliases:
         - ip: from_ci_IPS1
           hostnames:
