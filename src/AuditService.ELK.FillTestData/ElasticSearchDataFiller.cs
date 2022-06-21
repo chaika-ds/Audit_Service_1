@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
 using ActionType = AuditService.Common.Enums.ActionType;
+using Microsoft.VisualStudio.Services.Common;
 
 namespace AuditService.ELK.FillTestData;
 
@@ -39,7 +40,7 @@ internal class ElasticSearchDataFiller
             {
                 Console.WriteLine("Start force clean data");
 
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
+                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))).Index(_configuration[ElkIndexAuditLog]));
                 await _elasticClient.Indices.DeleteAsync(_configuration[ElkIndexAuditLog]);
 
                 Console.WriteLine("Force clean has been comlpete!");
@@ -65,13 +66,20 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine("");
                 Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
-                
-                var data = GenerateData(configurationModel);
 
-                Console.WriteLine("Generation is completed");
+                var data = GenerateData(configurationModel)?.ToArray();
+                Console.WriteLine("Generation is completed");    
+
+                        
+
+                
 
                 foreach (var dto in data)
-                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
+                {     
+                    Console.WriteLine(dto.EntityId);
+                  await  _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
+                }    
+                    
 
                 Console.WriteLine("Data has been saving");
                 Console.WriteLine("");
@@ -95,6 +103,7 @@ internal class ElasticSearchDataFiller
     private IEnumerable<AuditLogTransactionDomainModel> GenerateData(ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
+
             yield return CreateNewDto(configurationModel);
     }
 

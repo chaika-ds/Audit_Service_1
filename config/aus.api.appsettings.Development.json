@@ -4,7 +4,7 @@
     "REDIS_PREFIX": "DevRedisCache"
   },   
   "ELASTIC_SEARCH": {
-    "ELK_CONNECTION_URL": "http://elasticsearch:9200",
+    "ELK_CONNECTION_URL": "http://localhost:9200",
     "INDEXES": {
       "ELK_INDEX_AUDITLOG": "testaudit",
       "ELK_INDEX_APPLOG": "applog"
@@ -34,6 +34,6 @@
     "SSO_AUTH_API_KEY": "h8ajQdEMQhLp77hLasmXNVw09PNImZRdRfqBlDfxuDTTEdJghugPsJar1imsxG6e4qUxdmzVDieo9pnZv0tJcb6jOVlpWR7muqfLNuDEeMUNPy5McMrQyxyIFfhtD0iO6ff9sRXCc79mB3MsHjw6CmxDeoAm05kSX9nQQ7sishyhMFiSBVlaOUPGic4R8pFJAteL66ePUVOurGtxTqzjFgBFL7eA6ClKCRMBbouH60IQPZjxzTCscpPOIchoCKRV"
   },
   "JSON_DATA": {
-    "SERVICE_CATEGORIES_PATH": "../../src/AuditService.Common/JsonData/ServiceCategories.json"
+    "SERVICE_CATEGORIES_PATH": "JsonData/ServiceCategories.json"
   }
 }
