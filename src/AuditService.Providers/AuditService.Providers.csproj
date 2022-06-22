@@ -5,8 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+	    <CodeAnalysisRuleSet>AuditService.Providers.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="..\..\.sonarlint\p2-t11-test\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="bgTeam.DataAccess" Version="6.1.6" />

@@ -13,6 +13,7 @@ ARG APP_NAME=""
 ARG APP_PATH=""
 
 COPY lint/ /lint/
+COPY .sonarlint/ /.sonarlint/
 COPY config/ /config/
 COPY ${SRC_DIR}/ /src/
 COPY ["nuget.config", ""]
