@@ -11,6 +11,7 @@ using Moq;
 using Nest;
 using Tolar.Authenticate;
 using Tolar.Kafka;
+using Tolar.Redis;
 
 namespace AuditService.Tests.AuditService.Setup;
 
@@ -19,10 +20,11 @@ public class ElasticSearchConfigurationTest
     [Fact]
     public void CollectionServicesTest()
     {
+        var servicesMock = new Mock<ServiceCollection>();
         var configuration = new Mock<IConfiguration>();
         configuration.SetupGet(x => x[It.IsAny<string>()]).Returns("0");
 
-        var services = new ServiceCollection();
+        //var services = servicesMock.ge;
 
         //services.RegisterSettings();
 
@@ -31,7 +33,10 @@ public class ElasticSearchConfigurationTest
         //services.RegisterServices();
 
         //var serviceProvider = services.BuildServiceProvider();
-        
+
+        //var redisSettings = serviceProvider.GetRequiredService<IRedisSettings>();
+        //Assert.NotNull(redisSettings);
+
         //var redis = serviceProvider.GetRequiredService<IDistributedCache>();
         //Assert.NotNull(redis);
 
