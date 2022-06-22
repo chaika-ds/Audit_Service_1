@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
 using ActionType = AuditService.Common.Enums.ActionType;
-using Microsoft.VisualStudio.Services.Common;
 
 namespace AuditService.ELK.FillTestData;
 
@@ -59,7 +58,7 @@ internal class ElasticSearchDataFiller
             }
 
             Console.WriteLine("Get configuration for generation data");
-            
+
             var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
 
             foreach (var configurationModel in configurationModels)
