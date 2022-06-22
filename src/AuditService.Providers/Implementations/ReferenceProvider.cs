@@ -33,15 +33,15 @@ public class ReferenceProvider : IReferenceProvider
     /// <param name="serviceId">Service ID</param>
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-        var path = Directory.GetParent(Environment.CurrentDirectory) + "/AuditService.Common/" + _jsonDataSettings?.ServiceCategories;
+        var path = _jsonDataSettings.ServiceCategories?.GetPathByApplicationLayer("AuditService.Common");
         
-        using var reader = new StreamReader(path ?? throw new NullReferenceException( $"{nameof(_jsonDataSettings.ServiceCategories)} is null"));
+        using var reader = new StreamReader(path ?? throw new NullReferenceException( $"{nameof(path)} is null"));
         var json = await reader.ReadToEndAsync();
 
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
-                $"File {_jsonDataSettings?.ServiceCategories} not found or not include data of categories.");
+                $"File {path} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories
