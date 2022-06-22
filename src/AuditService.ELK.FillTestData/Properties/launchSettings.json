@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AuditService.ELK.FillTestData": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

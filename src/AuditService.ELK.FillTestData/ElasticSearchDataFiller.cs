@@ -61,6 +61,7 @@ internal class ElasticSearchDataFiller
             Console.WriteLine("Get configuration for generation data");
             
             var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
+
             foreach (var configurationModel in configurationModels)
             {
                 Console.WriteLine("");
@@ -68,18 +69,12 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
                 var data = GenerateData(configurationModel)?.ToArray();
-                Console.WriteLine("Generation is completed");    
-
-                        
-
-                
+                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");                  
 
                 foreach (var dto in data)
-                {     
-                    Console.WriteLine(dto.EntityId);
-                  await  _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
-                }    
-                    
+                {
+                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
+                }                        
 
                 Console.WriteLine("Data has been saving");
                 Console.WriteLine("");

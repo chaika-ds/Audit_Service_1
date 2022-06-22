@@ -3,6 +3,7 @@ using AuditService.Common.Models.Domain;
 using AuditService.Providers.Interfaces;
 using AuditService.Setup.ConfigurationSettings;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace AuditService.Providers.Implementations;
 
@@ -32,7 +33,10 @@ public class ReferenceProvider : IReferenceProvider
     /// <param name="serviceId">Service ID</param>
     public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null)
     {
-        using var reader = new StreamReader(_jsonDataSettings.ServiceCategories ?? throw new NullReferenceException($"{nameof(_jsonDataSettings.ServiceCategories)} is null"));
+        var fileDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string filePath = String.Concat(fileDirectory, _jsonDataSettings.ServiceCategories);       
+
+        using var reader = new StreamReader(filePath ?? throw new NullReferenceException($"{nameof(filePath)} is null"));
         var json = await reader.ReadToEndAsync();
 
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
