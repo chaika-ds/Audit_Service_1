@@ -17,5 +17,5 @@ public interface IReferenceProvider
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null);
+    Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null);
 }
