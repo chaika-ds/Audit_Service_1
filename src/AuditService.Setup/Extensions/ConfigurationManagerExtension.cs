@@ -1,10 +1,11 @@
-﻿using AuditService.Utility.Helpers;
+﻿using System.Text;
+using AuditService.Utility.Helpers;
 using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace AuditService.Setup.Extensions;
 
@@ -14,30 +15,60 @@ namespace AuditService.Setup.Extensions;
 public static class ConfigurationManagerExtension
 {
     /// <summary>
-    ///     Adds the JSON configuration provider at <paramref name="pathFile" /> to <paramref name="configuration" />.
+    ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" />.
     /// </summary>
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static void AddJsonFile(this ConfigurationManager configuration, string pathFile,
-        IWebHostEnvironment environment)
+    public static void AddJsonFile(this ConfigurationManager configuration, string configFile, IHostEnvironment environment)
+    {
+        var configFilePath = GetJsonFile(configFile, environment);
+        var configs = File.ReadAllText(configFilePath);
+
+        configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
+    }
+
+    /// <summary>
+    ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" /> with environments from <paramref name="envFile" />.
+    /// </summary>
+    /// <remarks>
+    ///     Supported docker container directory
+    /// </remarks>
+    public static void AddJsonFile(this ConfigurationManager configuration, string configFile, string envFile, IHostEnvironment environment)
+    {
+        var configFilePath = GetJsonFile(configFile, environment);
+        var envFilePath = GetJsonFile(envFile, environment);
+        
+        var configs = File.ReadAllText(configFilePath);
+        var environments = File.ReadAllText(envFilePath);
+
+        var envs = JsonConvert.DeserializeObject<IDictionary<string, string>>(environments);
+        if (envs != null) 
+            configs = envs.Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value));
+
+        configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
+    }
+
+    /// <summary>
+    ///     Get JSON file
+    /// </summary>
+    /// <param name="pathFile">File path</param>
+    /// <param name="environment">Host environment</param>
+    /// <returns>Path to JSON file</returns>
+    private static string GetJsonFile(string pathFile, IHostEnvironment environment)
     {
         if (environment.ContentRootPath == "/app/")
-        {
-            configuration.AddJsonFile(pathFile, true, true);
-            return;
-        }
+            return pathFile;
 
         var directoryInfo = new DirectoryInfo(environment.ContentRootPath);
         var configPath = GetParent(directoryInfo)?.FullName;
         if (string.IsNullOrEmpty(configPath))
         {
             Console.WriteLine($"additional config folder in all parts of path '{directoryInfo.FullName}' - not founded!");
-            return;
+            return pathFile;
         }
 
-        var fileProvider = new PhysicalFileProvider(configPath);
-        configuration.AddJsonFile(fileProvider, pathFile, true, true);
+        return Path.Combine(configPath, pathFile);
     }
 
     /// <summary>
