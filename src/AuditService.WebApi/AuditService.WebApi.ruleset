@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="SonarQube - T11 test Sonar way" ToolsVersion="17.0">
-  <Include Path="..\..\.sonarlint\p2-t11-testcsharp.ruleset" Action="Default" />
+  <!--<Include Path="..\..\.sonarlint\p2-t11-testcsharp.ruleset" Action="Default" />-->
   <Include Path="..\..\lint\linter.ruleset" Action="Default" />
 </RuleSet>
