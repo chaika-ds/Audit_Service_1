@@ -43,7 +43,7 @@ public class ReferenceProvider : IReferenceProvider
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
-                $"File {path} not found or not include data of categories.");
+                $"File {filePath} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories

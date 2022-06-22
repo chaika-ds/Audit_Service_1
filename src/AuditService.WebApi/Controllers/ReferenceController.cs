@@ -30,7 +30,7 @@ public class ReferenceController
     [HttpGet]
     [Route("services")]
     [Authorize("AuditService.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IEnumerable<ServiceId>))]
+    [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
@@ -43,7 +43,7 @@ public class ReferenceController
     [HttpGet]
     [Route("categories")]
     [Authorize("AuditService.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync()
     {
@@ -57,7 +57,7 @@ public class ReferenceController
     [HttpGet]
     [Route("categories/{serviceId}")]
     [Authorize("AuditService.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceId, CategoryDomainModel[]>))]
+    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure serviceStructure)
     {
