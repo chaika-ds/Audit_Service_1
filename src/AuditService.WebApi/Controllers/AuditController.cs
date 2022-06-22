@@ -6,7 +6,8 @@ using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuditService.WebApi.Controllers;
+
+namespace AuditService.WebApi.Controllers; 
 
 /// <summary>
 ///     Allows you to get a list of audit journals

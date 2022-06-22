@@ -7,17 +7,17 @@ namespace AuditService.Common.Enums;
 /// </summary>
 // ReSharper disable InconsistentNaming
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum ServiceId
+public enum ServiceStructure
 {
     /// <summary>
     ///     PAYMENT SERVICE
     /// </summary>
-    PAYMENT = 0,
+    PAY = 0,
 
     /// <summary>
     ///     SETTING
     /// </summary>
-    SETTING = 1,
+    SS  = 1,
 
     /// <summary>
     ///     SSO
@@ -32,7 +32,7 @@ public enum ServiceId
     /// <summary>
     ///     REPORT
     /// </summary>
-    REPORT = 4,
+    REP = 4,
 
     /// <summary>
     ///     BO
@@ -42,12 +42,12 @@ public enum ServiceId
     /// <summary>
     ///     RM
     /// </summary>
-    RM = 6,
+    FRAUD = 6,
 
     /// <summary>
     ///     CONSTRUCTOR
     /// </summary>
-    CONSTRUCTOR = 7,
+    CCR = 7,
     
     /// <summary>
     ///     KYC
@@ -57,17 +57,17 @@ public enum ServiceId
     /// <summary>
     ///     BONUS
     /// </summary>
-    BONUS = 9,
+    LAB = 9,
     
     /// <summary>
     ///     TOURNAMENTS
     /// </summary>
-    TOURNAMENTS = 10,
+    TS = 10,
     
     /// <summary>
     ///     SEGMENTATION
     /// </summary>
-    SEGMENTATION = 11,
+    SEG = 11,
     
     /// <summary>
     ///     BI
@@ -77,5 +77,5 @@ public enum ServiceId
     /// <summary>
     ///     AFFILIATE
     /// </summary>
-    AFFILIATE = 13
+    AFS = 13
 }

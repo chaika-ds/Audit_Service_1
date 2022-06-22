@@ -2,6 +2,7 @@
 using AuditService.Common.Models.Domain;
 using AuditService.Providers.Interfaces;
 using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.Extensions;
 using Newtonsoft.Json;
 using System.Reflection;
 
@@ -24,14 +25,14 @@ public class ReferenceProvider : IReferenceProvider
     /// </summary>
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return (await GetCategoriesAsync()).SelectMany(x => x.Value).ToList();
+        return (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
     }
 
     /// <summary>
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
         var fileDirectory = AppDomain.CurrentDomain.BaseDirectory;
         string filePath = String.Concat(fileDirectory, _jsonDataSettings.ServiceCategories);       
@@ -39,10 +40,10 @@ public class ReferenceProvider : IReferenceProvider
         using var reader = new StreamReader(filePath ?? throw new NullReferenceException($"{nameof(filePath)} is null"));
         var json = await reader.ReadToEndAsync();
 
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
-                $"File {_jsonDataSettings.ServiceCategories} not found or not include data of categories.");
+                $"File {path} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories

@@ -23,7 +23,7 @@ public class AuditLogTransactionDomainModel
     ///     Service ID
     /// </summary>
     [Required]
-    public ServiceId Service { get; set; }
+    public ServiceStructure Service { get; set; }
 
     /// <summary>
     ///     ID of the node where the change occurred

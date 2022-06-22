@@ -25,7 +25,7 @@ internal class CategoryDictionary
     /// </summary>
     /// <param name="service">Serive type</param>
     /// <param name="random">Instance of random function</param>
-    public string GetCategory(ServiceId service, Random random)
+    public string GetCategory(ServiceStructure service, Random random)
     {
         var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
         if (!category.Value.Any())

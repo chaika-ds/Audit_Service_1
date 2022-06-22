@@ -6,8 +6,8 @@
   "ELASTIC_SEARCH": {
     "ELK_CONNECTION_URL": "http://localhost:9200",
     "INDEXES": {
-      "ELK_INDEX_AUDITLOG": "testaudit",
-      "ELK_INDEX_APPLOG": "applog"
+      "ELK_INDEX_AUDITLOG": "as-auditlog",
+      "ELK_INDEX_APPLOG": "as-internal-applicationlog"
     }
   },
   "KAFKA": {
