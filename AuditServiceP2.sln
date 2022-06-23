@@ -38,8 +38,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lint", "lint", "{80E263D2-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{C3F74EB6-8A2D-4135-AB8D-412A9C0F6BD6}"
 	ProjectSection(SolutionItems) = preProject
-		config\aus.api.appsettings.development.json = config\aus.api.appsettings.development.json
+		config\aus.api.appsettings.json = config\aus.api.appsettings.json
 		config\aus.api.env.development.json = config\aus.api.env.development.json
+		config\aus.api.env.production.json = config\aus.api.env.production.json
 		config\aus.api.logger.development.json = config\aus.api.logger.development.json
 		config\docker.development.env = config\docker.development.env
 	EndProjectSection
