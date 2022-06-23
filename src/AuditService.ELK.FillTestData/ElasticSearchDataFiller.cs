@@ -35,6 +35,7 @@ internal class ElasticSearchDataFiller
         try
         {
             var cleanBefore = _configuration.GetValue<bool>("CleanBefore");
+
             if (cleanBefore)
             {
                 Console.WriteLine("Start force clean data");
@@ -44,8 +45,10 @@ internal class ElasticSearchDataFiller
 
                 Console.WriteLine("Force clean has been comlpete!");
             }
+            var cc = _configuration[ElkIndexAuditLog];
 
             var index = await _elasticClient.Indices.ExistsAsync(_configuration[ElkIndexAuditLog]);
+
             if (!index.Exists)
             {
                 Console.WriteLine("Creating index " + _configuration[ElkIndexAuditLog]);
@@ -67,7 +70,7 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
-                var data = GenerateData(configurationModel)?.ToArray();
+                var data = GenerateData(configurationModel);
                 Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");                  
 
                 foreach (var dto in data)

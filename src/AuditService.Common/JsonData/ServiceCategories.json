@@ -291,7 +291,7 @@
       ]
     }
   ],
-  "SETTING": [
+  "SS": [
     {
       "CategoryCode" : "SETTINGS_NODES",
       "CategoryName" : "Settings: Node details",
