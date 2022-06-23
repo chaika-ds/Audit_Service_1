@@ -21,7 +21,7 @@ namespace AuditService.Setup.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (AuthenticateVerify.NeedAuith(context))
+            if (AuthenticateVerify.NeedAuth(context))
                 await AuthenticateAsync(context);
             
             await _next(context);
