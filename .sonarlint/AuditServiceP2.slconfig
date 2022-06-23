@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://sonarqube.netreportservice.xyz",
+  "Organization": null,
+  "ProjectKey": "p2-t11-test",
+  "ProjectName": "T11 test",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AXdJICN9tEM1sdJumqur",
+      "ProfileTimestamp": "2022-04-26T13:28:58Z"
+    }
+  }
+}

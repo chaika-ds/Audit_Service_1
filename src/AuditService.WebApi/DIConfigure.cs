@@ -2,6 +2,7 @@
 using AuditService.Setup.ModelProviders;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Nest;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
@@ -18,6 +19,7 @@ public static class DiConfigure
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
+        services.AddSingleton<ITokenService>(provider => new TokenService(provider.GetService<IRedisRepository>(), provider.GetService<IAuthenticateService>()));
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddSingleton<IRedisRepository, RedisRepository>();

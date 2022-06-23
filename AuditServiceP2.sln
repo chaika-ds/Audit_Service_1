@@ -14,11 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.EventConsumerA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.ELK.FillTestData", "src\AuditService.ELK.FillTestData\AuditService.ELK.FillTestData.csproj", "{67B4E692-5307-48EC-A13E-B0BF95215026}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{507EFCF1-FB6E-4603-9864-865946C6B394}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.IntegrationTests", "tests\AuditService.IntegrationTests\AuditService.IntegrationTests.csproj", "{B17DB150-5B15-454F-92FC-4EE074661CB2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Tests", "tests\AuditService.Tests\AuditService.Tests.csproj", "{3B7AEB87-99D8-4CF0-AA81-257E3D383D5D}"
@@ -34,6 +29,23 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Setup", "src\AuditService.Setup\AuditService.Setup.csproj", "{F21C4A1F-EFA6-4E90-AD10-0E4783DFE07E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Providers", "src\AuditService.Providers\AuditService.Providers.csproj", "{D36327D1-A04D-4559-AEAB-4B95C8D1D8D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lint", "lint", "{80E263D2-62D2-45BC-AF0E-F7611C99AF4C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		lint\linter.ruleset = lint\linter.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{C3F74EB6-8A2D-4135-AB8D-412A9C0F6BD6}"
+	ProjectSection(SolutionItems) = preProject
+		config\aus.api.appsettings.json = config\aus.api.appsettings.json
+		config\aus.api.env.development.json = config\aus.api.env.development.json
+		config\aus.api.env.production.json = config\aus.api.env.production.json
+		config\aus.api.logger.development.json = config\aus.api.logger.development.json
+		config\docker.development.env = config\docker.development.env
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BFFDD0A1-B28E-4EC5-813F-C77F8D459322}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +113,8 @@ Global
 		{D90B053D-01E3-4F41-88DB-9A5B872C745B} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 		{F21C4A1F-EFA6-4E90-AD10-0E4783DFE07E} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 		{D36327D1-A04D-4559-AEAB-4B95C8D1D8D1} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
+		{80E263D2-62D2-45BC-AF0E-F7611C99AF4C} = {BFFDD0A1-B28E-4EC5-813F-C77F8D459322}
+		{C3F74EB6-8A2D-4135-AB8D-412A9C0F6BD6} = {BFFDD0A1-B28E-4EC5-813F-C77F8D459322}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73685254-724E-430F-81DA-68858654B836}
