@@ -8,8 +8,6 @@ using AuditService.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 var environmentName = builder.Environment.EnvironmentName.ToLower();
 
-builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", true);
 builder.Configuration.AddJsonFile("config/aus.api.appsettings.json", $"config/aus.api.env.{environmentName}.json", builder.Environment);
 builder.Configuration.AddJsonFile($"config/aus.api.logger.{environmentName}.json", builder.Environment);
 builder.Configuration.AddEnvironmentVariables();
