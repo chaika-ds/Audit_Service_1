@@ -58,7 +58,7 @@ public static class ConfigurationManagerExtension
     private static string GetJsonFile(string pathFile, IHostEnvironment environment)
     {
         if (environment.ContentRootPath == "/app/")
-            return pathFile;
+            return Path.Combine(environment.ContentRootPath, pathFile);
 
         var directoryInfo = new DirectoryInfo(environment.ContentRootPath);
         var configPath = GetParent(directoryInfo)?.FullName;
