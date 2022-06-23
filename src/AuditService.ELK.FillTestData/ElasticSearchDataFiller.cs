@@ -24,7 +24,7 @@ internal class ElasticSearchDataFiller
         _elasticClient = elasticClient;
         _configuration = configuration;
         _random = new Random();
-        _categoryDictionary = new CategoryDictionary(configuration);
+        _categoryDictionary = new CategoryDictionary();
     }
 
     /// <summary>

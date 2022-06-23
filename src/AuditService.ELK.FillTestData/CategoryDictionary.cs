@@ -13,9 +13,9 @@ internal class CategoryDictionary
 {
     private readonly IReferenceProvider _referenceProvider;
 
-    public CategoryDictionary(IConfiguration configuration)
+    public CategoryDictionary()
     {
-        _referenceProvider = new ReferenceProvider(new JsonDataSettings(configuration));
+        _referenceProvider = new ReferenceProvider();
     }
 
     /// <summary>
