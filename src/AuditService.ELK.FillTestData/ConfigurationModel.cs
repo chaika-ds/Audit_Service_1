@@ -10,7 +10,7 @@ internal class ConfigurationModel
     /// <summary>
     ///     Service ID
     /// </summary>
-    public ServiceId? ServiceName { get; set; }
+    public ServiceStructure? ServiceName { get; set; }
 
     /// <summary>
     ///     Action type

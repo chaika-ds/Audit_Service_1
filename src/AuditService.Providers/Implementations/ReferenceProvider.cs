@@ -2,6 +2,7 @@
 using AuditService.Common.Models.Domain;
 using AuditService.Providers.Interfaces;
 using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.Extensions;
 using Newtonsoft.Json;
 
 namespace AuditService.Providers.Implementations;
@@ -23,22 +24,24 @@ public class ReferenceProvider : IReferenceProvider
     /// </summary>
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
     {
-        return (await GetCategoriesAsync()).SelectMany(x => x.Value).ToList();
+        return (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
     }
 
     /// <summary>
     ///     Get available categories by filter
     /// </summary>
     /// <param name="serviceId">Service ID</param>
-    public async Task<IDictionary<ServiceId, CategoryDomainModel[]>> GetCategoriesAsync(ServiceId? serviceId = null)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-        using var reader = new StreamReader(_jsonDataSettings.ServiceCategories ?? throw new NullReferenceException($"{nameof(_jsonDataSettings.ServiceCategories)} is null"));
+        var path = _jsonDataSettings.ServiceCategories?.GetPathByApplicationLayer("AuditService.Common");
+        
+        using var reader = new StreamReader(path ?? throw new NullReferenceException( $"{nameof(path)} is null"));
         var json = await reader.ReadToEndAsync();
 
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceId, CategoryDomainModel[]>>(json);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
-                $"File {_jsonDataSettings.ServiceCategories} not found or not include data of categories.");
+                $"File {path} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories

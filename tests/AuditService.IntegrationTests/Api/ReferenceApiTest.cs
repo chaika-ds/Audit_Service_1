@@ -22,8 +22,8 @@ public class ReferenceApiTest : BaseApiTest
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceId.SSO.ToString(), resultRequest);
-        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
+        Assert.Contains(ServiceStructure.SSO.ToString(), resultRequest);
+        Assert.Contains(ServiceStructure.PAY.ToString(), resultRequest);
     }
     
     [Fact]
@@ -38,8 +38,8 @@ public class ReferenceApiTest : BaseApiTest
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceId.SSO.ToString(), resultRequest);
-        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
+        Assert.Contains(ServiceStructure.SSO.ToString(), resultRequest);
+        Assert.Contains(ServiceStructure.PAY.ToString(), resultRequest);
     }
     
     [Fact]
@@ -47,14 +47,14 @@ public class ReferenceApiTest : BaseApiTest
     {
         await Auth.AuthenticationService();
         
-        var url = $"{Localhost}/reference/categories/{ServiceId.PAYMENT.ToString()}";
+        var url = $"{Localhost}/reference/categories/{ServiceStructure.PAY.ToString()}";
         
         var response = await HttpHelper.SendAsync(url, "", Auth.NodeId.ToString(), Auth.Token, HttpMethod.Get);
         
         var resultRequest = await response.Content.ReadAsStringAsync();
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains(ServiceId.PAYMENT.ToString(), resultRequest);
+        Assert.Contains(ServiceStructure.PAY.ToString(), resultRequest);
     }
     
 }
