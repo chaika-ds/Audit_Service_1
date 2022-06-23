@@ -25,8 +25,7 @@ public class ReferenceProvider : IReferenceProvider
     /// <param name="serviceId">Service ID</param>
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(Resource.jsonModel);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(JsonResource.Categories);
         if (categories == null)
             throw new FileNotFoundException( $"Not include data of categories.");
 

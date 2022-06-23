@@ -14,21 +14,21 @@ namespace AuditService.Common.Resources {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    public class JsonResource {
         
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal JsonResource() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("AuditService.Common.Resources.Resource", typeof(Resource).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("AuditService.Common.Resources.JsonResource", typeof(JsonResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -45,9 +45,9 @@ namespace AuditService.Common.Resources {
             }
         }
         
-        public static string jsonModel {
+        public static string Categories {
             get {
-                return ResourceManager.GetString("jsonModel", resourceCulture);
+                return ResourceManager.GetString("Categories", resourceCulture);
             }
         }
     }
