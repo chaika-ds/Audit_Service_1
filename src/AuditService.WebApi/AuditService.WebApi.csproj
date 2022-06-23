@@ -44,6 +44,9 @@
     <Content Include="..\..\config\aus.api.appsettings.json" Link="config\aus.api.appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\config\appsettings.json" Link="config\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\config\aus.api.env.development.json" Link="config\aus.api.env.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
