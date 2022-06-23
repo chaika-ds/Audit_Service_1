@@ -3,7 +3,7 @@ using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
-using Microsoft.AspNetCore.Authorization;
+using Tolar.Authenticate;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -32,7 +32,7 @@ public class AuditController : ControllerBase
     /// <param name="model">Filter model</param>
     [HttpGet]
     [Route("auditlog")]
-    [Authorize("auditservice.journal.auditlog")]
+    [Authorize("AuditService.Journal.auditLog")]
     [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync([FromQuery] AuditLogFilterRequestDto model)
