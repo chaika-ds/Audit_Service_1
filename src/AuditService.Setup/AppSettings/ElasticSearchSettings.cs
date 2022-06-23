@@ -18,8 +18,8 @@ internal class ElasticSearchSettings : IElasticSearchSettings
     /// </summary>
     private void ApplySettings(IConfiguration config)
     {
-        AuditLog = config["ELASTIC_SEARCH:INDEXES:ELK_INDEX_AUDITLOG"];
-        ApplicationLog = config["ELASTIC_SEARCH:INDEXES:ELK_INDEX_APPLOG"];
-        ConnectionUrl = config["ELASTIC_SEARCH:ELK_CONNECTION_URL"];
+        AuditLog = config["ElasticSearch:Indexes:AuditLog"];
+        ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
+        ConnectionUrl = config["ElasticSearch:ConnectionString"];
     }
 }

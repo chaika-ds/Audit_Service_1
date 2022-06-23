@@ -19,20 +19,7 @@ internal class KafkaSettings : IKafkaSettings
         // todo @d.chaika надо тебе порефакторить это. не нравится мне все эти выбороки. надо сделать более аккуратно
         
         var excludeConfigs = new List<string> { "KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_PREFIX" };
-        Config = configuration.GetSection("KAFKA:CONFIGS").GetChildren().Where(w => !excludeConfigs.Contains(w.Key)).ToDictionary(x => MapperKafkaKey(x.Key), v => v.Value);
-        Topic = configuration["KAFKA:KAFKA_TOPICS:KAFKA_TOPIC_AUDITLOG"];
-    }
-
-    /// <summary>
-    ///     Convert setting keys
-    /// </summary>
-    private string MapperKafkaKey(string key)
-    {
-        return key switch
-        {
-            "KAFKA_BROKER" => "bootstrap.servers",
-            "KAFKA_CONSUMER_GROUP" => "group.id",
-            _ => key
-        };
+        Config = configuration.GetSection("Kafka:Config").GetChildren().Where(w => !excludeConfigs.Contains(w.Key)).ToDictionary(x => x.Key, v => v.Value);
+        Topic = configuration["Kafka:Topics:AuditLog"];
     }
 }

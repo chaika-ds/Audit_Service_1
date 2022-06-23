@@ -16,7 +16,7 @@ internal class RedisSettings : IRedisSettings
     /// </summary>
     private void ApplySettings(IConfiguration configuration)
     {
-        RedisConnectionString = configuration["REDIS:REDIS_CONNECTION_URL"];
-        RedisPrefix = configuration["REDIS:REDIS_PREFIX"];
+        RedisConnectionString = configuration["Redis:ConnectionString"];
+        RedisPrefix = configuration["Redis:InstanceName"];
     }
 }

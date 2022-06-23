@@ -42,10 +42,8 @@ public static class ConfigurationManagerExtension
         var configs = File.ReadAllText(configFilePath);
         var environments = File.ReadAllText(envFilePath);
 
-        Console.WriteLine("----------------------------------------------");
         Console.WriteLine(configs);
         Console.WriteLine(environments);
-        Console.WriteLine("----------------------------------------------");
 
         var envs = JsonConvert.DeserializeObject<IDictionary<string, string>>(environments);
         if (envs != null) 
