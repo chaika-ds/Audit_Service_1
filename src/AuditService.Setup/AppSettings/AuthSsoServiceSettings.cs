@@ -22,10 +22,10 @@ internal class AuthSsoServiceSettings : IAuthSsoServiceSettings
     /// </summary>
     private void ApplySettings(IConfiguration config)
     {
-        ApiKey = config["SSO:SSO_AUTH_API_KEY"];
-        Connection = config["SSO:SSO_SERVICE_URL"];
-        ServiceName = config["SSO:SSO_SERVICE_NAME"];
-        ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId."));
-        RootNodeId = Guid.Parse(config["SSO:SSO_AUTH_ROOT_NODE_ID"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
+        ApiKey = config["SSO:ApiKey"];
+        Connection = config["SSO:Url"];
+        ServiceName = config["SSO:ServiceName"];
+        ServiceId = Guid.Parse(config["SSO:ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
+        RootNodeId = Guid.Parse(config["SSO:RootNodeId"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
     }
 }

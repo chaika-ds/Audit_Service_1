@@ -16,7 +16,7 @@ internal class HealthSettings : IHealthSettings
     /// </summary>
     private void ApplySettings(IConfiguration config)
     {
-        CriticalErrorsCount = int.Parse(config["KAFKA:HEALTH_CHECK:CRITICAL_ERRORS_COUNT"]);
-        ForPeriodInSec = int.Parse(config["KAFKA:HEALTH_CHECK:FOR_PERIOD_IN_SEC"]);
+        CriticalErrorsCount = int.Parse(config["Kafka:HealthCheck:CriticalErrorsCount"]);
+        ForPeriodInSec = int.Parse(config["Kafka:HealthCheck:ForPeriodInSecond"]);
     }
 }

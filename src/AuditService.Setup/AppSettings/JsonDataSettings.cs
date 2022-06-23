@@ -14,6 +14,6 @@ internal class JsonDataSettings : IJsonDataSettings
     /// </summary>
     private void ApplySettings(IConfiguration configuration)
     {
-        ServiceCategories = configuration["JSON_DATA:SERVICE_CATEGORIES_PATH"];
+        ServiceCategories = configuration["JsonData:ServiceCategories"];
     }
 }

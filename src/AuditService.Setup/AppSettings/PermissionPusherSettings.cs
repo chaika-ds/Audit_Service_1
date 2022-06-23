@@ -16,7 +16,7 @@ internal class PermissionPusherSettings : IPermissionPusherSettings
     /// </summary>
     private void ApplySettings(IConfiguration config)
     {
-        ServiceId = Guid.Parse(config["SSO:SSO_AUTH_SERVICE_ID"] ?? throw new InvalidOperationException("Wrong ServiceId."));
-        Topic = config["KAFKA:PermissionsTopic"];
+        ServiceId = Guid.Parse(config["SSO:ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
+        Topic = config["Kafka:PermissionsTopic"];
     }
 }
