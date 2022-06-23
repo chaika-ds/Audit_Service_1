@@ -4,7 +4,6 @@ using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Tolar.Authenticate;
-using Tolar.Redis;
 
 namespace AuditService.WebApi.Controllers;
 
@@ -30,7 +29,7 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("services")]
-    [Authorize("AuditService.Reference.viewServices")]
+    [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
@@ -43,7 +42,7 @@ public class ReferenceController
     /// </summary>
     [HttpGet]
     [Route("categories")]
-    [Authorize("AuditService.Reference.viewCategories")]
+    [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync()
@@ -57,7 +56,7 @@ public class ReferenceController
     /// <param name="serviceStructure">Selected service id</param>
     [HttpGet]
     [Route("categories/{serviceId}")]
-    [Authorize("AuditService.Reference.viewCategories")]
+    [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure serviceStructure)

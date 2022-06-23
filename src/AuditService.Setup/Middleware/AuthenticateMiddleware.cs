@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AuditService.Common.Verifications;
+using Microsoft.AspNetCore.Http;
 using Tolar.Authenticate;
 
 namespace AuditService.Setup.Middleware
@@ -20,7 +21,7 @@ namespace AuditService.Setup.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!(context.Request.Path.HasValue && context.Request.Path.Value.Equals("/_hc", StringComparison.InvariantCultureIgnoreCase)))
+            if (AuthenticateVerify.NeedAuth(context))
                 await AuthenticateAsync(context);
             
             await _next(context);
