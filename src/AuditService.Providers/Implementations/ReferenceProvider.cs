@@ -4,6 +4,7 @@ using AuditService.Providers.Interfaces;
 using AuditService.Setup.ConfigurationSettings;
 using AuditService.Setup.Extensions;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace AuditService.Providers.Implementations;
 
@@ -33,15 +34,16 @@ public class ReferenceProvider : IReferenceProvider
     /// <param name="serviceId">Service ID</param>
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-        var path = _jsonDataSettings.ServiceCategories?.GetPathByApplicationLayer("AuditService.Common");
-        
-        using var reader = new StreamReader(path ?? throw new NullReferenceException( $"{nameof(path)} is null"));
+        var fileDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string filePath = String.Concat(fileDirectory, _jsonDataSettings.ServiceCategories);       
+
+        using var reader = new StreamReader(filePath ?? throw new NullReferenceException($"{nameof(filePath)} is null"));
         var json = await reader.ReadToEndAsync();
 
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
         if (categories == null)
             throw new FileNotFoundException(
-                $"File {path} not found or not include data of categories.");
+                $"File {filePath} not found or not include data of categories.");
 
         return !serviceId.HasValue
             ? categories

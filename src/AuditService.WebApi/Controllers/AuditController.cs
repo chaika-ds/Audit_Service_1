@@ -32,7 +32,7 @@ public class AuditController : ControllerBase
     /// <param name="model">Filter model</param>
     [HttpGet]
     [Route("auditlog")]
-    [Authorize("AuditService.Journal.auditLog")]
+    [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync([FromQuery] AuditLogFilterRequestDto model)
