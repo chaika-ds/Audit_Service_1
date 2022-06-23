@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-	    <CodeAnalysisRuleSet>AuditService.WebApi.ruleset</CodeAnalysisRuleSet>
+	    <CodeAnalysisRuleSet>lint\linter.ruleset</CodeAnalysisRuleSet>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
@@ -16,10 +16,6 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
       <WarningLevel>2</WarningLevel>
     </PropertyGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="..\..\.sonarlint\p2-t11-test\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
 
     <ItemGroup>
       <None Include="..\..\.editorconfig" Link=".editorconfig" />
@@ -43,5 +39,26 @@
       <ProjectReference Include="..\AuditService.Providers\AuditService.Providers.csproj" />
       <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
     </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\config\aus.api.appsettings.json" Link="config\aus.api.appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\config\aus.api.env.development.json" Link="config\aus.api.env.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\config\aus.api.env.production.json" Link="config\aus.api.env.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\config\aus.api.logger.development.json" Link="config\aus.api.logger.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\config\aus.api.logger.production.json" Link="config\aus.api.logger.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lint\linter.ruleset" Link="lint\linter.ruleset">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
