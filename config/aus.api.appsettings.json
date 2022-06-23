@@ -1,36 +1,52 @@
 {
-  "REDIS": {
-    "REDIS_CONNECTION_URL": "$REDIS_CONNECTION_URL",
-    "REDIS_PREFIX": "$REDIS_PREFIX"
+  "Redis": {
+    "ConnectionString": "$REDIS_CONNECTION_URL",
+    "InstanceName": "$REDIS_PREFIX"
   },
-  "ELASTIC_SEARCH": {
-    "ELK_CONNECTION_URL": "$ELK_CONNECTION_URL",
-    "INDEXES": {
-      "ELK_INDEX_AUDITLOG": "$ELK_INDEX_AUDITLOG",
-      "ELK_INDEX_APPLOG": "$ELK_INDEX_APPLOG"
+  "ElasticSearch": {
+    "ConnectionString": "$ELK_CONNECTION_URL",
+    "Indexes": {
+      "AuditLog": "$ELK_INDEX_AUDITLOG",
+      "ApplicationLog": "$ELK_INDEX_APPLOG"
     }
   },
-  "KAFKA": {
-    "CONFIGS": {
-      "KAFKA_BROKER": "$KAFKA_BROKER",
-      "KAFKA_CONSUMER_GROUP": "$KAFKA_CONSUMER_GROUP",
-      "KAFKA_USERNAME": "$KAFKA_USERNAME",
-      "KAFKA_PASSWORD": "$KAFKA_PASSWORD",
-      "KAFKA_PREFIX": "$KAFKA_PREFIX"
+  "Kafka": {
+    "MaxThreadsCount": 10,
+    "MaxTimeoutMsec": 5000,
+    "PermissionsTopic": "uat.sso.sync.permission",
+    "PermissionsSystemName": "AditlogV2.viewAuditLog",
+    "PermissionsServiceName": "AditLog",
+    "Config": {
+      "bootstrap.servers": "$KAFKA_BROKER",
+      "group.id": "$KAFKA_CONSUMER_GROUP",
+      "enable.partition.eof": true,
+      "log.connection.close": false,
+      "enable.auto.commit": false,
+      "queued.min.messages": 10,
+      "queued.max.messages.kbytes": 256,
+      "auto.offset.reset": "smallest",
+      "socket.blocking.max.ms": 100,
+      "fetch.error.backoff.ms": 200
     },
-    "KAFKA_TOPICS": {
-      "KAFKA_TOPIC_AUDITLOG": "$KAFKA_TOPIC_AUDITLOG"
+    "Topics": {
+      "AuditLog": "$KAFKA_TOPIC_AUDITLOG"
     },
-    "HEALTH_CHECK": {
-      "CRITICAL_ERRORS_COUNT": 20,
-      "FOR_PERIOD_IN_SEC": 20
+    "HealthCheck": {
+      "CriticalErrorsCount": 20,
+      "ForPeriodInSecond": 20
     }
   },
   "SSO": {
-    "SSO_SERVICE_NAME": "$SSO_SERVICE_NAME",
-    "SSO_AUTH_SERVICE_ID": "$SSO_AUTH_SERVICE_ID",
-    "SSO_AUTH_ROOT_NODE_ID": "$SSO_AUTH_ROOT_NODE_ID",
-    "SSO_SERVICE_URL": "$SSO_SERVICE_URL",
-    "SSO_AUTH_API_KEY": "$SSO_AUTH_API_KEY"
+    "ServiceName": "$SSO_SERVICE_NAME",
+    "ServiceId": "$SSO_AUTH_SERVICE_ID",
+    "RootNodeId": "$SSO_AUTH_ROOT_NODE_ID",
+    "Url": "$SSO_SERVICE_URL",
+    "ApiKey": "$SSO_AUTH_API_KEY"
+  },
+  "JsonData": {
+    "ServiceCategories": "JsonData/ServiceCategories.json"
+  },
+  "Swagger": {
+    "XmlComments": [ "AuditService.Common.xml", "AuditService.WebApi.xml" ]
   }
 }

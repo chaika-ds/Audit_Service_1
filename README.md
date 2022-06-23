@@ -33,3 +33,18 @@
 > 1. wsl -d docker-desktop
 > 2. sysctl -w vm.max_map_count=262144
 >````
+
+
+
+## Генерация данных для ELK
+
+
+1. Откройте PowerShell
+2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
+3. Выполнить команду
+   ``` powershell
+   –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
+   ```
+
+
+

@@ -1,9 +1,9 @@
 FROM theharbor.xyz/docker-images/dotnet/aspnet:6.0 AS base
-# FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+#FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 
-ARG APP_PORT=""
-ENV ASPNETCORE_URLS=http://+:${APP_PORT}
+# ARG APP_PORT=""
+# ENV ASPNETCORE_URLS=http://+:${APP_PORT}
 
 FROM theharbor.xyz/docker-images/dotnet/sdk:6.0 AS build
 # FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
@@ -13,7 +13,6 @@ ARG APP_NAME=""
 ARG APP_PATH=""
 
 COPY lint/ /lint/
-COPY .sonarlint/ /.sonarlint/
 COPY config/ /config/
 COPY ${SRC_DIR}/ /src/
 COPY ["nuget.config", ""]

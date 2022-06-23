@@ -14,6 +14,6 @@ internal class SwaggerSettings : ISwaggerSettings
     /// </summary>
     private void ApplySettings(IConfiguration configuration)
     {
-        XmlComments = configuration.GetSection("SWAGGER:XmlComments").Get<string[]>();
+        XmlComments = configuration.GetSection("Swagger:XmlComments").Get<string[]>();
     }
 }

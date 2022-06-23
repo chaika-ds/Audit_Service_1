@@ -35,17 +35,20 @@ internal class ElasticSearchDataFiller
         try
         {
             var cleanBefore = _configuration.GetValue<bool>("CleanBefore");
+
             if (cleanBefore)
             {
                 Console.WriteLine("Start force clean data");
 
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))));
+                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))).Index(_configuration[ElkIndexAuditLog]));
                 await _elasticClient.Indices.DeleteAsync(_configuration[ElkIndexAuditLog]);
 
                 Console.WriteLine("Force clean has been comlpete!");
             }
+            var cc = _configuration[ElkIndexAuditLog];
 
             var index = await _elasticClient.Indices.ExistsAsync(_configuration[ElkIndexAuditLog]);
+
             if (!index.Exists)
             {
                 Console.WriteLine("Creating index " + _configuration[ElkIndexAuditLog]);
@@ -58,20 +61,22 @@ internal class ElasticSearchDataFiller
             }
 
             Console.WriteLine("Get configuration for generation data");
-            
+
             var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
+
             foreach (var configurationModel in configurationModels)
             {
                 Console.WriteLine("");
                 Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
-                
-                var data = GenerateData(configurationModel);
 
-                Console.WriteLine("Generation is completed");
+                var data = GenerateData(configurationModel);
+                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");                  
 
                 foreach (var dto in data)
+                {
                     await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
+                }                        
 
                 Console.WriteLine("Data has been saving");
                 Console.WriteLine("");
@@ -95,6 +100,7 @@ internal class ElasticSearchDataFiller
     private IEnumerable<AuditLogTransactionDomainModel> GenerateData(ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
+
             yield return CreateNewDto(configurationModel);
     }
 

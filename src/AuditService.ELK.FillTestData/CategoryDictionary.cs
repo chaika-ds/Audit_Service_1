@@ -2,7 +2,9 @@
 using AuditService.Providers.Implementations;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace AuditService.ELK.FillTestData;
 

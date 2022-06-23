@@ -42,6 +42,9 @@ public static class ConfigurationManagerExtension
         var configs = File.ReadAllText(configFilePath);
         var environments = File.ReadAllText(envFilePath);
 
+        Console.WriteLine(configs);
+        Console.WriteLine(environments);
+
         var envs = JsonConvert.DeserializeObject<IDictionary<string, string>>(environments);
         if (envs != null) 
             configs = envs.Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value));
@@ -58,7 +61,7 @@ public static class ConfigurationManagerExtension
     private static string GetJsonFile(string pathFile, IHostEnvironment environment)
     {
         if (environment.ContentRootPath == "/app/")
-            return pathFile;
+            return Path.Combine(environment.ContentRootPath, pathFile);
 
         var directoryInfo = new DirectoryInfo(environment.ContentRootPath);
         var configPath = GetParent(directoryInfo)?.FullName;
