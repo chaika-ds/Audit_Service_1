@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Setup.Extensions;
 
-public static class ControllersServiceExtension
+public static class AddControllersServiceExtension
 {
     public static void AddControllersExtension(this IServiceCollection services)
     {
