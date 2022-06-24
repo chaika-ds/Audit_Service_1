@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Utility.Logger;
@@ -15,7 +16,10 @@ builder.Configuration.AddEnvironmentVariables();
 builder.AddCustomerLogger(environmentName);
 
 builder.Services.RegisterSettings();
-builder.Services.AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); });
+builder.Services
+    .AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); })
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddElasticSearch();
