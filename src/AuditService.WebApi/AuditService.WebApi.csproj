@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-	    <CodeAnalysisRuleSet>lint\linter.ruleset</CodeAnalysisRuleSet>
+	    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>

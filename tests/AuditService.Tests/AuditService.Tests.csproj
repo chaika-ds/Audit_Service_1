@@ -30,4 +30,8 @@
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AuditSerive.Utility\" />
+  </ItemGroup>
+
 </Project>

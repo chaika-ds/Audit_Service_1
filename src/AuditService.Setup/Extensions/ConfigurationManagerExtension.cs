@@ -1,10 +1,6 @@
 ﻿using System.Text;
-using AuditService.Utility.Helpers;
-using AuditService.Utility.Logger;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace AuditService.Setup.Extensions;
@@ -86,21 +82,5 @@ public static class ConfigurationManagerExtension
 
             directoryInfo = directoryInfo?.Parent;
         }
-    }
-
-    /// <summary>
-    ///     Adds customer logger provider at <paramref name="environmentName" /> to <paramref name="builder" />.
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="environmentName"></param>
-    public static void AddCustomerLogger(this WebApplicationBuilder builder, string environmentName)
-    {
-        builder.Logging.ClearProviders();
-        builder.Logging.SetMinimumLevel(LogLevel.Trace);
-        builder.Logging.AddAuditServiceLogger(options =>
-        {
-            builder.Configuration.Bind(options);
-            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
-        });        
     }
 }
