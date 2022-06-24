@@ -18,204 +18,204 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Categories" xml:space="preserve">
-        <value>{
+  <data name="Categories" xml:space="preserve">
+    <value>{
   "PAY": [
     {
-      "CategoryCode" : "PAYMENTS_PPS_KEYS",
-      "CategoryName" : "Payments: PPS keys",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PPS_KEYS",
+      "CategoryName": "Payments: PPS keys",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание поля для ввода ключей на форме игрового контракта (глобально)"
+          "Name": "CREATE",
+          "Description": "Создание поля для ввода ключей на форме игрового контракта (глобально)"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : ""
+          "Name": "UPDATE",
+          "Description": ""
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : ""
+          "Name": "SOFT_DELETE",
+          "Description": ""
         },
         {
-          "Name" : "DELETE",
-          "Description" : ""
+          "Name": "DELETE",
+          "Description": ""
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_GLOBAL_PAYMENT_SYSTEMS",
-      "CategoryName" : "Payments: Global Payment systems",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_GLOBAL_PAYMENT_SYSTEMS",
+      "CategoryName": "Payments: Global Payment systems",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра глобального списка платежных систем"
+          "Name": "VIEW",
+          "Description": "Факт просмотра глобального списка платежных систем"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт изменения статуса платежной системы глобально."
+          "Name": "UPDATE",
+          "Description": "Факт изменения статуса платежной системы глобально."
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_PAYMENT_SYSTEMS",
-      "CategoryName" : "Payments: Payment systems ",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PAYMENT_SYSTEMS",
+      "CategoryName": "Payments: Payment systems ",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра списка платежных систем на проекте"
+          "Name": "VIEW",
+          "Description": "Факт просмотра списка платежных систем на проекте"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт изменения статуса платежной системы на проекте"
+          "Name": "UPDATE",
+          "Description": "Факт изменения статуса платежной системы на проекте"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_AUTOWITHDRAWALS",
-      "CategoryName" : "Payments: Autowithdrawals",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_AUTOWITHDRAWALS",
+      "CategoryName": "Payments: Autowithdrawals",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра настроек автовыводов для зала"
+          "Name": "VIEW",
+          "Description": "Факт просмотра настроек автовыводов для зала"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт редактирования настроек автовыводов для зала"
+          "Name": "UPDATE",
+          "Description": "Факт редактирования настроек автовыводов для зала"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_PAYMENT_CONTRACTS",
-      "CategoryName" : "Payments: Payment contracts",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PAYMENT_CONTRACTS",
+      "CategoryName": "Payments: Payment contracts",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра списка контрактов."
+          "Name": "VIEW",
+          "Description": "Факт просмотра списка контрактов."
         },
         {
-          "Name" : "CREATE",
-          "Description" : "Факт создания нового контракта на зале. \n\nВсе параметры сохранить"
+          "Name": "CREATE",
+          "Description": "Факт создания нового контракта на зале. \n\nВсе параметры сохранить"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт изменения статуса активности контракта провайдера на зале\nФакт редактирования лимитов по каждой из валют платежного контракта. "
+          "Name": "UPDATE",
+          "Description": "Факт изменения статуса активности контракта провайдера на зале\nФакт редактирования лимитов по каждой из валют платежного контракта. "
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Факт удаления контракта на зале\n\nНеобходимо сохранить ВСЕ параметры, так как удаленные контракты доступны к просмотру админу платформы"
+          "Name": "SOFT_DELETE",
+          "Description": "Факт удаления контракта на зале\n\nНеобходимо сохранить ВСЕ параметры, так как удаленные контракты доступны к просмотру админу платформы"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_PAYMENT_METHODS",
-      "CategoryName" : "Payments: Payment methods",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PAYMENT_METHODS",
+      "CategoryName": "Payments: Payment methods",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра списка методов контракта."
+          "Name": "VIEW",
+          "Description": "Факт просмотра списка методов контракта."
         },
         {
-          "Name" : "CREATE",
-          "Description" : "Факт создания нового метода контракта на зале. \n\nВсе параметры сохранить"
+          "Name": "CREATE",
+          "Description": "Факт создания нового метода контракта на зале. \n\nВсе параметры сохранить"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт изменения статуса активности контракта провайдера на зале\nФакт редактирования лимитов по валюте платежного метода "
+          "Name": "UPDATE",
+          "Description": "Факт изменения статуса активности контракта провайдера на зале\nФакт редактирования лимитов по валюте платежного метода "
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Факт удаления контракта на зале"
+          "Name": "SOFT_DELETE",
+          "Description": "Факт удаления контракта на зале"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Необходимо сохранить ВСЕ параметры, так как удаленные контракты доступны к просмотру админу платформы"
+          "Name": "DELETE",
+          "Description": "Необходимо сохранить ВСЕ параметры, так как удаленные контракты доступны к просмотру админу платформы"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_SERVICE_SETTINGS",
-      "CategoryName" : "Payments: Service settings",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_SERVICE_SETTINGS",
+      "CategoryName": "Payments: Service settings",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра настроек сервиса платежей (Settings → Project settings"
+          "Name": "VIEW",
+          "Description": "Факт просмотра настроек сервиса платежей (Settings → Project settings"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт редактирования настроек"
+          "Name": "UPDATE",
+          "Description": "Факт редактирования настроек"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTIONS_LIST",
-      "CategoryName" : "Payments: Payment transactions list",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PAYMENT_TRANSACTIONS_LIST",
+      "CategoryName": "Payments: Payment transactions list",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра журнала."
+          "Name": "VIEW",
+          "Description": "Факт просмотра журнала."
         },
         {
-          "Name" : "EXPORT",
-          "Description" : "Факт выгрузки журнала"
+          "Name": "EXPORT",
+          "Description": "Факт выгрузки журнала"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_PAYMENT_TRANSACTION_DETAILS",
-      "CategoryName" : "Payments: Payment transaction details",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_PAYMENT_TRANSACTION_DETAILS",
+      "CategoryName": "Payments: Payment transaction details",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра страницы деталей платежной транзакции"
+          "Name": "VIEW",
+          "Description": "Факт просмотра страницы деталей платежной транзакции"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENT_DEPOSIT_REQUESTS_LIST",
-      "CategoryName" : "Payments: Deposit requests list",
-      "Action" : [
+      "CategoryCode": "PAYMENT_DEPOSIT_REQUESTS_LIST",
+      "CategoryName": "Payments: Deposit requests list",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра журнала."
+          "Name": "VIEW",
+          "Description": "Факт просмотра журнала."
         },
         {
-          "Name" : "EXPORT",
-          "Description" : "Факт выгрузки журнала"
+          "Name": "EXPORT",
+          "Description": "Факт выгрузки журнала"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENTS_DEPOSIT_REQUEST_LIST_TRANSACTIONS_DETAILS",
-      "CategoryName" : "Payments: Deposits requests list translactions details",
-      "Action" : [
+      "CategoryCode": "PAYMENTS_DEPOSIT_REQUEST_LIST_TRANSACTIONS_DETAILS",
+      "CategoryName": "Payments: Deposits requests list translactions details",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра страницы деталей запроса на депозит"
+          "Name": "VIEW",
+          "Description": "Факт просмотра страницы деталей запроса на депозит"
         }
       ]
-    },   
+    },
     {
-      "CategoryCode" : "PAYMENT_WITHDRAWAL_REQUESTS_LIST",
-      "CategoryName" : "Payments: Withdrawal requests list",
-      "Action" : [
+      "CategoryCode": "PAYMENT_WITHDRAWAL_REQUESTS_LIST",
+      "CategoryName": "Payments: Withdrawal requests list",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра журнала."
+          "Name": "VIEW",
+          "Description": "Факт просмотра журнала."
         },
         {
-          "Name" : "EXPORT",
-          "Description" : "Факт выгрузки журнала"
+          "Name": "EXPORT",
+          "Description": "Факт выгрузки журнала"
         }
       ]
     },
     {
-      "CategoryCode" : "PAYMENT_WITHDRAWAL_REQUESTS_LIST_DETAILS",
-      "CategoryName" : "Payments: Withdrawal requests list details",
-      "Action" : [
+      "CategoryCode": "PAYMENT_WITHDRAWAL_REQUESTS_LIST_DETAILS",
+      "CategoryName": "Payments: Withdrawal requests list details",
+      "Action": [
         {
-          "Name" : "VIEW",
-          "Description" : "Факт просмотра журнала."
+          "Name": "VIEW",
+          "Description": "Факт просмотра журнала."
         }
       ]
     }
@@ -226,132 +226,132 @@
       "CategoryName" : "Settings: Node details",
       "Action" : [
         {
-          "Name" : "CREATE",
-          "Description" : "Факт создания узла"
+          "Name": "CREATE",
+          "Description": "Факт создания узла"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование узла"
+          "Name": "UPDATE",
+          "Description": "Редактирование узла"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление узла"
+          "Name": "DELETE",
+          "Description": "Удаление узла"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление узла"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление узла"
         },
         {
-          "Name" : "VIEW",
-          "Description" : "Переход на другой узел"
+          "Name": "VIEW",
+          "Description": "Переход на другой узел"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_CURRENCIES",
-      "CategoryName" : "Settings: Currencies",
-      "Action" : [
+      "CategoryCode": "SETTINGS_CURRENCIES",
+      "CategoryName": "Settings: Currencies",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление валюты на узел"
+          "Name": "CREATE",
+          "Description": "Добавление валюты на узел"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Изменение статуса валюты на узле"
+          "Name": "UPDATE",
+          "Description": "Изменение статуса валюты на узле"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_BLOCKED_IPS_AND_COUNTRIES",
-      "CategoryName" : "Settings: Blocked IPs and countries",
-      "Action" : [
+      "CategoryCode": "SETTINGS_BLOCKED_IPS_AND_COUNTRIES",
+      "CategoryName": "Settings: Blocked IPs and countries",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Добавление/удаление новых записей в список\nАктивация/деактивация списка"
+          "Name": "UPDATE",
+          "Description": "Добавление/удаление новых записей в список\nАктивация/деактивация списка"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_GENERAL",
-      "CategoryName" : "Settings: Project settings - General",
-      "Action" : [
+      "CategoryCode": "SETTINGS_PROJECT_SETTINGS_GENERAL",
+      "CategoryName": "Settings: Project settings - General",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Общие настройки проекта"
+          "Name": "UPDATE",
+          "Description": "Общие настройки проекта"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_MONEY",
-      "CategoryName" : "Settings: Project settings - Money",
-      "Action" : [
+      "CategoryCode": "SETTINGS_PROJECT_SETTINGS_MONEY",
+      "CategoryName": "Settings: Project settings - Money",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Настройки проекта по вводу/выводу средств"
+          "Name": "UPDATE",
+          "Description": "Настройки проекта по вводу/выводу средств"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_PROJECT_SETTINGS_PLAYER_SETTINGS",
-      "CategoryName" : "Settings: Project settings - Player settings",
-      "Action" : [
+      "CategoryCode": "SETTINGS_PROJECT_SETTINGS_PLAYER_SETTINGS",
+      "CategoryName": "Settings: Project settings - Player settings",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Настройки игроков на проекте"
+          "Name": "UPDATE",
+          "Description": "Настройки игроков на проекте"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_MSP_SETTINGS",
-      "CategoryName" : "Settings: MSP settings",
-      "Action" : [
+      "CategoryCode": "SETTINGS_MSP_SETTINGS",
+      "CategoryName": "Settings: MSP settings",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление контакта"
+          "Name": "CREATE",
+          "Description": "Добавление контакта"
         },
         {
           "Name" : "UPDATE",
           "Description" : "Редактирование контакта"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление контакта"
+          "Name": "DELETE",
+          "Description": "Удаление контакта"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление контакта"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление контакта"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_SENDERS_SETTINGS",
-      "CategoryName" : "Settings: Senders settings",
-      "Action" : [
+      "CategoryCode": "SETTINGS_SENDERS_SETTINGS",
+      "CategoryName": "Settings: Senders settings",
+      "Action": [
         {
-          "Name" : "SYNC",
-          "Description" : "Обновление списка сервисов"
+          "Name": "SYNC",
+          "Description": "Обновление списка сервисов"
         }
       ]
     },
     {
-      "CategoryCode" : "SETTINGS_DOMAINS",
-      "CategoryName" : "Settings: Domains",
-      "Action" : [
+      "CategoryCode": "SETTINGS_DOMAINS",
+      "CategoryName": "Settings: Domains",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Обновление списка сервисов"
+          "Name": "CREATE",
+          "Description": "Обновление списка сервисов"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование домена"
+          "Name": "UPDATE",
+          "Description": "Редактирование домена"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление домена"
+          "Name": "DELETE",
+          "Description": "Удаление домена"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление домена"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление домена"
         }
       ]
     }
@@ -451,52 +451,52 @@
   ],
   "GS": [
     {
-      "CategoryCode" : "GAMES_ADMIN_API_PROVIDERS",
-      "CategoryName" : "Games: Admin API providers",
-      "Action" : [
+      "CategoryCode": "GAMES_ADMIN_API_PROVIDERS",
+      "CategoryName": "Games: Admin API providers",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Факт добавления провайдера"
+          "Name": "CREATE",
+          "Description": "Факт добавления провайдера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
+          "Name": "UPDATE",
+          "Description": "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление провайдера"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление провайдера"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_ADMIN_GAME_PROVIDERS",
-      "CategoryName" : "Games: Admin game providers",
-      "Action" : [
+      "CategoryCode": "GAMES_ADMIN_GAME_PROVIDERS",
+      "CategoryName": "Games: Admin game providers",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление провайдера"
+          "Name": "CREATE",
+          "Description": "Добавление провайдера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
+          "Name": "UPDATE",
+          "Description": "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление провайдера"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление провайдера"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GAME_CONTRACTS",
-      "CategoryName" : "Games: Game contracts",
-      "Action" : [
+      "CategoryCode": "GAMES_GAME_CONTRACTS",
+      "CategoryName": "Games: Game contracts",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание нового контракта на зале"
+          "Name": "CREATE",
+          "Description": "Создание нового контракта на зале"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование контракта"
+          "Name": "UPDATE",
+          "Description": "Редактирование контракта"
         },
         {
           "Name" : "SOFT_DELETE",
@@ -505,216 +505,216 @@
       ]
     },
     {
-      "CategoryCode" : "GAMES_GAME_LIST",
-      "CategoryName" : "Games: Game list",
-      "Action" : [
+      "CategoryCode": "GAMES_GAME_LIST",
+      "CategoryName": "Games: Game list",
+      "Action": [
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация списка игр"
+          "Name": "SYNC",
+          "Description": "Синхронизация списка игр"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование игр (активация/деактивация, добавление игры в группу)"
+          "Name": "UPDATE",
+          "Description": "Редактирование игр (активация/деактивация, добавление игры в группу)"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GLOBAL_GAME_LIST",
-      "CategoryName" : "Games: Global game list",
-      "Action" : [
+      "CategoryCode": "GAMES_GLOBAL_GAME_LIST",
+      "CategoryName": "Games: Global game list",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление игры в глобальный список"
+          "Name": "CREATE",
+          "Description": "Добавление игры в глобальный список"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование игры"
+          "Name": "UPDATE",
+          "Description": "Редактирование игры"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление игры"
+          "Name": "DELETE",
+          "Description": "Удаление игры"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация списка игр"
+          "Name": "SYNC",
+          "Description": "Синхронизация списка игр"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GAME_GROUPS",
-      "CategoryName" : "Games: Game groups",
-      "Action" : [
+      "CategoryCode": "GAMES_GAME_GROUPS",
+      "CategoryName": "Games: Game groups",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание новой группы игр"
+          "Name": "CREATE",
+          "Description": "Создание новой группы игр"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование группы: статус на проекте, статус в группе игр, порядок, рейтинг игры"
+          "Name": "UPDATE",
+          "Description": "Редактирование группы: статус на проекте, статус в группе игр, порядок, рейтинг игры"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление игры"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление игры"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление игры"
+          "Name": "DELETE",
+          "Description": "Удаление игры"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GAME_TYPES",
-      "CategoryName" : "Games: Game types",
-      "Action" : [
+      "CategoryCode": "GAMES_GAME_TYPES",
+      "CategoryName": "Games: Game types",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание нового типа игры"
+          "Name": "CREATE",
+          "Description": "Создание нового типа игры"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование типа игры "
+          "Name": "UPDATE",
+          "Description": "Редактирование типа игры "
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление типа игры"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление типа игры"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление типа игры"
+          "Name": "DELETE",
+          "Description": "Удаление типа игры"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GLOBAL_LIST_OF_GAME_TYPES",
-      "CategoryName" : "Games: Global list of game types",
-      "Action" : [
+      "CategoryCode": "GAMES_GLOBAL_LIST_OF_GAME_TYPES",
+      "CategoryName": "Games: Global list of game types",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление типа игры"
+          "Name": "CREATE",
+          "Description": "Добавление типа игры"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование типа игры"
+          "Name": "UPDATE",
+          "Description": "Редактирование типа игры"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление типа игры"
+          "Name": "DELETE",
+          "Description": "Удаление типа игры"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GAME_TAGS",
-      "CategoryName" : "Games: Game tags",
-      "Action" : [
+      "CategoryCode": "GAMES_GAME_TAGS",
+      "CategoryName": "Games: Game tags",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание тэга для игры"
+          "Name": "CREATE",
+          "Description": "Создание тэга для игры"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование тэга"
+          "Name": "UPDATE",
+          "Description": "Редактирование тэга"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление тэга"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление тэга"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление тэга"
+          "Name": "DELETE",
+          "Description": "Удаление тэга"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_API_PROVIDER_REQUIRED_FIELDS",
-      "CategoryName" : "Games: API provider required fields",
-      "Action" : [
+      "CategoryCode": "GAMES_API_PROVIDER_REQUIRED_FIELDS",
+      "CategoryName": "Games: API provider required fields",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание поля для ввода ключей на форме игрового контракта"
+          "Name": "CREATE",
+          "Description": "Создание поля для ввода ключей на форме игрового контракта"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование поля"
+          "Name": "UPDATE",
+          "Description": "Редактирование поля"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление поля"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление поля"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление поля"
+          "Name": "DELETE",
+          "Description": "Удаление поля"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_API_PROVIDER_GLOBAL_KEY",
-      "CategoryName" : "Games: API provider global key",
-      "Action" : [
+      "CategoryCode": "GAMES_API_PROVIDER_GLOBAL_KEY",
+      "CategoryName": "Games: API provider global key",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание поля для ввода ключей на форме игрового контракта (глобально)"
+          "Name": "CREATE",
+          "Description": "Создание поля для ввода ключей на форме игрового контракта (глобально)"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование поля"
+          "Name": "UPDATE",
+          "Description": "Редактирование поля"
         },
         {
-          "Name" : "SOFT_DELETE",
-          "Description" : "Удаление поля"
+          "Name": "SOFT_DELETE",
+          "Description": "Удаление поля"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление поля"
+          "Name": "DELETE",
+          "Description": "Удаление поля"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GLOBAL_API_PROVIDERS_LIST",
-      "CategoryName" : "Games: Global API providers list",
-      "Action" : [
+      "CategoryCode": "GAMES_GLOBAL_API_PROVIDERS_LIST",
+      "CategoryName": "Games: Global API providers list",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление провайдера"
+          "Name": "CREATE",
+          "Description": "Добавление провайдера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование провайдера"
+          "Name": "UPDATE",
+          "Description": "Редактирование провайдера"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление провайдера"
+          "Name": "DELETE",
+          "Description": "Удаление провайдера"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_ADMIN_API_PROVIDERS",
-      "CategoryName" : "Games: Admin API providers",
-      "Action" : [
+      "CategoryCode": "GAMES_ADMIN_API_PROVIDERS",
+      "CategoryName": "Games: Admin API providers",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление провайдера на проект"
+          "Name": "CREATE",
+          "Description": "Добавление провайдера на проект"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление провайдера с проекта"
+          "Name": "DELETE",
+          "Description": "Удаление провайдера с проекта"
         }
       ]
     },
     {
-      "CategoryCode" : "GAMES_GLOBAL_GAME_PROVIDERS_LIST",
-      "CategoryName" : "Games: Global game providers list",
-      "Action" : [
+      "CategoryCode": "GAMES_GLOBAL_GAME_PROVIDERS_LIST",
+      "CategoryName": "Games: Global game providers list",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление провайдера"
+          "Name": "CREATE",
+          "Description": "Добавление провайдера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование провайдера"
+          "Name": "UPDATE",
+          "Description": "Редактирование провайдера"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление провайдера"
+          "Name": "DELETE",
+          "Description": "Удаление провайдера"
         }
       ]
     }
@@ -793,66 +793,66 @@
   ],
   "FRAUD": [
     {
-      "CategoryCode" : "RISK_MANAGEMENT_SETTINGS",
-      "CategoryName" : "Risk management: Settings",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_SETTINGS",
+      "CategoryName": "Risk management: Settings",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Факт редактирования настроек:\n\nредактирование порогового значения\nредактирование атрибутов и их веса\nсброс настроек до дефолтных"
+          "Name": "UPDATE",
+          "Description": "Факт редактирования настроек:\n\nредактирование порогового значения\nредактирование атрибутов и их веса\nсброс настроек до дефолтных"
         }
       ]
     },
     {
-      "CategoryCode" : "RISK_MANAGEMENT_BULK_PLAYERS_ACTIVATION",
-      "CategoryName" : "Risk management: Players activation",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_BULK_PLAYERS_ACTIVATION",
+      "CategoryName": "Risk management: Players activation",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая активация игроков"
+          "Name": "BULK",
+          "Description": "Массовая активация игроков"
         }
       ]
     },
     {
-      "CategoryCode" : "RISK_MANAGEMENT_BULK_PLAYERS_BAN",
-      "CategoryName" : "Risk management: Players ban",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_BULK_PLAYERS_BAN",
+      "CategoryName": "Risk management: Players ban",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая блокировка игроков"
+          "Name": "BULK",
+          "Description": "Массовая блокировка игроков"
         }
       ]
     },
     {
-      "CategoryCode" : "RISK_MANAGEMENT_BULK_ENABLE_BONUSES",
-      "CategoryName" : "Risk management: Enabling bonuses",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_BULK_ENABLE_BONUSES",
+      "CategoryName": "Risk management: Enabling bonuses",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая блокировка бонусов клиентам"
+          "Name": "BULK",
+          "Description": "Массовая блокировка бонусов клиентам"
         }
       ]
     },
     {
-      "CategoryCode" : "RISK_MANAGEMENT_BULK_DISABLE_BONUSES",
-      "CategoryName" : "Risk management: Disabling bonuses",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_BULK_DISABLE_BONUSES",
+      "CategoryName": "Risk management: Disabling bonuses",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая блокировка бонусов клиентам"
+          "Name": "BULK",
+          "Description": "Массовая блокировка бонусов клиентам"
         }
       ]
     },
     {
-      "CategoryCode" : "RISK_MANAGEMENT_RECALCULATION",
-      "CategoryName" : "Risk management: Settings - Recalculation",
-      "Action" : [
+      "CategoryCode": "RISK_MANAGEMENT_RECALCULATION",
+      "CategoryName": "Risk management: Settings - Recalculation",
+      "Action": [
         {
-          "Name" : "START",
-          "Description" : "Запуск пересчета совпадения игроков"
+          "Name": "START",
+          "Description": "Запуск пересчета совпадения игроков"
         },
         {
-          "Name" : "STOP",
-          "Description" : "Прерывание пересчета"
+          "Name": "STOP",
+          "Description": "Прерывание пересчета"
         }
       ]
     }
@@ -879,394 +879,406 @@
   ],
   "KYC": [
     {
-      "CategoryCode" : "KYC_SERVICE_STATUS",
-      "CategoryName" : "KYC: Service status",
-      "Action" : [
+      "CategoryCode": "KYC_SERVICE_STATUS",
+      "CategoryName": "KYC: Service status",
+      "Action": [
         {
-          "Name" : "ENABLE",
-          "Description" : "Подключение модуля КУС к проекту"
+          "Name": "ENABLE",
+          "Description": "Подключение модуля КУС к проекту"
         },
         {
-          "Name" : "DISABLE",
-          "Description" : "Деактивация модуля на проекте"
+          "Name": "DISABLE",
+          "Description": "Деактивация модуля на проекте"
         }
       ]
     },
     {
-      "CategoryCode" : "KYC_SETTINGS",
-      "CategoryName" : "KYC: Settings",
-      "Action" : [
+      "CategoryCode": "KYC_SETTINGS",
+      "CategoryName": "KYC: Settings",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Редактирование юрисдикции"
+          "Name": "CREATE",
+          "Description": "Редактирование юрисдикции"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование лобби (в т. ч. SEO, News)\nПубликация лобби"
+          "Name": "UPDATE",
+          "Description": "Редактирование лобби (в т. ч. SEO, News)\nПубликация лобби"
         }
       ]
     },
     {
-      "CategoryCode" : "KYC_BLACKLISTS_EMAILS",
-      "CategoryName" : "KYC: Blacklists - Emalis",
-      "Action" : [
+      "CategoryCode": "KYC_BLACKLISTS_EMAILS",
+      "CategoryName": "KYC: Blacklists - Emalis",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление email в блэклист"
+          "Name": "CREATE",
+          "Description": "Добавление email в блэклист"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование записи"
+          "Name": "UPDATE",
+          "Description": "Редактирование записи"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление записи"
+          "Name": "DELETE",
+          "Description": "Удаление записи"
         }
       ]
     },
     {
-      "CategoryCode" : "KYC_BLACKLISTS_PHONES",
-      "CategoryName" : "KYC: Blacklists - Phones",
-      "Action" : [
+      "CategoryCode": "KYC_BLACKLISTS_PHONES",
+      "CategoryName": "KYC: Blacklists - Phones",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление телефона/префикса в блэклист"
+          "Name": "CREATE",
+          "Description": "Добавление телефона/префикса в блэклист"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование записи"
+          "Name": "UPDATE",
+          "Description": "Редактирование записи"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление записи"
+          "Name": "DELETE",
+          "Description": "Удаление записи"
         }
       ]
     },
     {
-      "CategoryCode" : "KYC_BLACKLISTS_COUNTRIES",
-      "CategoryName" : "KYC: Blacklists - Countries",
-      "Action" : [
+      "CategoryCode": "KYC_BLACKLISTS_COUNTRIES",
+      "CategoryName": "KYC: Blacklists - Countries",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление страны в блэклист"
+          "Name": "CREATE",
+          "Description": "Добавление страны в блэклист"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование записи"
+          "Name": "UPDATE",
+          "Description": "Редактирование записи"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление записи"
+          "Name": "DELETE",
+          "Description": "Удаление записи"
         }
       ]
     }
   ],
   "LAB": [
     {
-      "CategoryCode" : "BONUSES_CASHBACK_CAMPAIGNS",
-      "CategoryName" : "Bonuses: Cashback campaigns",
-      "Action" : [
+      "CategoryCode": "BONUSES_CASHBACK_CAMPAIGNS",
+      "CategoryName": "Bonuses: Cashback campaigns",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание кампании на кешбэк"
+          "Name": "CREATE",
+          "Description": "Создание кампании на кешбэк"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование кампании"
+          "Name": "UPDATE",
+          "Description": "Редактирование кампании"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление кампании"
+          "Name": "DELETE",
+          "Description": "Удаление кампании"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_LIST_OF_BONUSES",
-      "CategoryName" : "Bonuses: List of bonuses",
-      "Action" : [
+      "CategoryCode": "BONUSES_LIST_OF_BONUSES",
+      "CategoryName": "Bonuses: List of bonuses",
+      "Action": [
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация списка бонусов"
+          "Name": "SYNC",
+          "Description": "Синхронизация списка бонусов"
         },
         {
-          "Name" : "CREATE",
-          "Description" : "Создание бонуса"
+          "Name": "CREATE",
+          "Description": "Создание бонуса"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование бонуса"
+          "Name": "UPDATE",
+          "Description": "Редактирование бонуса"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление бонуса"
+          "Name": "DELETE",
+          "Description": "Удаление бонуса"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_LOYALTY_LOYALTY_LEVELS",
-      "CategoryName" : "Bonuses: Loyalty - Loyalty levels",
-      "Action" : [
+      "CategoryCode": "BONUSES_LOYALTY_LOYALTY_LEVELS",
+      "CategoryName": "Bonuses: Loyalty - Loyalty levels",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание уровня"
+          "Name": "CREATE",
+          "Description": "Создание уровня"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование уровня"
+          "Name": "UPDATE",
+          "Description": "Редактирование уровня"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление уровня"
+          "Name": "DELETE",
+          "Description": "Удаление уровня"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация уровня"
+          "Name": "SYNC",
+          "Description": "Синхронизация уровня"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_LOYALTY_LOYALTY_POINTS",
-      "CategoryName" : "Bonuses: Loyalty - Loyalty points accrual",
-      "Action" : [
+      "CategoryCode": "BONUSES_LOYALTY_LOYALTY_POINTS",
+      "CategoryName": "Bonuses: Loyalty - Loyalty points accrual",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание правила для начисления очков лояльности"
+          "Name": "CREATE",
+          "Description": "Создание правила для начисления очков лояльности"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование правила"
+          "Name": "UPDATE",
+          "Description": "Редактирование правила"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление правила"
+          "Name": "DELETE",
+          "Description": "Удаление правила"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация правила"
+          "Name": "SYNC",
+          "Description": "Синхронизация правила"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_LOYALTY_EXPERIENCE_LEVELS",
-      "CategoryName" : "Bonuses: Loyalty - Experience levels",
-      "Action" : [
+      "CategoryCode": "BONUSES_LOYALTY_EXPERIENCE_LEVELS",
+      "CategoryName": "Bonuses: Loyalty - Experience levels",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание уровня"
+          "Name": "CREATE",
+          "Description": "Создание уровня"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование уровня"
+          "Name": "UPDATE",
+          "Description": "Редактирование уровня"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление уровня"
+          "Name": "DELETE",
+          "Description": "Удаление уровня"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация уровня"
+          "Name": "SYNC",
+          "Description": "Синхронизация уровня"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_LOYALTY_EXPERIENCE_POINTS",
-      "CategoryName" : "Bonuses: Loyalty - Experience points accrual",
-      "Action" : [
+      "CategoryCode": "BONUSES_LOYALTY_EXPERIENCE_POINTS",
+      "CategoryName": "Bonuses: Loyalty - Experience points accrual",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание правила для начисления очков опыта"
+          "Name": "CREATE",
+          "Description": "Создание правила для начисления очков опыта"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование правила"
+          "Name": "UPDATE",
+          "Description": "Редактирование правила"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление правила"
+          "Name": "DELETE",
+          "Description": "Удаление правила"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация правила"
+          "Name": "SYNC",
+          "Description": "Синхронизация правила"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_MODULE_SETTINGS",
-      "CategoryName" : "Bonuses: Module settings - Settings",
-      "Action" : [
+      "CategoryCode": "BONUSES_MODULE_SETTINGS",
+      "CategoryName": "Bonuses: Module settings - Settings",
+      "Action": [
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование параметров бонусного модуля"
+          "Name": "UPDATE",
+          "Description": "Редактирование параметров бонусного модуля"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_MODULE_SETTINGS_BET_PERCENTAGE",
-      "CategoryName" : "Bonuses: Module settings - Bet percentage",
-      "Action" : [
+      "CategoryCode": "BONUSES_MODULE_SETTINGS_BET_PERCENTAGE",
+      "CategoryName": "Bonuses: Module settings - Bet percentage",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание правила вейджера"
+          "Name": "CREATE",
+          "Description": "Создание правила вейджера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование правила"
+          "Name": "UPDATE",
+          "Description": "Редактирование правила"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление правила"
+          "Name": "DELETE",
+          "Description": "Удаление правила"
         }
       ]
     },
     {
-      "CategoryCode" : "BONUSES_MODULE_SETTINGS_BONUS_GROUPS",
-      "CategoryName" : "Bonuses: Module settings - Bonus groups",
-      "Action" : [
+      "CategoryCode": "BONUSES_MODULE_SETTINGS_BONUS_GROUPS",
+      "CategoryName": "Bonuses: Module settings - Bonus groups",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание пгруппы"
+          "Name": "CREATE",
+          "Description": "Создание пгруппы"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование группы"
+          "Name": "UPDATE",
+          "Description": "Редактирование группы"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление группы"
+          "Name": "DELETE",
+          "Description": "Удаление группы"
         },
         {
-          "Name" : "SYNC",
-          "Description" : "Синхронизация групп"
+          "Name": "SYNC",
+          "Description": "Синхронизация групп"
         }
       ]
     }
   ],
   "TS": [
     {
-      "CategoryCode" : "TOURNAMENTS_TOURNAMENTS_LIST",
-      "CategoryName" : "Tournaments: Tournaments list",
-      "Action" : [
+      "CategoryCode": "TOURNAMENTS_TOURNAMENTS_LIST",
+      "CategoryName": "Tournaments: Tournaments list",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание кампании на кешбэк"
+          "Name": "CREATE",
+          "Description": "Создание кампании на кешбэк"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование кампании (в т. ч. и publish)"
+          "Name": "UPDATE",
+          "Description": "Редактирование кампании (в т. ч. и publish)"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление турнира"
+          "Name": "DELETE",
+          "Description": "Удаление турнира"
         }
       ]
     }
   ],
   "SEG": [
     {
-      "CategoryCode" : "SEGMENTATION_PRESETS",
-      "CategoryName" : "Segmentation: Presets",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_PRESETS",
+      "CategoryName": "Segmentation: Presets",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание нового пресета"
+          "Name": "CREATE",
+          "Description": "Создание нового пресета"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование пресета"
+          "Name": "UPDATE",
+          "Description": "Редактирование пресета"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление пресета"
+          "Name": "DELETE",
+          "Description": "Удаление пресета"
         },
         {
-          "Name" : "EXPORT",
-          "Description" : "Экспорт отчета"
+          "Name": "EXPORT",
+          "Description": "Экспорт отчета"
         }
       ]
     },
     {
-      "CategoryCode" : "SEGMENTATION_BULK_PLAYERS_ACTIVATION",
-      "CategoryName" : "Segmentation: Players activation",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_BULK_PLAYERS_ACTIVATION",
+      "CategoryName": "Segmentation: Players activation",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая активация игроков"
+          "Name": "BULK",
+          "Description": "Массовая активация игроков"
         }
       ]
     },
     {
-      "CategoryCode" : "SEGMENTATION_BULK_PLAYERS_BAN",
-      "CategoryName" : "Segmentation: Players ban",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_BULK_PLAYERS_BAN",
+      "CategoryName": "Segmentation: Players ban",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовый бан игроков"
+          "Name": "BULK",
+          "Description": "Массовый бан игроков"
         }
       ]
     },
     {
-      "CategoryCode" : "SEGMENTATION_BULK_MESSAGE",
-      "CategoryName" : "Segmentation: Message",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_BULK_MESSAGE",
+      "CategoryName": "Segmentation: Message",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая рассылка сообщений игрокам"
+          "Name": "BULK",
+          "Description": "Массовая рассылка сообщений игрокам"
         }
       ]
     },
     {
-      "CategoryCode" : "SEGMENTATION_BULK_ENABLE_BONUSES",
-      "CategoryName" : "Segmentation: Enabling bonuses",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_BULK_ENABLE_BONUSES",
+      "CategoryName": "Segmentation: Enabling bonuses",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая активация бонусов игрокам"
+          "Name": "BULK",
+          "Description": "Массовая активация бонусов игрокам"
         }
       ]
     },
     {
-      "CategoryCode" : "SEGMENTATION_BULK_DISABLE_BONUSES",
-      "CategoryName" : "Segmentation: Disabling bonuses",
-      "Action" : [
+      "CategoryCode": "SEGMENTATION_BULK_DISABLE_BONUSES",
+      "CategoryName": "Segmentation: Disabling bonuses",
+      "Action": [
         {
-          "Name" : "BULK",
-          "Description" : "Массовая блокировка бонусов игрокам"
+          "Name": "BULK",
+          "Description": "Массовая блокировка бонусов игрокам"
         }
       ]
     }
   ],
   "BI": [
     {
-      "CategoryCode" : "BUSINESS_INTELLIGENCE_STATISTICS_TABLE",
-      "CategoryName" : "Casino constructor: Lobby",
-      "Action" : [
+      "CategoryCode": "BUSINESS_INTELLIGENCE_STATISTICS_TABLE",
+      "CategoryName": "Casino constructor: Lobby",
+      "Action": [
         {
-          "Name" : "EXPORT",
-          "Description" : "Экспорт таблицы со статистикой"
+          "Name": "EXPORT",
+          "Description": "Экспорт таблицы со статистикой"
         }
       ]
     }
   ],
   "AFS": [
     {
-      "CategoryCode" : "AFFILIATE_PROVIDERS",
-      "CategoryName" : "Affiliate providers",
-      "Action" : [
+      "CategoryCode": "AFFILIATE_PROVIDERS",
+      "CategoryName": "Affiliate providers",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Добавление провайдера"
+          "Name": "CREATE",
+          "Description": "Добавление провайдера"
         },
         {
-          "Name" : "UPDATE",
-          "Description" : "Редактирование провайдера"
+          "Name": "UPDATE",
+          "Description": "Редактирование провайдера"
         },
         {
-          "Name" : "DELETE",
-          "Description" : "Удаление провайдера"
+          "Name": "DELETE",
+          "Description": "Удаление провайдера"
+        }
+      ]
+    }
+  ],
+  "BO": [
+    {
+      "CategoryCode": "BUSINESS_INTELLIGENCE_STATISTICS_TABLE",
+      "CategoryName": "Casino constructor: Lobby",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт таблицы со статистикой"
         }
       ]
     }
   ]
 }</value>
-    </data>
+  </data>
 </root>

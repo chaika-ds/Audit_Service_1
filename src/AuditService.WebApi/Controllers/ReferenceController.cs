@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ public class ReferenceController
     [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
     {
         return await _referenceProcessor.GetServicesAsync();
     }

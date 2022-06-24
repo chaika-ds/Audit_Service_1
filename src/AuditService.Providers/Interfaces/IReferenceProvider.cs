@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
 
 namespace AuditService.Providers.Interfaces;
 
@@ -11,7 +12,7 @@ public interface IReferenceProvider
     /// <summary>
     ///     Get available services
     /// </summary>
-    Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync();
+    Task<IEnumerable<EnumResponseDto>> GetServicesAsync();
 
     /// <summary>
     ///     Get available categories by filter
