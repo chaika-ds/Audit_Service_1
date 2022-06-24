@@ -51,7 +51,7 @@ public class ResponseHttpCodeModelProvider : IApplicationModelProvider
         AddProducesResponseTypeAttribute(action, returnType, StatusCodes.Status200OK);
         AddProducesResponseTypeAttribute(action, null, StatusCodes.Status401Unauthorized);
         AddProducesResponseTypeAttribute(action, null, StatusCodes.Status403Forbidden);
-        AddProducesResponseTypeAttribute(action, null, StatusCodes.Status500InternalServerError);
+        AddProducesResponseTypeAttribute(action, typeof(ProblemDetails), StatusCodes.Status500InternalServerError);
     }
 
     private void AddPostStatusCodes(IFilterModel action, Type? returnType, bool actionParametersExist)
