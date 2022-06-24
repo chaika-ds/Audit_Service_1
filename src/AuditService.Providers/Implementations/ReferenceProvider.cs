@@ -19,7 +19,7 @@ public class ReferenceProvider : IReferenceProvider
     public Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
     {
         var enumResponseDtoList = Enum.GetNames(typeof(ServiceStructure)).Select(value => 
-            new EnumResponseDto(value, ((ServiceStructure) Enum.Parse(typeof(ServiceStructure), value)).Description()));
+            new EnumResponseDto(value, Enum.Parse<ServiceStructure>(value).Description()));
 
         return Task.FromResult(enumResponseDtoList);
     }

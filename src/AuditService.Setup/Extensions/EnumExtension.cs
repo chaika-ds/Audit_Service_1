@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations;
 namespace AuditService.Setup.Extensions;
 
     /// <summary>
-    ///     Доп. функции для перечислений
+    ///     Functions for enum
     /// </summary>
     public static class EnumExtension
     {
         /// <summary>
-        ///     Получить описание с аттрибута Display\Description
+        ///     Get description from Display\Description attribute
         /// </summary>
-        /// <param name="enum">Объект перечисления</param>
+        /// <param name="enum">Object enum</param>
         public static string? Description<TEnum>(this TEnum @enum)
         {
             if (@enum == null)
@@ -30,39 +30,39 @@ namespace AuditService.Setup.Extensions;
         }
 
         /// <summary>
-        ///     Проверить на наличие аттрибута
+        ///     Check for presence of an attribute
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления</typeparam>
-        /// <param name="enum">Объект перечисления</param>
-        /// <param name="attributeType">Тип искомого аттрибута</param>
+        /// <typeparam name="TEnum">Enum Type</typeparam>
+        /// <param name="enum">Enum Object</param>
+        /// <param name="attributeType">Attribute type to search</param>
         public static bool HasAttribute<TEnum>(this TEnum @enum, Type attributeType)
         {
             return (bool) @enum?.GetType().GetField(@enum.ToString()).GetCustomAttributes(attributeType, false).Any();
         }
 
         /// <summary>
-        ///     Вывести строкой. Высокий регистр букв
+        ///     Output as a string. High case letters
         /// </summary>
-        /// <param name="enum">Объект перечисления</param>
+        /// <param name="enum">Enum object</param>
         public static string? ToUpperString(this Enum @enum)
         {
             return @enum?.ToString()?.ToUpper();
         }
 
         /// <summary>
-        ///     Вывести строкой. Низкий регистр букв
+        ///     Output as a string. Low case letters
         /// </summary>
-        /// <param name="enum">Объект перечисления</param>
+        /// <param name="enum">Enum object</param>
         public static string? ToLowerString(this Enum @enum)
         {
             return @enum?.ToString()?.ToLower();
         }
 
         /// <summary>
-        ///     Конвертировать объект в ENUM перечисление
+        ///     Convert object to ENUM enum
         /// </summary>
-        /// <typeparam name="TEnum">Тип перечисления</typeparam>
-        /// <param name="value">Значение объекта</param>
+        /// <typeparam name="TEnum">Enum type</typeparam>
+        /// <param name="value">Object value</param>
         public static TEnum ToEnum<TEnum>(this object value) where TEnum : struct
         {
             try
@@ -77,9 +77,9 @@ namespace AuditService.Setup.Extensions;
         }
 
         /// <summary>
-        ///     Конвертировать перечисление в INT значение
+        ///     Convert enum to int value
         /// </summary>
-        /// <param name="enum">Объект перечисления</param>
+        /// <param name="enum">Enum object</param>
         public static int ToInt(this Enum @enum)
         {
             return Convert.ToInt32(@enum);
