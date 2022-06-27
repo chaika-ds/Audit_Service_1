@@ -1,10 +1,7 @@
-﻿using System.Text;
-using AuditService.Utility.Helpers;
-using AuditService.Utility.Logger;
-using Microsoft.AspNetCore.Builder;
+﻿using System.Collections;
+using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace AuditService.Setup.Extensions;
@@ -30,25 +27,52 @@ public static class ConfigurationManagerExtension
 
     /// <summary>
     ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" /> with environments from <paramref name="envFile" />.
+    ///     If the environment file does not exist, then environment variables will be applied.
     /// </summary>
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
     public static void AddJsonFile(this ConfigurationManager configuration, string configFile, string envFile, IHostEnvironment environment)
     {
+        if (File.Exists(GetJsonFile(envFile, environment)))
+            configuration.AddJsonFileWithEnvironmantFile(configFile, envFile, environment);
+        else
+            configuration.AddJsonFileWithEnvironmentVariables(configFile, environment);
+    }
+
+    /// <summary>
+    ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" /> with environments from <paramref name="envFile" />.
+    /// </summary>
+    /// <remarks>
+    ///     Supported docker container directory
+    /// </remarks>
+    private static void AddJsonFileWithEnvironmantFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
+    {
         var configFilePath = GetJsonFile(configFile, environment);
-        var envFilePath = GetJsonFile(envFile, environment);
+        var environmentFilePath = GetJsonFile(envFile, environment);
         
         var configs = File.ReadAllText(configFilePath);
-        var environments = File.ReadAllText(envFilePath);
+        var envData = File.ReadAllText(environmentFilePath);
+        var environments = JsonConvert.DeserializeObject<IDictionary<string, string>>(envData);
 
-        Console.WriteLine(configs);
-        Console.WriteLine(environments);
+        var config = environments?.Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value));
+        if (config != null)
+            configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(config)));
+    }
 
-        var envs = JsonConvert.DeserializeObject<IDictionary<string, string>>(environments);
-        if (envs != null) 
-            configs = envs.Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value));
-
+    /// <summary>
+    ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" /> with environments from EnvironmentsVariables.
+    /// </summary>
+    /// <remarks>
+    ///     Supported docker container directory
+    /// </remarks>
+    private static void AddJsonFileWithEnvironmentVariables(this IConfigurationBuilder configuration, string configFile, IHostEnvironment environment)
+    {
+        var configFilePath = GetJsonFile(configFile, environment);
+        var configs = File.ReadAllText(configFilePath);
+        
+        configs = Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value?.ToString()));
+        
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
     }
 
@@ -67,7 +91,7 @@ public static class ConfigurationManagerExtension
         var configPath = GetParent(directoryInfo)?.FullName;
         if (string.IsNullOrEmpty(configPath))
         {
-            Console.WriteLine($"additional config folder in all parts of path '{directoryInfo.FullName}' - not founded!");
+            Console.WriteLine($@"additional config folder in all parts of path '{directoryInfo.FullName}' - not founded!");
             return pathFile;
         }
 
@@ -86,21 +110,5 @@ public static class ConfigurationManagerExtension
 
             directoryInfo = directoryInfo?.Parent;
         }
-    }
-
-    /// <summary>
-    ///     Adds customer logger provider at <paramref name="environmentName" /> to <paramref name="builder" />.
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="environmentName"></param>
-    public static void AddCustomerLogger(this WebApplicationBuilder builder, string environmentName)
-    {
-        builder.Logging.ClearProviders();
-        builder.Logging.SetMinimumLevel(LogLevel.Trace);
-        builder.Logging.AddAuditServiceLogger(options =>
-        {
-            builder.Configuration.Bind(options);
-            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
-        });        
     }
 }

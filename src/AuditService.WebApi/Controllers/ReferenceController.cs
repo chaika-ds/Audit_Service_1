@@ -54,14 +54,14 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
-    /// <param name="serviceStructure">Selected service id</param>
+    /// <param name="service">Selected service id</param>
     [HttpGet]
-    [Route("categories/{serviceId}")]
+    [Route("categories/{service}")]
     [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure serviceStructure)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service)
     {
-        return await _referenceProcessor.GetCategoriesAsync(serviceStructure);
+        return await _referenceProcessor.GetCategoriesAsync(service);
     }
 }
