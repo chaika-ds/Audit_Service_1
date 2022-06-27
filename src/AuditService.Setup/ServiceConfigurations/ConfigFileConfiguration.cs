@@ -17,10 +17,12 @@ public static class ConfigFileConfiguration
     /// </remarks>
     public static void AddConfigs(this WebApplicationBuilder builder)
     {
-        var environmentName = builder.Environment.EnvironmentName.ToLower();
-
         builder.Configuration.AddEnvironmentVariables();
-        builder.Configuration.AddJsonFile("config/aus.api.appsettings.json", $"config/aus.api.env.{environmentName}.json", builder.Environment);
-        builder.Configuration.AddJsonFile($"config/aus.api.logger.{environmentName}.json", builder.Environment);
+
+        builder.SetEnvironment();
+
+        builder.Configuration.AddJsonFile("config/aus.api.appsettings.json", $"config/aus.api.env.{builder.Environment.EnvironmentName.ToLower()}.json", builder.Environment);
+        builder.Configuration.AddJsonFile("config/aus.api.logger.json", builder.Environment);
+        builder.Configuration.AddJsonFile($"config/aus.api.logger.{builder.Environment.EnvironmentName.ToLower()}.json", builder.Environment);
     }
 }
