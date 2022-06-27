@@ -84,7 +84,7 @@ test deploy:
     NAMESPACE: "test-tolar-audit-service"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
-    APPDOMAIN: "audit-p2"
+    APPDOMAIN: "test-audit-p2"
     KAFKA1: kafka-b1.netreportservice.xyz
     KAFKA2: kafka-b2.netreportservice.xyz
     KAFKA3: kafka-b3.netreportservice.xyz

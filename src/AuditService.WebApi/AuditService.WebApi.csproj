@@ -50,7 +50,7 @@
     <Content Include="..\..\config\aus.api.logger.development.json" Link="config\aus.api.logger.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\config\aus.api.logger.production.json" Link="config\aus.api.logger.production.json">
+    <Content Include="..\..\config\aus.api.logger.json" Link="config\aus.api.logger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\lint\linter.ruleset" Link="lint\linter.ruleset">

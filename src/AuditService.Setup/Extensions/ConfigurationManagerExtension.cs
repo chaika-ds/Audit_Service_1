@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -19,9 +20,11 @@ public static class ConfigurationManagerExtension
     /// </remarks>
     public static void AddJsonFile(this ConfigurationManager configuration, string configFile, IHostEnvironment environment)
     {
-        var configFilePath = GetJsonFile(configFile, environment);
-        var configs = File.ReadAllText(configFilePath);
+        var filePath = GetJsonFile(configFile, environment);
+        if (!File.Exists(filePath))
+            return;
 
+        var configs = File.ReadAllText(filePath);
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
     }
 
@@ -35,7 +38,7 @@ public static class ConfigurationManagerExtension
     public static void AddJsonFile(this ConfigurationManager configuration, string configFile, string envFile, IHostEnvironment environment)
     {
         if (File.Exists(GetJsonFile(envFile, environment)))
-            configuration.AddJsonFileWithEnvironmantFile(configFile, envFile, environment);
+            configuration.AddJsonFileWithEnvironmentFile(configFile, envFile, environment);
         else
             configuration.AddJsonFileWithEnvironmentVariables(configFile, environment);
     }
@@ -46,7 +49,7 @@ public static class ConfigurationManagerExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    private static void AddJsonFileWithEnvironmantFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
+    private static void AddJsonFileWithEnvironmentFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
     {
         var configFilePath = GetJsonFile(configFile, environment);
         var environmentFilePath = GetJsonFile(envFile, environment);
@@ -74,6 +77,21 @@ public static class ConfigurationManagerExtension
         configs = Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value?.ToString()));
         
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
+    }
+
+    /// <summary>
+    ///     Setup environment from <paramref name="appEnv" /> from Kubernates ConfigMap.
+    /// </summary>
+    /// <param name="builder">A builder for web application and services</param>
+    /// <param name="appEnv">APP_ENV</param>
+    public static void SetEnvironment(this WebApplicationBuilder builder, string appEnv = "APP_ENV")
+    {
+        var value = Environment.GetEnvironmentVariable(appEnv);
+        if (string.IsNullOrEmpty(value))
+            return;
+
+        builder.Environment.EnvironmentName = value;
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", value);
     }
 
     /// <summary>
