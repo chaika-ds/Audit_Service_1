@@ -22,7 +22,6 @@ public static class RegistrySettings
         services.AddSettings<IRedisSettings, RedisSettings>();
         services.AddSettings<IKafkaSettings, KafkaSettings>();
         services.AddSettings<IHealthSettings, HealthSettings>();
-        services.AddSettings<IJsonDataSettings, JsonDataSettings>();
         services.AddSettings<IAuthenticateServiceSettings, AuthSsoServiceSettings>();
         services.AddSettings<IAuthSsoServiceSettings, AuthSsoServiceSettings>();
         services.AddSettings<IPermissionPusherSettings, PermissionPusherSettings>();

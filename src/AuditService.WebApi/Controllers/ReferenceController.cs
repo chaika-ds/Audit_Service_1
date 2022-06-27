@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ public class ReferenceController
     [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
     {
         return await _referenceProcessor.GetServicesAsync();
     }
@@ -53,14 +54,14 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
-    /// <param name="serviceStructure">Selected service id</param>
+    /// <param name="service">Selected service id</param>
     [HttpGet]
-    [Route("categories/{serviceId}")]
+    [Route("categories/{service}")]
     [Authorize("AuditService.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure serviceStructure)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service)
     {
-        return await _referenceProcessor.GetCategoriesAsync(serviceStructure);
+        return await _referenceProcessor.GetCategoriesAsync(service);
     }
 }

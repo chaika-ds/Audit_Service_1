@@ -5,7 +5,6 @@ namespace AuditService.Common.Enums
     /// <summary>
     ///     Sortable type
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum SortableType
     {
         Ascending = 1,

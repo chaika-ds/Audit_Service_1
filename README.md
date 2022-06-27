@@ -39,10 +39,10 @@
 ## Генерация данных для ELK
 
 
-1. Откройте PowerShell либо консоль
+1. Откройте PowerShell
 2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
 3. Выполнить команду
-   ```powershell
+   ``` powershell
    –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
    ```
 

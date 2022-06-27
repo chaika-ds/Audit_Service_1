@@ -1,10 +1,10 @@
 ﻿using AuditService.Common.Enums;
+using AuditService.Common.Extensions;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
+using AuditService.Common.Resources;
 using AuditService.Providers.Interfaces;
-using AuditService.Setup.ConfigurationSettings;
-using AuditService.Setup.Extensions;
 using Newtonsoft.Json;
-using System.Reflection;
 
 namespace AuditService.Providers.Implementations;
 
@@ -13,19 +13,13 @@ namespace AuditService.Providers.Implementations;
 /// </summary>
 public class ReferenceProvider : IReferenceProvider
 {
-    private readonly IJsonDataSettings _jsonDataSettings;
-
-    public ReferenceProvider(IJsonDataSettings jsonDataSettings)
-    {
-        _jsonDataSettings = jsonDataSettings;
-    }
-
     /// <summary>
     ///     Get available services
     /// </summary>
-    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    public Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
     {
-        return (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
+        var result = Enum.GetValues<ServiceStructure>().Select(value => new EnumResponseDto(value.ToString(), value.Description()));
+        return Task.FromResult(result);
     }
 
     /// <summary>
@@ -34,19 +28,14 @@ public class ReferenceProvider : IReferenceProvider
     /// <param name="serviceId">Service ID</param>
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure? serviceId = null)
     {
-        var fileDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        string filePath = String.Concat(fileDirectory, _jsonDataSettings.ServiceCategories);       
-
-        using var reader = new StreamReader(filePath ?? throw new NullReferenceException($"{nameof(filePath)} is null"));
-        var json = await reader.ReadToEndAsync();
-
-        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(json);
+        var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
         if (categories == null)
-            throw new FileNotFoundException(
-                $"File {filePath} not found or not include data of categories.");
+            throw new FileNotFoundException( $"Not include data of categories.");
 
-        return !serviceId.HasValue
+        var value =!serviceId.HasValue
             ? categories
             : categories.Where(w => w.Key == serviceId.Value).ToDictionary(w => w.Key, w => w.Value);
+
+        return await Task.FromResult(value);
     }
 }

@@ -6,7 +6,6 @@ namespace AuditService.Common.Enums;
 ///     Type of action
 /// </summary>
 // ReSharper disable InconsistentNaming
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ActionType
 {
     CREATE = 0,

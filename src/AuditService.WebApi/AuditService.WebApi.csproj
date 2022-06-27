@@ -47,9 +47,6 @@
     <Content Include="..\..\config\aus.api.env.development.json" Link="config\aus.api.env.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\config\aus.api.env.production.json" Link="config\aus.api.env.production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\config\aus.api.logger.development.json" Link="config\aus.api.logger.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

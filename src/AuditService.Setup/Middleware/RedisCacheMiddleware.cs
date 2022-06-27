@@ -1,8 +1,5 @@
-using System.Text;
 using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
-using AuditService.Setup.Extensions;
-using AuditService.Utility.Helpers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Tolar.Redis;
