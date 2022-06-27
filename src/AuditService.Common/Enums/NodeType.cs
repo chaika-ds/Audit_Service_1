@@ -6,7 +6,6 @@ namespace AuditService.Common.Enums;
 ///     NODE TYPE
 /// </summary>
 // ReSharper disable InconsistentNaming
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum NodeType
 {
     ROOT = 0,

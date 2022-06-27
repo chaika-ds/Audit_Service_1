@@ -7,7 +7,6 @@ namespace AuditService.Common.Enums;
 ///     Identificator of service
 /// </summary>
 // ReSharper disable InconsistentNaming
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ServiceStructure
 {
     /// <summary>

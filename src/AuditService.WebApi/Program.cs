@@ -1,6 +1,5 @@
 using AuditService.Setup;
 using AuditService.Setup.Middleware;
-using AuditService.Utility.Logger;
 using AuditService.Setup.Extensions;
 using AuditService.Setup.ServiceConfigurations;
 using AuditService.WebApi;
@@ -15,7 +14,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.AddCustomerLogger(environmentName);
 
 builder.Services.RegisterSettings();
-builder.Services.AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); });
+builder.Services.AddControllersExtension();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddElasticSearch();
