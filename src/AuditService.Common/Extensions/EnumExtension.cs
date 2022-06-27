@@ -1,8 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-
-namespace AuditService.Setup.Extensions;
+namespace AuditService.Common.Extensions;
 
     /// <summary>
     ///     Functions for enum
@@ -15,10 +14,16 @@ namespace AuditService.Setup.Extensions;
         /// <param name="enum">Object enum</param>
         public static string? Description<TEnum>(this TEnum @enum)
         {
-            if (@enum == null)
+            if (@enum?.ToString() == null)
                 return string.Empty;
 
-            var fieldInfo = @enum.GetType().GetField(@enum.ToString());
+            var name = @enum.ToString();
+            if (name == null)
+                return string.Empty;
+
+            var fieldInfo = @enum.GetType().GetField(name);
+            if (fieldInfo == null)
+                return string.Empty;
 
             var descriptionAttribute = ((DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false)).FirstOrDefault();
             if (descriptionAttribute != null)

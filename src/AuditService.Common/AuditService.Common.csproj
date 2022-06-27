@@ -8,25 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="JsonData\ServiceCategories.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="JsonData\ServiceCategories.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\JsonResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>JsonResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
@@ -35,7 +23,7 @@
     <Compile Update="Resources\JsonResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Categories.resx</DependentUpon>
+      <DependentUpon>JsonResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
