@@ -1,7 +1,9 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Dto;
 using AuditService.Common.Resources;
 using AuditService.Providers.Interfaces;
+using AuditService.Setup.Extensions;
 using Newtonsoft.Json;
 
 namespace AuditService.Providers.Implementations;
@@ -14,9 +16,12 @@ public class ReferenceProvider : IReferenceProvider
     /// <summary>
     ///     Get available services
     /// </summary>
-    public async Task<IEnumerable<CategoryBaseDomainModel>> GetServicesAsync()
+    public Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
     {
-        return (await GetCategoriesAsync()).SelectMany(x => x.Value.Cast<CategoryBaseDomainModel>()).ToList();
+        var enumResponseDtoList = Enum.GetNames(typeof(ServiceStructure)).Select(value => 
+            new EnumResponseDto(value, Enum.Parse<ServiceStructure>(value).Description()));
+
+        return Task.FromResult(enumResponseDtoList);
     }
 
     /// <summary>
