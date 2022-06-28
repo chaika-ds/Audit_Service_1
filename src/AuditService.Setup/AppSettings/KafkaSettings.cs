@@ -19,7 +19,7 @@ internal class KafkaSettings : IKafkaSettings
         // todo @d.chaika надо тебе порефакторить это. не нравится мне все эти выбороки. надо сделать более аккуратно
         
         var excludeConfigs = new List<string> { "KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_PREFIX" };
-        Config = configuration.GetSection("Kafka:Config").GetChildren().Where(w => !excludeConfigs.Contains(w.Key)).ToDictionary(x => x.Key, v => v.Value);
+        Config = configuration.GetSection("Kafka:ProducerConfig").GetChildren().Where(w => !excludeConfigs.Contains(w.Key)).ToDictionary(x => x.Key, v => v.Value);
         Topic = configuration["Kafka:Topics:AuditLog"];
     }
 }

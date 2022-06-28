@@ -46,6 +46,7 @@ namespace AuditService.Utility.Logging
                 Level = logLevel,
                 Channel = config.Channel,
                 Message = message,
+                Context = _categoryName,
             };
 
             var logMessageJson = JsonHelper.SerializeToString(logMessage);

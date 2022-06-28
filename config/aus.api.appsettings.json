@@ -16,7 +16,7 @@
     "PermissionsTopic": "uat.sso.sync.permission",
     "PermissionsSystemName": "AditlogV2.viewAuditLog",
     "PermissionsServiceName": "AditLog",
-    "Config": {
+    "ConsumerConfig": {
       "bootstrap.servers": "$KAFKA_BROKER",
       "group.id": "$KAFKA_CONSUMER_GROUP",
       "enable.partition.eof": true,
@@ -27,6 +27,15 @@
       "auto.offset.reset": "smallest",
       "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
+    },
+    "ProducerConfig": {
+      "bootstrap.servers": "$KAFKA_BROKER",
+      "log.connection.close": "false",
+      "linger.ms": 100,
+      "connections.max.idle.ms": 6000000,
+      "socket.keepalive.enable": true,
+      "reconnect.backoff.max.ms": 200,
+      "broker.address.family": "v6"
     },
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG"
