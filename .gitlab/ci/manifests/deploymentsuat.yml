@@ -56,8 +56,8 @@ spec:
   ports:
     - name: fastcgi
       protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 80
+      targetPort: 80
   selector:
     app: audit-service-api
   type: ClusterIP
