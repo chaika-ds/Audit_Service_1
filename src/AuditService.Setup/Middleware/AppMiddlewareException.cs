@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Tolar.Authenticate;
 
 namespace AuditService.Setup.Middleware;
 
@@ -31,6 +32,10 @@ public class AppMiddlewareException
         try
         {
             await _next(context);
+        }
+        catch (SsoForbidException ex)
+        {
+            await HandleExceptionAsync(context, ex, HttpStatusCode.Forbidden);
         }
         catch (UnauthorizedAccessException ex)
         {

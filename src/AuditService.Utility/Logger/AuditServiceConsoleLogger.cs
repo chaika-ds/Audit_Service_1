@@ -1,8 +1,7 @@
-﻿using AuditService.Utility.Logger;
-using AuditService.Utility.Helpers;
+﻿using AuditService.Utility.Helpers;
 using Microsoft.Extensions.Logging;
 
-namespace AuditService.Utility.Logging
+namespace AuditService.Utility.Logger
 {
     /// <summary>
     /// Custom logger for console in Audit log service

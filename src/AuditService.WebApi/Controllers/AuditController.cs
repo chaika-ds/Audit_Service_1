@@ -3,8 +3,8 @@ using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
-using Tolar.Authenticate;
 using Microsoft.AspNetCore.Mvc;
+using Tolar.Authenticate;
 
 
 namespace AuditService.WebApi.Controllers; 

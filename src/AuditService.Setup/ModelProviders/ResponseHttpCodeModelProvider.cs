@@ -49,6 +49,7 @@ public class ResponseHttpCodeModelProvider : IApplicationModelProvider
     private void AddUniversalStatusCodes(IFilterModel action, Type? returnType)
     {
         AddProducesResponseTypeAttribute(action, returnType, StatusCodes.Status200OK);
+        AddProducesResponseTypeAttribute(action, null, StatusCodes.Status400BadRequest);
         AddProducesResponseTypeAttribute(action, null, StatusCodes.Status401Unauthorized);
         AddProducesResponseTypeAttribute(action, null, StatusCodes.Status403Forbidden);
         AddProducesResponseTypeAttribute(action, typeof(ProblemDetails), StatusCodes.Status500InternalServerError);
@@ -57,7 +58,6 @@ public class ResponseHttpCodeModelProvider : IApplicationModelProvider
     private void AddPostStatusCodes(IFilterModel action, Type? returnType, bool actionParametersExist)
     {
         AddProducesResponseTypeAttribute(action, returnType, StatusCodes.Status201Created);
-        AddProducesResponseTypeAttribute(action, null, StatusCodes.Status400BadRequest);
         
         if (actionParametersExist == false)
             AddProducesResponseTypeAttribute(action, null, StatusCodes.Status404NotFound);
