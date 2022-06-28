@@ -136,6 +136,7 @@ demo deploy:
   when: manual
   only:
     - develop
+    - web
   variables:
     NAMESPACE: "core2"
     K8SCONF: "$DEMOKUBECFG"
@@ -156,6 +157,7 @@ lt deploy:
   when: manual
   only:
     - master
+    - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$LTKUBECFG"
@@ -175,7 +177,8 @@ pentest deploy:
   extends: .k8sdeploy
   when: manual
 #  only:
-#    - master
+#     - master
+#     - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$PENTEST_KUBECFG"
@@ -196,6 +199,7 @@ prod deploy:
   when: manual
   only:
     - master
+    - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$PROD_KUBECFG"
