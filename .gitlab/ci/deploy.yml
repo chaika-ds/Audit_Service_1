@@ -11,7 +11,7 @@ services:
 
 .k8sdeployuat:
   only:
-    - web
+    - develop
   image:
     name: bitnami/kubectl
     entrypoint: [""]
@@ -43,7 +43,7 @@ services:
 
 .k8sdeploy:
   only:
-    - web
+    - develop
   image:
     name: bitnami/kubectl
     entrypoint: [""]
@@ -178,7 +178,6 @@ pentest deploy:
   when: manual
 #  only:
 #     - master
-#     - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$PENTEST_KUBECFG"
