@@ -3,11 +3,15 @@ using AuditService.Tests.Factories.Models;
 using Moq;
 using Nest;
 using Tolar.Authenticate;
+using Tolar.Authenticate.Dtos;
 using Tolar.Kafka;
 using Tolar.Redis;
 
 namespace AuditService.Tests.Factories;
 
+/// <summary>
+///     Mock Creator Factory
+/// </summary>
 public class MockCreatorFactory
 {
     private readonly Mock<IRedisRepository> _mockRedisRepository;
@@ -23,6 +27,11 @@ public class MockCreatorFactory
         _elasticClient = new Mock<IElasticClient>();
     }
     
+    /// <summary>
+    ///     Create mock object
+    /// </summary>
+    /// <param name="type">Define type of Mock</param>
+    /// <param name="input">Input params of Mock</param>
     public Mock CreateMockObject(MockCreator type, IEnumerable<BaseMock> input)
     {
         return type switch
@@ -35,6 +44,10 @@ public class MockCreatorFactory
         };
     }
     
+    /// <summary>
+    ///     Create Redis Mock
+    /// </summary>
+    /// <param name="input">Input params of Mock</param>
     private Mock RedisMock(IEnumerable<RedisMock> input)
     {
         foreach (var item in input)
@@ -46,20 +59,30 @@ public class MockCreatorFactory
         return _mockRedisRepository;
     }
     
+    /// <summary>
+    ///     Create Sso Mock
+    /// </summary>
+    /// <param name="input">Input params of Mock</param>
     private Mock SsoMock(SsoMock input)
     {
-        _authenticateService.Setup(e => e.AuthenticationService()).Returns(Task.FromResult(input.ExpectedToken));
+        _authenticateService.Setup(e => e.AuthenticationService()).Returns(Task.FromResult(input.ExpectedObject));
        
-        _authenticateService.Setup(e => e.GetIsUserAuthenticate(input.Token, input.NodeId)).Returns(Task.FromResult(input.ExpectedObject));
+        _authenticateService.Setup(e => e.GetIsUserAuthenticate(input.Token, input.NodeId)).Returns(Task.FromResult(input.ExpectedObject as AuthenticatedResponse));
         
         return _mockRedisRepository;
     }
     
+    /// <summary>
+    ///     Create Elk Mock
+    /// </summary>
     private Mock ElkMock()
     {
         return _elasticClient;
     }
     
+    /// <summary>
+    ///     Create Kafka Mock
+    /// </summary>
     private Mock KafkaMock()
     {
         return _kafkaConsumer;

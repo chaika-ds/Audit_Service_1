@@ -1,6 +1,6 @@
 namespace AuditService.Tests.Factories.Models;
 
-public class BaseMock
-{
-    
-}
+/// <summary>
+///     Base Mock model
+/// </summary>
+public class BaseMock { }
