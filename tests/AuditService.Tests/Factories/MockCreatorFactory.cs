@@ -1,4 +1,3 @@
-using AuditService.Tests.Factories.Enums;
 using AuditService.Tests.Factories.Models;
 using Moq;
 using Nest;
@@ -32,14 +31,14 @@ public class MockCreatorFactory
     /// </summary>
     /// <param name="type">Define type of Mock</param>
     /// <param name="input">Input params of Mock</param>
-    public Mock CreateMockObject(MockCreator type, IEnumerable<BaseMock> input)
+    public Mock CreateMockObject<TModel>(IEnumerable<BaseMock> input)
     {
-        return type switch
+        return typeof(TModel).Name switch
         {
-            MockCreator.REDIS => RedisMock(input.Cast<RedisMock>()),
-            MockCreator.SSO => SsoMock(input.Cast<SsoMock>().FirstOrDefault()!),
-            MockCreator.KAFKA => KafkaMock(),
-            MockCreator.ELK => ElkMock(),
+            nameof(IRedisRepository) => RedisMock(input.Cast<RedisMock>()),
+            nameof(IAuthenticateService) => SsoMock(input.Cast<SsoMock>().FirstOrDefault()!),
+            nameof(IKafkaConsumer) => KafkaMock(),
+            nameof(IElasticClient) => ElkMock(),
             _ => throw new Exception("type not exist")
         };
     }
