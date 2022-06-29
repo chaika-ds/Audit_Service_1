@@ -76,6 +76,8 @@ public class MockCreatorFactory
     /// </summary>
     private Mock ElkMock()
     {
+        // todo need create mock
+        
         return _elasticClient;
     }
     
@@ -84,6 +86,9 @@ public class MockCreatorFactory
     /// </summary>
     private Mock KafkaMock()
     {
+        // todo need create mock
+        
         return _kafkaConsumer;
     }
+    
 }
