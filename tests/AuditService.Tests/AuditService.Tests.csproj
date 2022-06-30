@@ -29,9 +29,5 @@
     <ProjectReference Include="..\..\src\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AuditSerive.Utility\" />
-  </ItemGroup>
-
+  
 </Project>
