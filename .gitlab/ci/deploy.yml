@@ -11,7 +11,7 @@ services:
 
 .k8sdeployuat:
   only:
-    - web
+    - develop
   image:
     name: bitnami/kubectl
     entrypoint: [""]
@@ -43,7 +43,7 @@ services:
 
 .k8sdeploy:
   only:
-    - web
+    - develop
   image:
     name: bitnami/kubectl
     entrypoint: [""]
@@ -120,7 +120,7 @@ t9 deploy:
     NAMESPACE: "t9"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
-    APPDOMAIN: "audit-p2"
+    APPDOMAIN: "t9-audit-p2"
     KAFKA1: kafka-b1.netreportservice.xyz
     KAFKA2: kafka-b2.netreportservice.xyz
     KAFKA3: kafka-b3.netreportservice.xyz
@@ -136,6 +136,7 @@ demo deploy:
   when: manual
   only:
     - develop
+    - web
   variables:
     NAMESPACE: "core2"
     K8SCONF: "$DEMOKUBECFG"
@@ -156,6 +157,7 @@ lt deploy:
   when: manual
   only:
     - master
+    - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$LTKUBECFG"
@@ -175,7 +177,7 @@ pentest deploy:
   extends: .k8sdeploy
   when: manual
 #  only:
-#    - master
+#     - master
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$PENTEST_KUBECFG"
@@ -196,6 +198,7 @@ prod deploy:
   when: manual
   only:
     - master
+    - web
   variables:
     NAMESPACE: "audit"
     K8SCONF: "$PROD_KUBECFG"

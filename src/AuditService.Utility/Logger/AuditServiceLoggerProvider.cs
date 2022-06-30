@@ -14,7 +14,7 @@ namespace AuditService.Utility.Logger
     {
         IExternalScopeProvider _scopeProvider;
         private readonly ConcurrentDictionary<string, AuditServiceConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
-        private AuditServiceLoggerConfiguration _currentConfig;
+        private LoggerModel _currentConfig;
         public bool IsDisposed { get; protected set; }
         private IDisposable? _onChangeToken;
 
@@ -28,7 +28,7 @@ namespace AuditService.Utility.Logger
             }
         }
 
-        public AuditServiceLoggerProvider(IOptionsMonitor<AuditServiceLoggerConfiguration> config)
+        public AuditServiceLoggerProvider(IOptionsMonitor<LoggerModel> config)
         {
             _currentConfig = config.CurrentValue;
             _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
@@ -45,7 +45,7 @@ namespace AuditService.Utility.Logger
                 return new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null);
             });
 
-        private AuditServiceLoggerConfiguration GetCurrentConfig() => _currentConfig;
+        private LoggerModel GetCurrentConfig() => _currentConfig;
 
         public bool IsEnabled(LogLevel logLevel)
         {

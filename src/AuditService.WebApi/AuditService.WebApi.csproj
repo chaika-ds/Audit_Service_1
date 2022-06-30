@@ -44,10 +44,10 @@
     <Content Include="..\..\config\aus.api.appsettings.json" Link="config\aus.api.appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\config\aus.api.env.development.json" Link="config\aus.api.env.development.json">
+    <Content Include="..\..\config\aus.api.env.debug.json" Link="config\aus.api.env.debug.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\config\aus.api.logger.development.json" Link="config\aus.api.logger.development.json">
+        <Content Include="..\..\config\aus.api.env.development.json" Link="config\aus.api.env.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\config\aus.api.logger.json" Link="config\aus.api.logger.json">

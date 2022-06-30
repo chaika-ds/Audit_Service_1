@@ -1,5 +1,6 @@
 using AuditService.Setup.ConfigurationSettings;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Tolar.Authenticate;
@@ -18,8 +19,9 @@ public static class SwaggerConfiguration
             var serviceProvider = services.BuildServiceProvider();
             var ssoSettings = serviceProvider.GetRequiredService<IAuthSsoServiceSettings>();
             var swaggerSettings = serviceProvider.GetRequiredService<ISwaggerSettings>();
+            var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
 
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = ssoSettings.ServiceName, Version = "v1" });
+            c.SwaggerDoc("v2", new OpenApiInfo { Title = $"{ssoSettings.ServiceName} ({environment.EnvironmentName.ToLower()})", Version = "v2" });
             c.DescribeAllParametersInCamelCase();
             c.UseInlineDefinitionsForEnums();
             c.CustomSchemaIds(x => x.Name);
@@ -73,7 +75,7 @@ public static class SwaggerConfiguration
         SwaggerBuilderExtensions.UseSwagger(app);
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{app.Services.GetRequiredService<IAuthSsoServiceSettings>().ServiceName} v1");
+            c.SwaggerEndpoint("/swagger/v2/swagger.json", $"{app.Services.GetRequiredService<IAuthSsoServiceSettings>().ServiceName} v2");
         });
     }
 }
