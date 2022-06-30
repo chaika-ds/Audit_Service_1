@@ -1,33 +1,16 @@
 using AuditService.EventConsumer;
-using AuditService.EventConsumerApp;
+using AuditService.Kafka;
+using AuditService.Setup.ServiceConfigurations;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using System;
 
-try
-{
-    var builder = WebApplication.CreateBuilder(args);
-    var environmentName = builder.Environment.EnvironmentName;
+var builder = WebApplication.CreateBuilder(args);
 
-    builder.Configuration.AddJsonFile("appsettings.json");
-    builder.Configuration.AddJsonFile($"appsettings.{environmentName}.json", optional: true);
-    builder.Configuration.AddEnvironmentVariables();
+builder.AddConfigs();
+builder.AddLogger();
 
-    var additionalConfiguration = new AdditionalEnvironmentConfiguration();
-    additionalConfiguration.AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
-    additionalConfiguration.AddJsonFile(builder, $"config/aus.api.logger.{environmentName}.json");
+builder.Services.AddKafkaSettings();
+builder.Services.KafkaServices();
 
-    builder.Services.AddApplicationServices(); 
-    
-    additionalConfiguration.AddCustomerLogger(builder, environmentName);
+var app = builder.Build();
 
-    var app = builder.Build();
-
-    app.Run();
-}
-catch (Exception exception)
-{
-    Console.WriteLine(exception);
-    Console.ReadKey();
-    throw;
-}
+app.Run();

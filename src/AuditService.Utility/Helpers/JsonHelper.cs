@@ -12,7 +12,7 @@ public static class JsonHelper
     {
         return JsonConvert.SerializeObject(obj, new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented,
+            Formatting = Formatting.None,
             Converters = new List<JsonConverter> { new StringEnumConverter() }
         });
     }

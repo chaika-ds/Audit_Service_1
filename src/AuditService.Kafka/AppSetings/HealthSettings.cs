@@ -1,9 +1,8 @@
-﻿using AuditService.Kafka.Settings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace AuditService.Setup.AppSettings;
+namespace AuditService.Kafka.AppSetings;
 
-internal class HealthSettings : IHealthSettings
+public class HealthSettings : IHealthSettings
 {
     public HealthSettings(IConfiguration configuration) => ApplySettings(configuration);
 
