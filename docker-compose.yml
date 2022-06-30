@@ -9,8 +9,7 @@ services:
         - APP_PORT=${APP_PORT}
         - APP_NAME=${APP_NAME}
       context: .
-      dockerfile: Dockerfile
-      # target: ${APP_ENV}
+      dockerfile: Dockerfile.development
     ports:
       - ${APP_PORT}:${APP_PORT}
     environment:
