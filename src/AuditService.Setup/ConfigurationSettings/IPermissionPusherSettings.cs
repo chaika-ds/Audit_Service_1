@@ -14,4 +14,9 @@ public interface IPermissionPusherSettings
     ///     Service ID
     /// </summary>
     public Guid ServiceId { get; set; }
+
+    /// <summary>
+    ///     Service name
+    /// </summary>
+    public string? ServiceName { get; set; }
 }

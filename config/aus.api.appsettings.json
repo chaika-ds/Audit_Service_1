@@ -11,22 +11,34 @@
     }
   },
   "Kafka": {
-    "MaxThreadsCount": 10,
+    "MaxThreadsCount": 5,
     "MaxTimeoutMsec": 5000,
     "PermissionsTopic": "uat.sso.sync.permission",
-    "PermissionsSystemName": "AditlogV2.viewAuditLog",
-    "PermissionsServiceName": "AditLog",
     "Config": {
-      "bootstrap.servers": "$KAFKA_BROKER",
-      "group.id": "$KAFKA_CONSUMER_GROUP",
+      "security.protocol": "sasl_plaintext",
+      "sasl.mechanism": "PLAIN",
       "enable.partition.eof": true,
       "log.connection.close": false,
-      "enable.auto.commit": false,
       "queued.min.messages": 10,
       "queued.max.messages.kbytes": 256,
       "auto.offset.reset": "smallest",
+      "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
     },
+    "Aliases": {
+      "Address": "bootstrap.servers",
+      "GroupId": "group.id",
+      "ServiceName": "sasl.kerberos.service.name",
+      "SaslUsername": "sasl.username",
+      "SaslPassword": "sasl.password"
+    },
+
+    "SaslUsername": "$KAFKA_USERNAME",
+    "SaslPassword": "$KAFKA_PASSWORD",
+    "Address": "$KAFKA_BROKER",
+    "ServiceName": "kafka-b1.netreportservice.xyz,kafka-b2.netreportservice.xyz,kafka-b3.netreportservice.xyz",
+    "GroupId": "$KAFKA_CONSUMER_GROUP",
+
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG"
     },
@@ -35,6 +47,31 @@
       "ForPeriodInSecond": 20
     }
   },
+  // "Kafka2": {
+  //   "MaxThreadsCount": 5,
+  //   "MaxTimeoutMsec": 5000,
+  //   "PermissionsTopic": "uat.sso.sync.permission",
+  //   "ConsumerConfig": {
+  //     "bootstrap.servers": "$KAFKA_BROKER",
+  //     "group.id": "$KAFKA_CONSUMER_GROUP",
+  //     "enable.partition.eof": true,
+  //     "log.connection.close": false,
+  //     "enable.auto.commit": false,
+  //     "queued.min.messages": 10,
+  //     "queued.max.messages.kbytes": 256,
+  //     "auto.offset.reset": "smallest",
+  //     "fetch.error.backoff.ms": 200
+  //   },
+  //   "ProducerConfig": {
+  //     "bootstrap.servers": "$KAFKA_BROKER",
+  //     "log.connection.close": "false",
+  //     "linger.ms": 100,
+  //     "connections.max.idle.ms": 6000000,
+  //     "socket.keepalive.enable": true,
+  //     "reconnect.backoff.max.ms": 200,
+  //     "broker.address.family": "v6"
+  //   }
+  // },
   "SSO": {
     "ServiceName": "$SSO_SERVICE_NAME",
     "ServiceId": "$SSO_AUTH_SERVICE_ID",

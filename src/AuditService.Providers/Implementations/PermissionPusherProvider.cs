@@ -9,7 +9,7 @@ public class PermissionPusherProvider : PermissionPusher
     private readonly IKafkaProducer _producer;
     private readonly IPermissionPusherSettings _settings;
 
-    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusherSettings settings, IAuthSsoServiceSettings ssoSettings) : base(settings.ServiceId, ssoSettings.ServiceName)
+    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusherSettings settings) : base(settings.ServiceId, settings.ServiceName)
     {
         _producer = producer;
         _settings = settings;

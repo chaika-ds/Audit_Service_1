@@ -12,10 +12,11 @@ public class AuditServiceConsoleLogger : ILogger
     private AuditServiceLoggerProvider Provider { get; }
     private readonly Func<LoggerModel> _getCurrentConfig;
     private readonly string _logPrefix;
+    private readonly string _categoryName;
 
     public AuditServiceConsoleLogger(string categoryName, Func<LoggerModel> getCurrentConfig, AuditServiceLoggerProvider provider, string logPrefix)
     {
-        (_, _getCurrentConfig, Provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);
+        (_categoryName, _getCurrentConfig, Provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);
     }
 
     public IDisposable BeginScope<TState>(TState state) => Provider.ScopeProvider.Push(state);
@@ -32,7 +33,8 @@ public class AuditServiceConsoleLogger : ILogger
             Timestamp = DateTime.UtcNow.ToString("o"),
             Level = logLevel,
             Channel = _getCurrentConfig().Channel,
-            Message = _logPrefix + formatter(state, exception)
+            Message = _logPrefix + formatter(state, exception),
+            Context = _categoryName
         };
 
         Console.WriteLine(JsonConvert.SerializeObject(logMessage, new JsonSerializerSettings
