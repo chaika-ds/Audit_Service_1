@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
+using Tolar.Kafka;
 using Tolar.Redis;
 
 namespace AuditService.WebApi;
@@ -23,7 +24,8 @@ public static class DiConfigure
         services
             .AddSingleton<HealthService>()
             .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
-            .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>());
+            .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>())
+            .AddSingleton<IKafkaProducer, KafkaProducer>();
 
         Providers.DiConfigure.RegisterServices(services);
     }

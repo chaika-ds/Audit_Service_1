@@ -22,7 +22,6 @@
       "queued.min.messages": 10,
       "queued.max.messages.kbytes": 256,
       "auto.offset.reset": "smallest",
-      "socket.blocking.max.ms": 100,
       "fetch.error.backoff.ms": 200
     },
     "Aliases": {
