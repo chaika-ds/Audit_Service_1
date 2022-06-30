@@ -1,5 +1,7 @@
 ﻿using AuditService.Setup.ConfigurationSettings;
 using AuditService.Utility.Helpers;
+using AuditService.Utility.Logger;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Tolar.Authenticate;
 using Tolar.Kafka;
@@ -10,22 +12,22 @@ public class PermissionPusherProvider : PermissionPusher
 {
     private readonly IKafkaProducer _producer;
     private readonly IPermissionPusherSettings _settings;
-    private readonly ILogger _logger;
+    private readonly IHostEnvironment _environment;
 
-    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusherSettings settings, ILogger logger) : base(settings.ServiceId, settings.ServiceName)
+    public PermissionPusherProvider(IKafkaProducer producer, IPermissionPusherSettings settings, IHostEnvironment environment) : base(settings.ServiceId, settings.ServiceName)
     {
         _producer = producer;
         _settings = settings;
-        _logger = logger;
+        _environment = environment;
     }
 
     protected override async Task PushAsync(object obj)
     {
-        _logger.LogInformation($"Start push permissions. Topic: {_settings.Topic}");
-        _logger.LogInformation($"Permissions: {obj.SerializeToString()}");
+        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), $"Start push permissions. Topic: {_settings.Topic}", "PermissionPusherProvider");
+        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), $"Permissions: {obj.SerializeToString()}", "PermissionPusherProvider");
 
         await _producer.SendAsync(obj, _settings.Topic);
 
-        _logger.LogInformation("All permissions are pushed");
+        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), "All permissions are pushed", "PermissionPusherProvider");
     }
 }
