@@ -6,6 +6,8 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
+    networks:
+      - ${NETWORKS_NAME}
 
   kafka:
     image: wurstmeister/kafka
@@ -25,6 +27,8 @@ services:
       #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
       #KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
       #CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
+    networks:
+      - ${NETWORKS_NAME}
 
   auditservice:
     container_name: auditservice
