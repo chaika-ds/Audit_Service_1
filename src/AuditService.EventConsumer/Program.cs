@@ -1,16 +1,25 @@
+using System;
 using AuditService.EventConsumer;
 using AuditService.Kafka;
 using AuditService.Setup.ServiceConfigurations;
+using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddConfigs();
-builder.AddLogger();
+try
+{
+    builder.AddConfigs();
+    builder.AddLogger();
 
-builder.Services.AddKafkaSettings();
-builder.Services.KafkaServices();
+    builder.Services.AddKafkaSettings();
+    builder.Services.KafkaServices();
 
-var app = builder.Build();
+    var app = builder.Build();
 
-app.Run();
+    app.Run();
+}
+catch (Exception e)
+{
+    e.WriteToLog(builder.Environment.EnvironmentName.ToLower());
+}
