@@ -8,25 +8,6 @@ namespace AuditService.Tests.AuditService.Utility.Helpers;
 public class JsonHelperTest
 {
     /// <summary>
-    /// Unit Test for GetJson method
-    /// </summary>
-    [Fact]
-    public void GetJsonTest()
-    {
-        //Arrange
-        var path =  @"JsonModels/MockedData.json";
-
-        //Act 
-        var result = JsonHelper.GetJson(path);
-
-        using var streamReader = new StreamReader(path); 
-        var expectedResult = streamReader.ReadToEnd();
-
-        //Assert
-        Assert.Equal(result,expectedResult);
-    }
-
-    /// <summary>
     /// Unit Test for SerializeToString method
     /// </summary>
     [Fact]
