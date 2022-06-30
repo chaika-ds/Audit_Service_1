@@ -30,12 +30,11 @@ public class ReferenceProvider : IReferenceProvider
     {
         var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
         if (categories == null)
-            throw new FileNotFoundException( $"Not include data of categories.");
+            throw new FileNotFoundException("Not include data of categories.");
 
-        var value =!serviceId.HasValue
-            ? categories
-            : categories.Where(w => w.Key == serviceId.Value).ToDictionary(w => w.Key, w => w.Value);
-
-        return await Task.FromResult(value);
+        if (serviceId.HasValue)
+            categories = categories.Where(w => w.Key == serviceId.Value).ToDictionary(w => w.Key, w => w.Value);
+        
+        return await Task.FromResult(categories);
     }
 }

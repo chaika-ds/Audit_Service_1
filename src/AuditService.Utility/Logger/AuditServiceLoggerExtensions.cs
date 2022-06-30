@@ -17,12 +17,12 @@ namespace AuditService.Utility.Logger
 
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, AuditServiceLoggerProvider>());
 
-            LoggerProviderOptions.RegisterProviderOptions<AuditServiceLoggerConfiguration, AuditServiceLoggerProvider>(builder.Services);
+            LoggerProviderOptions.RegisterProviderOptions<LoggerModel, AuditServiceLoggerProvider>(builder.Services);
             return builder;
         }
 
         public static ILoggingBuilder AddAuditServiceLogger(this ILoggingBuilder builder,
-            Action<AuditServiceLoggerConfiguration> configure)
+            Action<LoggerModel> configure)
         {
             if (configure == null)
             {

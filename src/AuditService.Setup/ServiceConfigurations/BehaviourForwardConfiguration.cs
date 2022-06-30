@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace AuditService.Setup.ServiceConfigurations;
 
@@ -17,6 +18,11 @@ public static class BehaviourForwardConfiguration
     /// </summary>
     public static void AdditionalConfigurations(this IServiceCollection services)
     {
+        services.Configure<HostOptions>(hostOptions =>
+        {
+            hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+        });
+
         services.AddResponseCompression(options =>
         {
             options.Providers.Add<GzipCompressionProvider>();

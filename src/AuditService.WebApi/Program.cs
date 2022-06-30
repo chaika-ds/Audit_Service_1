@@ -3,42 +3,35 @@ using AuditService.Setup.Middleware;
 using AuditService.Setup.ServiceConfigurations;
 using AuditService.WebApi;
 
-try
-{
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-    builder.AddConfigs();
-    builder.AddLogger();
+builder.AddConfigs();
+builder.AddLogger();
 
-    builder.Services.RegisterSettings();
-    builder.Services.AddControllersWithFilters();
+builder.Services.RegisterSettings();
+builder.Services.AddControllersWithFilters();
 
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddHealthChecks();
-    builder.Services.AddElasticSearch();
-    builder.Services.AdditionalConfigurations();
-    builder.Services.AddRedisCache();
-    builder.Services.AddSwagger();
-    builder.Services.RegisterServices();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks();
+builder.Services.AddElasticSearch();
+builder.Services.AdditionalConfigurations();
+builder.Services.AddRedisCache();
+builder.Services.AddSwagger();
+builder.Services.RegisterServices();
 
-    var app = builder.Build();
+var app = builder.Build();
 
-    if (!app.Environment.IsProduction())
-        app.UseDeveloperExceptionPage();
+if (!app.Environment.IsProduction())
+    app.UseDeveloperExceptionPage();
 
-    app.UseSwagger();
-    app.UseHttpsRedirection();
-    app.UseAuthorization();
-    app.UseHealthChecks("/healthy");
-    app.MapControllers();
-    app.UseRouting();
+app.UseSwagger();
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.UseHealthChecks("/healthy");
+app.MapControllers();
+app.UseRouting();
 
-    app.UseMiddleware<AppMiddlewareException>();
-    app.UseMiddleware<RedisCacheMiddleware>();
+app.UseMiddleware<AppMiddlewareException>();
+app.UseMiddleware<RedisCacheMiddleware>();
 
-    app.Run();
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+app.Run();

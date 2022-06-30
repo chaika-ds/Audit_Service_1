@@ -62,7 +62,7 @@ public class AdditionalEnvironmentConfiguration
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
         builder.Logging.AddAuditServiceLogger(options => {
             builder.Configuration.Bind(options);
-            options.Channel = EnumHelper.CheckAndParseChannel(environmentName.ToLower());
+            options.Channel = environmentName.ToLower();
         });
     }
 }
