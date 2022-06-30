@@ -22,6 +22,7 @@
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
     <PackageReference Include="Tolar.Authenticate" Version="6.0.818" />
     <PackageReference Include="Tolar.Kafka" Version="6.0.808" />
+    <PackageReference Include="Tolar.Web" Version="6.0.818" />
   </ItemGroup>
 
   <ItemGroup>

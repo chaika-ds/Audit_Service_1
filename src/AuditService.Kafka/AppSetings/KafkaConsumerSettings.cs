@@ -1,40 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Tolar.Kafka;
+using Tolar.Web.Tools;
 
-namespace AuditService.Kafka.AppSetings
+namespace AuditService.Kafka.AppSetings;
+
+internal class KafkaConsumerSettings : IKafkaConsumerSettings
 {
-    internal class KafkaConsumerSettings : IKafkaConsumerSettings
+    public KafkaConsumerSettings(IConfiguration configuration)
     {
-        public KafkaConsumerSettings(IConfiguration configuration) => ApplyKafkaSection(configuration);
+        configuration.GetSection("Kafka").Bind(this);
 
-        public int MaxTimeoutMsec { get; set; }
-        public int MaxThreadsCount { get; set; }
-
-        public Dictionary<string, string> Config { get; set; }
-
-        /// <summary>
-        ///     Apply Kafka configs
-        /// </summary>
-        private void ApplyKafkaSection(IConfiguration config)
-        {
-            MaxTimeoutMsec = int.Parse(config["Kafka:MaxTimeoutMsec"]);
-            MaxThreadsCount = int.Parse(config["Kafka:MaxThreadsCount"]);
-
-            Config = config.GetSection("Kafka:ConsumerConfig").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-            ApplyKafkaAliases(config, Config);
-        }
-
-        private void ApplyKafkaAliases(IConfiguration configuration, IDictionary<string, string> config)
-        {
-            var aliases = configuration.GetSection("Kafka:Aliases").GetChildren().ToDictionary(x => x.Key, v => v.Value);
-
-            foreach (var item in aliases)
-            {
-                var value = configuration[$"Kafka:{item.Key}"];
-
-                if (!string.IsNullOrEmpty(value)) config[item.Value] = value;
-            }
-        }
+        Config = SettingsHelper.GetKafkaConfiguration(configuration);
     }
+
+    public int MaxTimeoutMsec { get; set; }
+
+    public int MaxThreadsCount { get; set; }
+
+    public Dictionary<string, string>? Config { get; set; }
 }

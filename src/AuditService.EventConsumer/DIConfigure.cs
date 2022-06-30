@@ -1,10 +1,10 @@
-﻿using AuditService.Common.Models.Domain;
-using AuditService.Kafka.Services;
+﻿using AuditService.Kafka.Services;
 using Microsoft.Extensions.DependencyInjection;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
 using AuditService.Kafka.AppSetings;
 using AuditService.Kafka.Services.ExternalConnectionServices;
+using bgTeam.Extensions;
 
 namespace AuditService.EventConsumer;
 
@@ -15,12 +15,12 @@ public static class DiConfigure
 {
     public static void KafkaServices(this IServiceCollection services)
     {
+        services.AddSettings<IKafkaTopics, KafkaTopics>();
+
         services
-            .AddSingleton(services)
             .AddSingleton<HealthService>()
             .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
-            .AddSingleton<IInputSettings<AuditLogTransactionDomainModel>, InputSettings<AuditLogTransactionDomainModel>>()
-            .AddSingleton<IKafkaConsumerFactory, Kafka.Kafka.KafkaConsumerFactory>()
+            .AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>()
             .AddSingleton<IInputService, InputAuditServiceTransactions>();
 
         services

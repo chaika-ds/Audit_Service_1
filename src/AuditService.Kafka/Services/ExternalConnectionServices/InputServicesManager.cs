@@ -1,38 +1,29 @@
-﻿using AuditService.Kafka.Services;
-using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Hosting;
 
-namespace AuditService.Kafka.Services.ExternalConnectionServices
+namespace AuditService.Kafka.Services.ExternalConnectionServices;
+
+public class InputServicesManager : IHostedService
 {
-    public class InputServicesManager : IHostedService
+    private readonly IEnumerable<IInputService> _inputs;
+
+    public InputServicesManager(IEnumerable<IInputService> inputs)
     {
-        private readonly IEnumerable<IInputService> _inputs;
+        _inputs = inputs;
+    }
 
-        public InputServicesManager(IEnumerable<IInputService> inputs)
-        {
-            _inputs = inputs;
-        }
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        foreach (var x in _inputs) 
+            x.Start();
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            foreach (var x in _inputs)
-            {
-                x.Start();
-            }
+        return Task.CompletedTask;
+    }
 
-            return Task.CompletedTask;
-        }
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        foreach (var x in _inputs) 
+            x.Stop();
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            foreach (var x in _inputs)
-            {
-                x.Stop();
-            }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

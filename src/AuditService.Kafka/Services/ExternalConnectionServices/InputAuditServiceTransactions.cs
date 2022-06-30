@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using AuditService.Common.Models.Domain;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
 
@@ -9,36 +8,38 @@ namespace AuditService.Kafka.Services.ExternalConnectionServices
     /// <summary>
     /// Service for consuming Audit log messages
     /// </summary>
-    public class InputAuditServiceTransactions : BaseInputService<AuditLogTransactionDomainModel>
+    public class InputAuditServiceTransactions : BaseInputService
     {
         public InputAuditServiceTransactions(
             ILogger<InputAuditServiceTransactions> logger,
             IKafkaConsumerFactory consumerFactory,
-            IInputSettings<AuditLogTransactionDomainModel> inputSettings,
+            IKafkaTopics kafkaTopics,
             IHealthMarkService healthService)
-                : base(logger, consumerFactory, inputSettings, healthService)
+                : base(logger, consumerFactory, kafkaTopics, healthService)
         {
         }
 
         protected override async Task OnMessageReceivedAsync(object sender, MessageReceivedEventArgs args)
         {
-            if (string.IsNullOrWhiteSpace(args.Data))
-            {
-                return;
-            }
+            await Task.Delay(1);
 
-            try
-            {
-                var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDomainModel>(args.Data);
+            // TODO надо будет все это сделать
+            //if (string.IsNullOrWhiteSpace(args.Data))
+            //{
+            //    return;
+            //}
 
-                //await CreateAndSaveAsync(inputObject).ConfigureAwait(false);
-                await Task.Delay(1);
-                return;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error processing {typeof(AuditLogTransactionDomainModel).Name}");
-            }
+            //try
+            //{
+            //    var inputObject = JsonConvert.DeserializeObject<AuditLogTransactionDomainModel>(args.Data);
+
+            //    //await CreateAndSaveAsync(inputObject).ConfigureAwait(false);
+            //    await Task.Delay(1);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, $"Error processing {typeof(AuditLogTransactionDomainModel).Name}");
+            //}
         }
 
         //protected Task CreateAndSaveAsync(AuditLogTransactionDomainModel inputObject)

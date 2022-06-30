@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AuditService.Kafka.Kafka;
 using Microsoft.Extensions.DependencyInjection;
+using Tolar.Kafka;
 
 namespace AuditService.IntegrationTests.EventProducer.Builder
 {
