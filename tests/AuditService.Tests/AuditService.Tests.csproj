@@ -30,4 +30,10 @@
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="JsonModels\MockedData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
 </Project>
