@@ -3,7 +3,6 @@ using AuditService.IntegrationTests.EventProducer.Builder;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AuditService.Kafka.Settings;
 using Tolar.Kafka;
 using KafkaProducer = AuditService.Kafka.Kafka.KafkaProducer;
 

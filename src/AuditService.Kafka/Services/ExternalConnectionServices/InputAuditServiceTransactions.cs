@@ -1,19 +1,15 @@
-﻿using AuditService.Kafka.Services;
-using AuditService.Kafka.Services.ExternalConnectionServices;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 using AuditService.Common.Models.Domain;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
 
-namespace AuditService.EventConsumerApp
+namespace AuditService.Kafka.Services.ExternalConnectionServices
 {
     /// <summary>
     /// Service for consuming Audit log messages
     /// </summary>
-    public class InputAuditServiceTransactions :  BaseInputService<AuditLogTransactionDomainModel>
+    public class InputAuditServiceTransactions : BaseInputService<AuditLogTransactionDomainModel>
     {
         public InputAuditServiceTransactions(
             ILogger<InputAuditServiceTransactions> logger,

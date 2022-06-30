@@ -1,4 +1,5 @@
-﻿using AuditService.Kafka.Settings;
+﻿using AuditService.Kafka.AppSetings;
+using AuditService.Kafka.AppSettings;
 using AuditService.Setup.AppSettings;
 using AuditService.Setup.ConfigurationSettings;
 using bgTeam.Extensions;

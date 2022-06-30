@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
-    <ProjectReference Include="..\AuditService.EventConsumerApp\AuditService.EventConsumerApp.csproj" />
+    <ProjectReference Include="..\AuditService.Kafka\AuditService.Kafka.csproj" />
     <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>
 

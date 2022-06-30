@@ -1,5 +1,5 @@
 using AuditService.EventConsumer;
-using AuditService.EventConsumerApp;
+using AuditService.Kafka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -16,9 +16,10 @@ try
     var additionalConfiguration = new AdditionalEnvironmentConfiguration();
     additionalConfiguration.AddJsonFile(builder, $"config/aus.api.appsettings.{environmentName}.json");
     additionalConfiguration.AddJsonFile(builder, $"config/aus.api.logger.{environmentName}.json");
-
-    builder.Services.AddApplicationServices(); 
     
+    builder.Services.AddKafkaSettings();
+    builder.Services.KafkaServices();
+
     additionalConfiguration.AddCustomerLogger(builder, environmentName);
 
     var app = builder.Build();

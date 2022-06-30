@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AuditService.Kafka.Services;
+using Microsoft.Extensions.Configuration;
 
-namespace AuditService.Kafka.Services.ExternalConnectionServices
+namespace AuditService.Kafka.AppSetings
 {
     public class InputSettings<T> : IInputSettings<T>
     {

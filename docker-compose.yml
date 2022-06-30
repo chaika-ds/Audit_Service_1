@@ -1,8 +1,35 @@
 version: '3.4'
 
 services:
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    ports:
+      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
+
+  kafka:
+    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    container_name: kafka
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: ${KAFKA_ADVERTISED_HOST_NAME}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,EXTERNAL://localhost:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
+
   auditservice:
     container_name: auditservice
+    depends_on: 
+      - kafka
     image: slotegrator/auditservice
     build:
       args:
@@ -61,21 +88,7 @@ services:
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
-  zookeeper:
-    container_name: zookeeper
-    image: wurstmeister/zookeeper
-    ports:
-      - "${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}"
-  kafka:
-    image: wurstmeister/kafka
-    depends_on:
-      - zookeeper
-    container_name: kafka
-    ports:
-      - "${KAFKA_PORT}:${KAFKA_PORT}"
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: ${KAFKA_ADVERTISED_HOST_NAME}
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
+
 
 networks:
   auditservice:

@@ -1,4 +1,4 @@
-﻿using AuditService.Kafka.Settings;
+﻿using AuditService.Kafka.AppSettings;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
 
-namespace AuditService.EventConsumerApp
+namespace AuditService.Kafka.AppSetings
 {
     /// <summary>
     /// Application settings for Kafka consumer

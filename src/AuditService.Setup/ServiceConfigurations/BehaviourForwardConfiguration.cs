@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace AuditService.Setup.ServiceConfigurations;
 
@@ -28,6 +29,11 @@ public static class BehaviourForwardConfiguration
             options.SuppressConsumesConstraintForFormFileParameters = true;
             options.SuppressInferBindingSourcesForParameters = true;
             options.SuppressModelStateInvalidFilter = true;
+        });
+
+        services.Configure<HostOptions>(hostOptions =>
+        {
+            hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
         });
 
         services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });

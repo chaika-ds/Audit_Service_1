@@ -8,7 +8,7 @@
     <PackageReference Include="bgTeam.DataAccess" Version="6.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Tolar.Authenticate" Version="6.0.808" />
+    <PackageReference Include="Tolar.Authenticate" Version="6.0.818" />
     <PackageReference Include="Tolar.Kafka" Version="6.0.808" />
     <PackageReference Include="Tolar.Web" Version="6.0.808" />
   </ItemGroup>

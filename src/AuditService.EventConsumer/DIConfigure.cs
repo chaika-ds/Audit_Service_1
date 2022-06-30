@@ -1,24 +1,20 @@
 ﻿using AuditService.Common.Models.Domain;
 using AuditService.Kafka.Services;
-using AuditService.Kafka.Services.ExternalConnectionServices;
-using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Tolar.Authenticate.Impl;
-using AuditService.Kafka.Settings;
 using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
+using AuditService.Kafka.AppSetings;
+using AuditService.Kafka.Services.ExternalConnectionServices;
 
-namespace AuditService.EventConsumerApp;
+namespace AuditService.EventConsumer;
 
 /// <summary>
 /// DI configuration for Kafka consumer
 /// </summary>
 public static class DiConfigure
 {
-    public static void AddApplicationServices(this IServiceCollection services)
+    public static void KafkaServices(this IServiceCollection services)
     {
-        services.AddSettings<IKafkaConsumerSettings, IHealthSettings, IAuthenticateServiceSettings, AppSettings>();
-
         services
             .AddSingleton(services)
             .AddSingleton<HealthService>()

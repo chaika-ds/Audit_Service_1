@@ -1,5 +1,5 @@
+using AuditService.Kafka.AppSettings;
 using AuditService.Kafka.Services.Health;
-using AuditService.Kafka.Settings;
 using AuditService.Providers.Interfaces;
 using Nest;
 
