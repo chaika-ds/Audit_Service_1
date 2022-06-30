@@ -5,7 +5,7 @@ namespace AuditService.Common.Extensions
     public static class ExceptionExtension
     {
         /// <summary>
-        ///     Полное описание исключения
+        ///     Full message of exception
         /// </summary>
         public static string FullMessage(this Exception exception, bool needStackTrace = true)
         {
