@@ -1,4 +1,4 @@
-﻿using AuditService.Kafka.AppSettings;
+﻿using AuditService.Kafka.AppSetings;
 
 namespace AuditService.Kafka.Services.Health
 {

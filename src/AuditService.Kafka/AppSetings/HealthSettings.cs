@@ -1,5 +1,4 @@
-﻿using AuditService.Kafka.AppSettings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace AuditService.Kafka.AppSetings;
 

@@ -1,4 +1,4 @@
-﻿using AuditService.Kafka.AppSettings;
+﻿using AuditService.Kafka.AppSetings;
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

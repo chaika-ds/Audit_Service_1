@@ -1,5 +1,4 @@
 ﻿using AuditService.Kafka.AppSetings;
-using AuditService.Kafka.AppSettings;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Kafka;

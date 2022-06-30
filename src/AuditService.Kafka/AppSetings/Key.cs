@@ -1,4 +1,4 @@
-﻿namespace AuditService.Kafka.AppSettings
+﻿namespace AuditService.Kafka.AppSetings
 {
     internal class Key
     {
