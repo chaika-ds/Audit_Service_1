@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace AuditService.Utility.Logger;
 
@@ -11,10 +9,10 @@ public class AuditServiceConsoleLogger : ILogger
 {
     private AuditServiceLoggerProvider Provider { get; }
     private readonly Func<LoggerModel> _getCurrentConfig;
-    private readonly string _logPrefix;
+    private readonly string? _logPrefix;
     private readonly string _categoryName;
 
-    public AuditServiceConsoleLogger(string categoryName, Func<LoggerModel> getCurrentConfig, AuditServiceLoggerProvider provider, string logPrefix)
+    public AuditServiceConsoleLogger(string categoryName, Func<LoggerModel> getCurrentConfig, AuditServiceLoggerProvider provider, string? logPrefix)
     {
         (_categoryName, _getCurrentConfig, Provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);
     }
@@ -28,18 +26,6 @@ public class AuditServiceConsoleLogger : ILogger
         if (!IsEnabled(logLevel)) 
             return;
 
-        var logMessage = new LoggerModel
-        {
-            Timestamp = DateTime.UtcNow.ToString("o"),
-            Level = logLevel,
-            Channel = _getCurrentConfig().Channel,
-            Message = _logPrefix + formatter(state, exception),
-            Context = _categoryName
-        };
-
-        Console.WriteLine(JsonConvert.SerializeObject(logMessage, new JsonSerializerSettings
-        {
-            Converters = new List<JsonConverter> { new StringEnumConverter() }
-        }));
+        AuditServiceConsoleLoggerExtension.WriteToLog(logLevel, _getCurrentConfig().Channel, _logPrefix + formatter(state, exception), _categoryName);
     }
 }

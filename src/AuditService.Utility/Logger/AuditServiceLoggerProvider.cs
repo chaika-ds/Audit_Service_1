@@ -1,69 +1,49 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Runtime.Versioning;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace AuditService.Utility.Logger
+namespace AuditService.Utility.Logger;
+
+/// <summary>
+///     Provider for custom Audit service logger instance
+/// </summary>
+[UnsupportedOSPlatform("browser")]
+[ProviderAlias("AuditServiceConsole")]
+public class AuditServiceLoggerProvider : ILoggerProvider, ISupportExternalScope
 {
-    /// <summary>
-    /// Provider for custom Audit service logger instance
-    /// </summary>
-    [UnsupportedOSPlatform("browser")]
-    [ProviderAlias("AuditServiceConsole")]
-    public class AuditServiceLoggerProvider : ILoggerProvider, IDisposable, ISupportExternalScope
+    private readonly ConcurrentDictionary<string, AuditServiceConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
+
+    private LoggerModel _currentConfig;
+    private IDisposable? _onChangeToken;
+
+    public AuditServiceLoggerProvider(IOptionsMonitor<LoggerModel> config)
     {
-        IExternalScopeProvider _scopeProvider;
-        private readonly ConcurrentDictionary<string, AuditServiceConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
-        private LoggerModel _currentConfig;
-        public bool IsDisposed { get; protected set; }
-        private IDisposable? _onChangeToken;
+        _currentConfig = config.CurrentValue;
+        _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
+    }
 
-        internal IExternalScopeProvider ScopeProvider
-        {
-            get
-            {
-                if (_scopeProvider == null)
-                    _scopeProvider = new LoggerExternalScopeProvider();
-                return _scopeProvider;
-            }
-        }
+    internal IExternalScopeProvider ScopeProvider { get; private set; }
 
-        public AuditServiceLoggerProvider(IOptionsMonitor<LoggerModel> config)
-        {
-            _currentConfig = config.CurrentValue;
-            _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
-        }
+    public ILogger CreateLogger(string categoryName) 
+        => _loggers.GetOrAdd(categoryName, _ => new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null));
 
-        void ISupportExternalScope.SetScopeProvider(IExternalScopeProvider scopeProvider)
-        {
-            _scopeProvider = scopeProvider;
-        }
+    void ISupportExternalScope.SetScopeProvider(IExternalScopeProvider scopeProvider) 
+        => ScopeProvider = scopeProvider;
 
-        public ILogger CreateLogger(string categoryName) =>
-            _loggers.GetOrAdd(categoryName, category =>
-            {
-                return new AuditServiceConsoleLogger(categoryName, GetCurrentConfig, this, null);
-            });
+    private LoggerModel GetCurrentConfig() 
+        => _currentConfig;
 
-        private LoggerModel GetCurrentConfig() => _currentConfig;
+    public bool IsEnabled(LogLevel logLevel) 
+        => logLevel != LogLevel.None && _currentConfig.Level != LogLevel.None && Convert.ToInt32(logLevel) >= Convert.ToInt32(_currentConfig.Level);
 
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            bool Result = logLevel != LogLevel.None
-                && _currentConfig.Level != LogLevel.None
-                && Convert.ToInt32(logLevel) >= Convert.ToInt32(_currentConfig.Level);
+    public void Dispose()
+    {
+        if (_onChangeToken == null)
+            return;
 
-            return Result;
-        }
-
-        public void Dispose()
-        {
-            if (_onChangeToken != null)
-            {
-                _loggers.Clear();
-                _onChangeToken.Dispose();
-                _onChangeToken = null;
-            }
-        }
+        _loggers.Clear();
+        _onChangeToken.Dispose();
+        _onChangeToken = null;
     }
 }
