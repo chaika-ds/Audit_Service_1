@@ -1,54 +1,43 @@
-﻿using AuditService.Utility.Helpers;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-namespace AuditService.Utility.Logger
+namespace AuditService.Utility.Logger;
+
+/// <summary>
+///     Custom logger for console in Audit log service
+/// </summary>
+public class AuditServiceConsoleLogger : ILogger
 {
-    /// <summary>
-    /// Custom logger for console in Audit log service
-    /// </summary>
-    public class AuditServiceConsoleLogger : ILogger
+    private AuditServiceLoggerProvider Provider { get; }
+    private readonly Func<LoggerModel> _getCurrentConfig;
+    private readonly string _logPrefix;
+
+    public AuditServiceConsoleLogger(string categoryName, Func<LoggerModel> getCurrentConfig, AuditServiceLoggerProvider provider, string logPrefix)
     {
-        private readonly string _categoryName;
-        private readonly string _logPrefix;
-        private readonly Func<AuditServiceLoggerConfiguration> _getCurrentConfig;
-        public AuditServiceLoggerProvider _provider { get; private set; }
+        (_, _getCurrentConfig, Provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);
+    }
 
-        public AuditServiceConsoleLogger(string categoryName, Func<AuditServiceLoggerConfiguration> getCurrentConfig,
-            AuditServiceLoggerProvider provider, string logPrefix) =>
-            (_categoryName, _getCurrentConfig, _provider, _logPrefix) = (categoryName, getCurrentConfig, provider, logPrefix);           
+    public IDisposable BeginScope<TState>(TState state) => Provider.ScopeProvider.Push(state);
 
-        public IDisposable BeginScope<TState>(TState state) => _provider.ScopeProvider.Push(state);
+    public bool IsEnabled(LogLevel logLevel) => Provider.IsEnabled(logLevel);
 
-        public bool IsEnabled(LogLevel logLevel) =>_provider.IsEnabled(logLevel);
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    {
+        if (!IsEnabled(logLevel)) 
+            return;
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
-            Exception exception, Func<TState, Exception, string> formatter)
+        var logMessage = new LoggerModel
         {
+            Timestamp = DateTime.UtcNow.ToString("o"),
+            Level = logLevel,
+            Channel = _getCurrentConfig().Channel,
+            Message = _logPrefix + formatter(state, exception)
+        };
 
-            if (!IsEnabled(logLevel))
-            {
-                return;
-            }
-
-            var config = _getCurrentConfig();            
-            
-            string message = _logPrefix;
-
-            if (formatter != null)
-            {
-                message += formatter(state, exception);
-            }
-
-            var logMessage = new AuditServiceLoggerConfiguration()
-            {
-                Timestamp = DateTime.UtcNow.ToString("o"),
-                Level = logLevel,
-                Channel = config.Channel,
-                Message = message,
-            };
-
-            var logMessageJson = JsonHelper.SerializeToString(logMessage);
-            Console.WriteLine(logMessageJson);
-        }
+        Console.WriteLine(JsonConvert.SerializeObject(logMessage, new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter> { new StringEnumConverter() }
+        }));
     }
 }

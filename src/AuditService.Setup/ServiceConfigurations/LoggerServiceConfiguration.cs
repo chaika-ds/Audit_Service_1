@@ -1,5 +1,4 @@
-﻿using AuditService.Utility.Helpers;
-using AuditService.Utility.Logger;
+﻿using AuditService.Utility.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -21,7 +20,7 @@ public static class LoggerServiceConfiguration
         builder.Logging.AddAuditServiceLogger(options =>
         {
             builder.Configuration.Bind(options);
-            options.Channel = EnumHelper.CheckAndParseChannel(builder.Environment.EnvironmentName.ToLower());
+            options.Channel = builder.Environment.EnvironmentName.ToLower();
         });
     }
 }
