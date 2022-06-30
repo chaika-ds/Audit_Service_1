@@ -21,7 +21,8 @@ public static class DiConfigure
             .AddSingleton<HealthService>()
             .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
             .AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>()
-            .AddSingleton<IInputService, InputAuditServiceTransactions>();
+            .AddSingleton<IInputService, InputAuditServiceTransactions>()
+            .AddSingleton<IKafkaProducer, KafkaProducer>();
 
         services
             .AddHostedService<InputServicesManager>();
