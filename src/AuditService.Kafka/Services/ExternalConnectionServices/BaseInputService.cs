@@ -5,24 +5,22 @@ using Tolar.Kafka;
 namespace AuditService.Kafka.Services.ExternalConnectionServices;
 
 /// <summary>
-/// Base service for Kafka consumers
+///     Base service for Kafka consumers
 /// </summary>
-/// <typeparam name="TInput"></typeparam>
-public abstract class BaseInputService<TInput> : IInputService
-    where TInput : class, new()
+public abstract class BaseInputService : IInputService
 {
-    protected readonly ILogger _logger;
-    protected readonly IKafkaConsumer _consumer;
-    protected readonly IHealthMarkService _healthService;
+    private readonly IKafkaConsumer _consumer;
+    private readonly IHealthMarkService _healthService;
+    private readonly ILogger _logger;
 
     protected BaseInputService(
         ILogger logger,
         IKafkaConsumerFactory consumerFactory,
-        IInputSettings<TInput> inputSettings,
+        IKafkaTopics kafkaTopics,
         IHealthMarkService healthService)
     {
         _logger = logger;
-        _consumer = consumerFactory.CreateConsumer(inputSettings.Topic);
+        _consumer = consumerFactory.CreateConsumer(kafkaTopics.AuditLog);
         _healthService = healthService;
     }
 
@@ -40,11 +38,12 @@ public abstract class BaseInputService<TInput> : IInputService
         _consumer.KafkaError -= OnKafkaError;
     }
 
-    protected abstract Task OnMessageReceivedAsync(object sender, MessageReceivedEventArgs args);
+    protected abstract Task OnMessageReceivedAsync(object? sender, MessageReceivedEventArgs args);
 
-    private void OnKafkaError(object sender, EventArgs e)
+    private void OnKafkaError(object? sender, EventArgs e)
     {
         _healthService.MarkError();
+        // todo наверное надо расширить логи
         _logger.LogError("Kafka connection error");
     }
 }

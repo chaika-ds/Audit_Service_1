@@ -28,7 +28,7 @@ namespace AuditService.IntegrationTests.EventProducer.Settings
 
             GroupId = configuration["Kafka:GroupId"];
             Address = configuration["Kafka:Address"];
-            Config = configuration.GetSection("Kafka:Config").GetChildren().ToDictionary(x => x.Key, v => v.Value);
+            Config = configuration.GetSection("Kafka:ProducerConfig").GetChildren().ToDictionary(x => x.Key, v => v.Value);
             Topics = configuration.GetSection("KafkaTopics").GetChildren().ToDictionary(x => x.Key, v => v.Value);
         }
     }

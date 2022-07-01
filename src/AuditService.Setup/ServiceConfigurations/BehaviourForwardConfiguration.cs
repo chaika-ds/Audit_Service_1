@@ -36,6 +36,11 @@ public static class BehaviourForwardConfiguration
             options.SuppressModelStateInvalidFilter = true;
         });
 
+        services.Configure<HostOptions>(hostOptions =>
+        {
+            hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+        });
+
         services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
 
         services.Configure<ForwardedHeadersOptions>(options =>
