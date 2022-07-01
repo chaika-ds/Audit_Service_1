@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 try
 {
-    builder.AddConfigs();
+    await builder.AddConfigsAsync();
     builder.AddLogger();
 
     builder.Services.AddKafkaSettings();

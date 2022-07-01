@@ -27,9 +27,9 @@ public class HealthCheckProvider : IHealthCheckProvider
     /// <summary>
     ///     Check ElasticSearch
     /// </summary>
-    public bool CheckElkHealth()
+    public async Task<bool> CheckElkHealthAsync(CancellationToken cancellationToken)
     {
-        var elkResponse = _elasticClient.Cluster.Health();
+        var elkResponse = await _elasticClient.Cluster.HealthAsync(null, null, cancellationToken);
         return elkResponse.ApiCall.Success;
     }
 

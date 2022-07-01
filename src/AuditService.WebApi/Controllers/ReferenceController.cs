@@ -34,7 +34,7 @@ public class ReferenceController
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync()
+    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync(CancellationToken cancellationToken)
     {
         return await _referenceProcessor.GetServicesAsync();
     }
@@ -47,7 +47,7 @@ public class ReferenceController
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync()
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(CancellationToken cancellationToken)
     {
         return await _referenceProcessor.GetCategoriesAsync();
     }
@@ -61,7 +61,7 @@ public class ReferenceController
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service)
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service, CancellationToken cancellationToken)
     {
         return await _referenceProcessor.GetCategoriesAsync(service);
     }

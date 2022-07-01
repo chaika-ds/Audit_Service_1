@@ -18,5 +18,6 @@ var configuration = builder.Build();
 var client = new ElasticSearchConnector().CreateInstance(configuration);
 var filler = new ElasticSearchDataFiller(client, configuration);
 
-await filler.ExecuteAsync();
-await host.RunAsync();
+var cts = new CancellationTokenSource();
+await filler.ExecuteAsync(cts.Token);
+await host.RunAsync(cts.Token);

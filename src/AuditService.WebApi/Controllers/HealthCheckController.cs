@@ -25,12 +25,12 @@ public class HealthCheckController : ControllerBase
     /// </summary>
     [HttpGet]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var response = new HealthCheckDto
         {
             Kafka = _healthCheckProvider.CheckKafkaHealth(), 
-            Elk = _healthCheckProvider.CheckElkHealth()
+            Elk = await _healthCheckProvider.CheckElkHealthAsync(cancellationToken)
         };
 
         return StatusCode(response.IsSuccess() ? 200 : 500, response);

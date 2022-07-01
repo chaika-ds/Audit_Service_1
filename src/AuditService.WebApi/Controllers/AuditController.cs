@@ -5,7 +5,6 @@ using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using Tolar.Authenticate;
 
 
 namespace AuditService.WebApi.Controllers;

@@ -6,6 +6,9 @@ using Tolar.Redis;
 
 namespace AuditService.Setup.Middleware;
 
+/// <summary>
+///     Middleware for handle HttpContext request results to RedisCache
+/// </summary>
 public class RedisCacheMiddleware
 {
     private const string JsonMediaType = "application/json";

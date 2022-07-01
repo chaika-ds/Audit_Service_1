@@ -8,7 +8,7 @@ public interface IHealthCheckProvider
     /// <summary>
     ///     Check ElasticSearch
     /// </summary>
-    bool CheckElkHealth();
+    Task<bool> CheckElkHealthAsync(CancellationToken cancellationToken);
 
     /// <summary>
     ///     Check Kafka

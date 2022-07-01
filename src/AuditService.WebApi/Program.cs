@@ -2,14 +2,13 @@ using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Setup.ServiceConfigurations;
 using AuditService.Utility.Logger;
-using AuditService.Utility.Logger.Filters;
 using AuditService.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 try
 {
-    builder.AddConfigs();
+    await builder.AddConfigsAsync();
     builder.AddLogger();
 
     builder.Services.RegisterSettings();
@@ -22,10 +21,6 @@ try
     builder.Services.AddRedisCache();
     builder.Services.AddSwagger();
     builder.Services.RegisterServices();
-    builder.Services.AddMvcCore(options =>
-    {
-        options.Filters.Add<OperationCancelledExceptionFilter>();
-    });
 
     var app = builder.Build();
 

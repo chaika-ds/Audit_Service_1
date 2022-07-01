@@ -2,9 +2,6 @@
 using AuditService.Providers.Implementations;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace AuditService.ELK.FillTestData;
 
@@ -25,9 +22,10 @@ internal class CategoryDictionary
     /// </summary>
     /// <param name="service">Serive type</param>
     /// <param name="random">Instance of random function</param>
-    public string GetCategory(ServiceStructure service, Random random)
+    public async Task<string> GetCategoryAsync(ServiceStructure service, Random random, CancellationToken cancellationToken)
     {
-        var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
+        var category = (await _referenceProvider.GetCategoriesAsync()).FirstOrDefault(cat => cat.Key == service);
+
         if (!category.Value.Any())
             return string.Empty;
 
