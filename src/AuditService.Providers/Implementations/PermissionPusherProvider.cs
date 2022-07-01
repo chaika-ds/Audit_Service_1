@@ -1,8 +1,5 @@
 ﻿using AuditService.Setup.ConfigurationSettings;
-using AuditService.Utility.Helpers;
-using AuditService.Utility.Logger;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Tolar.Authenticate;
 using Tolar.Kafka;
 
@@ -23,11 +20,6 @@ public class PermissionPusherProvider : PermissionPusher
 
     protected override async Task PushAsync(object obj)
     {
-        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), $"Start push permissions. Topic: {_settings.Topic}", "PermissionPusherProvider");
-        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), $"Permissions: {obj.SerializeToString()}", "PermissionPusherProvider");
-
         await _producer.SendAsync(obj, _settings.Topic);
-
-        AuditServiceConsoleLoggerExtension.WriteToLog(LogLevel.Information, _environment.EnvironmentName.ToLower(), "All permissions are pushed", "PermissionPusherProvider");
     }
 }
