@@ -5,11 +5,19 @@ using Tolar.Authenticate;
 
 namespace AuditService.Setup.Attributes;
 
-public class CustomAuthorizeAttribute: AuthorizeAttribute
+/// <summary>
+///     Authorization Attribute
+/// </summary>
+public class AuthorizationAttribute: AuthorizeAttribute
 {
+    /// <summary>
+    ///    Constructor for Authorization Attribute
+    /// </summary>
+    public AuthorizationAttribute(string permission): base (permission) { }
     
-    public CustomAuthorizeAttribute(string permission): base (permission) { }
-    
+    /// <summary>
+    ///     Override Create Answer method from base
+    /// </summary>
     protected override ObjectResult CreateAnswer(HttpStatusCode code, string specialMessage = null)
     {
         IHttpContextAccessor context = new HttpContextAccessor();
