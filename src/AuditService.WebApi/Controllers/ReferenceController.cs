@@ -2,7 +2,7 @@
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Providers.Interfaces;
-using AuditService.Utility.Logger;
+using AuditService.Utility.Logger.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Tolar.Authenticate;
 

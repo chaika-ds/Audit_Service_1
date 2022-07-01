@@ -13,5 +13,6 @@ public interface IAuditLogProvider
     ///     Get audit logs by filter
     /// </summary>
     /// <param name="filter">Filter model</param>
-    Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogsByFilterAsync(AuditLogFilterRequestDto filter);
+    /// <param name="cancellationToken"></param>
+    Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogsByFilterAsync(AuditLogFilterRequestDto filter, CancellationToken cancellationToken);
 }

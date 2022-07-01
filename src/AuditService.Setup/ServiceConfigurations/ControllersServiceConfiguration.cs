@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using AuditService.Utility.Logger;
+using AuditService.Utility.Logger.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Setup.ServiceConfigurations;

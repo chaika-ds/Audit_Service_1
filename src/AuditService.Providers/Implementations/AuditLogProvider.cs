@@ -26,9 +26,9 @@ public class AuditLogProvider : IAuditLogProvider
     ///     Get audit logs by filter
     /// </summary>
     /// <param name="filter">Filter model</param>
-    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogsByFilterAsync(AuditLogFilterRequestDto filter)
+    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogsByFilterAsync(AuditLogFilterRequestDto filter, CancellationToken cancellationToken)
     {
-        var response = await _elasticClient.SearchAsync<AuditLogTransactionDomainModel>(w => Search(w, filter));
+        var response = await _elasticClient.SearchAsync<AuditLogTransactionDomainModel>(w => Search(w, filter), cancellationToken);
         return new PageResponseDto<AuditLogTransactionDomainModel>(filter.Pagination, response.HitsMetadata?.Total?.Value ?? 0, response.Documents);
     }
 
