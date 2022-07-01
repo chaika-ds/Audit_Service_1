@@ -46,31 +46,6 @@
       "ForPeriodInSecond": 20
     }
   },
-  // "Kafka2": {
-  //   "MaxThreadsCount": 5,
-  //   "MaxTimeoutMsec": 5000,
-  //   "PermissionsTopic": "uat.sso.sync.permission",
-  //   "ConsumerConfig": {
-  //     "bootstrap.servers": "$KAFKA_BROKER",
-  //     "group.id": "$KAFKA_CONSUMER_GROUP",
-  //     "enable.partition.eof": true,
-  //     "log.connection.close": false,
-  //     "enable.auto.commit": false,
-  //     "queued.min.messages": 10,
-  //     "queued.max.messages.kbytes": 256,
-  //     "auto.offset.reset": "smallest",
-  //     "fetch.error.backoff.ms": 200
-  //   },
-  //   "ProducerConfig": {
-  //     "bootstrap.servers": "$KAFKA_BROKER",
-  //     "log.connection.close": "false",
-  //     "linger.ms": 100,
-  //     "connections.max.idle.ms": 6000000,
-  //     "socket.keepalive.enable": true,
-  //     "reconnect.backoff.max.ms": 200,
-  //     "broker.address.family": "v6"
-  //   }
-  // },
   "SSO": {
     "ServiceName": "$SSO_SERVICE_NAME",
     "ServiceId": "$SSO_AUTH_SERVICE_ID",
