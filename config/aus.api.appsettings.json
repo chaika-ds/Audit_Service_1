@@ -40,10 +40,6 @@
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
       "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONSPUSH"
-    },
-    "HealthCheck": {
-      "CriticalErrorsCount": 20,
-      "ForPeriodInSecond": 20
     }
   },
   "SSO": {

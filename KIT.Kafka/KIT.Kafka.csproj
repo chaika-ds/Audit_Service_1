@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Tolar.Authenticate" Version="6.0.860" />
     <PackageReference Include="Tolar.Kafka" Version="6.0.860" />
+    <PackageReference Include="Tolar.Web" Version="6.0.860" />
   </ItemGroup>
 
 </Project>

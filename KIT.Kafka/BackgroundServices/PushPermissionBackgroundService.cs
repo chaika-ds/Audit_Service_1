@@ -1,4 +1,4 @@
-﻿using KIT.Kafka.Settings;
+﻿using KIT.Kafka.Settings.Interfaces;
 using Tolar.Authenticate;
 using Tolar.Kafka;
 
@@ -10,12 +10,13 @@ namespace KIT.Kafka.BackgroundServices;
 public class PushPermissionBackgroundService : PermissionPusher
 {
     private readonly IKafkaProducer _producer;
-    private readonly IPermissionPusherSettings _settings;
+    private readonly IKafkaTopics _kafkaTopics;
 
-    public PushPermissionBackgroundService(IKafkaProducer producer, IPermissionPusherSettings settings) : base(settings.ServiceId, settings.ServiceName)
+    public PushPermissionBackgroundService(IKafkaProducer producer, IPermissionPusherSettings settings,
+        IKafkaTopics kafkaTopics) : base(settings.ServiceId, settings.ServiceName)
     {
         _producer = producer;
-        _settings = settings;
+        _kafkaTopics = kafkaTopics;
     }
 
     /// <summary>
@@ -23,5 +24,5 @@ public class PushPermissionBackgroundService : PermissionPusher
     /// </summary>
     /// <param name="obj">Permissions</param>
     /// <returns>Push result</returns>
-    protected override async Task PushAsync(object obj) => await _producer.SendAsync(obj, _settings.Topic);
+    protected override async Task PushAsync(object obj) => await _producer.SendAsync(obj, _kafkaTopics.Permissions);
 }
