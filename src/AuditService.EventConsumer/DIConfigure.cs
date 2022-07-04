@@ -1,19 +1,19 @@
-﻿using AuditService.Kafka.Services;
-using Microsoft.Extensions.DependencyInjection;
-using AuditService.Kafka.Services.Health;
-using Tolar.Kafka;
-using AuditService.Kafka.AppSetings;
+﻿using AuditService.Kafka.AppSetings;
+using AuditService.Kafka.Services;
 using AuditService.Kafka.Services.ExternalConnectionServices;
+using AuditService.Kafka.Services.Health;
 using bgTeam.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Tolar.Kafka;
 
 namespace AuditService.EventConsumer;
 
 /// <summary>
-/// DI configuration for Kafka consumer
+///     DI configuration for Kafka consumer
 /// </summary>
 public static class DiConfigure
 {
-    public static void KafkaServices(this IServiceCollection services)
+    public static void AddKafkaServices(this IServiceCollection services)
     {
         services.AddSettings<IKafkaTopics, KafkaTopics>();
 
