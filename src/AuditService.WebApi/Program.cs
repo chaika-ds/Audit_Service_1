@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 try
 {
-    await builder.AddConfigsAsync();
+    builder.AddConfigs();
     builder.AddLogger();
 
     builder.Services.RegisterSettings();

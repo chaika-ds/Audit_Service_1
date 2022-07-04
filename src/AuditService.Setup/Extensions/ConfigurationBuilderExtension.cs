@@ -18,13 +18,13 @@ public static class ConfigurationBuilderExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static async Task AddJsonFileAsync(this ConfigurationManager configuration, string configFile, IHostEnvironment environment)
+    public static void AddJsonFile(this IConfigurationBuilder configuration, string configFile, IHostEnvironment environment)
     {
         var filePath = GetJsonFile(configFile, environment);
         if (!File.Exists(filePath))
             return;
 
-        var configs = await File.ReadAllTextAsync(filePath);
+        var configs = File.ReadAllText(filePath);
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
     }
 
@@ -35,10 +35,10 @@ public static class ConfigurationBuilderExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static async Task AddJsonFileAsync(this ConfigurationManager configuration, string configFile, string envFile, IHostEnvironment environment)
+    public static void AddJsonFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
     {
         if (File.Exists(GetJsonFile(envFile, environment)))
-            await configuration.AddJsonFileWithEnvironmentFileAsync(configFile, envFile, environment);
+            configuration.AddJsonFileWithEnvironmentFile(configFile, envFile, environment);
         else
             configuration.AddJsonFileWithEnvironmentVariables(configFile, environment);
     }
@@ -49,13 +49,13 @@ public static class ConfigurationBuilderExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    private static async Task AddJsonFileWithEnvironmentFileAsync(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
+    private static void AddJsonFileWithEnvironmentFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
     {
         var configFilePath = GetJsonFile(configFile, environment);
         var environmentFilePath = GetJsonFile(envFile, environment);
-        
-        var configs = await File.ReadAllTextAsync(configFilePath);
-        var envData = await File.ReadAllTextAsync(environmentFilePath);
+
+        var configs = File.ReadAllText(configFilePath);
+        var envData = File.ReadAllText(environmentFilePath);
         var environments = JsonConvert.DeserializeObject<IDictionary<string, string>>(envData);
 
         var config = environments?.Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value));
@@ -73,9 +73,9 @@ public static class ConfigurationBuilderExtension
     {
         var configFilePath = GetJsonFile(configFile, environment);
         var configs = File.ReadAllText(configFilePath);
-        
+
         configs = Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value?.ToString()));
-        
+
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
     }
 

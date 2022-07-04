@@ -15,7 +15,7 @@ public static class AuditServiceConsoleLoggerExtension
     /// </summary>
     /// <param name="exception">Exception</param>
     /// <param name="env">EnvironmentName</param>
-    public static void WriteToLog(this Exception exception, string env)
+    public static void WriteToLog(this Exception exception, string? env)
     {
         WriteToLog(LogLevel.Error, env, exception.FullMessage());
     }

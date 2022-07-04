@@ -15,13 +15,13 @@ public static class ConfigFileConfiguration
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static async Task AddConfigsAsync(this WebApplicationBuilder builder)
+    public static void AddConfigs(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddEnvironmentVariables();
 
         builder.SetEnvironment();
 
-        await builder.Configuration.AddJsonFileAsync("config/aus.api.appsettings.json", $"config/aus.api.env.{builder.Environment.EnvironmentName.ToLower()}.json", builder.Environment);
-        await builder.Configuration.AddJsonFileAsync("config/aus.api.logger.json", builder.Environment);
+        builder.Configuration.AddJsonFile("config/aus.api.appsettings.json", $"config/aus.api.env.{builder.Environment.EnvironmentName.ToLower()}.json", builder.Environment);
+        builder.Configuration.AddJsonFile("config/aus.api.logger.json", builder.Environment);
     }
 }
