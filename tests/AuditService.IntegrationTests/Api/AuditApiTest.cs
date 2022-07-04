@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Pagination;
 using AuditService.IntegrationTests.Api.Helpers;
@@ -9,14 +10,14 @@ using Xunit;
 
 namespace AuditService.IntegrationTests.Api;
 
-public class AuditApiTestTest : BaseApiTest
+public class AuditApiTest : BaseApiTest
 {
     [Fact]
     public async Task Get_Audit_GetLogAsync_Return_FilteredLogsAsync()
     {
-        var inputModel = new AuditLogFilterRequestDto()
+        var inputModel = new LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel>
         {
-            Pagination =  new PaginationRequestDto()
+            Pagination =  new PaginationRequestDto
             {
                 PageSize = 1,
                 PageNumber = 0

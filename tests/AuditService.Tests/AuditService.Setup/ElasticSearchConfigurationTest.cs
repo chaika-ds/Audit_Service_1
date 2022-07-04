@@ -1,17 +1,6 @@
-﻿using AuditService.Kafka.Services.Health;
-using AuditService.Providers.Implementations;
-using AuditService.Providers.Interfaces;
-using AuditService.Setup;
-using AuditService.Setup.ServiceConfigurations;
-using AuditService.WebApi;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Nest;
-using Tolar.Authenticate;
-using Tolar.Kafka;
-using Tolar.Redis;
 
 namespace AuditService.Tests.AuditService.Setup;
 

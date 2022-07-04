@@ -9,6 +9,8 @@
 
     <ItemGroup>
         <PackageReference Include="bgTeam.DataAccess" Version="6.1.6" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />

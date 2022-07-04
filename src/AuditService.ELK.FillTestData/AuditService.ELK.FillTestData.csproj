@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="NEST" Version="7.17.2" />
@@ -29,8 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\AuditService.Kafka\AuditService.Kafka.csproj" />
-    <ProjectReference Include="..\AuditService.Providers\AuditService.Providers.csproj" />
     <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>

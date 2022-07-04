@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 namespace AuditService.Setup.Extensions;
 
 /// <summary>
-///     Extension of configuration manager
+///     Extension of configuration builder
 /// </summary>
-public static class ConfigurationManagerExtension
+public static class ConfigurationBuilderExtension
 {
     /// <summary>
     ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" />.
@@ -18,7 +18,7 @@ public static class ConfigurationManagerExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static void AddJsonFile(this ConfigurationManager configuration, string configFile, IHostEnvironment environment)
+    public static void AddJsonFile(this IConfigurationBuilder configuration, string configFile, IHostEnvironment environment)
     {
         var filePath = GetJsonFile(configFile, environment);
         if (!File.Exists(filePath))
@@ -35,7 +35,7 @@ public static class ConfigurationManagerExtension
     /// <remarks>
     ///     Supported docker container directory
     /// </remarks>
-    public static void AddJsonFile(this ConfigurationManager configuration, string configFile, string envFile, IHostEnvironment environment)
+    public static void AddJsonFile(this IConfigurationBuilder configuration, string configFile, string envFile, IHostEnvironment environment)
     {
         if (File.Exists(GetJsonFile(envFile, environment)))
             configuration.AddJsonFileWithEnvironmentFile(configFile, envFile, environment);

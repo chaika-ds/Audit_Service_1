@@ -3,11 +3,11 @@
 namespace AuditService.Common.Models.Dto.Filter;
 
 /// <summary>
-///     Audit log filter. Sort model
+///     Log filter. Sort model
 /// </summary>
-public class AuditLogSortDto
+public class LogSortDto
 {
-    public AuditLogSortDto()
+    public LogSortDto()
     {
         ColumnName = string.Empty;
     }

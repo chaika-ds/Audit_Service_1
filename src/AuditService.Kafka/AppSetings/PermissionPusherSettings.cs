@@ -1,16 +1,27 @@
-﻿using AuditService.Setup.ConfigurationSettings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace AuditService.Setup.AppSettings;
+namespace AuditService.Kafka.AppSetings;
 
-internal class PermissionPusherSettings : IPermissionPusherSettings
+/// <summary>
+///     Permission pusher interface to SSO
+/// </summary>
+public class PermissionPusherSettings : IPermissionPusherSettings
 {
     public PermissionPusherSettings(IConfiguration configuration) => ApplySettings(configuration);
 
+    /// <summary>
+    ///     Topic of Kafka
+    /// </summary>
     public string? Topic { get; set; }
 
+    /// <summary>
+    ///     Service ID
+    /// </summary>
     public Guid ServiceId { get; set; }
 
+    /// <summary>
+    ///     Service name
+    /// </summary>
     public string? ServiceName { get; set; }
 
     /// <summary>

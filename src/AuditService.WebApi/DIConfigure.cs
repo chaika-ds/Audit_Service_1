@@ -1,4 +1,5 @@
-﻿using AuditService.Kafka.Services.Health;
+﻿using AuditService.Kafka.Services.ExternalConnectionServices;
+using AuditService.Kafka.Services.Health;
 using AuditService.Setup.ModelProviders;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -27,6 +28,7 @@ public static class DiConfigure
             .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>())
             .AddSingleton<IKafkaProducer, KafkaProducer>();
 
-        Providers.DiConfigure.RegisterServices(services);
+        services.AddHostedService<PushPermissionBackgroundService>();
+        Handlers.DiConfigure.RegisterServices(services);
     }
 }
