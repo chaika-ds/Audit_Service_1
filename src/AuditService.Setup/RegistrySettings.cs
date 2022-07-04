@@ -1,6 +1,5 @@
 ﻿using AuditService.Kafka.AppSetings;
 using AuditService.Setup.AppSettings;
-using AuditService.Setup.ConfigurationSettings;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate.Impl;

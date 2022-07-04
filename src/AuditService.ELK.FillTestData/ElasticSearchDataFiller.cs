@@ -1,6 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
-using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.AppSettings;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;

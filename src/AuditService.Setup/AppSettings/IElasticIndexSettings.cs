@@ -1,4 +1,4 @@
-﻿namespace AuditService.Setup.ConfigurationSettings;
+﻿namespace AuditService.Setup.AppSettings;
 
 /// <summary>
 ///     ElasticSearch available indexes

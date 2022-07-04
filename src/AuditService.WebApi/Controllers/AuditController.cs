@@ -35,7 +35,6 @@ public class AuditController : ControllerBase
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
-        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel> model) 
+    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync([FromQuery] LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel> model)
         => await _mediator.Send(model);
 }

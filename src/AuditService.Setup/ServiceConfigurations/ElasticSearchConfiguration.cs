@@ -1,4 +1,4 @@
-using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.AppSettings;
 using Elasticsearch.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
