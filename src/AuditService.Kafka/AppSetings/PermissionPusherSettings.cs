@@ -31,6 +31,6 @@ public class PermissionPusherSettings : IPermissionPusherSettings
     {
         ServiceId = Guid.Parse(config["SSO:ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
         ServiceName = config["SSO:ServiceName"];
-        Topic = config["Kafka:PermissionsTopic"];
+        Topic = config["Kafka:Topics:PermissionsTopic"];
     }
 }

@@ -70,7 +70,7 @@ build:
     - dotnet restore
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
     - dotnet build-server shutdown
-    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs
+    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs /n:"AuditService-P2"
     - dotnet build ./AuditServiceP2.sln -c Debug --no-restore
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
