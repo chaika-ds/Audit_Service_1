@@ -13,7 +13,6 @@
   "Kafka": {
     "MaxThreadsCount": 5,
     "MaxTimeoutMsec": 5000,
-    "PermissionsTopic": "uat.sso.sync.permission",
     "Config": {
       "security.protocol": "sasl_plaintext",
       "sasl.mechanism": "PLAIN",
@@ -39,7 +38,8 @@
     "GroupId": "$KAFKA_CONSUMER_GROUP",
 
     "Topics": {
-      "AuditLog": "$KAFKA_TOPIC_AUDITLOG"
+      "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
+      "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONSPUSH"
     },
     "HealthCheck": {
       "CriticalErrorsCount": 20,

@@ -13,7 +13,7 @@ try
     builder.AddLogger();
 
     builder.Services.AddKafkaSettings();
-    builder.Services.KafkaServices();
+    builder.Services.AddKafkaServices();
 
     var app = builder.Build();
 
