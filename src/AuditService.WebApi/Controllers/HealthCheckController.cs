@@ -24,15 +24,15 @@ public class HealthCheckController : ControllerBase
     /// <summary>
     ///     PING
     /// </summary>
-    /// <param name="cancellationToken"></param>
+    /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var response = new HealthCheckDto
         {
-            Kafka = await _mediator.Send(new CheckKafkaHealthRequest()),
-            Elk = await _mediator.Send(new CheckElkHealthRequest())
+            Kafka = await _mediator.Send(new CheckKafkaHealthRequest(), cancellationToken),
+            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken)
         };
 
         return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError,

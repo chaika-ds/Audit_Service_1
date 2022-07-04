@@ -32,7 +32,7 @@ public class ElasticSearchDataFiller
     /// <summary>
     ///     Start generation
     /// </summary>
-    public async Task ExecuteAsync(CancellationToken cancellationToken)
+    public async Task ExecuteAsync()
     {
         try
         {
@@ -40,60 +40,60 @@ public class ElasticSearchDataFiller
 
             if (cleanBefore)
             {
-                Console.WriteLine(@"Start force clean data");
+                Console.WriteLine("Start force clean data");
 
                 await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w =>
                     w.Query(x => x.QueryString(q => q.Query("*"))).Index(_elasticIndexSettings.AuditLog));
-                await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog, null, cancellationToken);
-               
-                Console.WriteLine(@"Force clean has been completed!");
+                await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog);
+
+                Console.WriteLine("Force clean has been comlpete!");
             }
 
-            var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog, null, cancellationToken);
+            var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog);
 
             if (!index.Exists)
             {
-                Console.WriteLine($@"Creating index {_elasticIndexSettings.AuditLog}");
+                Console.WriteLine("Creating index " + _elasticIndexSettings.AuditLog);
 
                 var response = await _elasticClient.Indices.CreateAsync(_elasticIndexSettings.AuditLog,
-                    r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()), cancellationToken);
+                    r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
-                Console.WriteLine(@"Index successfully created!");
+                Console.WriteLine("Index successfully created!");
             }
 
-            Console.WriteLine(@"Get configuration for generation data");
+            Console.WriteLine("Get configuration for generation data");
 
             var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
 
             foreach (var configurationModel in configurationModels)
             {
-                Console.WriteLine(@"");
-                Console.WriteLine(@"Configuration model:");
+                Console.WriteLine("");
+                Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
-                var data =  GenerateDataAsync(configurationModel, cancellationToken);
-                Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
+                var data = GenerateDataAsync(configurationModel);
+                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");
 
                 await foreach (var dto in data)
                 {
                     await _elasticClient.CreateAsync(dto,
-                        s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId), cancellationToken);
+                        s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId));
                 }
 
-                Console.WriteLine(@"Data has been saving");
-                Console.WriteLine(@"");
+                Console.WriteLine("Data has been saving");
+                Console.WriteLine("");
             }
 
-            Console.WriteLine(@"");
-            Console.WriteLine(@"All configuration models has been saving");
+            Console.WriteLine("");
+            Console.WriteLine("All configuration models has been saving");
 
-            Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
+            Console.WriteLine($"Total records: {configurationModels.Sum(w => w.Count)}.");
         }
         catch (Exception e)
         {
-            Console.WriteLine(@"Error: " + e);
+            Console.WriteLine("Error: " + e);
         }
     }
 
@@ -102,18 +102,18 @@ public class ElasticSearchDataFiller
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
     private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(
-        ConfigurationModel configurationModel, CancellationToken cancellationToken)
+        ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
 
-            yield return await CreateNewDtoAsync(configurationModel, cancellationToken);
+            yield return await CreateNewDtoAsync(configurationModel);
     }
 
     /// <summary>
     ///     Create model Dto on base configuration model
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(ConfigurationModel configurationModel, CancellationToken cancellationToken)
+    private async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(ConfigurationModel configurationModel)
     {
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
@@ -140,7 +140,7 @@ public class ElasticSearchDataFiller
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)
-            ? await _categoryDictionary.GetCategoryAsync(dto.Service, _random, cancellationToken)
+            ? await _categoryDictionary.GetCategoryAsync(dto.Service, _random)
             : configurationModel.CategoryCode;
 
         return dto;

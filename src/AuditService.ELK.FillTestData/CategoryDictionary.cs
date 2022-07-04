@@ -25,8 +25,8 @@ public class CategoryDictionary
     /// </summary>
     /// <param name="service">Serive type</param>
     /// <param name="random">Instance of random function</param>
-    /// <param name="cancellationToken"></param>
-    public async Task<string> GetCategoryAsync(ServiceStructure service, Random random, CancellationToken cancellationToken)
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async Task<string> GetCategoryAsync(ServiceStructure service, Random random)
     {
         var category =
             (await _mediator.Send(new GetCategoriesRequest())).FirstOrDefault(cat => cat.Key == service);
