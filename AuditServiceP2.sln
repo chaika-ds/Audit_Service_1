@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B9493308
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Handlers", "src\AuditService.Handlers\AuditService.Handlers.csproj", "{CA924833-0F96-433B-AB03-DB717E48EA32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIT.Kafka", "KIT.Kafka\KIT.Kafka.csproj", "{3C3DF293-28B2-4169-94D6-AB376FEE4A5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{CA924833-0F96-433B-AB03-DB717E48EA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA924833-0F96-433B-AB03-DB717E48EA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA924833-0F96-433B-AB03-DB717E48EA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C3DF293-28B2-4169-94D6-AB376FEE4A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3DF293-28B2-4169-94D6-AB376FEE4A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3DF293-28B2-4169-94D6-AB376FEE4A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3DF293-28B2-4169-94D6-AB376FEE4A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{D90B053D-01E3-4F41-88DB-9A5B872C745B} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 		{F21C4A1F-EFA6-4E90-AD10-0E4783DFE07E} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 		{CA924833-0F96-433B-AB03-DB717E48EA32} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
+		{3C3DF293-28B2-4169-94D6-AB376FEE4A5A} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73685254-724E-430F-81DA-68858654B836}
