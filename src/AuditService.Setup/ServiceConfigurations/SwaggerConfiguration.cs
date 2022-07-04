@@ -1,4 +1,4 @@
-using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.AppSettings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

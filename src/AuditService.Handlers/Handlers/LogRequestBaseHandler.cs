@@ -1,7 +1,7 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
-using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.AppSettings;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
