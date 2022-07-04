@@ -4,8 +4,9 @@ using AuditService.Common.Models.Dto;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
+using AuditService.Utility.Logger;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Tolar.Authenticate;
 
 namespace AuditService.WebApi.Controllers;
 
@@ -16,14 +17,14 @@ namespace AuditService.WebApi.Controllers;
 [Route("reference")]
 public class ReferenceController
 {
-    private readonly IReferenceProvider _referenceProcessor;
+    private readonly IMediator _mediator;
 
     /// <summary>
     ///     Allows you to get a list of available services and categories
     /// </summary>
-    public ReferenceController(IReferenceProvider referenceProcessor)
+    public ReferenceController(IMediator mediator)
     {
-        _referenceProcessor = referenceProcessor;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -34,10 +35,8 @@ public class ReferenceController
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync(CancellationToken cancellationToken)
-    {
-        return await _referenceProcessor.GetServicesAsync();
-    }
+    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync(CancellationToken cancellationToken) 
+        => await _mediator.Send(new GetServicesRequest(), cancellationToken);
 
     /// <summary>
     ///     Allows you to get a list of available categories
@@ -47,22 +46,19 @@ public class ReferenceController
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(CancellationToken cancellationToken)
-    {
-        return await _referenceProcessor.GetCategoriesAsync();
-    }
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(CancellationToken cancellationToken) 
+        => await _mediator.Send(new GetCategoriesRequest(), cancellationToken);
 
     /// <summary>
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="service">Selected service id</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     [HttpGet]
     [Route("categories/{service}")]
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service, CancellationToken cancellationToken)
-    {
-        return await _referenceProcessor.GetCategoriesAsync(service);
-    }
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service, CancellationToken cancellationToken) 
+        => await _mediator.Send(new GetCategoriesRequest(service), cancellationToken);
 }

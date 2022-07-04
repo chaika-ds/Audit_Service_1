@@ -1,4 +1,4 @@
-using AuditService.Setup;
+﻿using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Setup.ServiceConfigurations;
 using AuditService.Utility.Logger;
@@ -35,7 +35,9 @@ try
     app.UseRouting();
 
     app.UseMiddleware<AppMiddlewareException>();
-    app.UseMiddleware<RedisCacheMiddleware>();
+
+    // todo ѕереписать. ќтлавливает метод HealthCheck, кеширует ошибки.
+    //app.UseMiddleware<RedisCacheMiddleware>();
 
     app.Run();
 }

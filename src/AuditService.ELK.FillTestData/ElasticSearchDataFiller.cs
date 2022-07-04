@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Setup.ConfigurationSettings;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
@@ -10,21 +11,22 @@ namespace AuditService.ELK.FillTestData;
 /// <summary>
 ///     Generator test data for ELK
 /// </summary>
-internal class ElasticSearchDataFiller
+public class ElasticSearchDataFiller
 {
     private readonly IElasticClient _elasticClient;
     private readonly IConfiguration _configuration;
     private readonly CategoryDictionary _categoryDictionary;
+    private readonly IElasticIndexSettings _elasticIndexSettings;
     private readonly Random _random;
 
-    private const string ElkIndexAuditLog = "ELASTIC_SEARCH:INDEXES:ELK_INDEX_AUDITLOG";
-
-    public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration)
+    public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration,
+        CategoryDictionary categoryDictionary, IElasticIndexSettings elasticIndexSettings)
     {
         _elasticClient = elasticClient;
         _configuration = configuration;
         _random = new Random();
-        _categoryDictionary = new CategoryDictionary();
+        _categoryDictionary = categoryDictionary;
+        _elasticIndexSettings = elasticIndexSettings;
     }
 
     /// <summary>
@@ -40,19 +42,21 @@ internal class ElasticSearchDataFiller
             {
                 Console.WriteLine(@"Start force clean data");
 
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))).Index(_configuration[ElkIndexAuditLog]), cancellationToken);
-                await _elasticClient.Indices.DeleteAsync(_configuration[ElkIndexAuditLog], null, cancellationToken);
-
+                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w =>
+                    w.Query(x => x.QueryString(q => q.Query("*"))).Index(_elasticIndexSettings.AuditLog));
+                await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog, null, cancellationToken);
+               
                 Console.WriteLine(@"Force clean has been completed!");
             }
 
-            var index = await _elasticClient.Indices.ExistsAsync(_configuration[ElkIndexAuditLog], null, cancellationToken);
+            var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog, null, cancellationToken);
 
             if (!index.Exists)
             {
-                Console.WriteLine($@"Creating index {_configuration[ElkIndexAuditLog]}");
+                Console.WriteLine($@"Creating index {_elasticIndexSettings.AuditLog}");
 
-                var response = await _elasticClient.Indices.CreateAsync(_configuration[ElkIndexAuditLog], r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()), cancellationToken);
+                var response = await _elasticClient.Indices.CreateAsync(_elasticIndexSettings.AuditLog,
+                    r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()), cancellationToken);
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
@@ -72,10 +76,11 @@ internal class ElasticSearchDataFiller
                 var data =  GenerateDataAsync(configurationModel, cancellationToken);
                 Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
 
-                await foreach (var dto in data.WithCancellation(cancellationToken))
+                await foreach (var dto in data)
                 {
-                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId), cancellationToken);
-                }                        
+                    await _elasticClient.CreateAsync(dto,
+                        s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId), cancellationToken);
+                }
 
                 Console.WriteLine(@"Data has been saving");
                 Console.WriteLine(@"");
@@ -96,7 +101,8 @@ internal class ElasticSearchDataFiller
     ///     Data generation
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(ConfigurationModel configurationModel, CancellationToken cancellationToken)
+    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(
+        ConfigurationModel configurationModel, CancellationToken cancellationToken)
     {
         for (var i = 0; i < configurationModel.Count; i++)
 

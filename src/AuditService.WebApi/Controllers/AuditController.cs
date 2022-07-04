@@ -4,6 +4,8 @@ using AuditService.Common.Models.Dto.Filter;
 using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
+using AuditService.Utility.Logger;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,14 +18,14 @@ namespace AuditService.WebApi.Controllers;
 [Route("journal")]
 public class AuditController : ControllerBase
 {
-    private readonly IAuditLogProvider _auditLogProcessor;
+    private readonly IMediator _mediator;
 
     /// <summary>
     ///     Allows you to get a list of audit journals
     /// </summary>
-    public AuditController(IAuditLogProvider auditLogProcessor)
+    public AuditController(IMediator mediator)
     {
-        _auditLogProcessor = auditLogProcessor;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -36,8 +38,8 @@ public class AuditController : ControllerBase
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync([FromQuery] AuditLogFilterRequestDto model, CancellationToken cancellationToken)
-    {
-        return await _auditLogProcessor.GetAuditLogsByFilterAsync(model, cancellationToken);
-    }
+    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
+        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
+        => await _mediator.Send(model, cancellationToken);
+
 }

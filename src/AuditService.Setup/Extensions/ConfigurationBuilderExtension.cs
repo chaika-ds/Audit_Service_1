@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 namespace AuditService.Setup.Extensions;
 
 /// <summary>
-///     Extension of configuration manager
+///     Extension of configuration builder
 /// </summary>
-public static class ConfigurationManagerExtension
+public static class ConfigurationBuilderExtension
 {
     /// <summary>
     ///     Adds the JSON configuration provider at <paramref name="configFile" /> to <paramref name="configuration" />.

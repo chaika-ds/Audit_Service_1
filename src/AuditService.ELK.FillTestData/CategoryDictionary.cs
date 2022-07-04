@@ -1,20 +1,22 @@
 ﻿using AuditService.Common.Enums;
-using AuditService.Providers.Implementations;
-using AuditService.Providers.Interfaces;
+using AuditService.Common.Models.Dto;
 using AuditService.Utility.Helpers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace AuditService.ELK.FillTestData;
 
 /// <summary>
 ///     Reference of service categories
 /// </summary>
-internal class CategoryDictionary
+public class CategoryDictionary
 {
-    private readonly IReferenceProvider _referenceProvider;
+    private readonly IMediator _mediator;
 
-    public CategoryDictionary()
+    public CategoryDictionary(IMediator mediator)
     {
-        _referenceProvider = new ReferenceProvider();
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -22,10 +24,9 @@ internal class CategoryDictionary
     /// </summary>
     /// <param name="service">Serive type</param>
     /// <param name="random">Instance of random function</param>
-    public async Task<string> GetCategoryAsync(ServiceStructure service, Random random, CancellationToken cancellationToken)
+    public string GetCategory(ServiceStructure service, Random random, CancellationToken cancellationToken)
     {
-        var category = (await _referenceProvider.GetCategoriesAsync()).FirstOrDefault(cat => cat.Key == service);
-
+        var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
         if (!category.Value.Any())
             return string.Empty;
 

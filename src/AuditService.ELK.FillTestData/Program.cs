@@ -1,23 +1,19 @@
 ﻿using AuditService.ELK.FillTestData;
-using Microsoft.Extensions.Configuration;
+using AuditService.ELK.FillTestData.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using var host = Host.CreateDefaultBuilder(args).Build();
+var appBuilder = Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((hostingContext, cfg) =>
+    {
+        cfg.ConfigureAppConfiguration(hostingContext.HostingEnvironment);
 
-var builder = new ConfigurationBuilder();
+    }).ConfigureServices(services =>
+    {
+        services.RegisterAppServices();
+    });
 
-var fileProvider = new EnvironmentPathBuilder().GetParentRootPath();
-
-builder.AddJsonFile("appsettings.json");
-builder.AddJsonFile(fileProvider, "config/aus.api.appsettings.Development.json", true, true);
-builder.AddJsonFile(fileProvider, "config/aus.api.logger.Development.json", true, true);
-builder.AddEnvironmentVariables();
-
-var configuration = builder.Build();
-
-var client = new ElasticSearchConnector().CreateInstance(configuration);
-var filler = new ElasticSearchDataFiller(client, configuration);
-
-var cts = new CancellationTokenSource();
-await filler.ExecuteAsync(cts.Token);
-await host.RunAsync(cts.Token);
+var host = appBuilder.Build();
+using var scope = host.Services.CreateScope();
+await scope.ServiceProvider.GetRequiredService<ElasticSearchDataFiller>().ExecuteAsync();
+await host.RunAsync();
