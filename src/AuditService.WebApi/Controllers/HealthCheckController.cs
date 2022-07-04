@@ -1,6 +1,7 @@
+using System.Net;
 using AuditService.Common.Models.Dto;
-using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuditService.WebApi.Controllers;
@@ -13,11 +14,11 @@ namespace AuditService.WebApi.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class HealthCheckController : ControllerBase
 {
-    private readonly IHealthCheckProvider _healthCheckProvider;
+    private readonly IMediator _mediator;
 
-    public HealthCheckController(IHealthCheckProvider healthCheckProvider)
+    public HealthCheckController(IMediator mediator)
     {
-        _healthCheckProvider = healthCheckProvider;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -25,14 +26,15 @@ public class HealthCheckController : ControllerBase
     /// </summary>
     [HttpGet]
     [TypeFilter(typeof(LoggingActionFilter))]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var response = new HealthCheckDto
         {
-            Kafka = _healthCheckProvider.CheckKafkaHealth(), 
-            Elk = _healthCheckProvider.CheckElkHealth()
+            Kafka = await _mediator.Send(new CheckKafkaHealthRequest()),
+            Elk = await _mediator.Send(new CheckElkHealthRequest())
         };
 
-        return StatusCode(response.IsSuccess() ? 200 : 500, response);
+        return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError,
+            response);
     }
 }

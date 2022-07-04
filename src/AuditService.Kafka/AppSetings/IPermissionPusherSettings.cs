@@ -1,4 +1,4 @@
-﻿namespace AuditService.Setup.ConfigurationSettings;
+﻿namespace AuditService.Kafka.AppSetings;
 
 /// <summary>
 ///     Permission pusher interface to SSO

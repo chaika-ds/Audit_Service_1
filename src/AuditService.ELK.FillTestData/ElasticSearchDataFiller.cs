@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Setup.ConfigurationSettings;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using Newtonsoft.Json;
@@ -10,21 +11,22 @@ namespace AuditService.ELK.FillTestData;
 /// <summary>
 ///     Generator test data for ELK
 /// </summary>
-internal class ElasticSearchDataFiller
+public class ElasticSearchDataFiller
 {
     private readonly IElasticClient _elasticClient;
     private readonly IConfiguration _configuration;
     private readonly CategoryDictionary _categoryDictionary;
+    private readonly IElasticIndexSettings _elasticIndexSettings;
     private readonly Random _random;
 
-    private const string ElkIndexAuditLog = "ELASTIC_SEARCH:INDEXES:ELK_INDEX_AUDITLOG";
-
-    public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration)
+    public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration,
+        CategoryDictionary categoryDictionary, IElasticIndexSettings elasticIndexSettings)
     {
         _elasticClient = elasticClient;
         _configuration = configuration;
         _random = new Random();
-        _categoryDictionary = new CategoryDictionary();
+        _categoryDictionary = categoryDictionary;
+        _elasticIndexSettings = elasticIndexSettings;
     }
 
     /// <summary>
@@ -40,20 +42,21 @@ internal class ElasticSearchDataFiller
             {
                 Console.WriteLine("Start force clean data");
 
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w => w.Query(x => x.QueryString(q => q.Query("*"))).Index(_configuration[ElkIndexAuditLog]));
-                await _elasticClient.Indices.DeleteAsync(_configuration[ElkIndexAuditLog]);
+                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w =>
+                    w.Query(x => x.QueryString(q => q.Query("*"))).Index(_elasticIndexSettings.AuditLog));
+                await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog);
 
                 Console.WriteLine("Force clean has been comlpete!");
             }
-            var cc = _configuration[ElkIndexAuditLog];
 
-            var index = await _elasticClient.Indices.ExistsAsync(_configuration[ElkIndexAuditLog]);
+            var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog);
 
             if (!index.Exists)
             {
-                Console.WriteLine("Creating index " + _configuration[ElkIndexAuditLog]);
+                Console.WriteLine("Creating index " + _elasticIndexSettings.AuditLog);
 
-                var response = await _elasticClient.Indices.CreateAsync(_configuration[ElkIndexAuditLog], r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
+                var response = await _elasticClient.Indices.CreateAsync(_elasticIndexSettings.AuditLog,
+                    r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
@@ -70,13 +73,14 @@ internal class ElasticSearchDataFiller
                 Console.WriteLine("Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
-                var data = GenerateData(configurationModel);
-                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");                  
+                var data = GenerateDataAsync(configurationModel);
+                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");
 
-                foreach (var dto in data)
+                await foreach (var dto in data)
                 {
-                    await _elasticClient.CreateAsync(dto, s => s.Index(_configuration[ElkIndexAuditLog]).Id(dto.EntityId));
-                }                        
+                    await _elasticClient.CreateAsync(dto,
+                        s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId));
+                }
 
                 Console.WriteLine("Data has been saving");
                 Console.WriteLine("");
@@ -97,18 +101,19 @@ internal class ElasticSearchDataFiller
     ///     Data generation
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private IEnumerable<AuditLogTransactionDomainModel> GenerateData(ConfigurationModel configurationModel)
+    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(
+        ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
 
-            yield return CreateNewDto(configurationModel);
+            yield return await CreateNewDtoAsync(configurationModel);
     }
 
     /// <summary>
     ///     Create model Dto on base configuration model
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private AuditLogTransactionDomainModel CreateNewDto(ConfigurationModel configurationModel)
+    private async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(ConfigurationModel configurationModel)
     {
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
@@ -135,7 +140,7 @@ internal class ElasticSearchDataFiller
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)
-            ? _categoryDictionary.GetCategory(dto.Service, _random)
+            ? await _categoryDictionary.GetCategoryAsync(dto.Service, _random)
             : configurationModel.CategoryCode;
 
         return dto;
