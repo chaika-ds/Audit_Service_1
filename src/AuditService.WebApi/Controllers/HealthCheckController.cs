@@ -1,8 +1,6 @@
 using System.Net;
 using AuditService.Common.Models.Dto;
-using AuditService.Providers.Interfaces;
 using AuditService.Utility.Logger.Filters;
-using AuditService.Utility.Logger;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +24,7 @@ public class HealthCheckController : ControllerBase
     /// <summary>
     ///     PING
     /// </summary>
+    /// <param name="cancellationToken"></param>
     [HttpGet]
     [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)

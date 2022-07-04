@@ -4,6 +4,7 @@ using AuditService.Utility.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using MediatR;
 
 namespace AuditService.ELK.FillTestData;
 
@@ -24,9 +25,12 @@ public class CategoryDictionary
     /// </summary>
     /// <param name="service">Serive type</param>
     /// <param name="random">Instance of random function</param>
-    public string GetCategory(ServiceStructure service, Random random, CancellationToken cancellationToken)
+    /// <param name="cancellationToken"></param>
+    public async Task<string> GetCategoryAsync(ServiceStructure service, Random random, CancellationToken cancellationToken)
     {
-        var category = _referenceProvider.GetCategoriesAsync().GetAwaiter().GetResult().FirstOrDefault(cat => cat.Key == service);
+        var category =
+            (await _mediator.Send(new GetCategoriesRequest())).FirstOrDefault(cat => cat.Key == service);
+
         if (!category.Value.Any())
             return string.Empty;
 
