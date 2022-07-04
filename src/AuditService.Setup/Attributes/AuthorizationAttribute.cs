@@ -6,23 +6,22 @@ using Tolar.Authenticate;
 namespace AuditService.Setup.Attributes;
 
 /// <summary>
-///     Authorization Attribute
+///     Authorization in SSO Service
 /// </summary>
 public class AuthorizationAttribute: AuthorizeAttribute
 {
     /// <summary>
-    ///    Constructor for Authorization Attribute
+    ///    Authorization in SSO Service
     /// </summary>
     public AuthorizationAttribute(string permission): base (permission) { }
     
     /// <summary>
     ///     Override Create Answer method from base
     /// </summary>
-    protected override ObjectResult CreateAnswer(HttpStatusCode code, string specialMessage = null)
+    protected override ObjectResult CreateAnswer(HttpStatusCode code, string? specialMessage = null)
     {
         IHttpContextAccessor context = new HttpContextAccessor();
         
-
         var resultObject = new ProblemDetails
         {
             Status = (int)code,

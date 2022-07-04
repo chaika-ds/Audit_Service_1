@@ -1,5 +1,4 @@
-﻿using AuditService.Setup.ConfigurationSettings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace AuditService.Setup.AppSettings;
 

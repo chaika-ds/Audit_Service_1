@@ -1,6 +1,6 @@
 ﻿using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto.Filter;
-using AuditService.Setup.ConfigurationSettings;
+using AuditService.Setup.AppSettings;
 using Nest;
 
 namespace AuditService.Handlers.Handlers

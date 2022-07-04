@@ -1,6 +1,6 @@
 ﻿using Tolar.Authenticate.Impl;
 
-namespace AuditService.Setup.ConfigurationSettings;
+namespace AuditService.Setup.AppSettings;
 
 /// <summary>
 ///     Configuration section of SSO
