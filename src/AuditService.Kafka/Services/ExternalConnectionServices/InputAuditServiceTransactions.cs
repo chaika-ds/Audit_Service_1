@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using AuditService.Kafka.Services.Health;
 using Tolar.Kafka;
 
 namespace AuditService.Kafka.Services.ExternalConnectionServices
@@ -12,10 +11,8 @@ namespace AuditService.Kafka.Services.ExternalConnectionServices
     {
         public InputAuditServiceTransactions(
             ILogger<InputAuditServiceTransactions> logger,
-            IKafkaConsumerFactory consumerFactory,
-            IKafkaTopics kafkaTopics,
-            IHealthMarkService healthService)
-                : base(logger, consumerFactory, kafkaTopics, healthService)
+            IKafkaConsumerFactory consumerFactory)
+                : base(logger, consumerFactory)
         {
         }
 

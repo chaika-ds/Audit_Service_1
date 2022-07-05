@@ -1,5 +1,4 @@
-﻿using AuditService.Kafka.Services.Health;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Tolar.Kafka;
 
 namespace AuditService.Kafka.Services.ExternalConnectionServices;
@@ -10,18 +9,14 @@ namespace AuditService.Kafka.Services.ExternalConnectionServices;
 public abstract class BaseInputService : IInputService
 {
     private readonly IKafkaConsumer _consumer;
-    private readonly IHealthMarkService _healthService;
     private readonly ILogger _logger;
 
     protected BaseInputService(
         ILogger logger,
-        IKafkaConsumerFactory consumerFactory,
-        IKafkaTopics kafkaTopics,
-        IHealthMarkService healthService)
+        IKafkaConsumerFactory consumerFactory)
     {
         _logger = logger;
-        _consumer = consumerFactory.CreateConsumer(kafkaTopics.AuditLog);
-        _healthService = healthService;
+        _consumer = consumerFactory.CreateConsumer("Topic");
     }
 
     public void Start()
@@ -42,7 +37,6 @@ public abstract class BaseInputService : IInputService
 
     private void OnKafkaError(object? sender, EventArgs e)
     {
-        _healthService.MarkError();
         // todo наверное надо расширить логи
         _logger.LogError("Kafka connection error");
     }

@@ -1,6 +1,5 @@
-﻿using AuditService.Kafka.Services.ExternalConnectionServices;
-using AuditService.Kafka.Services.Health;
-using AuditService.Setup.ModelProviders;
+﻿using AuditService.Setup.ModelProviders;
+using KIT.Kafka;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
@@ -15,20 +14,13 @@ public static class DiConfigure
     /// <summary>
     ///     Register custom services
     /// </summary>
-    public static void RegisterServices(this IServiceCollection services)
+    public static void RegisterServices(this IServiceCollection services, string environmentName)
     {
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
         services.AddSingleton<ITokenService>(provider => new TokenService(provider.GetService<IRedisRepository>(), provider.GetService<IAuthenticateService>()));
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         services.AddSingleton<IRedisRepository, RedisRepository>();
-        
-        services
-            .AddSingleton<HealthService>()
-            .AddSingleton<IHealthMarkService>(x => x.GetRequiredService<HealthService>())
-            .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>())
-            .AddSingleton<IKafkaProducer, KafkaProducer>();
-
-        services.AddHostedService<PushPermissionBackgroundService>();
         Handlers.DiConfigure.RegisterServices(services);
+        services.ConfigureKafka(environmentName);
     }
 }

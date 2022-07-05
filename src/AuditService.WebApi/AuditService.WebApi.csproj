@@ -32,10 +32,11 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
-        <PackageReference Include="Tolar.Authenticate" Version="6.0.818" />
+        <PackageReference Include="Tolar.Authenticate" Version="6.0.860" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\KIT.Kafka\KIT.Kafka.csproj" />
       <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
       <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
       <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />

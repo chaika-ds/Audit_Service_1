@@ -7,12 +7,12 @@ namespace KIT.Kafka.BackgroundServices;
 /// <summary>
 /// Background service for pushing permissions
 /// </summary>
-public class PushPermissionBackgroundService : PermissionPusher
+public class PushPermissionService : PermissionPusher
 {
     private readonly IKafkaProducer _producer;
     private readonly IKafkaTopics _kafkaTopics;
 
-    public PushPermissionBackgroundService(IKafkaProducer producer, IPermissionPusherSettings settings,
+    public PushPermissionService(IKafkaProducer producer, IPermissionPusherSettings settings,
         IKafkaTopics kafkaTopics) : base(settings.ServiceId, settings.ServiceName)
     {
         _producer = producer;

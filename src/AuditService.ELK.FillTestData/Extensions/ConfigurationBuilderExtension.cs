@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AuditService.Common.Consts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using AuditService.Setup.Extensions;
 
@@ -18,7 +19,7 @@ namespace AuditService.ELK.FillTestData.Extensions
         public static IConfigurationBuilder ConfigureAppConfiguration(this IConfigurationBuilder configurationBuilder,
             IHostEnvironment environment)
         {
-            environment.EnvironmentName = "Debug";
+            environment.EnvironmentName = EnvironmentNameConst.Debug;
             configurationBuilder.AddJsonFile("appsettings.json");
             configurationBuilder.AddJsonFile("config/aus.api.appsettings.json",
                 $"config/aus.api.env.{environment.EnvironmentName.ToLower()}.json", environment);

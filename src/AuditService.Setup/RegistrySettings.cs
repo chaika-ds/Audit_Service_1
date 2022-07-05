@@ -1,9 +1,7 @@
-﻿using AuditService.Kafka.AppSetings;
-using AuditService.Setup.AppSettings;
+﻿using AuditService.Setup.AppSettings;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate.Impl;
-using Tolar.Kafka;
 using Tolar.Redis;
 
 namespace AuditService.Setup;
@@ -19,11 +17,8 @@ public static class RegistrySettings
     public static void RegisterSettings(this IServiceCollection services)
     {
         services.AddSettings<IRedisSettings, RedisSettings>();
-        services.AddSettings<IKafkaSettings, KafkaSettings>();
-        services.AddSettings<IHealthSettings, HealthSettings>();
         services.AddSettings<IAuthenticateServiceSettings, AuthSsoServiceSettings>();
         services.AddSettings<IAuthSsoServiceSettings, AuthSsoServiceSettings>();
-        services.AddSettings<IPermissionPusherSettings, PermissionPusherSettings>();
         services.AddSettings<IElasticSearchSettings, ElasticSearchSettings>();
         services.AddSettings<IElasticIndexSettings, ElasticSearchSettings>();
         services.AddSettings<ISwaggerSettings, SwaggerSettings>();

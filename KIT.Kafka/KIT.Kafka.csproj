@@ -14,4 +14,8 @@
     <PackageReference Include="Tolar.Web" Version="6.0.860" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\AuditService.Common\AuditService.Common.csproj" />
+  </ItemGroup>
+
 </Project>
