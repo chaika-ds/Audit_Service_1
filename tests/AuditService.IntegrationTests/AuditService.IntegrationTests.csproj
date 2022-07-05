@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AuditService.Kafka\AuditService.Kafka.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>
 
