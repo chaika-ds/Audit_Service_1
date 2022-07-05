@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
   </ItemGroup>
 
 </Project>

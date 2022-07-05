@@ -36,10 +36,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\KIT.Kafka\KIT.Kafka.csproj" />
       <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
       <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
       <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
+      <ProjectReference Include="..\KIT.Kafka\KIT.Kafka.csproj" />
     </ItemGroup>
 
   <ItemGroup>
