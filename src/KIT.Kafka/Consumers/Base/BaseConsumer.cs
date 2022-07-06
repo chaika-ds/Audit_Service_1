@@ -1,13 +1,15 @@
 ﻿using KIT.Kafka.Settings.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Tolar.Kafka;
 
-namespace KIT.Kafka.Consumers;
+namespace KIT.Kafka.Consumers.Base;
 
 /// <summary>
 ///     Base consumer of Kafka
 /// </summary>
-public abstract class BaseConsumer : IConsumer
+/// <typeparam name="TModel">Message model type</typeparam>
+public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new()
 {
     private readonly IKafkaConsumerFactory _consumerFactory;
     private readonly IKafkaTopics _kafkaTopics;
@@ -47,12 +49,11 @@ public abstract class BaseConsumer : IConsumer
     public string Name => GetType().Name;
 
     /// <summary>
-    ///     Callback function on push messages
+    ///     Consumer method for receiving/listening to messages
     /// </summary>
-    /// <param name="sender">Sender</param>
-    /// <param name="args">Event args of received message</param>
+    /// <param name="context">The context of consumption</param>
     /// <returns>Task execution result</returns>
-    protected abstract Task OnMessageReceivedAsync(object? sender, MessageReceivedEventArgs args);
+    protected abstract Task Consume(ConsumeContext<TModel> context);
 
     /// <summary>
     ///     Get the topic within which the consumer will listen to messages
@@ -60,4 +61,33 @@ public abstract class BaseConsumer : IConsumer
     /// <param name="kafkaTopics">Topics kafka</param>
     /// <returns>Topic for listening to messages</returns>
     protected abstract string GetTopic(IKafkaTopics kafkaTopics);
+
+    /// <summary>
+    ///     Callback function on push messages
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="args">Event args of received message</param>
+    /// <returns>Task execution result</returns>
+    private async Task OnMessageReceivedAsync(object? sender, MessageReceivedEventArgs args)
+    {
+        var message = GetMessageModel(args);
+        await Consume(new ConsumeContext<TModel>(args, message));
+    }
+
+    /// <summary>
+    ///     Get typed message(model)
+    /// </summary>
+    /// <param name="args">Event args of received message</param>
+    /// <returns>Typed message</returns>
+    private TModel? GetMessageModel(MessageReceivedEventArgs args)
+    {
+        try
+        {
+            return string.IsNullOrEmpty(args.Data) ? null : JsonConvert.DeserializeObject<TModel>(args.Data);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
 }

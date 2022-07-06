@@ -1,8 +1,8 @@
-﻿using KIT.Kafka.Consumers;
+﻿using KIT.Kafka.Consumers.Base;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace KIT.Kafka.BackgroundServices;
+namespace KIT.Kafka.BackgroundServices.Runner;
 
 /// <summary>
 ///     Background service to start consumers

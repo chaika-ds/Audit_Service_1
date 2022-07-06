@@ -1,7 +1,6 @@
-﻿using KIT.Kafka.BackgroundServices;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace KIT.Kafka.Consumers.RunningRegistrar;
+namespace KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 
 /// <summary>
 ///     The consumer registrar to run in the background service.

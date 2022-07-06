@@ -1,4 +1,4 @@
-﻿namespace KIT.Kafka.Consumers;
+﻿namespace KIT.Kafka.Consumers.Base;
 
 /// <summary>
 ///     Message consumer

@@ -1,8 +1,8 @@
 ﻿using AuditService.Common.Consts;
 using bgTeam.Extensions;
 using KIT.Kafka.BackgroundServices;
-using KIT.Kafka.Consumers;
-using KIT.Kafka.Consumers.RunningRegistrar;
+using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
+using KIT.Kafka.Consumers.AuditLog;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
 using Microsoft.Extensions.DependencyInjection;

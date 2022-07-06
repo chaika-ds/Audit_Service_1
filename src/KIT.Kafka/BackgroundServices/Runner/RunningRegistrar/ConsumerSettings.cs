@@ -1,4 +1,4 @@
-﻿namespace KIT.Kafka.Consumers.RunningRegistrar;
+﻿namespace KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 
 /// <summary>
 ///     Consumer running settings

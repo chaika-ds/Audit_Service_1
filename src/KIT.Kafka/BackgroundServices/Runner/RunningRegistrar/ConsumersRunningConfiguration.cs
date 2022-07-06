@@ -1,7 +1,7 @@
-﻿using KIT.Kafka.Consumers;
+﻿using KIT.Kafka.Consumers.Base;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KIT.Kafka.Consumers.RunningRegistrar;
+namespace KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 
 /// <summary>
 ///     Consumers running configuration
