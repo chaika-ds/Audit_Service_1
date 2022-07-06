@@ -25,7 +25,7 @@ internal class ConsumersRunningConfiguration
     public void Consumer<TConsumer>(Action<ConsumerSettings>? setUp = null) where TConsumer : class, IConsumer
     {
         if (NeedRegisterConsumer(setUp))
-            _serviceCollection.AddScoped<IConsumer, TConsumer>();
+            _serviceCollection.AddSingleton<IConsumer, TConsumer>();
     }
 
     /// <summary>
