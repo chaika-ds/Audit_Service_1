@@ -53,5 +53,5 @@
 2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
 3. Выполнить команду
    ``` powershell
-   pwsh\сreateTopicsForKafka.ps1
+   pwsh\createTopicsForKafka.ps1
    ```
