@@ -1,2 +1,0 @@
-﻿docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --topic uat.auditlog.transactions; 
-docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --topic uat.sso.sync.permission
