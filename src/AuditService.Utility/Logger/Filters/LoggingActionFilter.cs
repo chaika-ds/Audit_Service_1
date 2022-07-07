@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System.Text;
 
-namespace AuditService.Utility.Logger
+namespace AuditService.Utility.Logger.Filters
 {
     /// <summary>
     /// Logging attribute for incoming requests
@@ -22,7 +22,7 @@ namespace AuditService.Utility.Logger
 
             try
             {
-                var requestBody = GetRequestBodyAsString(context);                
+                var requestBody = GetRequestBodyAsString(context);
 
                 _logger.LogInformation($"Start execution request: {requestPath} request body: {requestBody}");
 
@@ -41,7 +41,7 @@ namespace AuditService.Utility.Logger
             var builder = new StringBuilder();
 
             foreach (var element in context.ActionArguments)
-                builder.Append(JsonHelper.SerializeToString(element.Value));
+                builder.Append(element.Value.SerializeToString());
 
             return builder.ToString();
         }

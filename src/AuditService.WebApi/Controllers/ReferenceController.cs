@@ -1,6 +1,7 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
+using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
 using AuditService.Utility.Logger;
 using MediatR;
@@ -28,6 +29,7 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available services
     /// </summary>
+    /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
     [Route("services")]
     [Authorization("Audit.Journal.GetAuditlog")]
@@ -39,6 +41,7 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available categories
     /// </summary>
+    /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
     [Route("categories")]
     [Authorization("Audit.Journal.GetAuditlog")]
@@ -51,7 +54,7 @@ public class ReferenceController
     ///     Allows you to get a list of available categories by serviceId
     /// </summary>
     /// <param name="service">Selected service id</param>
-    /// <param name="cancellationToken">Cancellation token</param>
+    /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
     [Route("categories/{service}")]
     [Authorization("Audit.Journal.GetAuditlog")]

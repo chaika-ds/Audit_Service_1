@@ -1,7 +1,7 @@
 ﻿using AuditService.Common.Consts;
+﻿using AuditService.Setup.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using AuditService.Setup.Extensions;
 
 namespace AuditService.ELK.FillTestData.Extensions
 {
