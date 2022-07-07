@@ -20,7 +20,6 @@ namespace AuditService.ELK.FillTestData.Extensions
             IHostEnvironment environment)
         {
             environment.EnvironmentName = EnvironmentNameConst.Debug;
-            configurationBuilder.AddJsonFile("appsettings.json");
             configurationBuilder.AddJsonFile("config/aus.api.appsettings.json",
                 $"config/aus.api.env.{environment.EnvironmentName.ToLower()}.json", environment);
             configurationBuilder.AddJsonFile("config/aus.api.logger.json", environment);

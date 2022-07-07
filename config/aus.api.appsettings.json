@@ -34,12 +34,12 @@
     "SaslUsername": "$KAFKA_USERNAME",
     "SaslPassword": "$KAFKA_PASSWORD",
     "Address": "$KAFKA_BROKER",
-    "ServiceName": "$KAFKA_SERVICENAME",
+    "ServiceName": "$KAFKA_BROKER",
     "GroupId": "$KAFKA_CONSUMER_GROUP",
 
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
-      "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONSPUSH"
+      "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS"
     }
   },
   "SSO": {

@@ -38,11 +38,13 @@
 ## Генерация данных для ELK
 
 
-1. Откройте PowerShell
-2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
+1. Запустить Tools -> NuGet Package Manager -> Package Manager Console
+2. Установить PM> Install-Module -Name Invoke-MsBuild -RequiredVersion 2.7.1
+   Выбрать при установке А или Y
+3. Откройте PowerShell
+2. Перейдите в корневую папку проекта 'src', где находится проект AuditService.ELK.FillTestData
 3. Выполнить команду
-   ``` powershell
-   –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
+   ``` powershell –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
    ```
 
 

@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
+    <None Remove="elkFillData.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json">
+    <Content Include="Resources\elkFillData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -33,6 +33,21 @@
     <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\ElcJsonResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ElcJsonResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ElcJsonResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ElcJsonResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

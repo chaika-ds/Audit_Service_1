@@ -1,9 +1,9 @@
 ﻿using AuditService.Common.Enums;
 
-namespace AuditService.ELK.FillTestData;
+namespace AuditService.ELK.FillTestData.Models;
 
 /// <summary>
-///     Model of generator
+///     Model of fillers
 /// </summary>
 internal class ConfigurationModel
 {
