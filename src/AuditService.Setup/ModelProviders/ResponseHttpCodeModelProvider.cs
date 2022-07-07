@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace AuditService.Setup.ModelProviders;
 
+/// <summary>
+/// Response Http Code Model Provider
+/// </summary>
 public class ResponseHttpCodeModelProvider : IApplicationModelProvider
 {
     // It's all in the documentation https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/application-model?view=aspnetcore-6.0#iapplicationmodelprovider
