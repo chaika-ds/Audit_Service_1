@@ -1,5 +1,4 @@
-﻿using AuditService.Kafka.Services.Health;
-using AuditService.Setup;
+﻿using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +16,6 @@ namespace AuditService.ELK.FillTestData.Extensions
         public static void RegisterAppServices(this IServiceCollection services)
         {
             services.RegisterSettings();
-
-            services.AddSingleton<HealthService>()
-                .AddSingleton<IHealthService>(x => x.GetRequiredService<HealthService>());
-
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
             services.AddScoped<ElasticSearchDataFiller>();
