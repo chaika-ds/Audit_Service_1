@@ -20,7 +20,7 @@ try
     builder.Services.AdditionalConfigurations();
     builder.Services.AddRedisCache();
     builder.Services.AddSwagger();
-    builder.Services.RegisterServices();
+    builder.Services.RegisterServices(builder.Environment.EnvironmentName);
 
     var app = builder.Build();
 

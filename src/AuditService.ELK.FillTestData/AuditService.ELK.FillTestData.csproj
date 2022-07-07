@@ -31,7 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
-    <ProjectReference Include="..\AuditService.Kafka\AuditService.Kafka.csproj" />
     <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>

@@ -1,15 +1,10 @@
-﻿namespace AuditService.Kafka.AppSetings;
+﻿namespace KIT.Kafka.Settings.Interfaces;
 
 /// <summary>
 ///     Permission pusher interface to SSO
 /// </summary>
 public interface IPermissionPusherSettings
 {
-    /// <summary>
-    ///     Topic of Kafka
-    /// </summary>
-    public string? Topic { get; set; }
-
     /// <summary>
     ///     Service ID
     /// </summary>
