@@ -14,7 +14,7 @@
     "MaxThreadsCount": 5,
     "MaxTimeoutMsec": 5000,
     "Config": {
-      "security.protocol": "sasl_plaintext",
+      "security.protocol": "$KAFKA_SECURITY_PROTOCOL",
       "sasl.mechanism": "PLAIN",
       "enable.partition.eof": true,
       "log.connection.close": false,
@@ -34,7 +34,7 @@
     "SaslUsername": "$KAFKA_USERNAME",
     "SaslPassword": "$KAFKA_PASSWORD",
     "Address": "$KAFKA_BROKER",
-    "ServiceName": "kafka-b1.netreportservice.xyz,kafka-b2.netreportservice.xyz,kafka-b3.netreportservice.xyz",
+    "ServiceName": "$KAFKA_SERVICENAME",
     "GroupId": "$KAFKA_CONSUMER_GROUP",
 
     "Topics": {
