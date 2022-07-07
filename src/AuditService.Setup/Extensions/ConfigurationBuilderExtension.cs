@@ -53,7 +53,7 @@ public static class ConfigurationBuilderExtension
     {
         var configFilePath = GetJsonFile(configFile, environment);
         var environmentFilePath = GetJsonFile(envFile, environment);
-        
+
         var configs = File.ReadAllText(configFilePath);
         var envData = File.ReadAllText(environmentFilePath);
         var environments = JsonConvert.DeserializeObject<IDictionary<string, string>>(envData);
@@ -73,9 +73,9 @@ public static class ConfigurationBuilderExtension
     {
         var configFilePath = GetJsonFile(configFile, environment);
         var configs = File.ReadAllText(configFilePath);
-        
+
         configs = Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().Aggregate(configs, (current, env) => current.Replace($"${env.Key}", env.Value?.ToString()));
-        
+
         configuration.AddJsonStream(new MemoryStream(Encoding.Default.GetBytes(configs)));
     }
 
