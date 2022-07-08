@@ -36,9 +36,6 @@ try
 
     app.UseMiddleware<AppMiddlewareException>();
 
-    // todo ѕереписать. ќтлавливает метод HealthCheck, кеширует ошибки.
-    //app.UseMiddleware<RedisCacheMiddleware>();
-
     app.Run();
 }
 catch (Exception ex)

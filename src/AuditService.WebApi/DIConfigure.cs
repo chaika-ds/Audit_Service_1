@@ -15,12 +15,10 @@ public static class DiConfigure
     /// </summary>
     public static void RegisterServices(this IServiceCollection services, string environmentName)
     {
-        services.AddHttpClient<IAuthenticateService, AuthenticateService>();
-        services.AddSingleton<ITokenService>(provider =>
-            new TokenService(provider.GetService<IRedisRepository>(), provider.GetService<IAuthenticateService>()));
-        services.TryAddEnumerable(
-            ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         services.AddSingleton<IRedisRepository, RedisRepository>();
+        services.AddHttpClient<IAuthenticateService, AuthenticateService>();
+        services.AddSingleton<ITokenService, TokenService>();
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         Handlers.DiConfigure.RegisterServices(services);
         services.ConfigureKafka(environmentName);
     }
