@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Models.Dto.Pagination;
+﻿using System.Text.Json.Serialization;
+using AuditService.Common.Models.Dto.Pagination;
 
 namespace AuditService.Common.Models.Dto;
 
@@ -10,19 +11,17 @@ public class PageResponseDto<T>
     /// <summary>
     ///     Initializes a new instance of the <see cref="PageResponseDto{T}" /> class.
     /// </summary>
-    public PageResponseDto(int pageSize, int pageNumber, long totalCount, IEnumerable<T> result)
-    {
-        Pagination = new PaginationResponseDto(totalCount, pageNumber, pageSize);
-        List = result;
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="PageResponseDto{T}" /> class.
-    /// </summary>
     public PageResponseDto(PaginationRequestDto paginationRequest, long totalCount, IEnumerable<T> result)
     {
         Pagination = new PaginationResponseDto(totalCount, paginationRequest.PageNumber, paginationRequest.PageSize);
         List = result;
+    }
+
+    [JsonConstructor]
+    public PageResponseDto(PaginationResponseDto pagination, IEnumerable<T> list)
+    {
+        Pagination = pagination;
+        List = list;
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AuditService.Handlers.PipelineBehaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,5 +13,6 @@ public static class DiConfigure
     public static void RegisterServices(IServiceCollection services)
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachePipelineBehavior<,>));
     }
 }
