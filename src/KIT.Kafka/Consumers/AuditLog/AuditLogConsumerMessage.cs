@@ -1,21 +1,8 @@
-﻿using AuditService.Common.Enums;
-using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Models.Domain;
 
-namespace KIT.Kafka.Consumers.AuditLog
-{
-    /// <summary>
-    /// Audit log consumer message
-    /// </summary>
-    public class AuditLogConsumerMessage : BaseAuditLogModel
-    {
-        /// <summary>
-        ///     Module Name
-        /// </summary>
-        public ServiceStructure ModuleName { get; set; }
+namespace KIT.Kafka.Consumers.AuditLog;
 
-        /// <summary>
-        ///     Node Name
-        /// </summary>
-        public string NodeName { get; set; }
-    }
-}
+/// <summary>
+/// Audit log consumer message
+/// </summary>
+public class AuditLogConsumerMessage : BaseAuditLogModel { }

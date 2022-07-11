@@ -20,6 +20,11 @@ public class BaseAuditLogModel
     }
     
     /// <summary>
+    ///     Module Name
+    /// </summary>
+    public ServiceStructure ModuleName { get; set; }
+    
+    /// <summary>
     ///     ID of the node where the change occurred
     /// </summary>
     [Required]
@@ -30,7 +35,12 @@ public class BaseAuditLogModel
     /// </summary>
     [Required]
     public NodeType Node { get; set; }
-
+    
+    /// <summary>
+    ///     Node Name
+    /// </summary>
+    public string NodeName { get; set; }
+    
     /// <summary>
     ///     Type of action
     /// </summary>
