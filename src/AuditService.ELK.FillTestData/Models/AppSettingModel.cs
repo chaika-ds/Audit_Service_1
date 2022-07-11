@@ -16,5 +16,5 @@ internal class AppSettingModel
     /// Fillers of configuration model
     /// </summary>
     [JsonProperty("Fillers")]
-    public List<ConfigurationModel> Fillers { get; set; }
+    public ConfigurationModel[] Fillers { get; set; } = null!;
 }
