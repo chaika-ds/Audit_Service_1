@@ -34,5 +34,5 @@
     <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\AuditService.Utility\AuditService.Utility.csproj" />
   </ItemGroup>
-
+	
 </Project>

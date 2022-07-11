@@ -133,7 +133,23 @@ services:
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
-
+  elk-filler:
+    container_name: elk-filler
+    depends_on: 
+      - elasticsearch
+    image: auditservice/elkfilltestdata
+    build:
+      args:
+        - APP_NAME=${ELK_FILLER_APP_NAME}
+      context: .
+      dockerfile: Dockerfile.development    
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ELK_FILLER_APP_ENV}
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ./config:/app/config
+    networks:
+      - ${NETWORKS_NAME}
 
 networks:
   auditservice:
