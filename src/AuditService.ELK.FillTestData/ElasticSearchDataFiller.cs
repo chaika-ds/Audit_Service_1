@@ -86,14 +86,16 @@ public class ElasticSearchDataFiller
                         s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId));
                 }
 
-                Console.WriteLine(@"Data has been saving");
+                Console.WriteLine(@"Data has been saved");
                 Console.WriteLine("");
             }
 
             Console.WriteLine("");
-            Console.WriteLine(@"All configuration models has been saving");
+            Console.WriteLine(@"All configuration models has been saved");
 
             Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
+
+            Environment.Exit(1);
         }
         catch (Exception e)
         {

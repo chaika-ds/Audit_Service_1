@@ -1,0 +1,28 @@
+{
+  "profiles": {
+    "AuditService.ELK.FillTestData": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "remoteDebugEnabled": false,
+      "nativeDebugging": false
+    },
+    "AuditService.ELK.FillTestData.Debug": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Debug"
+      },
+      "remoteDebugEnabled": false,
+      "nativeDebugging": false
+    },
+    "AuditService.ELK.FillTestData.Prod": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Production"
+      },
+      "remoteDebugEnabled": false,
+      "nativeDebugging": false
+    }
+  }
+}

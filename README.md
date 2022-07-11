@@ -35,14 +35,10 @@
 >````
 
 
-## Генерация данных для ELK
+## Запуск генерации данных для ELK в режиме Debug
 
 
-1. Откройте PowerShell
-2. Перейдите в корневую папку проекта 'src', где находится проект AuditService.ELK.FillTestData
-3. Выполнить команду
-   ``` powershell –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
-   ```
+1. Для локального запуска генерации необходимо выбрать профиль AuditService.ELK.FillTestData.Debug
 
 
 ## Создание топиков для KAFKA

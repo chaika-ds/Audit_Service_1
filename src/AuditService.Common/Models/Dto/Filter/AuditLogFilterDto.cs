@@ -49,4 +49,14 @@ public class AuditLogFilterDto
     ///     User login
     /// </summary>
     public string? Login { get; set; }
+    
+    /// <summary>
+    ///     Start Date
+    /// </summary>
+    public DateTime? StartDate { get; set; }
+
+    /// <summary>
+    ///     End Date
+    /// </summary>
+    public DateTime? EndDate { get; set; }
 }
