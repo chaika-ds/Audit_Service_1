@@ -6,10 +6,11 @@ namespace AuditService.Common.Models.Domain;
 /// <summary>
 ///     Audit log base model
 /// </summary>
-public class BaseAuditLogModel
+public abstract class BaseAuditLogModel
 {
-    public BaseAuditLogModel()
+    protected BaseAuditLogModel()
     {
+        NodeName = string.Empty;
         CategoryCode = string.Empty;
         RequestUrl = string.Empty;
         RequestBody = string.Empty;
