@@ -18,9 +18,15 @@ public class KafkaTopics : IKafkaTopics
     /// </summary>
     public string Permissions { get; set; }
 
+    /// <summary>
+    /// Topic of HealthCheck
+    /// </summary>
+    public string HealthCheck { get; set; }
+
     public KafkaTopics(IConfiguration config)
     {
         AuditLog = config["Kafka:Topics:AuditLog"];
         Permissions = config["Kafka:Topics:PermissionsTopic"];
+        HealthCheck = config["Kafka:Topics:HealthCheck"];
     }
 }
