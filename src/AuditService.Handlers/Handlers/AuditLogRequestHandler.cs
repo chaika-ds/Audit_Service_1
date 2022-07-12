@@ -25,7 +25,7 @@ namespace AuditService.Handlers.Handlers
             var container = new QueryContainer();
 
             if (filter.Service.HasValue)
-                container &= queryContainerDescriptor.Term(t => t.Service, filter.Service.Value);
+                container &= queryContainerDescriptor.Term(t => t.ModuleName, filter.Service.Value);
 
             if (filter.NodeId.HasValue)
                 container &= queryContainerDescriptor.Term(t => t.NodeId, filter.NodeId.Value);
