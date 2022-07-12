@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\KIT.NLog\KIT.NLog.csproj" />
   </ItemGroup>
 
 </Project>
