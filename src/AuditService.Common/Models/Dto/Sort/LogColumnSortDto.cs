@@ -1,24 +1,25 @@
 ﻿using AuditService.Common.Enums;
 
-namespace AuditService.Common.Models.Dto.Filter;
+namespace AuditService.Common.Models.Dto.Sort;
 
 /// <summary>
-///     Log filter. Sort model
+///     Sorting model with the ability
+///     to specify a field for sorting
 /// </summary>
-public class LogSortDto
+public class LogColumnSortDto : ISort
 {
-    public LogSortDto()
+    public LogColumnSortDto()
     {
         ColumnName = string.Empty;
     }
 
     /// <summary>
-    ///     Number of log record
+    ///     The name of the field to sort by
     /// </summary>
     public string ColumnName { get; set; }
 
     /// <summary>
-    ///     Date and time of the event
+    ///     Sortable type
     /// </summary>
     public SortableType SortableType { get; set; }
 }
