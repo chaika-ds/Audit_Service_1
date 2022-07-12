@@ -1,10 +1,10 @@
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
-using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using mediaType = System.Net.Mime.MediaTypeNames.Application;
 
 
 namespace AuditService.WebApi.Controllers;
@@ -34,8 +34,7 @@ public class AuditController : ControllerBase
     [HttpGet]
     [Route("auditlog")]
     [Authorization("Audit.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
-    [TypeFilter(typeof(LoggingActionFilter))]
+    [Produces(mediaType.Json, Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
         [FromQuery] LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
         => await _mediator.Send(model, cancellationToken);

@@ -1,4 +1,5 @@
 ﻿using KIT.Kafka.Consumers.Base;
+using KIT.NLog.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -46,17 +47,15 @@ public class ConsumersRunner : IHostedService
     /// <param name="consumer">Kafka message consumer</param>
     private void StartConsumer(IConsumer consumer)
     {
-        _logger.LogInformation("{msg}", $"{consumer.Name} starting");
-
+        var contextModel = new { consumer.Name };
         try
         {
             consumer.Start();
-            _logger.LogInformation("{msg}", $"{consumer.Name} started");
+            _logger.LogInformation("Consumer started", contextModel);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "{msg} {error}", "Error occurred while starting consumer",
-                $"Unable to start {consumer.Name}");
+            _logger.LogException(ex, "Error occurred while starting consumer", contextModel);
         }
     }
 
@@ -66,16 +65,15 @@ public class ConsumersRunner : IHostedService
     /// <param name="consumer">Kafka message consumer</param>
     private void StopConsumer(IConsumer consumer)
     {
-        _logger.LogInformation("{msg}", $"{consumer.Name} stopping");
-
+        var contextModel = new { consumer.Name };
         try
         {
             consumer.Stop();
-            _logger.LogInformation("{msg}", $"{consumer.Name} stopped");
+            _logger.LogInformation("Consumer stopped", contextModel);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "{msg} {error}", "Error occured while stopping consumer", ex.Message);
+            _logger.LogException(ex, "Error occured while stopping consumer", contextModel);
         }
     }
 }

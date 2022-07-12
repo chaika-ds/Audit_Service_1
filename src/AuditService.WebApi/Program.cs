@@ -1,16 +1,16 @@
-﻿using AuditService.Setup;
+﻿using AuditService.Common.Extensions;
+using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Setup.ServiceConfigurations;
-using AuditService.Utility.Logger;
 using AuditService.WebApi;
+using KIT.NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.ConfigureNLog();
 
 try
 {
     builder.AddConfigs();
-    builder.AddLogger();
-
     builder.Services.RegisterSettings();
     builder.Services.AddControllersWithFilters();
 
@@ -40,5 +40,9 @@ try
 }
 catch (Exception ex)
 {
-    ex.WriteToLog(builder.Environment.EnvironmentName.ToLower());
+    NLog.LogManager.GetCurrentClassLogger().Error(ex, $"Stopped program because of exception: {ex.FullMessage()}");
+}
+finally
+{
+    NLog.LogManager.Shutdown();
 }
