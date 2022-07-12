@@ -10,7 +10,6 @@ public abstract class BaseAuditLogModel
 {
     protected BaseAuditLogModel()
     {
-        NodeName = string.Empty;
         CategoryCode = string.Empty;
         RequestUrl = string.Empty;
         RequestBody = string.Empty;
@@ -36,12 +35,7 @@ public abstract class BaseAuditLogModel
     /// </summary>
     [Required]
     public NodeType Node { get; set; }
-    
-    /// <summary>
-    ///     Node Name
-    /// </summary>
-    public string NodeName { get; set; }
-    
+
     /// <summary>
     ///     Type of action
     /// </summary>
