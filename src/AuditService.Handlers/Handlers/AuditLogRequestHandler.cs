@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto.Filter;
+using AuditService.Common.Models.Dto.Sort;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -8,7 +9,7 @@ namespace AuditService.Handlers.Handlers
     /// <summary>
     /// Request handler for receiving audit logs
     /// </summary>
-    public class AuditLogRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, AuditLogTransactionDomainModel>
+    public class AuditLogRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
     {
         public AuditLogRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -61,5 +62,13 @@ namespace AuditService.Handlers.Handlers
         /// <returns>Query index</returns>
         protected override string? GetQueryIndex(IElasticIndexSettings elasticIndexSettings) =>
             elasticIndexSettings.AuditLog;
+
+        /// <summary>
+        /// Get the name of the column to sort
+        /// </summary>
+        /// <param name="logSortModel">Model to apply sorting</param>
+        /// <returns>Column name to sort</returns>
+        protected override string GetColumnNameToSort(LogSortDto logSortModel) =>
+            nameof(AuditLogTransactionDomainModel.Timestamp).ToLower();
     }
 }

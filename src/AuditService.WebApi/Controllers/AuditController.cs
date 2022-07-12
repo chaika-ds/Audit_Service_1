@@ -1,6 +1,7 @@
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
+using AuditService.Common.Models.Dto.Sort;
 using AuditService.Setup.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,6 @@ public class AuditController : ControllerBase
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
-        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
+        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
         => await _mediator.Send(model, cancellationToken);
 }
