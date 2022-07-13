@@ -32,6 +32,7 @@
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
+    <ProjectReference Include="..\KIT.Redis\KIT.Redis.csproj" />
   </ItemGroup>
 
 </Project>

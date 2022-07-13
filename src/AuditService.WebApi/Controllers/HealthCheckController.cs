@@ -30,7 +30,8 @@ public class HealthCheckController : ControllerBase
         var response = new HealthCheckDto
         {
             Kafka = await _mediator.Send(new CheckKafkaHealthRequest(), cancellationToken),
-            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken)
+            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken),
+            Redis = await _mediator.Send(new CheckRedisHealthRequest(), cancellationToken)
         };
 
         return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError,

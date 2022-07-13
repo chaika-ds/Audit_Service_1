@@ -1,10 +1,10 @@
 ﻿using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
+using KIT.Redis;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
 using Tolar.Authenticate.Impl;
-using Tolar.Redis;
 
 namespace AuditService.WebApi;
 
@@ -15,7 +15,7 @@ public static class DiConfigure
     /// </summary>
     public static void RegisterServices(this IServiceCollection services, string environmentName)
     {
-        services.AddSingleton<IRedisRepository, RedisRepository>();
+        services.ConfigureRedis();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
         services.AddSingleton<ITokenService, TokenService>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());

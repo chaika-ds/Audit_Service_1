@@ -18,7 +18,6 @@ try
     builder.Services.AddHealthChecks();
     builder.Services.AddElasticSearch();
     builder.Services.AdditionalConfigurations();
-    builder.Services.AddRedisCache();
     builder.Services.AddSwagger();
     builder.Services.RegisterServices(builder.Environment.EnvironmentName);
 
