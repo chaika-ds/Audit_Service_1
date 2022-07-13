@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using AuditService.Common.Enums;
+﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Setup.Attributes;
@@ -62,4 +61,15 @@ public class ReferenceController
     public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service,
         CancellationToken cancellationToken)
         => await _mediator.Send(new GetCategoriesRequest(service), cancellationToken);
+
+    /// <summary>
+    ///     Allows you to get a list of available actions
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token for request</param>
+    [HttpGet]
+    [Route("actions")]
+    [Authorization("Audit.Journal.GetAuditlog")]
+    [Produces(mediaType.Json, Type = typeof(IEnumerable<ActionType>))]
+    public async Task<IEnumerable<EnumResponseDto>> GetActionsAsync(CancellationToken cancellationToken)
+        => await _mediator.Send(new GetActionsRequest(), cancellationToken);
 }

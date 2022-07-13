@@ -18,3 +18,9 @@ public record GetServicesRequest : IRequest<IEnumerable<EnumResponseDto>>;
 [UseCache(Lifetime = 600)]
 public record GetCategoriesRequest
     (ServiceStructure? ServiceId = null) : IRequest<IDictionary<ServiceStructure, CategoryDomainModel[]>>;
+
+/// <summary>
+///     Request for available actions
+/// </summary>
+[UseCache(Lifetime = 600)]
+public record GetActionsRequest : IRequest<IEnumerable<EnumResponseDto>>;

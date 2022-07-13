@@ -12,7 +12,8 @@ namespace AuditService.Handlers.Handlers
     /// Handler for a request to receive reference resources (services\categories)
     /// </summary>
     public class ReferenceRequestHandler : IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
-        IRequestHandler<GetCategoriesRequest, IDictionary<ServiceStructure, CategoryDomainModel[]>>
+        IRequestHandler<GetCategoriesRequest, IDictionary<ServiceStructure, CategoryDomainModel[]>>,
+        IRequestHandler<GetActionsRequest, IEnumerable<EnumResponseDto>>
     {
         /// <summary>
         /// Request handler for getting available services.
@@ -44,6 +45,19 @@ namespace AuditService.Handlers.Handlers
                 categories = categories.Where(w => w.Key == request.ServiceId.Value).ToDictionary(w => w.Key, w => w.Value);
 
             return await Task.FromResult(categories);
+        }
+        
+        /// <summary>
+        /// Request handler for getting available services.
+        /// </summary>
+        /// <param name="request">Request for available services</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Available services</returns>
+        public Task<IEnumerable<EnumResponseDto>> Handle(GetActionsRequest request,
+            CancellationToken cancellationToken)
+        {
+            var result = Enum.GetValues<ActionType>().Select(value => new EnumResponseDto(value.ToString(), value.Description()));
+            return Task.FromResult(result);
         }
     }
 }
