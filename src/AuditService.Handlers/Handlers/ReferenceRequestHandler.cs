@@ -13,7 +13,7 @@ namespace AuditService.Handlers.Handlers
     /// </summary>
     public class ReferenceRequestHandler : IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
         IRequestHandler<GetCategoriesRequest, IDictionary<ServiceStructure, CategoryDomainModel[]>>,
-        IRequestHandler<GetActionsRequest, IEnumerable<EnumResponseDto>>
+        IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>
     {
         /// <summary>
         /// Request handler for getting available services.
@@ -21,8 +21,7 @@ namespace AuditService.Handlers.Handlers
         /// <param name="request">Request for available services</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Available services</returns>
-        public Task<IEnumerable<EnumResponseDto>> Handle(GetServicesRequest request,
-            CancellationToken cancellationToken)
+        public Task<IEnumerable<EnumResponseDto>> Handle(GetServicesRequest request, CancellationToken cancellationToken)
         {
             var result = Enum.GetValues<ServiceStructure>().Select(value => new EnumResponseDto(value.ToString(), value.Description()));
             return Task.FromResult(result);
@@ -34,17 +33,14 @@ namespace AuditService.Handlers.Handlers
         /// <param name="request">Request for available categories by serviceId</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Available categories</returns>
-        public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> Handle(GetCategoriesRequest request,
-            CancellationToken cancellationToken)
+        public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> Handle(GetCategoriesRequest request, CancellationToken cancellationToken)
         {
-            var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
-            if (categories == null)
-                throw new FileNotFoundException("Not include data of categories.");
+            var categories = await GetCategoriesAsync();
 
             if (request.ServiceId.HasValue)
-                categories = categories.Where(w => w.Key == request.ServiceId.Value).ToDictionary(w => w.Key, w => w.Value);
+                categories = categories!.Where(w => w.Key == request.ServiceId.Value).ToDictionary(w => w.Key, w => w.Value);
 
-            return await Task.FromResult(categories);
+            return await Task.FromResult(categories!);
         }
         
         /// <summary>
@@ -53,11 +49,27 @@ namespace AuditService.Handlers.Handlers
         /// <param name="request">Request for available services</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Available services</returns>
-        public Task<IEnumerable<EnumResponseDto>> Handle(GetActionsRequest request,
-            CancellationToken cancellationToken)
+        public async Task<IEnumerable<ActionDomainModel>?> Handle(GetActionsRequest request, CancellationToken cancellationToken)
         {
-            var result = Enum.GetValues<ActionType>().Select(value => new EnumResponseDto(value.ToString(), value.Description()));
-            return Task.FromResult(result);
+            var categories = await GetCategoriesAsync();
+
+            var response = categories!.SelectMany(sm => sm.Value).Where(filter => filter.CategoryCode == request.CategoryCode)
+                .Select(s => s.Action).FirstOrDefault();
+
+            return await Task.FromResult(response);
+        }
+
+        /// <summary>
+        /// Method for getting all categories
+        /// </summary>
+        /// <returns>All categories</returns>
+        private async Task< IDictionary<ServiceStructure,CategoryDomainModel[]>?> GetCategoriesAsync()
+        {
+            var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
+            if (categories == null)
+                throw new FileNotFoundException("Not include data of categories.");
+
+            return await Task.FromResult(categories);
         }
     }
 }

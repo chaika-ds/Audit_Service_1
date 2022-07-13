@@ -23,4 +23,4 @@ public record GetCategoriesRequest
 ///     Request for available actions
 /// </summary>
 [UseCache(Lifetime = 600)]
-public record GetActionsRequest : IRequest<IEnumerable<EnumResponseDto>>;
+public record GetActionsRequest (string CategoryCode)  : IRequest<IEnumerable<ActionDomainModel>?>;
