@@ -1,5 +1,7 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.ELK.FillTestData.Models;
+using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using Microsoft.Extensions.Configuration;
 using Nest;
@@ -36,45 +38,47 @@ public class ElasticSearchDataFiller
     {
         try
         {
-            var cleanBefore = _configuration.GetValue<bool>("CleanBefore");
+            var elcFillerConfig = JsonConvert.DeserializeObject<AppSettingModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
+
+            var cleanBefore = elcFillerConfig!.CleanBefore;
 
             if (cleanBefore)
             {
-                Console.WriteLine("Start force clean data");
+                Console.WriteLine(@"Start force clean data");
 
                 await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w =>
                     w.Query(x => x.QueryString(q => q.Query("*"))).Index(_elasticIndexSettings.AuditLog));
                 await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog);
 
-                Console.WriteLine("Force clean has been comlpete!");
+                Console.WriteLine(@"Force clean has been comlpete!");
             }
 
             var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog);
 
             if (!index.Exists)
             {
-                Console.WriteLine("Creating index " + _elasticIndexSettings.AuditLog);
+                Console.WriteLine($@"Creating index {_elasticIndexSettings.AuditLog}");
 
                 var response = await _elasticClient.Indices.CreateAsync(_elasticIndexSettings.AuditLog,
                     r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
                 if (!response.ShardsAcknowledged)
                     throw response.OriginalException;
 
-                Console.WriteLine("Index successfully created!");
+                Console.WriteLine(@"Index successfully created!");
             }
 
-            Console.WriteLine("Get configuration for generation data");
+            Console.WriteLine(@"Get configuration for generation data");
 
-            var configurationModels = _configuration.GetSection("Fillers").Get<ConfigurationModel[]>();
+            var configurationModels = elcFillerConfig.Fillers;
 
             foreach (var configurationModel in configurationModels)
             {
                 Console.WriteLine("");
-                Console.WriteLine("Configuration model:");
+                Console.WriteLine(@"Configuration model:");
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
                 var data = GenerateDataAsync(configurationModel);
-                Console.WriteLine($"Generation {configurationModel.ServiceName} is completed");
+                Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
 
                 await foreach (var dto in data)
                 {
@@ -82,14 +86,17 @@ public class ElasticSearchDataFiller
                         s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId));
                 }
 
-                Console.WriteLine("Data has been saving");
+                Console.WriteLine(@"Data has been saved");
                 Console.WriteLine("");
             }
 
             Console.WriteLine("");
-            Console.WriteLine("All configuration models has been saving");
+            Console.WriteLine(@"All configuration models has been saved");
 
-            Console.WriteLine($"Total records: {configurationModels.Sum(w => w.Count)}.");
+            Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
+
+            await Task.Delay(TimeSpan.FromMinutes(1));
+            Environment.Exit(1);
         }
         catch (Exception e)
         {

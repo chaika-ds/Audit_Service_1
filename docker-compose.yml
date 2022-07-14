@@ -133,7 +133,26 @@ services:
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
-
+  elk-filler:
+    container_name: elk-filler
+    depends_on: 
+      - elasticsearch
+    image: slotegrator/elk-filler
+    build:
+      args:
+        - APP_PORT=${ELK_FILLER_APP_PORT}
+        - APP_NAME=${ELK_FILLER_APP_NAME}
+      context: .
+      dockerfile: Dockerfile.development
+    ports:
+      - ${ELK_FILLER_APP_PORT}:${ELK_FILLER_APP_PORT}
+    environment:
+      - DOTNET_ENVIRONMENT=${ELK_FILLER_APP_ENV}
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+      - ./config:/app/config
+    networks:
+      - ${NETWORKS_NAME}
 
 networks:
   auditservice:
