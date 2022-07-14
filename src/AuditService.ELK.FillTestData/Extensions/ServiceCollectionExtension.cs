@@ -1,5 +1,6 @@
 ﻿using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
+using KIT.Redis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.ELK.FillTestData.Extensions
@@ -19,6 +20,7 @@ namespace AuditService.ELK.FillTestData.Extensions
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
             services.AddScoped<ElasticSearchDataFiller>();
+            services.ConfigureRedis();
             services.AddElasticSearch();
         }
     }

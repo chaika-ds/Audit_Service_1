@@ -1,6 +1,5 @@
 using System.Net;
 using AuditService.Common.Models.Dto;
-using AuditService.Utility.Logger.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,13 +25,13 @@ public class HealthCheckController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    [TypeFilter(typeof(LoggingActionFilter))]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var response = new HealthCheckDto
         {
             Kafka = await _mediator.Send(new CheckKafkaHealthRequest(), cancellationToken),
-            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken)
+            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken),
+            Redis = await _mediator.Send(new CheckRedisHealthRequest(), cancellationToken)
         };
 
         return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError,

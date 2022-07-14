@@ -2,7 +2,6 @@
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Authenticate.Impl;
-using Tolar.Redis;
 
 namespace AuditService.Setup;
 
@@ -16,7 +15,6 @@ public static class RegistrySettings
     /// </summary>
     public static void RegisterSettings(this IServiceCollection services)
     {
-        services.AddSettings<IRedisSettings, RedisSettings>();
         services.AddSettings<IAuthenticateServiceSettings, AuthSsoServiceSettings>();
         services.AddSettings<IAuthSsoServiceSettings, AuthSsoServiceSettings>();
         services.AddSettings<IElasticSearchSettings, ElasticSearchSettings>();

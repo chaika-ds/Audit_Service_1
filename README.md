@@ -34,15 +34,13 @@
 >````
 
 
-## Генерация данных для ELK
+## Локальный запуск генерации данных для ELK
 
 
-1. Откройте PowerShell
-2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
-3. Выполнить команду
-   ``` powershell
-   –NonInteractive –ExecutionPolicy Unrestricted -command "& {.\pwsh\run.elc.filler.ps1}"
-   ```
+1. Добавлена переменная DOTNET_ENVIRONMENT в launchSettings.json ,которая имеет значения Development и Debug
+2. Режим Development выбирается по дефолту и служит для сборки филлера в Docker контейнере
+3. Для локального запуска генерации необходимо выбрать в панели Standard -> DebugTerget профиль AuditService.ELK.FillTestData.Debug
+
 
 
 ## Создание топиков для KAFKA

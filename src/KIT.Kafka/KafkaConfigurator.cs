@@ -3,6 +3,7 @@ using bgTeam.Extensions;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
+using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,6 +58,7 @@ public static class KafkaConfigurator
         services.AddSingleton<IKafkaConsumerFactory, KafkaConsumerFactory>();
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddHostedService<PushPermissionService>();
+        services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
 
         return services;
     }

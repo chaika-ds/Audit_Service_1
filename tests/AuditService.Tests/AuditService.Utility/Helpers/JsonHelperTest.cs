@@ -1,4 +1,4 @@
-using AuditService.Utility.Helpers;
+using AuditService.Common.Helpers;
 
 namespace AuditService.Tests.AuditService.Utility.Helpers;
 

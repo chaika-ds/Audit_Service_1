@@ -137,14 +137,17 @@ services:
     container_name: elk-filler
     depends_on: 
       - elasticsearch
-    image: auditservice/elkfilltestdata
+    image: slotegrator/elk-filler
     build:
       args:
+        - APP_PORT=${ELK_FILLER_APP_PORT}
         - APP_NAME=${ELK_FILLER_APP_NAME}
       context: .
-      dockerfile: Dockerfile.development    
+      dockerfile: Dockerfile.development
+    ports:
+      - ${ELK_FILLER_APP_PORT}:${ELK_FILLER_APP_PORT}
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ELK_FILLER_APP_ENV}
+      - DOTNET_ENVIRONMENT=${ELK_FILLER_APP_ENV}
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ./config:/app/config
