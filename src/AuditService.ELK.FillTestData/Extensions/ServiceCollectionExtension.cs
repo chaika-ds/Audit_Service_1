@@ -1,5 +1,6 @@
 ﻿using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
+using KIT.Kafka;
 using KIT.Redis;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +18,11 @@ namespace AuditService.ELK.FillTestData.Extensions
         public static void RegisterAppServices(this IServiceCollection services)
         {
             services.RegisterSettings();
+            services.ConfigureRedis();
+            services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
             services.AddScoped<ElasticSearchDataFiller>();
-            services.ConfigureRedis();
             services.AddElasticSearch();
         }
     }
