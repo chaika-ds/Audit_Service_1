@@ -65,12 +65,12 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available actions
     /// </summary>
-    /// <param name="categoryCode">Selected CategoryCode</param>
+    /// <param name="category">Selected CategoryCode</param>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    [Route("actions")]
+    [Route("actions/{category}")]
     [Authorization("Audit.Journal.GetAuditlog")]
     [Produces(mediaType.Json, Type = typeof(IEnumerable<ActionDomainModel>))]
-    public async Task<IEnumerable<ActionDomainModel>?> GetActionsAsync(string categoryCode, CancellationToken cancellationToken)
-        => await _mediator.Send(new GetActionsRequest(categoryCode), cancellationToken);
+    public async Task<IEnumerable<ActionDomainModel>?> GetActionsAsync(string category, CancellationToken cancellationToken)
+        => await _mediator.Send(new GetActionsRequest(category), cancellationToken);
 }
