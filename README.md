@@ -14,8 +14,7 @@
 1. Откройте PowerShell
 2. Перейдите в корневую папку проекта, где лежит файл **docker-compose.yml**
 3. Выполнить команду
-   ```powershell
-   docker-compose --env-file ./config/docker.development.env  up -d
+   ```powershell docker-compose --env-file ./config/docker.development.env  up -d
    ```
 4. В Docker Desktop должен появиться новый контейнер с названием **audit-service-p2**, он будет включать в себя все необходимые сервисы для работы, например: ElasticSearch, Kibana, Redis и тд.
 5. По умолчанию AuditService размещается на порту 3000, но его можно изменить в **docker-compose.yml**
@@ -38,10 +37,7 @@
 ## Локальный запуск генерации данных для ELK
 
 
-1. Добавлена переменная DOTNET_ENVIRONMENT в launchSettings.json ,которая имеет значения Development и Debug
-2. Режим Development выбирается по дефолту и служит для сборки филлера в Docker контейнере
-3. Для локального запуска генерации необходимо выбрать в панели Standard -> DebugTerget профиль AuditService.ELK.FillTestData.Debug
-
+Для того, что бы создать тестовые данные, вы можете запустить "elk-filler" в контейнере, либо запустить консоль локально.
 
 
 ## Создание топиков для KAFKA
