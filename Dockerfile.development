@@ -14,7 +14,7 @@ COPY lint/ /lint/
 COPY config/ /config/
 COPY ${SRC_DIR}/ /src/
 COPY ["nuget.config", ""]
-WORKDIR /src/
+WORKDIR /src
 
 RUN dotnet restore "${APP_PATH}${APP_NAME}/${APP_NAME}.csproj"
 RUN dotnet publish "/src/${APP_PATH}${APP_NAME}/${APP_NAME}.csproj" -c Release -o /app/publish --no-restore

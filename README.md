@@ -35,10 +35,13 @@
 >````
 
 
-## Запуск генерации данных для ELK в режиме Debug
+## Локальный запуск генерации данных для ELK
 
 
-1. Для локального запуска генерации необходимо выбрать профиль AuditService.ELK.FillTestData.Debug
+1. Добавлена переменная DOTNET_ENVIRONMENT в launchSettings.json ,которая имеет значения Development и Debug
+2. Режим Development выбирается по дефолту и служит для сборки филлера в Docker контейнере
+3. Для локального запуска генерации необходимо выбрать в панели Standard -> DebugTerget профиль AuditService.ELK.FillTestData.Debug
+
 
 
 ## Создание топиков для KAFKA

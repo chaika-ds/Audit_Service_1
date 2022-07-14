@@ -39,7 +39,8 @@
 
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
-      "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS"
+      "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS",
+      "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK"
     }
   },
   "SSO": {

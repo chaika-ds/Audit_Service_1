@@ -1,10 +1,14 @@
-﻿namespace KIT.Kafka.Consumers.AuditLog
+﻿using AuditService.Common.Models.Domain;
+
+namespace KIT.Kafka.Consumers.AuditLog;
+
+/// <summary>
+/// Audit log consumer message
+/// </summary>
+public class AuditLogConsumerMessage : BaseAuditLogModel
 {
     /// <summary>
-    /// Audit log consumer message
+    ///     Node Name
     /// </summary>
-    public class AuditLogConsumerMessage
-    {
-        // todo описать модель для реализации потребителя AuditLogConsumer
-    }
+    public string NodeName { get; set; }
 }

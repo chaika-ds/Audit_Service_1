@@ -1,10 +1,64 @@
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Information",
-      "Microsoft.Hosting.Lifetime": "Information",
-      "System": "Information"
-    }
+  "NLog": {
+    "throwConfigExceptions": true,
+    "targets": {
+      "async": true,
+      "defaultConsole": {
+        "type": "Console",
+        "layout": {
+          "type": "JsonLayout",
+          "Attributes": [
+            {
+              "name": "Timestamp",
+              "layout": "${date:format=o}"
+            },
+            {
+              "name": "Level",
+              "layout": "${level:upperCase=true}"
+            },
+            {
+              "name": "Channel",
+              "layout": "${gdc:item=channel}"
+            },
+            {
+              "name": "Message",
+              "layout": "[${logger}] - ${message}"
+            },
+            {
+              "name": "Context",
+              "encode": false,
+              "includeEmptyValue": true,
+              "layout": {
+                "type": "JsonLayout",
+                "IncludeScopeProperties": "true"
+              }
+            }
+          ]
+        }
+      },
+      "blackhole": {
+        "type": "Null"
+      }
+    },
+    "rules": [
+      {
+        "logger": "Microsoft.*",
+        "minLevel": "Trace",
+        "writeTo": "blackhole",
+        "final": "true"
+      },
+      {
+        "logger": "System.Net.Http.*",
+        "minLevel": "Trace",
+        "writeTo": "blackhole",
+        "final": "true"
+      },
+      {
+        "logger": "*",
+        "minLevel": "Trace",
+        "writeTo": "defaultConsole",
+        "final": "true"
+      }
+    ]
   }
 }

@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using AuditService.Utility.Logger.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Setup.ServiceConfigurations;
@@ -16,7 +15,7 @@ public static class ControllersServiceConfiguration
     public static void AddControllersWithFilters(this IServiceCollection services)
     {
         services
-            .AddControllers(options => { options.Filters.Add<LoggingActionFilter>(); })
+            .AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
     }
 }

@@ -15,14 +15,6 @@
       },
       "remoteDebugEnabled": false,
       "nativeDebugging": false
-    },
-    "AuditService.ELK.FillTestData.Prod": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Production"
-      },
-      "remoteDebugEnabled": false,
-      "nativeDebugging": false
     }
   }
 }

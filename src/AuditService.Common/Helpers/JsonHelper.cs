@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace AuditService.Utility.Helpers;
+namespace AuditService.Common.Helpers;
 
 public static class JsonHelper
 {

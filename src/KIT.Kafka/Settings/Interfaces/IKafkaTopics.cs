@@ -14,4 +14,9 @@ public interface IKafkaTopics
     /// Topic of Permissions
     /// </summary>
     string Permissions { get; set; }
+
+    /// <summary>
+    /// Topic of HealthCheck
+    /// </summary>
+    string HealthCheck { get; set; }
 }

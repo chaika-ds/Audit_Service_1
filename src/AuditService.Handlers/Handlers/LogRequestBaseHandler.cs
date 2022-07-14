@@ -5,6 +5,8 @@ using AuditService.Setup.AppSettings;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using ISort = Nest.ISort;
+using sort = AuditService.Common.Models.Dto.Sort;
 
 namespace AuditService.Handlers.Handlers
 {
@@ -12,9 +14,12 @@ namespace AuditService.Handlers.Handlers
     /// The base request handler for receiving the log
     /// </summary>
     /// <typeparam name="TFilter">Filter model type</typeparam>
+    /// <typeparam name="TSort">Sort model type</typeparam>
     /// <typeparam name="TResponse">Response type</typeparam>
-    public abstract class LogRequestBaseHandler<TFilter, TResponse> : IRequestHandler<LogFilterRequestDto<TFilter, TResponse>,
-        PageResponseDto<TResponse>> where TFilter : class, new() where TResponse : class
+    public abstract class LogRequestBaseHandler<TFilter, TSort, TResponse> : IRequestHandler<LogFilterRequestDto<TFilter, TSort, TResponse>, PageResponseDto<TResponse>> 
+        where TFilter : class, new() 
+        where TResponse : class
+        where TSort : class, sort.ISort, new()
     {
         private readonly IElasticClient _elasticClient;
         private readonly IElasticIndexSettings _elasticIndexSettings;
@@ -41,24 +46,35 @@ namespace AuditService.Handlers.Handlers
         protected abstract string? GetQueryIndex(IElasticIndexSettings elasticIndexSettings);
 
         /// <summary>
+        /// Get the name of the column to sort
+        /// </summary>
+        /// <param name="logSortModel">Model to apply sorting</param>
+        /// <returns>Column name to sort</returns>
+        protected abstract string GetColumnNameToSort(TSort logSortModel);
+
+        /// <summary>
         /// Apply sorting to query
         /// </summary>
         /// <param name="sortDescriptor">Query sort descriptor</param>
         /// <param name="logSortModel">Model to apply sorting</param>
         /// <returns>Sorted query</returns>
-        protected virtual IPromise<IList<ISort>> ApplySorting(SortDescriptor<TResponse> sortDescriptor, LogSortDto logSortModel) =>
-            logSortModel.SortableType == SortableType.Ascending
-                ? sortDescriptor.Ascending(new Field(logSortModel.ColumnName))
-                : sortDescriptor.Descending(new Field(logSortModel.ColumnName));
+        protected virtual IPromise<IList<ISort>> ApplySorting(SortDescriptor<TResponse> sortDescriptor,
+            TSort logSortModel)
+        {
+            var columnNameToSort = GetColumnNameToSort(logSortModel);
 
+            return logSortModel.SortableType == SortableType.Ascending
+                ? sortDescriptor.Ascending(new Field(columnNameToSort))
+                : sortDescriptor.Descending(new Field(columnNameToSort));
+        }
+       
         /// <summary>
         /// Handle a request to receive a log in ELK.
         /// </summary>
         /// <param name="request">Log request model</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The model of the result of getting the log</returns>
-        public async Task<PageResponseDto<TResponse>> Handle(LogFilterRequestDto<TFilter, TResponse> request,
-            CancellationToken cancellationToken)
+        public async Task<PageResponseDto<TResponse>> Handle(LogFilterRequestDto<TFilter, TSort, TResponse> request, CancellationToken cancellationToken)
         {
             var response = await _elasticClient.SearchAsync<TResponse>(w => Search(w, request), cancellationToken);
             return new PageResponseDto<TResponse>(request.Pagination, response.HitsMetadata?.Total?.Value ?? 0,
@@ -71,15 +87,14 @@ namespace AuditService.Handlers.Handlers
         /// <param name="searchDescriptor">Query search descriptor</param>
         /// <param name="request">Log request model</param>
         /// <returns>Elastic search request</returns>
-        private ISearchRequest Search(SearchDescriptor<TResponse> searchDescriptor, LogFilterRequestDto<TFilter, TResponse> request)
+        private ISearchRequest Search(SearchDescriptor<TResponse> searchDescriptor, LogFilterRequestDto<TFilter, TSort, TResponse> request)
         {
             var query = searchDescriptor
                 .From(request.Pagination.PageNumber - 1)
                 .Size(request.Pagination.PageSize)
                 .Query(w => ApplyFilter(w, request.Filter));
 
-            if (!string.IsNullOrEmpty(request.Sort.ColumnName))
-                query = query.Sort(w => ApplySorting(w, request.Sort));
+            query = query.Sort(w => ApplySorting(w, request.Sort));
 
             return query.Index(GetQueryIndex(_elasticIndexSettings));
         }

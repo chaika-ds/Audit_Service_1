@@ -13,6 +13,7 @@ public static class DiConfigure
     public static void RegisterServices(IServiceCollection services)
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LogPipelineBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachePipelineBehavior<,>));
     }
 }
