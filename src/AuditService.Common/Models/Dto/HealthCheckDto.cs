@@ -18,8 +18,13 @@ public class HealthCheckDto
     public bool Elk { get; set; }
 
     /// <summary>
+    ///     Is Redis healthy
+    /// </summary>
+    public bool Redis { get; set; }
+
+    /// <summary>
     ///     Healthy is successed
     /// </summary>
     [ApiExplorerSettings(IgnoreApi = true)]
-    public bool IsSuccess() => Kafka && Elk;
+    public bool IsSuccess() => Kafka && Elk && Redis;
 }

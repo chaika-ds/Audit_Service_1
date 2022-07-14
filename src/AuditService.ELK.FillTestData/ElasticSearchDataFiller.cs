@@ -95,6 +95,7 @@ public class ElasticSearchDataFiller
 
             Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
 
+            Thread.Sleep(10000);
             Environment.Exit(1);
         }
         catch (Exception e)
@@ -125,7 +126,7 @@ public class ElasticSearchDataFiller
         var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            Service = configurationModel.ServiceName ?? Enum.GetValues<ServiceStructure>().GetRandomItem(_random),
+            ModuleName = configurationModel.ServiceName ?? Enum.GetValues<ServiceStructure>().GetRandomItem(_random),
             Node = configurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
             Action = configurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
@@ -146,7 +147,7 @@ public class ElasticSearchDataFiller
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)
-            ? await _categoryDictionary.GetCategoryAsync(dto.Service, _random)
+            ? await _categoryDictionary.GetCategoryAsync(dto.ModuleName, _random)
             : configurationModel.CategoryCode;
 
         return dto;

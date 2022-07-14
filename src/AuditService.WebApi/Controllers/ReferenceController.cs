@@ -1,11 +1,10 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
-using AuditService.Utility.Logger.Filters;
 using AuditService.Setup.Attributes;
-using AuditService.Utility.Logger;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using mediaType = System.Net.Mime.MediaTypeNames.Application;
 
 namespace AuditService.WebApi.Controllers;
 
@@ -33,10 +32,10 @@ public class ReferenceController
     [HttpGet]
     [Route("services")]
     [Authorization("Audit.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IEnumerable<ServiceStructure>))]
-    [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync(CancellationToken cancellationToken) 
+    [Produces(mediaType.Json, Type = typeof(IEnumerable<ServiceStructure>))]
+    public async Task<IEnumerable<EnumResponseDto>> GetServicesAsync(CancellationToken cancellationToken)
         => await _mediator.Send(new GetServicesRequest(), cancellationToken);
+
 
     /// <summary>
     ///     Allows you to get a list of available categories
@@ -45,9 +44,9 @@ public class ReferenceController
     [HttpGet]
     [Route("categories")]
     [Authorization("Audit.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
-    [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(CancellationToken cancellationToken) 
+    [Produces(mediaType.Json, Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(
+        CancellationToken cancellationToken)
         => await _mediator.Send(new GetCategoriesRequest(), cancellationToken);
 
     /// <summary>
@@ -58,8 +57,20 @@ public class ReferenceController
     [HttpGet]
     [Route("categories/{service}")]
     [Authorization("Audit.Journal.GetAuditlog")]
-    [Produces("application/json", Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
-    [TypeFilter(typeof(LoggingActionFilter))]
-    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service, CancellationToken cancellationToken) 
+    [Produces(mediaType.Json, Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
+    public async Task<IDictionary<ServiceStructure, CategoryDomainModel[]>> GetCategoriesAsync(ServiceStructure service,
+        CancellationToken cancellationToken)
         => await _mediator.Send(new GetCategoriesRequest(service), cancellationToken);
+
+    /// <summary>
+    ///     Allows you to get a list of available actions
+    /// </summary>
+    /// <param name="category">Selected CategoryCode</param>
+    /// <param name="cancellationToken">Cancellation token for request</param>
+    [HttpGet]
+    [Route("actions/{category}")]
+    [Authorization("Audit.Journal.GetAuditlog")]
+    [Produces(mediaType.Json, Type = typeof(IEnumerable<ActionDomainModel>))]
+    public async Task<IEnumerable<ActionDomainModel>?> GetActionsAsync(string category, CancellationToken cancellationToken)
+        => await _mediator.Send(new GetActionsRequest(category), cancellationToken);
 }
