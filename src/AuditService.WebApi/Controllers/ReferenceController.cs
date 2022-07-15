@@ -79,8 +79,8 @@ public class ReferenceController
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    [Route("auditlog/playerchangeslog/events")]
-    [Authorization("Audit.Journal.GetAuditlog")]
+    [Route("playerchangeslog/events")]
+    [Authorization("Audit.Journal.GetPlayerChangesLog")]
     [Produces(mediaType.Json, Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
     public async Task<IDictionary<ServiceStructure, EventDomainModel[]>> GetEventsAsync(CancellationToken cancellationToken)
         => await _mediator.Send(new GetEventsRequest(), cancellationToken);
@@ -89,12 +89,12 @@ public class ReferenceController
     /// <summary>
     ///     Allows you to get a list of available events by Service Id
     /// </summary>
-    /// <param name="serviceModule">Selected service id</param>
+    /// <param name="service">Selected service id</param>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    [Route("auditlog/playerchangeslog/events/{serviceModule}")]
-    [Authorization("Audit.Journal.GetAuditlog")]
+    [Route("playerchangeslog/events/{service}")]
+    [Authorization("Audit.Journal.GetPlayerChangesLog")]
     [Produces(mediaType.Json, Type = typeof(IDictionary<ServiceStructure, CategoryDomainModel[]>))]
-    public async Task<IDictionary<ServiceStructure, EventDomainModel[]>> GetEventsAsync(ServiceStructure serviceModule,CancellationToken cancellationToken)
-        => await _mediator.Send(new GetEventsRequest(serviceModule), cancellationToken);
+    public async Task<IDictionary<ServiceStructure, EventDomainModel[]>> GetEventsAsync(ServiceStructure service,CancellationToken cancellationToken)
+        => await _mediator.Send(new GetEventsRequest(service), cancellationToken);
 }
