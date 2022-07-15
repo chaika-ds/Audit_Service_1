@@ -13,7 +13,8 @@ namespace AuditService.Handlers.Handlers
     /// </summary>
     public class ReferenceRequestHandler : IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
         IRequestHandler<GetCategoriesRequest, IDictionary<ServiceStructure, CategoryDomainModel[]>>,
-        IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>
+        IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>,
+        IRequestHandler<GetEventsRequest, IDictionary<ServiceStructure, EventDomainModel[]>>
     {
         /// <summary>
         /// Request handler for getting available services.
@@ -58,18 +59,47 @@ namespace AuditService.Handlers.Handlers
 
             return await Task.FromResult(response);
         }
+        
+        /// <summary>
+        /// Request handler for getting available events by serviceId
+        /// </summary>
+        /// <param name="request">Request for available events by serviceId</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Available events</returns>
+        public async Task<IDictionary<ServiceStructure, EventDomainModel[]>> Handle(GetEventsRequest request, CancellationToken cancellationToken)
+        {
+            var events = await GetServiceEventsAsync();
+            
+            if (request.ServiceId.HasValue)
+                events = events!.Where(w => w.Key == request.ServiceId.Value).ToDictionary(w => w.Key, w => w.Value);
+
+            return await Task.FromResult(events);
+        }
 
         /// <summary>
         /// Method for getting all categories
         /// </summary>
         /// <returns>All categories</returns>
-        private async Task< IDictionary<ServiceStructure,CategoryDomainModel[]>?> GetCategoriesAsync()
+        private async Task< IDictionary<ServiceStructure,CategoryDomainModel[]>> GetCategoriesAsync()
         {
             var categories = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
             if (categories == null)
                 throw new FileNotFoundException("Not include data of categories.");
 
             return await Task.FromResult(categories);
+        }
+        
+        /// <summary>
+        /// Method for getting all events
+        /// </summary>
+        /// <returns>All events</returns>
+        private async Task<IDictionary<ServiceStructure,EventDomainModel[]>> GetServiceEventsAsync()
+        {
+            var events = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, EventDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceEvents));
+            if (events == null)
+                throw new FileNotFoundException("Not include data of events.");
+
+            return await Task.FromResult(events);
         }
     }
 }

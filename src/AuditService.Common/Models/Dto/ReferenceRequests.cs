@@ -16,11 +16,16 @@ public record GetServicesRequest : IRequest<IEnumerable<EnumResponseDto>>;
 /// </summary>
 /// <param name="ServiceId">Identificator of service</param>
 [UseCache(Lifetime = 600)]
-public record GetCategoriesRequest
-    (ServiceStructure? ServiceId = null) : IRequest<IDictionary<ServiceStructure, CategoryDomainModel[]>>;
+public record GetCategoriesRequest (ServiceStructure? ServiceId = null) : IRequest<IDictionary<ServiceStructure, CategoryDomainModel[]>>;
 
 /// <summary>
 ///     Request for available actions
 /// </summary>
 [UseCache(Lifetime = 600)]
 public record GetActionsRequest (string CategoryCode)  : IRequest<IEnumerable<ActionDomainModel>?>;
+
+/// <summary>
+///     Request for available events
+/// </summary>
+[UseCache(Lifetime = 600)]
+public record GetEventsRequest(ServiceStructure? ServiceId = null): IRequest<IDictionary<ServiceStructure, EventDomainModel[]>>;

@@ -91,5 +91,11 @@ public enum ServiceStructure
     ///     AFFILIATE
     /// </summary>
     [Description("AFFILIATE SERVICE")]
-    AFS = 13
+    AFS = 13,
+    
+    /// <summary>
+    ///     BALANCE
+    /// </summary>
+    [Description("BALANCE SERVICE")]
+    BJS = 14
 }
