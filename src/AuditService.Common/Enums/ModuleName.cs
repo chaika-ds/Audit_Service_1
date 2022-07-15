@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
 
 namespace AuditService.Common.Enums;
 
@@ -7,7 +6,7 @@ namespace AuditService.Common.Enums;
 ///     Identificator of service
 /// </summary>
 // ReSharper disable InconsistentNaming
-public enum ServiceStructure
+public enum ModuleName
 {
     /// <summary>
     ///     PAYMENT SERVICE

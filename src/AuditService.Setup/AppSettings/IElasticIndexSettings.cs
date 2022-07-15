@@ -14,4 +14,14 @@ public interface IElasticIndexSettings
     ///     Internal application logs
     /// </summary>
     public string? ApplicationLog { get; set; }
+
+    /// <summary>
+    /// Player card changelog
+    /// </summary>
+    public string? PlayerChangesLog { get; set; }
+
+    /// <summary>
+    /// Log of blocked players
+    /// </summary>
+    public string? BlockedPlayersLog { get; set; }
 }
