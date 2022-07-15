@@ -18,7 +18,7 @@ public class AuditLogFilterDto
     /// <summary>
     ///     Service ID
     /// </summary>
-    public ServiceStructure? Service { get; set; }
+    public ModuleName? Service { get; set; }
 
     /// <summary>
     ///     ID of the node where the change occurred
