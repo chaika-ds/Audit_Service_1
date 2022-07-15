@@ -58,8 +58,7 @@ namespace AuditService.Handlers.Handlers
         /// <param name="sortDescriptor">Query sort descriptor</param>
         /// <param name="logSortModel">Model to apply sorting</param>
         /// <returns>Sorted query</returns>
-        protected virtual IPromise<IList<ISort>> ApplySorting(SortDescriptor<TResponse> sortDescriptor,
-            TSort logSortModel)
+        protected virtual IPromise<IList<ISort>> ApplySorting(SortDescriptor<TResponse> sortDescriptor, TSort logSortModel)
         {
             var columnNameToSort = GetColumnNameToSort(logSortModel);
 

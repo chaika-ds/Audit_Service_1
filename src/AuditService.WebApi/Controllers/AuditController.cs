@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using mediaType = System.Net.Mime.MediaTypeNames.Application;
 
-
 namespace AuditService.WebApi.Controllers;
 
 /// <summary>
@@ -46,13 +45,12 @@ public class AuditController : ControllerBase
     /// <param name="request">Request to get the player card changelog</param>
     /// <param name="cancellationToken">Cancellation token</param>
     [HttpGet]
-    [Route("playerChangesLog")]
+    [Route("playerchangeslog")]
     [Authorization("Audit.Journal.GetPlayerChangesLog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<PlayerChangesLogResponseDto>))]
     public async Task<PageResponseDto<PlayerChangesLogResponseDto>> GetPlayerChangesLogAsync(
         [FromQuery] LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto> request, CancellationToken cancellationToken)
         => await _mediator.Send(request, cancellationToken);
-
 
     /// <summary>
     ///     Allows you to get a list of blocked players log by filter
@@ -60,7 +58,7 @@ public class AuditController : ControllerBase
     /// <param name="request">Request to get the blocked players log</param>
     /// <param name="cancellationToken">Cancellation token</param>
     [HttpGet]
-    [Route("blockedPlayersLog")]
+    [Route("blockedplayerslog")]
     [Authorization("Audit.Journal.GetBlockedPlayersLog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<BlockedPlayersLogResponseDto>))]
     public async Task<PageResponseDto<BlockedPlayersLogResponseDto>> GetBlockedPlayersLogAsync(
