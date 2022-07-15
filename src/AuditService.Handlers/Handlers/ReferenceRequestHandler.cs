@@ -68,7 +68,7 @@ namespace AuditService.Handlers.Handlers
         /// <returns>Available events</returns>
         public async Task<IDictionary<ServiceStructure, EventDomainModel[]>> Handle(GetEventsRequest request, CancellationToken cancellationToken)
         {
-            var events = await GetEventsAsync();
+            var events = await GetServiceEventsAsync();
             
             if (request.ServiceId.HasValue)
                 events = events!.Where(w => w.Key == request.ServiceId.Value).ToDictionary(w => w.Key, w => w.Value);
@@ -93,7 +93,7 @@ namespace AuditService.Handlers.Handlers
         /// Method for getting all events
         /// </summary>
         /// <returns>All events</returns>
-        private async Task<IDictionary<ServiceStructure,EventDomainModel[]>> GetEventsAsync()
+        private async Task<IDictionary<ServiceStructure,EventDomainModel[]>> GetServiceEventsAsync()
         {
             var events = JsonConvert.DeserializeObject<IDictionary<ServiceStructure, EventDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceEvents));
             if (events == null)
