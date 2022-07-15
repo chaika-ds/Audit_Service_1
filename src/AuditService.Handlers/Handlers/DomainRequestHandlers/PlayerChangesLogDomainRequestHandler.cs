@@ -1,7 +1,7 @@
 ﻿using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Consts;
+using AuditService.Handlers.Extensions;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -22,9 +22,7 @@ public class PlayerChangesLogDomainRequestHandler : LogRequestBaseHandler<Player
     /// <param name="queryContainerDescriptor">Query container descriptor</param>
     /// <param name="filter">The filter model to apply the query</param>
     /// <returns>Query container after applying the filter</returns>
-    protected override QueryContainer ApplyFilter(
-        QueryContainerDescriptor<PlayerChangesLogDomainModel> queryContainerDescriptor,
-        PlayerChangesLogFilterDto filter)
+    protected override QueryContainer ApplyFilter(QueryContainerDescriptor<PlayerChangesLogDomainModel> queryContainerDescriptor, PlayerChangesLogFilterDto filter)
     {
         var container = new QueryContainer();
 
@@ -35,17 +33,14 @@ public class PlayerChangesLogDomainRequestHandler : LogRequestBaseHandler<Player
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
         if (filter.StartDate.HasValue)
-            container &=
-                queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));
+            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));
 
         if (filter.EndDate.HasValue)
-            container &=
-                queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.EndDate.Value));
+            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.EndDate.Value));
 
         if (filter.EventKeys.Any())
-            container &= queryContainerDescriptor.Terms(t => t.Field(w => w.EventCode.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.EventKeys));
-
-
+            container &= queryContainerDescriptor.Terms(t => t.Field(w => w.EventCode.UseSuffix()).Terms(filter.EventKeys));
+        
         return container;
     }
 

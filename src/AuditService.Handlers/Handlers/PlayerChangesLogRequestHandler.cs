@@ -26,8 +26,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<LogFilterRequestDt
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Response model for player card logchanges</returns>
     public async Task<PageResponseDto<PlayerChangesLogResponseDto>> Handle(
-        LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto> request,
-        CancellationToken cancellationToken)
+        LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto> request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
             new LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>
@@ -37,8 +36,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<LogFilterRequestDt
                 Pagination = request.Pagination
             }, cancellationToken);
 
-        return new PageResponseDto<PlayerChangesLogResponseDto>(response.Pagination,
-            response.List.Select(SelectToPlayerChangesLogResponseDto));
+        return new PageResponseDto<PlayerChangesLogResponseDto>(response.Pagination, response.List.Select(SelectToPlayerChangesLogResponseDto));
     }
 
     /// <summary>
@@ -65,8 +63,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<LogFilterRequestDt
     /// </summary>
     /// <param name="attribute">User attribute</param>
     /// <returns>Localized attribute player, reflects changed fields</returns>
-    private static LocalizedPlayerAttributeDomainModel SelectToLocalizedPlayerAttribute(
-        KeyValuePair<string, PlayerAttributeDomainModel> attribute) =>
+    private static LocalizedPlayerAttributeDomainModel SelectToLocalizedPlayerAttribute(KeyValuePair<string, PlayerAttributeDomainModel> attribute) =>
         new()
         {
             Label = attribute.Key,

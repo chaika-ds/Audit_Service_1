@@ -34,7 +34,6 @@ public class HealthCheckController : ControllerBase
             Redis = await _mediator.Send(new CheckRedisHealthRequest(), cancellationToken)
         };
 
-        return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError,
-            response);
+        return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError, response);
     }
 }

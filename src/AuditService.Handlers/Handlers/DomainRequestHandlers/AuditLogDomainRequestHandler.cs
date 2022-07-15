@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Models.Domain.AuditLog;
+﻿using AuditService.Common.Extensions;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Setup.AppSettings;
@@ -69,6 +70,6 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
         /// <param name="logSortModel">Model to apply sorting</param>
         /// <returns>Column name to sort</returns>
         protected override string GetColumnNameToSort(LogSortDto logSortModel) =>
-            nameof(AuditLogTransactionDomainModel.Timestamp).ToLower();
+            nameof(AuditLogTransactionDomainModel.Timestamp).ToCamelCase();
     }
 }
