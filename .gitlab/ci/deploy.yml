@@ -95,6 +95,42 @@ test deploy:
   tags:
     - testuat
 
+test2 deploy:
+  extends: .k8sdeployuat
+  when: manual
+  variables:
+    NAMESPACE: "test2"
+    K8SCONF: "$KUBECFG"
+    DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "test2-audit-p2"
+    KAFKA1: kafka-b1.netreportservice.xyz
+    KAFKA2: kafka-b2.netreportservice.xyz
+    KAFKA3: kafka-b3.netreportservice.xyz
+    IPS1: 10.0.0.35
+    IPS2: 10.0.0.30
+    IPS3: 10.0.0.25
+    TLS: wildcard-tls
+  tags:
+    - testuat
+
+test3 deploy:
+  extends: .k8sdeployuat
+  when: manual
+  variables:
+    NAMESPACE: "test3"
+    K8SCONF: "$KUBECFG"
+    DOMAIN_CI: "netreportservice.xyz"
+    APPDOMAIN: "test3-audit-p2"
+    KAFKA1: kafka-b1.netreportservice.xyz
+    KAFKA2: kafka-b2.netreportservice.xyz
+    KAFKA3: kafka-b3.netreportservice.xyz
+    IPS1: 10.0.0.35
+    IPS2: 10.0.0.30
+    IPS3: 10.0.0.25
+    TLS: wildcard-tls
+  tags:
+    - testuat
+
 uat deploy:
   extends: .k8sdeployuat
   when: manual
