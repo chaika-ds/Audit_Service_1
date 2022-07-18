@@ -5,7 +5,7 @@ namespace AuditService.ELK.FillTestData.Models;
 /// <summary>
 /// Configuration model of ELK filler
 /// </summary>
-internal class ConfigurationModel
+internal class AuditLogConfigurationModel
 {
     /// <summary>
     ///     Service ID

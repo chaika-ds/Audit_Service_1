@@ -10,5 +10,8 @@ var appBuilder = Host.CreateDefaultBuilder(args)
 
 var host = appBuilder.Build();
 using var scope = host.Services.CreateScope();
-await scope.ServiceProvider.GetRequiredService<ElasticSearchDataFiller>().ExecuteAsync();
+await scope.ServiceProvider.GetRequiredService<ElasticSearchDataFiller>().ExecuteAsync(); 
+
+scope.ServiceProvider.GetRequiredService<AuditLogGenerator>();
+
 await host.RunAsync();

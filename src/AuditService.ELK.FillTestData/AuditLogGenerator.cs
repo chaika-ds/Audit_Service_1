@@ -1,75 +1,61 @@
-﻿using AuditService.Common.Enums;
+using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
 using AuditService.ELK.FillTestData.Models;
+using AuditService.ELK.FillTestData.Patterns.Template;
 using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
-using Microsoft.Extensions.Configuration;
+using ActionType = AuditService.Common.Enums.ActionType;
 using Nest;
 using Newtonsoft.Json;
-using ActionType = AuditService.Common.Enums.ActionType;
 
 namespace AuditService.ELK.FillTestData;
 
-/// <summary>
-///     Generator test data for ELK
-/// </summary>
-public class ElasticSearchDataFiller
+internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainModel, AuditLogGeneratorModel>
 {
     private readonly IElasticClient _elasticClient;
-    private readonly IConfiguration _configuration;
-    private readonly CategoryDictionary _categoryDictionary;
     private readonly IElasticIndexSettings _elasticIndexSettings;
+    private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
 
-    public ElasticSearchDataFiller(IElasticClient elasticClient, IConfiguration configuration,
-        CategoryDictionary categoryDictionary, IElasticIndexSettings elasticIndexSettings)
+    
+    public AuditLogGenerator(
+        IElasticClient elasticClient,
+        IElasticIndexSettings elasticIndexSettings,
+        CategoryDictionary categoryDictionary) 
+        : base(elasticClient)
     {
         _elasticClient = elasticClient;
-        _configuration = configuration;
-        _random = new Random();
-        _categoryDictionary = categoryDictionary;
         _elasticIndexSettings = elasticIndexSettings;
+        _categoryDictionary = categoryDictionary;
+
+        _random = new Random();
     }
 
     /// <summary>
-    ///     Start generation
+    ///     Get channel name 
     /// </summary>
-    public async Task ExecuteAsync()
+    protected override string? GetChanelName()
     {
-        try
-        {
-            var elcFillerConfig = JsonConvert.DeserializeObject<AuditLogGeneratorModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
+        return _elasticIndexSettings.AuditLog;
+    }
 
-            var cleanBefore = elcFillerConfig!.CleanBefore;
+    /// <summary>
+    ///     Get resource object 
+    /// </summary>
+    protected override byte[] GetResourceData()
+    {
+        return ElcJsonResource.elkFillData;
+    }
 
-            if (cleanBefore)
-            {
-                Console.WriteLine(@"Start force clean data");
-
-                await _elasticClient.DeleteByQueryAsync<AuditLogTransactionDomainModel>(w =>
-                    w.Query(x => x.QueryString(q => q.Query("*"))).Index(_elasticIndexSettings.AuditLog));
-                await _elasticClient.Indices.DeleteAsync(_elasticIndexSettings.AuditLog);
-
-                Console.WriteLine(@"Force clean has been comlpete!");
-            }
-
-            var index = await _elasticClient.Indices.ExistsAsync(_elasticIndexSettings.AuditLog);
-
-            if (!index.Exists)
-            {
-                Console.WriteLine($@"Creating index {_elasticIndexSettings.AuditLog}");
-
-                var response = await _elasticClient.Indices.CreateAsync(_elasticIndexSettings.AuditLog,
-                    r => r.Map<AuditLogTransactionDomainModel>(x => x.AutoMap()));
-                if (!response.ShardsAcknowledged)
-                    throw response.OriginalException;
-
-                Console.WriteLine(@"Index successfully created!");
-            }
-
+    /// <summary>
+    ///     Override InsertAsync with you logic
+    /// </summary>
+    /// <param name="config">Configuration model</param>
+    protected override async Task InsertAsync(object config)
+    {
             Console.WriteLine(@"Get configuration for generation data");
 
-            var configurationModels = elcFillerConfig.Fillers;
+            var configurationModels = (config as AuditLogGeneratorModel)!.Fillers;
 
             foreach (var configurationModel in configurationModels)
             {
@@ -78,12 +64,12 @@ public class ElasticSearchDataFiller
                 Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
                 var data = GenerateDataAsync(configurationModel);
+
                 Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
 
                 await foreach (var dto in data)
                 {
-                    await _elasticClient.CreateAsync(dto,
-                        s => s.Index(_elasticIndexSettings.AuditLog).Id(dto.EntityId));
+                    await _elasticClient.CreateAsync(dto, s => s.Index(GetChanelName()).Id(dto.EntityId));
                 }
 
                 Console.WriteLine(@"Data has been saved");
@@ -97,22 +83,15 @@ public class ElasticSearchDataFiller
 
             await Task.Delay(TimeSpan.FromMinutes(1));
             Environment.Exit(1);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: " + e);
-        }
     }
-
+    
     /// <summary>
     ///     Data generation
     /// </summary>
     /// <param name="auditLogConfigurationModel">Configuration model</param>
-    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(
-        AuditLogConfigurationModel auditLogConfigurationModel)
+    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(AuditLogConfigurationModel auditLogConfigurationModel)
     {
         for (var i = 0; i < auditLogConfigurationModel.Count; i++)
-
             yield return await CreateNewDtoAsync(auditLogConfigurationModel);
     }
 
@@ -152,4 +131,5 @@ public class ElasticSearchDataFiller
 
         return dto;
     }
+    
 }
