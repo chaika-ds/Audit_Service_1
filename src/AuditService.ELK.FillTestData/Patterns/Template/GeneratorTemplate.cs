@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace AuditService.ELK.FillTestData.Patterns.Template;
 
+/// <summary>
+///    Abstract Template model for Generators model
+/// </summary>
 internal abstract class GeneratorTemplate<TModel, TResourceModel>
     where TModel : class
     where TResourceModel : BaseModel
@@ -11,6 +14,9 @@ internal abstract class GeneratorTemplate<TModel, TResourceModel>
     private readonly IElasticClient _elasticClient;
     private string? _channelName;
 
+    /// <summary>
+    ///    Execute generator when initialized
+    /// </summary>
     protected GeneratorTemplate(IElasticClient elasticClient)
     {
         _elasticClient = elasticClient;
@@ -27,11 +33,27 @@ internal abstract class GeneratorTemplate<TModel, TResourceModel>
         });
     }
 
+    /// <summary>
+    ///    Abstract method for getting channel name
+    /// </summary>
     protected abstract string? GetChanelName();
+    
+    /// <summary>
+    ///    Abstract method for getting resource data
+    /// </summary>
     protected abstract byte[] GetResourceData();
+    
+    /// <summary>
+    ///    Abstract method for inserting model to elk
+    /// </summary>
+    /// <param name="config">Configuration model</param>
     protected abstract Task InsertAsync(object config);
 
 
+    /// <summary>
+    ///    Abstract method for cleaning data
+    /// </summary>
+    /// <param name="config">Configuration model</param>
     private async Task CleanBeforeAsync(BaseModel? config)
     {
         _channelName = GetChanelName();
@@ -52,6 +74,9 @@ internal abstract class GeneratorTemplate<TModel, TResourceModel>
         }
     }
 
+    /// <summary>
+    ///    Abstract method for checking index
+    /// </summary>
     private async Task GetAndCheckIndexAsync()
     {
         var index = await _elasticClient.Indices.ExistsAsync(_channelName);

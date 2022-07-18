@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 
 namespace AuditService.ELK.FillTestData;
 
+/// <summary>
+///   Audit Log Generator models
+/// </summary>
 internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainModel, AuditLogGeneratorModel>
 {
     private readonly IElasticClient _elasticClient;
@@ -18,6 +21,9 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
     private readonly Random _random;
 
     
+    /// <summary>
+    ///   Initialize Audit Log Generator
+    /// </summary>
     public AuditLogGenerator(
         IElasticClient elasticClient,
         IElasticIndexSettings elasticIndexSettings,
