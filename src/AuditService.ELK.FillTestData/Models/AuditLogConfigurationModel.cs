@@ -10,7 +10,7 @@ internal class AuditLogConfigurationModel
     /// <summary>
     ///     Service ID
     /// </summary>
-    public ServiceStructure? ServiceName { get; set; }
+    public ModuleName? ServiceName { get; set; }
 
     /// <summary>
     ///     Action type

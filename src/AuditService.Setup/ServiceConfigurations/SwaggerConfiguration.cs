@@ -24,7 +24,7 @@ public static class SwaggerConfiguration
             c.SwaggerDoc("v2", new OpenApiInfo { Title = $"{ssoSettings.ServiceName} ({environment.EnvironmentName.ToLower()})", Version = "v2" });
             c.DescribeAllParametersInCamelCase();
             c.UseInlineDefinitionsForEnums();
-            c.CustomSchemaIds(x => x.Name);
+            c.CustomSchemaIds(type => type.ToString());
             
             foreach (var path in swaggerSettings.XmlComments)
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, path), true);

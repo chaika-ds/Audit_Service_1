@@ -1,17 +1,18 @@
-﻿using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Extensions;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Setup.AppSettings;
 using Nest;
 
-namespace AuditService.Handlers.Handlers
+namespace AuditService.Handlers.Handlers.DomainRequestHandlers
 {
     /// <summary>
-    /// Request handler for receiving audit logs
+    ///     Request handler for receiving audit logs (Domain model)
     /// </summary>
-    public class AuditLogRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
+    public class AuditLogDomainRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
     {
-        public AuditLogRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
+        public AuditLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
@@ -48,10 +49,10 @@ namespace AuditService.Handlers.Handlers
 
             if (filter.StartDate.HasValue)
                 container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));
-            
+
             if (filter.EndDate.HasValue)
                 container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.EndDate.Value));
-            
+
             return container;
         }
 
@@ -69,6 +70,6 @@ namespace AuditService.Handlers.Handlers
         /// <param name="logSortModel">Model to apply sorting</param>
         /// <returns>Column name to sort</returns>
         protected override string GetColumnNameToSort(LogSortDto logSortModel) =>
-            nameof(AuditLogTransactionDomainModel.Timestamp).ToLower();
+            nameof(AuditLogTransactionDomainModel.Timestamp).ToCamelCase();
     }
 }
