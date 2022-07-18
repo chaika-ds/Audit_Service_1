@@ -35,7 +35,11 @@ public sealed class ServiceCollectionVerifier
     private void IsRegistered<TService, TInstance>(ServiceLifetime lifetime)
     {
         _serviceCollectionMock
-            .Verify(serviceCollection => serviceCollection.Add(
-                It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.Is<TService, TInstance>(lifetime))));
+            .Verify(serviceCollection => serviceCollection.Contains(It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.Is<TService, TInstance>(lifetime))));
+            
+
+        //_serviceCollectionMock
+        //    .Verify(serviceCollection => serviceCollection.Add(
+        //        It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.Is<TService, TInstance>(lifetime))));
     }
 }

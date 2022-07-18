@@ -53,28 +53,30 @@ namespace AuditService.Tests.AuditService.WebApi
             //var mockedIdentity = new Moq.Mock<IIdentity>();
             //mockedIdentity.Setup(x => x.Name).Returns("AdminUser");
 
-            var services = new Mock<IServiceCollection>(MockBehavior.Loose);
-            var serviceProvider = services.Object.BuildServiceProvider();
-            var wrapper = new TestWrapper();
-            var wm = new ServiceCollectionExtensionsWrapper(wrapper);
+            //var services = new Mock<ServiceCollection>(MockBehavior.Loose);
+            //var serviceProvider = services.Object.BuildServiceProvider();
+            //services.Object.RegisterServices("Debug");
+
+            //var wrapper = new TestWrapper();
+            //var wm = new ServiceCollectionExtensionsWrapper(wrapper);
             //services.Setup(x => x.AddSettings<IRedisSettings, RedisSettings>())
             //    .Returns(wm.AddSettings<IRedisSettings, RedisSettings>(services.Object));
 
-            //services.Object.RegisterServices("Debug");
 
             //_serviceCollectionMock._serviceCollectionMock.Setup(x =>
             //    x.AddHttpClient<IAuthenticateService, AuthenticateService>());
             //    //.Returns(new WrapperDefaultHttpClientBuilder(ServiceCollection, "")).Verifiable();
-            var I = ServiceCollection.GetType().GetMethod("AddSettings");
+            //var I = ServiceCollection.GetType().GetMethod("AddSettings");
             //I.SetValue(foo, 8675309);
 
-            Mock.Get(ServiceCollection).Setup(x => x.AddHttpClient());
+            //Mock.Get(ServiceCollection).Setup(x => x.AddHttpClient());
 
 
 
             DiConfigure.RegisterServices(this.ServiceCollection, "Debug");
 
             // ASSERT.
+
             _serviceCollectionMock.ContainsSingletonService<ITokenService, TokenService>();
             _serviceCollectionMock.ContainsTransientService<IApplicationModelProvider, ResponseHttpCodeModelProvider>();
 

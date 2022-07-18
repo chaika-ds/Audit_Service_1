@@ -5,12 +5,12 @@ namespace AuditService.Tests.AuditService.WebApi
 {
     public sealed class ServiceCollectionMock
     {
-        public readonly Mock<IServiceCollection> _serviceCollectionMock;
+        public readonly Mock<ServiceCollection> _serviceCollectionMock;
         private readonly ServiceCollectionVerifier _serviceCollectionVerifier;
 
         public ServiceCollectionMock()
         {
-            _serviceCollectionMock = new Mock<IServiceCollection>();
+            _serviceCollectionMock = new Mock<ServiceCollection>();
 
             _serviceCollectionVerifier = new ServiceCollectionVerifier();
         }
