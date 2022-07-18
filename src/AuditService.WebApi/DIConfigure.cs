@@ -17,8 +17,6 @@ public static class DiConfigure
     {
         services.ConfigureRedis();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
-        
-
         services.AddSingleton<ITokenService, TokenService>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         Handlers.DiConfigure.RegisterServices(services);

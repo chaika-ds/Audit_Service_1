@@ -19,8 +19,9 @@ namespace AuditService.Tests.AuditService.WebApi.Wrapper
             where TImpl : class, TService
         {
 
-            var value = _wrapper.AddSettings<IRedisSettings, RedisSettings>(services);
-            return new ServiceCollection();
+            //var value = _wrapper.AddSettings<IRedisSettings, RedisSettings>(services);
+            services.AddSingleton<IRedisSettings, RedisSettings>();
+            return services;
 
             //services.CheckNull(nameof(services));
             //if (!services.Any<ServiceDescriptor>((Func<ServiceDescriptor, bool>)(x => x.ServiceType == typeof(TImpl))))

@@ -1,42 +1,39 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AuditService.Tests.AuditService.WebApi.HttpClientMock;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
 namespace AuditService.Tests.AuditService.WebApi
 {
     public sealed class ServiceCollectionMock
     {
-        public readonly Mock<IServiceCollection> _serviceCollectionMock;
-        private readonly ServiceCollectionVerifier _serviceCollectionVerifier;
+        public readonly ServiceCollection ServiceCollectionTest;
+
+        internal ServiceCollectionVerifier ServiceCollectionVerifier;
 
         public ServiceCollectionMock()
         {
-            _serviceCollectionMock = new Mock<IServiceCollection>();
+            ServiceCollectionTest = new ServiceCollection();
+            ServiceCollectionTest.AddScoped<IConfiguration, ConfigurationFake>();
 
-            _serviceCollectionVerifier = new ServiceCollectionVerifier();
+            ServiceCollectionVerifier = new ServiceCollectionVerifier(ServiceCollectionTest);
         }
 
-        public IServiceCollection ServiceCollection => _serviceCollectionMock.Object;
-
-        public ServiceCollectionVerifier ServiceCollectionVerifier { get; set; }
+        public IServiceCollection ServiceCollection => ServiceCollectionTest;
 
         public void ContainsSingletonService<TService, TInstance>()
         {
-            _serviceCollectionVerifier.ContainsSingletonService<TService, TInstance>();
+            ServiceCollectionVerifier.ContainsSingletonService<TService, TInstance>();
         }
 
-        public void ContainsTransientService<TService, TInstance>()
+        public void ContainsTransientService<TService, TInstance>() 
         {
-            _serviceCollectionVerifier.ContainsTransientService<TService, TInstance>();
+            ServiceCollectionVerifier.ContainsTransientService<TService, TInstance>();
         }
 
         public void ContainsScopedService<TService, TInstance>()
         {
-            _serviceCollectionVerifier.ContainsTransientService<TService, TInstance>();
-        }
-
-        public IServiceCollection AddSettings<TService, TImpl>()
-        {
-            return null;
+            ServiceCollectionVerifier.ContainsTransientService<TService, TInstance>();
         }
     }
 }

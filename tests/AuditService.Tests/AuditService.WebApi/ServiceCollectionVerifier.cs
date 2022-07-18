@@ -1,4 +1,4 @@
-﻿using bgTeam.Extensions;
+﻿
 using KIT.Redis.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -8,13 +8,11 @@ namespace AuditService.Tests.AuditService.WebApi;
 
 public sealed class ServiceCollectionVerifier
 {
-    private readonly Mock<IServiceCollection> _serviceCollectionMock;
+    private readonly ServiceCollection _serviceCollection;
 
-    public ServiceCollectionVerifier()
+    public ServiceCollectionVerifier(ServiceCollection serviceCollection)
     {
-        _serviceCollectionMock = new Mock<IServiceCollection>();
-        //_serviceCollectionMock.Setup(x =>
-        //    x.AddSettings<IRedisSettings, RedisSettings>()).Returns(_serviceCollectionMock.Object);
+        _serviceCollection = serviceCollection;
     }
 
     public void ContainsSingletonService<TService, TInstance>()
@@ -34,8 +32,18 @@ public sealed class ServiceCollectionVerifier
 
     private void IsRegistered<TService, TInstance>(ServiceLifetime lifetime)
     {
-        _serviceCollectionMock
-            .Verify(serviceCollection => serviceCollection.Add(
-                It.Is<ServiceDescriptor>(serviceDescriptor => serviceDescriptor.Is<TService, TInstance>(lifetime))));
+
+        var cc = typeof(TInstance);
+        var serviceDescriptor = _serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
+        
+        if (serviceDescriptor!.ServiceType.FullName!.Contains("Settings"))
+        {
+            Assert.Null(serviceDescriptor.ImplementationType);
+        }
+        else
+        {
+            Assert.Equal(typeof(TInstance), serviceDescriptor.ImplementationType);
+            Assert.Equal(serviceDescriptor?.Lifetime, lifetime);
+        }
     }
 }
