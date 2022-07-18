@@ -6,7 +6,7 @@ namespace KIT.Redis.Settings;
 /// <summary>
 ///     Redis service settings
 /// </summary>
-internal class RedisSettings : IRedisSettings
+public class RedisSettings : IRedisSettings
 {
     public RedisSettings(IConfiguration configuration)
     {

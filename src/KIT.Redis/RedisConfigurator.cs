@@ -18,9 +18,10 @@ public static class RedisConfigurator
     public static void ConfigureRedis(this IServiceCollection services)
     {
         services.AddSettings<IRedisSettings, RedisSettings>();
+
         services.AddSingleton<IRedisRepository, RedisRepository>();
-        services.AddRedisCache();
-        services.AddSingleton<IRedisHealthCheck, RedisHealthCheck>();
+        //services.AddRedisCache();
+        services.AddSingleton<IRedisHealthCheck, RedisHealthCheck>();  
     }
 
     /// <summary>

@@ -28,6 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\KIT.Kafka\KIT.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\KIT.Redis\KIT.Redis.csproj" />
   </ItemGroup>
   
 </Project>
