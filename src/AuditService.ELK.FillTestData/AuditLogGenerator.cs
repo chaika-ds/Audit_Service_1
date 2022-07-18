@@ -1,5 +1,6 @@
 using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
 using AuditService.ELK.FillTestData.Resources;
@@ -111,7 +112,7 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
         var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            ModuleName = auditLogConfigurationModel.ServiceName ?? Enum.GetValues<ServiceStructure>().GetRandomItem(_random),
+            ModuleName = auditLogConfigurationModel.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
             Node = auditLogConfigurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
             Action = auditLogConfigurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
