@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
@@ -126,7 +127,7 @@ public class ElasticSearchDataFiller
         var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            ModuleName = configurationModel.ServiceName ?? Enum.GetValues<ServiceStructure>().GetRandomItem(_random),
+            ModuleName = configurationModel.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
             Node = configurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
             Action = configurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",

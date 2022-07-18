@@ -7,7 +7,9 @@
     "ConnectionString": "$ELK_CONNECTION_URL",
     "Indexes": {
       "AuditLog": "$ELK_INDEX_AUDITLOG",
-      "ApplicationLog": "$ELK_INDEX_APPLOG"
+      "ApplicationLog": "$ELK_INDEX_APPLOG",
+      "PlayerChangesLog": "$ELK_INDEX_PLAYER_CHANGES_LOG",
+      "BlockedPlayersLog": "$ELK_INDEX_BLOCKED_PlAYERS_LOG"
     }
   },
   "Kafka": {

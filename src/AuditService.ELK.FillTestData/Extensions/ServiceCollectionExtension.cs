@@ -19,7 +19,7 @@ namespace AuditService.ELK.FillTestData.Extensions
         {
             services.RegisterSettings();
             services.ConfigureRedis();
-            services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT"));
+            services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")!);
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
             services.AddScoped<ElasticSearchDataFiller>();

@@ -1,4 +1,4 @@
-﻿namespace AuditService.Common.Models.Domain;
+﻿namespace AuditService.Common.Models.Domain.AuditLog;
 
 /// <summary>
 ///     Audit log transaction

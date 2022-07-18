@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AuditService.Common.Enums;
 
-namespace AuditService.Common.Models.Domain;
+namespace AuditService.Common.Models.Domain.AuditLog;
 
 /// <summary>
 ///     Audit log base model
@@ -18,12 +18,12 @@ public abstract class BaseAuditLogModel
         NewValue = string.Empty;
         User = new IdentityUserDomainModel();
     }
-    
+
     /// <summary>
     ///     Module Name
     /// </summary>
-    public ServiceStructure ModuleName { get; set; }
-    
+    public ModuleName ModuleName { get; set; }
+
     /// <summary>
     ///     ID of the node where the change occurred
     /// </summary>

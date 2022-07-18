@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Models.Domain.AuditLog;
 
 namespace KIT.Kafka.Consumers.AuditLog;
 

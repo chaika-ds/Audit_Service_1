@@ -1,0 +1,326 @@
+{
+  "SSO": [
+    {
+      "Event": "SSO_PASSWORD_CHANGED",
+      "Name": "Password changed",
+      "Description": "Администратор/игрок сменил пароль",
+      "ChangeableAttributes": [
+        "password"
+      ],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_PERSONAL_INFORMATION_CHANGED",
+      "Name": "Personal information changed",
+      "Description": "Администратор/игрок отредактировал персональные данные",
+      "ChangeableAttributes": [
+        "firstName",
+        "lastName",
+        "middleName",
+        "gender",
+        "dateOfBirth"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_EMAIL_CHANGED",
+      "Name": "Email changed",
+      "Description": "Администратор/игрок сменил почту",
+      "ChangeableAttributes": [
+        "email"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_PHONE_CHANGED",
+      "Name": "Phone changed",
+      "Description": "Администратор/игрок сменил телефон",
+      "ChangeableAttributes": [
+        "phone"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_ADDRESS_CHANGED",
+      "Name": "Address changed",
+      "Description": "Администратор/игрок сменил информацию о месте проживания",
+      "ChangeableAttributes": [
+        "countryCode",
+        "city",
+        "address",
+        "postcode",
+        "timezone"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_TECHNICAL_INFORMATION_CHANGED",
+      "Name": "Technical information changed",
+      "Description": "Администратор редактирует тех. информацию",
+      "ChangeableAttributes": [
+        "referralID",
+        "referralVisitorID"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_STATUS_CHANGED",
+      "Name": "Player status changed",
+      "Description": "Изменения статуса игрока",
+      "ChangeableAttributes": [
+        "status"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_BIRTHDATE_CONFIRMED",
+      "Name": "Birthdate confirmed",
+      "Description": "Администратор подтвердил дату рождения",
+      "ChangeableAttributes": [
+        "dateOfBirthConfirmed"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_NICKNAME_CHANGED",
+      "Name": "Nickname changed",
+      "Description": "Администратор/игрок сменил никнейм",
+      "ChangeableAttributes": [
+        "nickname"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_DEFAULT_LANGUAGE_CHANGED",
+      "Name": "Default language changed",
+      "Description": "Игрок сменил язык по умолчанию",
+      "ChangeableAttributes": [
+        "langCode"
+      ],
+      "OldOrNewValue": "атрибут и значение до и после изменения"
+    },
+    {
+      "Event": "SSO_INCORRECT_EMAIL_CONFIRMATION_CODE_ENTERED",
+      "Name": "Incorrect e-mail confirmation code entered",
+      "Description": "Игрок ввел некорректный код подтверждения почты",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_INCORRECT_PHONE_CONFIRMATION_CODE_ENTERED",
+      "Name": "Incorrect phone confirmation code entered",
+      "Description": "Игрок ввел некорректный код подтверждения телефона",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_EMAIL_CONFIRMED",
+      "Name": "E-mail verification status changed",
+      "Description": "Администратор|/игрок подтвердил почту",
+      "ChangeableAttributes": [
+        "confirmationEmailStatus"
+      ],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_PHONE_CONFIRMED",
+      "Name": "Phone verification status changed",
+      "Description": "Администратор/игрок подтвердил телефон",
+      "ChangeableAttributes": [
+        "confirmationPhoneStatus"
+      ],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_EMAIL_CONFIRMATION_REQUESTED",
+      "Name": "E-mail confirmation requested",
+      "Description": "Администратор отправил код подтверждения на почту",
+      "ChangeableAttributes": [
+        "confirmationEmailStatus"
+      ],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_PHONE_CONFIRMATION_REQUESTED",
+      "Name": "Phone confirmation requested",
+      "Description": "Администратор отправил код подтверждения на телефон",
+      "ChangeableAttributes": [
+        "confirmationPhoneStatus"
+      ],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_VERIFICATION_STATUS_CHANGED",
+      "Name": "Verification status changed",
+      "Description": "Изменение статуса верификации администратором",
+      "ChangeableAttributes": [
+        "isVerify"
+      ],
+      "OldOrNewValue": "значение до и после изменения"
+    },
+    {
+      "Event": "SSO_PLAYER_REGISTRATION",
+      "Name": "Player was registered",
+      "Description": "Регистрация игрока на сайте",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_PLAYER_CREATED",
+      "Name": "Player created",
+      "Description": "Создание игрока администратором",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_PLAYER_LOGOUT",
+      "Name": "Player logout",
+      "Description": "Разлогин игрока администратором",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "SSO_SOCIAL_NETWORK_ADDED",
+      "Name": "Social network added",
+      "Description": "Привязка соц. сети игроком/администратором",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "название соц. сети в new value"
+    },
+    {
+      "Event": "SSO_SOCIAL_NETWORK_DELETED",
+      "Name": "Social network deleted",
+      "Description": "Удаление соц. сети игроком/администратором",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "название соц. сети в old value"
+    },
+    {
+      "Event": "SSO_PERSONAL_DATA_UPDATED_BY_SOCIAL_NETWORK",
+      "Name": "Personal data updated by social network",
+      "Description": "Заполнение перс. данных данными из соц. сети",
+      "ChangeableAttributes": [
+        "все измененные атрибуты"
+      ],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "SSO_SOCIAL_NETWORK_REGISTRATION_ATTEMPT",
+      "Name": "Trying to register via social network",
+      "Description": "Попытка регистрации другой учетной записи с данными соц. сети игрока",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "название соц сети в new value"
+    }
+  ],
+  "KYC": [
+    {
+      "Event": "KYC_DOCUMENT_UPLOADED",
+      "Name": "Document uploaded",
+      "Description": "Игрок/администратор загрузил документ",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "айди документа в new value"
+    },
+    {
+      "Event": "KYC_DOCUMENT_STATUS_CHANGED",
+      "Name": "Document status changed",
+      "Description": "Администратор/система изменил(а) статус документа",
+      "ChangeableAttributes": ["status"],
+      "OldOrNewValue": "статус до и после изменения"
+    },
+    {
+      "Event": "KYC_DOCUMENT_TYPE_CHANGED",
+      "Name": "Document type changed",
+      "Description": "Администратор изменил тип документа",
+      "ChangeableAttributes": ["type"],
+      "OldOrNewValue": "тип документа до и после изменения"
+    },
+    {
+      "Event": "KYC_DOCUMENT_UPDATED",
+      "Name": "Document data updated",
+      "Description": "Администратор отредактировал поля документа",
+      "ChangeableAttributes": ["все измененные атрибуты"],
+      "OldOrNewValue": "атрибуты и их значения до и после изменения"
+    },
+    {
+      "Event": "KYC_DOCUMENT_DELETED",
+      "Name": "Document deleted",
+      "Description": "Администратор/игрок удалил документ",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "айди документа в old value"
+    },
+    {
+      "Event": "KYC_DOCUMENTS_LINKED",
+      "Name": "Documents linked",
+      "Description": "Администратор связал документы",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "айди документа, к которому привязан другой док + айди привязанного документа в new value"
+    },
+    {
+      "Event": "KYC_DOCUMENTS_UNLINKED",
+      "Name": "Documents unlinked",
+      "Description": "Администратор убрал привязку документов",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "айди документа, от которого отвязан другой док + айди отвязанного документа в old value"
+    },
+    {
+      "Event": "KYC_ADDITIONAL_DATA_CHANGED",
+      "Name": "Additional data changed",
+      "Description": "Администратор/игрок внес/отредактировал доп. данные",
+      "ChangeableAttributes": ["birthplace", "nationality","identityReferenceNumber"],
+      "OldOrNewValue": "Названия и значения полей до/после изменения"
+    },
+    {
+      "Event": "KYC_SOURCES_OF_INCOME_CNAHGED",
+      "Name": "Sources of income changed",
+      "Description": "Администратор/игрок внес/отредактировал данные о источниках дохода",
+      "ChangeableAttributes": ["все измененные атрибуты"],
+      "OldOrNewValue": "Названия и значения полей до/после изменения"
+    }
+  ],
+  "LAB": [
+    {
+      "Event": "LAB_BONUSES_ENABLED",
+      "Name": "Bonuses allowed",
+      "Description": "Администратор разрешил бонусы игроку",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "LAB_BONUSES_DISABLED",
+      "Name": "Bonuses prohibited",
+      "Description": "Администратор запретил бонусы игроку",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    }
+  ],
+  "TS": [
+    {
+      "Event": "TS_TOURNAMENTS_ENABLED",
+      "Name": "Tournaments allowed",
+      "Description": "Администратор разрешил игроку участие в турнирах",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    },
+    {
+      "Event": "TS_TOURNAMENTS_DISABLED",
+      "Name": "Tournaments prohibited",
+      "Description": "Администратор запретил игроку участие в турнирах",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "не передавать"
+    }
+  ],
+  "BJS": [
+    {
+      "Event": "BJS_ACCOUNT_ADDED",
+      "Name": "New account created",
+      "Description": "Новый кошелек создан",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "валюта нового счета в new value"
+    },
+    {
+      "Event": "BJS_ACTIVE_ACCOUNT_CHANGED",
+      "Name": "Active account changed",
+      "Description": "Изменен активный кошелек",
+      "ChangeableAttributes": [],
+      "OldOrNewValue": "валюта активного счета до и после изменения"
+    }
+  ]
+}
