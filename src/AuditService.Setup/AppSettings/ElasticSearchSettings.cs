@@ -35,6 +35,16 @@ internal class ElasticSearchSettings : IElasticSearchSettings
     public string? ConnectionUrl { get; set; }
 
     /// <summary>
+    ///     UserName for ELK
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
+    ///     Password for ELK
+    /// </summary>
+    public string? Password { get; set; }
+
+    /// <summary>
     ///     Apply ELK indexes configs
     /// </summary>
     private void ApplySettings(IConfiguration config)
@@ -44,5 +54,7 @@ internal class ElasticSearchSettings : IElasticSearchSettings
         PlayerChangesLog = config["ElasticSearch:Indexes:PlayerChangesLog"];
         BlockedPlayersLog = config["ElasticSearch:Indexes:BlockedPlayersLog"];
         ConnectionUrl = config["ElasticSearch:ConnectionString"];
+        UserName = config["ElasticSearch:UserName"];
+        Password = config["ElasticSearch:Password"];
     }
 }

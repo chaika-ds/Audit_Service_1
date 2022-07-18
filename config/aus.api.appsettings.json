@@ -5,6 +5,8 @@
   },
   "ElasticSearch": {
     "ConnectionString": "$ELK_CONNECTION_URL",
+    "UserName": "$ELK_CONNECTION_USERNAME",
+    "Password": "$ELK_CONNECTION_PASSWORD",
     "Indexes": {
       "AuditLog": "$ELK_INDEX_AUDITLOG",
       "ApplicationLog": "$ELK_INDEX_APPLOG",
