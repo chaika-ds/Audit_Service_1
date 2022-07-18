@@ -59,7 +59,7 @@ services:
     - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
   script:
     - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
-    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
+    - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/from_ci_TAG/$CI_COMMIT_SHORT_SHA/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/domain_CI/$DOMAIN_CI/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/from_ci_IPS1/$IPS1/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
