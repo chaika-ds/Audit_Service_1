@@ -12,4 +12,9 @@ internal class BaseModel
     /// </summary>
     public bool CleanBefore { get; set; }
     
+    /// <summary>
+    /// Fillers of configuration model
+    /// </summary>
+    [JsonProperty("Fillers")]
+    public ConfigurationModel[] Fillers { get; set; } = null!;
 }

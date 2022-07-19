@@ -23,8 +23,7 @@ namespace AuditService.ELK.FillTestData.Extensions
             environment.EnvironmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 
             Console.WriteLine($"EnvironmentName: {environment.EnvironmentName}");
-            configurationBuilder.AddJsonFile("config/aus.api.appsettings.json",
-                $"config/aus.api.env.{environment.EnvironmentName?.ToLower()}.json", environment);
+            configurationBuilder.AddJsonFile("config/aus.api.appsettings.json", $"config/aus.api.env.Debug.json", environment);
             configurationBuilder.AddJsonFile("config/aus.api.logger.json", environment);
 
             return configurationBuilder;

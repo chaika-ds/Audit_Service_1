@@ -7,16 +7,14 @@ using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using ActionType = AuditService.Common.Enums.ActionType;
 using Nest;
-using Newtonsoft.Json;
 
 namespace AuditService.ELK.FillTestData.Generators;
 
 /// <summary>
 ///   Audit Log Generator models
 /// </summary>
-internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainModel, AuditLogGeneratorModel>
+internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainModel>
 {
-    private readonly IElasticClient _elasticClient;
     private readonly IElasticIndexSettings _elasticIndexSettings;
     private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
@@ -31,7 +29,6 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
         CategoryDictionary categoryDictionary) 
         : base(elasticClient)
     {
-        _elasticClient = elasticClient;
         _elasticIndexSettings = elasticIndexSettings;
         _categoryDictionary = categoryDictionary;
 
@@ -47,77 +44,26 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
         return _elasticIndexSettings.AuditLog;
     }
 
-    /// <summary>
-    ///     Get resource object 
-    /// </summary>
-    /// <returns>Resource data as byte</returns>
-    protected override byte[] GetResourceData()
+    protected override string? GetIdentifierName()
     {
-        return ElcJsonResource.elkFillData;
-    }
-
-    /// <summary>
-    ///     Override InsertAsync with you logic
-    /// </summary>
-    /// <param name="config">Configuration model</param>
-    protected override async Task InsertAsync(object config)
-    {
-            Console.WriteLine(@"Get configuration for generation data");
-
-            var configurationModels = (config as AuditLogGeneratorModel)!.Fillers;
-
-            foreach (var configurationModel in configurationModels)
-            {
-                Console.WriteLine("");
-                Console.WriteLine(@"Configuration model:");
-                Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
-
-                var data = GenerateDataAsync(configurationModel);
-
-                Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
-
-                await foreach (var dto in data)
-                {
-                    await _elasticClient.CreateAsync(dto, s => s.Index(GetChanelName()).Id(dto.EntityId));
-                }
-
-                Console.WriteLine(@"Data has been saved");
-                Console.WriteLine("");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine(@"All configuration models has been saved");
-
-            Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
-
-            await Task.Delay(TimeSpan.FromMinutes(1));
-            Environment.Exit(1);
+        return nameof(AuditLogTransactionDomainModel.EntityId);
     }
     
-    /// <summary>
-    ///     Data generation
-    /// </summary>
-    /// <param name="auditLogConfigurationModel">Configuration model</param>
-    private async IAsyncEnumerable<AuditLogTransactionDomainModel> GenerateDataAsync(AuditLogConfigurationModel auditLogConfigurationModel)
-    {
-        for (var i = 0; i < auditLogConfigurationModel.Count; i++)
-            yield return await CreateNewDtoAsync(auditLogConfigurationModel);
-    }
 
     /// <summary>
     ///     Create model Dto on base configuration model
     /// </summary>
-    /// <param name="auditLogConfigurationModel">Configuration model</param>
+    /// <param name="configurationModel">Configuration model</param>
     /// <returns>AuditLogTransactionDomainModel</returns>
-    private async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(AuditLogConfigurationModel auditLogConfigurationModel)
+    protected override async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(ConfigurationModel configurationModel)
     {
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            ModuleName = auditLogConfigurationModel.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            Node = auditLogConfigurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
-            Action = auditLogConfigurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
+            ModuleName = configurationModel.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
+            Node = configurationModel.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
+            Action = configurationModel.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
@@ -135,9 +81,9 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
             }
         };
 
-        dto.CategoryCode = string.IsNullOrEmpty(auditLogConfigurationModel.CategoryCode)
+        dto.CategoryCode = string.IsNullOrEmpty(configurationModel.CategoryCode)
             ? await _categoryDictionary.GetCategoryAsync(dto.ModuleName, _random)
-            : auditLogConfigurationModel.CategoryCode;
+            : configurationModel.CategoryCode;
 
         return dto;
     }

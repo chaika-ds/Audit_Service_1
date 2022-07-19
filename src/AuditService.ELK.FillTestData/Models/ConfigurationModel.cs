@@ -1,11 +1,11 @@
-﻿using AuditService.Common.Enums;
+using AuditService.Common.Enums;
 
 namespace AuditService.ELK.FillTestData.Models;
 
 /// <summary>
-/// Audit Log Configuration model of ELK filler
+///     Model of app settings
 /// </summary>
-internal class AuditLogConfigurationModel
+public class ConfigurationModel
 {
     /// <summary>
     ///     Service ID

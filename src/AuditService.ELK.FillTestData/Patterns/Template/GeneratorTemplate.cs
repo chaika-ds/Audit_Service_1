@@ -1,4 +1,5 @@
 using AuditService.ELK.FillTestData.Models;
+using AuditService.ELK.FillTestData.Resources;
 using Nest;
 using Newtonsoft.Json;
 
@@ -7,13 +8,11 @@ namespace AuditService.ELK.FillTestData.Patterns.Template;
 /// <summary>
 ///    Abstract Template model for Generators model
 /// </summary>
-internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
+internal abstract class GeneratorTemplate<TDtoModel>
     where TDtoModel : class
-    where TResourceModel : BaseModel
 {
     private readonly IElasticClient _elasticClient;
     private string? _channelName;
-    private TResourceModel? _config;
 
     /// <summary>
     ///  Initialize Generator Template
@@ -24,15 +23,10 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
 
         Task.Run(async () =>
         {
-            var data = GetResourceData();
-            if (data.Length > 0)
-            {
-                _config = JsonConvert.DeserializeObject<TResourceModel>(System.Text.Encoding.Default.GetString(data));
-            }
-
-            await CleanBeforeAsync(_config);
+            var config = JsonConvert.DeserializeObject<BaseModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
+            await CleanBeforeAsync(config);
             await GetAndCheckIndexAsync();
-            await InsertAsync(_config);
+            await InsertAsync(config);
         });
     }
 
@@ -40,19 +34,18 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
     ///    Abstract method for getting channel name
     /// </summary>
     protected abstract string? GetChanelName();
-
+    
+    /// <summary>
+    ///    Get Identifier id for channel
+    /// </summary>
+    protected abstract string? GetIdentifierName();
+    
+    
     /// <summary>
     ///    Abstract method for getting resource data
     /// </summary>
-    protected abstract byte[] GetResourceData();
-
-    /// <summary>
-    ///    Abstract method for inserting model to elk
-    /// </summary>
-    /// <param name="config">Configuration model</param>
-    protected abstract Task InsertAsync(object? config);
-
-
+    protected abstract Task<TDtoModel> CreateNewDtoAsync(ConfigurationModel configurationModel);
+    
     /// <summary>
     ///    Abstract method for cleaning data
     /// </summary>
@@ -60,6 +53,8 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
     private async Task CleanBeforeAsync(BaseModel? config)
     {
         _channelName = GetChanelName();
+
+        config ??= new BaseModel {CleanBefore = true};
 
         var cleanBefore = config!.CleanBefore;
 
@@ -96,5 +91,61 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
 
             Console.WriteLine(@"Index successfully created!");
         }
+    }
+    
+    /// <summary>
+    ///     Override InsertAsync with you logic
+    /// </summary>
+    /// <param name="config">Configuration model</param>
+    private async Task InsertAsync(BaseModel? config)
+    {
+        Console.WriteLine(@"Get configuration for generation data");
+
+        var configurationModels = config!.Fillers;
+
+        foreach (var configurationModel in configurationModels)
+        {
+            Console.WriteLine("");
+            Console.WriteLine(@"Configuration model:");
+            Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
+
+            var data = GenerateDataAsync(configurationModel);
+
+            Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
+
+            var identifier = GetIdentifierName();
+            
+            if (identifier == null)  throw new ArgumentNullException(GetIdentifierName(),@"Identifier Name can not be null");
+    
+            await foreach (var dto in data)
+            {
+                var identifierValue =  dto.GetType().GetProperty(identifier)?.GetValue(dto, null);
+
+                if (identifierValue != null)
+                    await _elasticClient.CreateAsync(dto, s => s.Index(GetChanelName()).Id(identifierValue.ToString()));
+
+            }
+
+            Console.WriteLine(@"Data has been saved");
+            Console.WriteLine("");
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine(@"All configuration models has been saved");
+
+        Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
+
+        await Task.Delay(TimeSpan.FromMinutes(1));
+        Environment.Exit(1);
+    }
+    
+    /// <summary>
+    ///     Data generation
+    /// </summary>
+    /// <param name="configurationModel">Configuration model</param>
+    private async IAsyncEnumerable<TDtoModel> GenerateDataAsync(ConfigurationModel configurationModel)
+    {
+        for (var i = 0; i < configurationModel.Count; i++)
+            yield return await CreateNewDtoAsync(configurationModel);
     }
 }
