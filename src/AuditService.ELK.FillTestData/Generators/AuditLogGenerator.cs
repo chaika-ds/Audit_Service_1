@@ -9,7 +9,7 @@ using ActionType = AuditService.Common.Enums.ActionType;
 using Nest;
 using Newtonsoft.Json;
 
-namespace AuditService.ELK.FillTestData;
+namespace AuditService.ELK.FillTestData.Generators;
 
 /// <summary>
 ///   Audit Log Generator models

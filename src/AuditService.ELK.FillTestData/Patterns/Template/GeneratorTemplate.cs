@@ -7,8 +7,8 @@ namespace AuditService.ELK.FillTestData.Patterns.Template;
 /// <summary>
 ///    Abstract Template model for Generators model
 /// </summary>
-internal abstract class GeneratorTemplate<TModel, TResourceModel>
-    where TModel : class
+internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
+    where TDtoModel : class
     where TResourceModel : BaseModel
 {
     private readonly IElasticClient _elasticClient;
@@ -64,7 +64,7 @@ internal abstract class GeneratorTemplate<TModel, TResourceModel>
         {
             Console.WriteLine(@"Start force clean data");
 
-            await _elasticClient.DeleteByQueryAsync<TModel>(w =>
+            await _elasticClient.DeleteByQueryAsync<TDtoModel>(w =>
                 w.Query(x => x.QueryString(q
                     => q.Query("*"))).Index(_channelName));
 
@@ -86,7 +86,7 @@ internal abstract class GeneratorTemplate<TModel, TResourceModel>
             Console.WriteLine($@"Creating index {_channelName}");
 
             var response = await _elasticClient.Indices.CreateAsync(_channelName, r
-                => r.Map<TModel>(x => x.AutoMap()));
+                => r.Map<TDtoModel>(x => x.AutoMap()));
 
             if (!response.ShardsAcknowledged)
                 throw response.OriginalException;

@@ -1,4 +1,5 @@
-﻿using AuditService.Setup;
+﻿using AuditService.ELK.FillTestData.Generators;
+using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
 using KIT.Kafka;
 using KIT.Redis;

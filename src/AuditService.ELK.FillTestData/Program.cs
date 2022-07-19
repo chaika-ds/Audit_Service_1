@@ -1,5 +1,5 @@
-﻿using AuditService.ELK.FillTestData;
-using AuditService.ELK.FillTestData.Extensions;
+﻿using AuditService.ELK.FillTestData.Extensions;
+using AuditService.ELK.FillTestData.Generators;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
