@@ -24,6 +24,8 @@ namespace AuditService.ELK.FillTestData.Extensions
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
             services.AddScoped<AuditLogGenerator>();
+            services.AddScoped<BlockedPlayersGenerator>();
+            services.AddScoped<PlayerChangesGenerator>();
             services.AddElasticSearch();
         }
     }

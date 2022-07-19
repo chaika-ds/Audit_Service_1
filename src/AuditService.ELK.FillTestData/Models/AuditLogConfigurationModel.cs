@@ -3,7 +3,7 @@
 namespace AuditService.ELK.FillTestData.Models;
 
 /// <summary>
-/// Configuration model of ELK filler
+/// Audit Log Configuration model of ELK filler
 /// </summary>
 internal class AuditLogConfigurationModel
 {

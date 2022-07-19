@@ -12,5 +12,7 @@ var host = appBuilder.Build();
 using var scope = host.Services.CreateScope();
 
 scope.ServiceProvider.GetRequiredService<AuditLogGenerator>();
+scope.ServiceProvider.GetRequiredService<BlockedPlayersGenerator>();
+scope.ServiceProvider.GetRequiredService<PlayerChangesGenerator>();
 
 await host.RunAsync();

@@ -13,9 +13,10 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
 {
     private readonly IElasticClient _elasticClient;
     private string? _channelName;
+    private TResourceModel? _config;
 
     /// <summary>
-    ///    Execute generator when initialized
+    ///  Initialize Generator Template
     /// </summary>
     protected GeneratorTemplate(IElasticClient elasticClient)
     {
@@ -23,13 +24,15 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
 
         Task.Run(async () =>
         {
-            var config = JsonConvert.DeserializeObject<TResourceModel>(System.Text.Encoding.Default.GetString(GetResourceData()));
-            if (config != null)
+            var data = GetResourceData();
+            if (data.Length > 0)
             {
-                await CleanBeforeAsync(config);
-                await GetAndCheckIndexAsync();
-                await InsertAsync(config);
+                _config = JsonConvert.DeserializeObject<TResourceModel>(System.Text.Encoding.Default.GetString(data));
             }
+
+            await CleanBeforeAsync(_config);
+            await GetAndCheckIndexAsync();
+            await InsertAsync(_config);
         });
     }
 
@@ -37,17 +40,17 @@ internal abstract class GeneratorTemplate<TDtoModel, TResourceModel>
     ///    Abstract method for getting channel name
     /// </summary>
     protected abstract string? GetChanelName();
-    
+
     /// <summary>
     ///    Abstract method for getting resource data
     /// </summary>
     protected abstract byte[] GetResourceData();
-    
+
     /// <summary>
     ///    Abstract method for inserting model to elk
     /// </summary>
     /// <param name="config">Configuration model</param>
-    protected abstract Task InsertAsync(object config);
+    protected abstract Task InsertAsync(object? config);
 
 
     /// <summary>

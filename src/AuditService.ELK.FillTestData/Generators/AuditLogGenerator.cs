@@ -41,6 +41,7 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
     /// <summary>
     ///     Get channel name 
     /// </summary>
+    /// <returns>Channel Name</returns>
     protected override string? GetChanelName()
     {
         return _elasticIndexSettings.AuditLog;
@@ -49,6 +50,7 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
     /// <summary>
     ///     Get resource object 
     /// </summary>
+    /// <returns>Resource data as byte</returns>
     protected override byte[] GetResourceData()
     {
         return ElcJsonResource.elkFillData;
@@ -106,6 +108,7 @@ internal class AuditLogGenerator : GeneratorTemplate<AuditLogTransactionDomainMo
     ///     Create model Dto on base configuration model
     /// </summary>
     /// <param name="auditLogConfigurationModel">Configuration model</param>
+    /// <returns>AuditLogTransactionDomainModel</returns>
     private async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(AuditLogConfigurationModel auditLogConfigurationModel)
     {
         var uid = Guid.NewGuid();
