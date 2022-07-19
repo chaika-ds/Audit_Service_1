@@ -1,92 +1,72 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using AuditService.Common.Attributes;
 
 namespace AuditService.Common.Extensions;
 
+/// <summary>
+///     Functions for enum
+/// </summary>
+public static class EnumExtension
+{
     /// <summary>
-    ///     Functions for enum
+    ///     Get description from Display\Description attribute
     /// </summary>
-    public static class EnumExtension
+    /// <param name="enum">Object enum</param>
+    public static string? Description<TEnum>(this TEnum @enum) where TEnum : Enum
     {
-        /// <summary>
-        ///     Get description from Display\Description attribute
-        /// </summary>
-        /// <param name="enum">Object enum</param>
-        public static string? Description<TEnum>(this TEnum @enum)
-        {
-            if (@enum?.ToString() == null)
-                return string.Empty;
+        var fieldInfo = GetFieldInfo(@enum);
 
-            var name = @enum.ToString();
-            if (name == null)
-                return string.Empty;
+        if (fieldInfo is null)
+            return null;
 
-            var fieldInfo = @enum.GetType().GetField(name);
-            if (fieldInfo == null)
-                return string.Empty;
+        var descriptionAttribute =
+            ((DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false))
+            .FirstOrDefault();
+        if (descriptionAttribute != null)
+            return descriptionAttribute.Description;
 
-            var descriptionAttribute = ((DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false)).FirstOrDefault();
-            if (descriptionAttribute != null)
-                return descriptionAttribute.Description;
+        var displayAttribute = ((DisplayAttribute[])fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false))
+            .FirstOrDefault();
 
-            var displayAttribute = ((DisplayAttribute[])fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false)).FirstOrDefault();
-            
-            return displayAttribute == null ? @enum.ToString() : displayAttribute.GetName();
-        }
-
-        /// <summary>
-        ///     Check for presence of an attribute
-        /// </summary>
-        /// <typeparam name="TEnum">Enum Type</typeparam>
-        /// <param name="enum">Enum Object</param>
-        /// <param name="attributeType">Attribute type to search</param>
-        public static bool HasAttribute<TEnum>(this TEnum @enum, Type attributeType)
-        {
-            return (bool) @enum?.GetType().GetField(@enum.ToString()).GetCustomAttributes(attributeType, false).Any();
-        }
-
-        /// <summary>
-        ///     Output as a string. High case letters
-        /// </summary>
-        /// <param name="enum">Enum object</param>
-        public static string? ToUpperString(this Enum @enum)
-        {
-            return @enum?.ToString()?.ToUpper();
-        }
-
-        /// <summary>
-        ///     Output as a string. Low case letters
-        /// </summary>
-        /// <param name="enum">Enum object</param>
-        public static string? ToLowerString(this Enum @enum)
-        {
-            return @enum?.ToString()?.ToLower();
-        }
-
-        /// <summary>
-        ///     Convert object to ENUM enum
-        /// </summary>
-        /// <typeparam name="TEnum">Enum type</typeparam>
-        /// <param name="value">Object value</param>
-        public static TEnum ToEnum<TEnum>(this object value) where TEnum : struct
-        {
-            try
-            {
-                var res = (TEnum)Enum.Parse(typeof(TEnum), value.ToString());
-                return !Enum.IsDefined(typeof(TEnum), res) ? default : res;
-            }
-            catch
-            {
-                return default;
-            }
-        }
-
-        /// <summary>
-        ///     Convert enum to int value
-        /// </summary>
-        /// <param name="enum">Enum object</param>
-        public static int ToInt(this Enum @enum)
-        {
-            return Convert.ToInt32(@enum);
-        }
+        return displayAttribute == null ? @enum.ToString() : displayAttribute.GetName();
     }
+    
+    /// <summary>
+    ///     Get localization key
+    /// </summary>
+    /// <typeparam name="TEnum">Enum type</typeparam>
+    /// <param name="enum">Enum object</param>
+    /// <returns>Localization key</returns>
+    public static string LocalizationKey<TEnum>(this TEnum @enum) where TEnum : Enum
+    {
+        var fieldInfo = GetFieldInfo(@enum);
+
+        if (fieldInfo is null)
+            return string.Empty;
+
+        if (fieldInfo.GetCustomAttributes(typeof(LocalizationAttribute), false).FirstOrDefault() is LocalizationAttribute localizationAttribute)
+            return localizationAttribute.Key;
+
+        return @enum.ToString();
+    }
+
+    /// <summary>
+    /// Get field info to enum
+    /// </summary>
+    /// <typeparam name="TEnum">Enum type</typeparam>
+    /// <param name="enum">Enum object</param>
+    /// <returns>FieldInfo</returns>
+    private static FieldInfo? GetFieldInfo<TEnum>(this TEnum @enum) where TEnum : Enum
+    {
+        var name = @enum.ToString();
+
+        if (string.IsNullOrEmpty(name))
+            return null;
+
+        var fieldInfo = @enum.GetType().GetField(name);
+
+        return fieldInfo;
+    }
+}

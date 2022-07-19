@@ -6,11 +6,11 @@ using AuditService.WebApi;
 using KIT.NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddConfigs();
 builder.ConfigureNLog();
 
 try
 {
-    builder.AddConfigs();
     builder.Services.RegisterSettings();
     builder.Services.AddControllersWithFilters();
 

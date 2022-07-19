@@ -56,5 +56,13 @@
   },
   "Swagger": {
     "XmlComments": [ "AuditService.Common.xml", "AuditService.WebApi.xml" ]
-  }
+  },
+  "Localization": {
+    "Storage": {
+      "CacheLifetimeInMinutes": "$LOCALIZATION_CACHE_LIFE_TIME_MINUTES"
+    },
+    "Source": {
+      "UriTemplate": "$LOCALIZATION_SOURCE_TEMPLATE_URI"
+    } 
+  } 
 }
