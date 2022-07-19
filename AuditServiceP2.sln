@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KIT.NLog", "src\KIT.NLog\KI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KIT.Redis", "src\KIT.Redis\KIT.Redis.csproj", "{5D389A5D-D9C4-40DF-A6BD-A49D269C8592}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService.Localization", "src\AuditService.Localization\AuditService.Localization.csproj", "{4B24FF84-051A-40EB-9FA1-16F0193562C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{5D389A5D-D9C4-40DF-A6BD-A49D269C8592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D389A5D-D9C4-40DF-A6BD-A49D269C8592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D389A5D-D9C4-40DF-A6BD-A49D269C8592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B24FF84-051A-40EB-9FA1-16F0193562C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B24FF84-051A-40EB-9FA1-16F0193562C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B24FF84-051A-40EB-9FA1-16F0193562C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B24FF84-051A-40EB-9FA1-16F0193562C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{23D87894-F56A-4CF2-94D3-3F869E68346A} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
 		{7DF42C7A-4187-41F4-A3D1-E1791E12C242} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
 		{5D389A5D-D9C4-40DF-A6BD-A49D269C8592} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
+		{4B24FF84-051A-40EB-9FA1-16F0193562C4} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73685254-724E-430F-81DA-68858654B836}
