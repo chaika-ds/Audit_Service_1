@@ -1,4 +1,5 @@
-﻿using AuditService.Setup;
+﻿using AuditService.Localization;
+using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
 using KIT.Kafka;
 using KIT.Redis;
@@ -18,6 +19,7 @@ namespace AuditService.ELK.FillTestData.Extensions
         public static void RegisterAppServices(this IServiceCollection services)
         {
             services.RegisterSettings();
+            services.ConfigureLocalization();
             services.ConfigureRedis();
             services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")!);
             Handlers.DiConfigure.RegisterServices(services);
