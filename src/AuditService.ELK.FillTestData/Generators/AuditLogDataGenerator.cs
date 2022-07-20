@@ -3,6 +3,7 @@ using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
+using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using ActionType = AuditService.Common.Enums.ActionType;
 using Nest;
@@ -12,7 +13,7 @@ namespace AuditService.ELK.FillTestData.Generators;
 /// <summary>
 ///   Audit Log Generator models
 /// </summary>
-internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomainModel>
+internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomainModel, AuditLogConfigModel>
 {
     private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
@@ -25,7 +26,7 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
         IElasticClient elasticClient,
         IElasticIndexSettings elasticIndexSettings,
         CategoryDictionary categoryDictionary) 
-        : base(elasticClient, elasticIndexSettings.AuditLog, nameof(AuditLogTransactionDomainModel.EntityId))
+        : base(elasticClient,ElkJsonResource.auditLog,  elasticIndexSettings.AuditLog, nameof(AuditLogTransactionDomainModel.EntityId))
     {
         _categoryDictionary = categoryDictionary;
 
@@ -36,17 +37,16 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
     /// <summary>
     ///     Create model for inserting data to elastic
     /// </summary>
-    /// <param name="configurationModel">Configuration model</param>
     /// <returns>AuditLogTransactionDomainModel</returns>
-    protected override async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync(ConfigurationModel? configurationModel)
+    protected override async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync()
     {
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
         {
             NodeId = uid,
-            ModuleName = configurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            Node = configurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
-            Action = configurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
+            ModuleName = ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
+            Node = ConfigurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
+            Action = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
@@ -64,9 +64,9 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
             }
         };
 
-        dto.CategoryCode = string.IsNullOrEmpty(configurationModel?.CategoryCode)
+        dto.CategoryCode = string.IsNullOrEmpty(ConfigurationModel?.CategoryCode)
             ? await _categoryDictionary.GetCategoryAsync(dto.ModuleName, _random)
-            : configurationModel.CategoryCode;
+            : ConfigurationModel.CategoryCode;
 
         return dto;
     }

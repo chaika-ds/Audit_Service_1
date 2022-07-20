@@ -1,6 +1,7 @@
 using AuditService.Common.Models.Dto;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
+using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -9,7 +10,7 @@ namespace AuditService.ELK.FillTestData.Generators;
 /// <summary>
 ///   Blocked Players Log Generator models
 /// </summary>
-internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLogResponseDto>
+internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLogResponseDto, BlockedPlayersConfigModel>
 {
     private readonly Random _random;
 
@@ -18,7 +19,7 @@ internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLo
     /// </summary>
     public BlockedPlayersLogDataGenerator(IElasticClient elasticClient,
         IElasticIndexSettings elasticIndexSettings)
-        : base(elasticClient,elasticIndexSettings.BlockedPlayersLog,nameof(BlockedPlayersLogResponseDto.PlayerId))
+        : base(elasticClient, ElkJsonResource.blockedPlayers, elasticIndexSettings.BlockedPlayersLog,nameof(BlockedPlayersLogResponseDto.PlayerId))
     {
         _random = new Random();
     }
@@ -27,9 +28,8 @@ internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLo
     /// <summary>
     ///     Create model for inserting data to elastic
     /// </summary>
-    /// <param name="configurationModel">Configuration model</param>
     /// <returns>BlockedPlayersLogResponseDto</returns>
-    protected override Task<BlockedPlayersLogResponseDto> CreateNewDtoAsync(ConfigurationModel? configurationModel)
+    protected override Task<BlockedPlayersLogResponseDto> CreateNewDtoAsync()
     {
         var uid = Guid.NewGuid();
         var dto = new BlockedPlayersLogResponseDto

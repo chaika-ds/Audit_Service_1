@@ -8,21 +8,25 @@ namespace AuditService.ELK.FillTestData.Patterns.Template;
 /// <summary>
 ///    Log Data Generator model
 /// </summary>
-internal abstract class LogDataGenerator<TDtoModel>
+internal abstract class LogDataGenerator<TDtoModel,TConfig>
     where TDtoModel : class
+    where TConfig : BaseConfig
 {
     private readonly IElasticClient _elasticClient;
     private readonly string? _indexName;
     private readonly string? _identifierName;
+    private readonly byte[] _resource;
+    protected TConfig? ConfigurationModel;
 
     /// <summary>
     ///  Initialize LogDataGenerator
     /// </summary>
-    protected LogDataGenerator(IElasticClient elasticClient, string? indexName, string? identifierName)
+    protected LogDataGenerator(IElasticClient elasticClient, byte[] resource, string? indexName, string? identifierName)
     {
         _elasticClient = elasticClient;
         _indexName = indexName;
         _identifierName = identifierName;
+        _resource = resource;
     }
 
     /// <summary>
@@ -30,13 +34,13 @@ internal abstract class LogDataGenerator<TDtoModel>
     /// </summary>
     public async Task GenerateAsync()
     {
-        var config = JsonConvert.DeserializeObject<BaseModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
+        var config = JsonConvert.DeserializeObject<BaseModel<TConfig>>(System.Text.Encoding.Default.GetString(_resource));
         
         await CleanBeforeAsync(config); 
         
         var index = await GetIndexAsync();
         
-        await CheckIndexAsync(index);
+        await CheckAndCreateIndexAsync(index);
         
         await InsertAsync(config);
     }
@@ -44,17 +48,15 @@ internal abstract class LogDataGenerator<TDtoModel>
     /// <summary>
     ///    Create new Dto model
     /// </summary>
-    protected abstract Task<TDtoModel> CreateNewDtoAsync(ConfigurationModel? configurationModel);
+    protected abstract Task<TDtoModel> CreateNewDtoAsync();
     
     
     /// <summary>
     ///     Cleaning data from elastic
     /// </summary>
     /// <param name="config">Configuration model</param>
-    private async Task CleanBeforeAsync(BaseModel? config)
+    private async Task CleanBeforeAsync(BaseModel<TConfig>? config)
     {
-        config ??= new BaseModel {CleanBefore = true};
-
         var cleanBefore = config!.CleanBefore;
 
         if (cleanBefore)
@@ -82,7 +84,7 @@ internal abstract class LogDataGenerator<TDtoModel>
     /// <summary>
     ///     Checking index
     /// </summary>
-    private async Task CheckIndexAsync(ExistsResponse index)
+    private async Task CheckAndCreateIndexAsync(ExistsResponse index)
     {
         if (!index.Exists)
         {
@@ -100,7 +102,7 @@ internal abstract class LogDataGenerator<TDtoModel>
     ///     Insert Data to Elk
     /// </summary>
     /// <param name="config">Configuration model</param>
-    protected virtual async Task InsertAsync(BaseModel? config)
+    private  async Task InsertAsync(BaseModel<TConfig>? config)
     {
         Console.WriteLine(@"Get configuration for generation data");
 
@@ -113,8 +115,8 @@ internal abstract class LogDataGenerator<TDtoModel>
             Console.WriteLine(JsonConvert.SerializeObject(configurationModel, Formatting.Indented));
 
             var data = GenerateDataAsync(configurationModel);
-
-            Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
+            
+            Console.WriteLine($@"Generation {_identifierName} is completed");
             
             if (_identifierName == null)  throw new ArgumentNullException(_identifierName,@"Identifier Name can not be null");
     
@@ -144,9 +146,12 @@ internal abstract class LogDataGenerator<TDtoModel>
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
     /// <returns>List of dto model</returns>
-    protected virtual async IAsyncEnumerable<TDtoModel> GenerateDataAsync(ConfigurationModel configurationModel)
+    private async IAsyncEnumerable<TDtoModel> GenerateDataAsync(TConfig configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
-            yield return await CreateNewDtoAsync(configurationModel);
+        {
+            ConfigurationModel = configurationModel;
+            yield return await CreateNewDtoAsync();
+        }
     }
 }

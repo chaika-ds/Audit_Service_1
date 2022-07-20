@@ -5,7 +5,7 @@ namespace AuditService.ELK.FillTestData.Models;
 /// <summary>
 ///     Model of app settings
 /// </summary>
-public class ConfigurationModel
+public class AuditLogConfigModel: BaseConfig
 {
     /// <summary>
     ///     Service ID
@@ -26,9 +26,4 @@ public class ConfigurationModel
     ///     Node type
     /// </summary>
     public NodeType? NodeType { get; set; }
-
-    /// <summary>
-    ///     Count rows for generation
-    /// </summary>
-    public int Count { get; set; }
 }

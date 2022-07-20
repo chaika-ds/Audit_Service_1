@@ -5,7 +5,7 @@ namespace AuditService.ELK.FillTestData.Models;
 /// <summary>
 ///     Base Model of all generator models
 /// </summary>
-internal class BaseModel
+internal class BaseModel<TConfig>
 {
     /// <summary>
     ///     Clean before switcher
@@ -16,5 +16,5 @@ internal class BaseModel
     /// Fillers of configuration model
     /// </summary>
     [JsonProperty("Fillers")]
-    public ConfigurationModel[] Fillers { get; set; } = null!;
+    public TConfig[] Fillers { get; set; } = null!;
 }
