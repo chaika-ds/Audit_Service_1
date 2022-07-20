@@ -2,6 +2,9 @@ using AuditService.Common.Enums;
 
 namespace AuditService.ELK.FillTestData.Models;
 
+/// <summary>
+///     Player Changes Log Config Model
+/// </summary>
 public class PlayerChangesLogConfigModel: BaseConfig
 {
     /// <summary>
