@@ -24,7 +24,7 @@ namespace AuditService.ELK.FillTestData.Extensions
 
             Console.WriteLine($"EnvironmentName: {environment.EnvironmentName}");
             configurationBuilder.AddJsonFile("config/aus.api.appsettings.json",
-                $"config/aus.api.env.Debug.json", environment);
+                $"config/aus.api.env.{environment.EnvironmentName?.ToLower()}.json", environment);
             configurationBuilder.AddJsonFile("config/aus.api.logger.json", environment);
 
             return configurationBuilder;
