@@ -1,0 +1,15 @@
+{
+  "CleanBefore": true,
+  "Fillers": [
+    {
+      "ModuleName": "SS",
+      "EventInitiator": "User",
+      "Count": 100
+    },
+    {
+      "ModuleName": "PAY",
+      "EventInitiator": "Player",
+      "Count": 50
+    }
+  ]
+}

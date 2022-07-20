@@ -19,11 +19,15 @@ public static class ElasticSearchConfiguration
         {
             var configuration = serviceProvider.GetRequiredService<IElasticSearchSettings>();
             if (string.IsNullOrEmpty(configuration.ConnectionUrl))
-                throw new ArgumentNullException(nameof(configuration.ConnectionUrl));
+                throw new ArgumentException($"{nameof(configuration.ConnectionUrl)} is null");
 
             var uri = new Uri(configuration.ConnectionUrl);
             var pool = new SingleNodeConnectionPool(uri);
-            var settings = new ConnectionSettings(pool);
+            var settings = new ConnectionSettings(pool)
+                .ThrowExceptions();
+
+            if (!string.IsNullOrEmpty(configuration.UserName))
+                settings.BasicAuthentication(configuration.UserName, configuration.Password);
 
             return new ElasticClient(settings);
         });

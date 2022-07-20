@@ -8,8 +8,7 @@ using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Handlers.Handlers;
 using AuditService.Handlers.Handlers.DomainRequestHandlers;
-using AuditService.Handlers.PipelineBehaviors;
-using AuditService.WebApi;
+using AuditService.Tests.AuditService.WebApi.Fakes;
 using KIT.Kafka;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.HealthCheck;
@@ -19,7 +18,6 @@ using KIT.Redis;
 using KIT.Redis.HealthCheck;
 using KIT.Redis.Settings;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tolar.Kafka;
 using Tolar.Redis;
@@ -32,11 +30,11 @@ namespace AuditService.Tests.AuditService.WebApi;
 /// </summary>
 public class DIConfigureTest
 {
-    private ServiceCollectionMock serviceCollectionMock;
+    private ServiceCollectionFake serviceCollectionFake;
 
     public DIConfigureTest()
     {
-        serviceCollectionMock = new ServiceCollectionMock();
+        serviceCollectionFake = new ServiceCollectionFake();
     }
 
     /// <summary>
@@ -46,12 +44,12 @@ public class DIConfigureTest
     public void ConfigureRedis_ServicesInjection_Injected()
     {
         //Act
-        serviceCollectionMock.ServiceCollection.ConfigureRedis();
+        serviceCollectionFake.ServiceCollection.ConfigureRedis();
 
         // Assert
-        serviceCollectionMock.ContainsSingletonService<IRedisSettings, RedisSettings>();
-        serviceCollectionMock.ContainsSingletonService<IRedisRepository, RedisRepository>();
-        serviceCollectionMock.ContainsSingletonService<IRedisHealthCheck, RedisHealthCheck>();
+        serviceCollectionFake.ContainsSingletonService<IRedisSettings, RedisSettings>();
+        serviceCollectionFake.ContainsSingletonService<IRedisRepository, RedisRepository>();
+        serviceCollectionFake.ContainsSingletonService<IRedisHealthCheck, RedisHealthCheck>();
     }
 
     /// <summary>
@@ -61,48 +59,49 @@ public class DIConfigureTest
     public void ConfigureHandlers_ServicesInjection_Injected()
     {
         //Act
-        DiConfigure.RegisterServices(serviceCollectionMock.ServiceCollection);
+        DiConfigure.RegisterServices(serviceCollectionFake.ServiceCollection);
 
         // Assert
-        serviceCollectionMock.ContainsTransientService<IMediator, Mediator>();
-        serviceCollectionMock
+        serviceCollectionFake.ContainsTransientService<IMediator, Mediator>();
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<
                     LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto,
                         BlockedPlayersLogResponseDto>, PageResponseDto<BlockedPlayersLogResponseDto>>
                 , BlockedPlayersLogRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsScopedService<IRequestHandler<CheckElkHealthRequest, bool>, HealthCheckRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsScopedService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsScopedService<IRequestHandler<CheckRedisHealthRequest, bool>, HealthCheckRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto,
                     PlayerChangesLogResponseDto>,
                 PageResponseDto<PlayerChangesLogResponseDto>>, PlayerChangesLogRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
                 ReferenceRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<
                 IRequestHandler<GetCategoriesRequest, IDictionary<ModuleName, CategoryDomainModel[]>>,
                 ReferenceRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>,
                 ReferenceRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<GetEventsRequest, IDictionary<ModuleName, EventDomainModel[]>>,
                 ReferenceRequestHandler>();
-        serviceCollectionMock
+        serviceCollectionFake
             .ContainsTransientService<IRequestHandler<
                     LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>,
                     PageResponseDto<AuditLogTransactionDomainModel>>,
                 AuditLogDomainRequestHandler>();
-        serviceCollectionMock.ContainsTransientService<RequestHandler<
+        serviceCollectionFake.ContainsTransientService<IRequestHandler<
             LogFilterRequestDto<BlockedPlayersLogFilterDto,
                 BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>,
             PageResponseDto<BlockedPlayersLogDomainModel>>, BlockedPlayersLogDomainRequestHandler>();
-        serviceCollectionMock.ContainsTransientService<RequestHandler<
+
+        serviceCollectionFake.ContainsTransientService<IRequestHandler<
             LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>,
             PageResponseDto<PlayerChangesLogDomainModel>>, PlayerChangesLogDomainRequestHandler>();
     }
@@ -114,19 +113,19 @@ public class DIConfigureTest
     public void ConfigureKafka_ServicesInjection_Injected()
     {
         //Act
-        serviceCollectionMock.ServiceCollection.ConfigureKafka("TestEnvName");
+        serviceCollectionFake.ServiceCollection.ConfigureKafka("TestEnvName");
 
         // Assert
-        serviceCollectionMock.ContainsSingletonService<IKafkaSettings, KafkaSettings>();
-        serviceCollectionMock.ContainsSingletonService<IKafkaConsumerSettings, KafkaConsumerSettings>();
-        serviceCollectionMock.ContainsSingletonService<IPermissionPusherSettings, PermissionPusherSettings>();
-        serviceCollectionMock.ContainsSingletonService<IKafkaTopics, KafkaTopics>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaSettings, KafkaSettings>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaConsumerSettings, KafkaConsumerSettings>();
+        serviceCollectionFake.ContainsSingletonService<IPermissionPusherSettings, PermissionPusherSettings>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaTopics, KafkaTopics>();
 
-        serviceCollectionMock.ContainsSingletonService<IKafkaConsumerFactory, KafkaConsumerFactory>();
-        serviceCollectionMock.ContainsSingletonService<IKafkaProducer, KafkaProducer>();
-        serviceCollectionMock.ContainsSingletonService<IKafkaHealthCheck, KafkaHealthCheck>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaConsumerFactory, KafkaConsumerFactory>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaProducer, KafkaProducer>();
+        serviceCollectionFake.ContainsSingletonService<IKafkaHealthCheck, KafkaHealthCheck>();
 
-        serviceCollectionMock.ContainsSingletonService<IHostedService, PushPermissionService>();
+        serviceCollectionFake.ContainsSingletonService<IHostedService, PushPermissionService>();
     }
 
 

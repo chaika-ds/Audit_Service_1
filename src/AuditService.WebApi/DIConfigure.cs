@@ -1,4 +1,5 @@
-﻿using AuditService.Setup.ModelProviders;
+﻿using AuditService.Localization;
+using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
 using KIT.Redis;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -16,6 +17,7 @@ public static class DiConfigure
     public static void RegisterServices(this IServiceCollection services, string environmentName)
     {
         services.ConfigureRedis();
+        services.ConfigureLocalization();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
         services.AddSingleton<ITokenService, TokenService>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());

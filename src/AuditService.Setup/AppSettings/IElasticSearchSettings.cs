@@ -9,4 +9,14 @@ public interface IElasticSearchSettings : IElasticIndexSettings
     ///     Connection URL for ELK
     /// </summary>
     public string? ConnectionUrl { get; set; }
+
+    /// <summary>
+    ///     UserName for ELK
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
+    ///     Password for ELK
+    /// </summary>
+    public string? Password { get; set; }
 }
