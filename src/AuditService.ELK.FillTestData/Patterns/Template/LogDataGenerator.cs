@@ -6,54 +6,53 @@ using Newtonsoft.Json;
 namespace AuditService.ELK.FillTestData.Patterns.Template;
 
 /// <summary>
-///    Abstract Template model for Generators model
+///    Log Data Generator model
 /// </summary>
-internal abstract class GeneratorTemplate<TDtoModel>
+internal abstract class LogDataGenerator<TDtoModel>
     where TDtoModel : class
 {
     private readonly IElasticClient _elasticClient;
-    private string? _channelName;
+    private readonly string? _indexName;
+    private readonly string? _identifierName;
 
     /// <summary>
-    ///  Initialize Generator Template
+    ///  Initialize LogDataGenerator
     /// </summary>
-    protected GeneratorTemplate(IElasticClient elasticClient)
+    protected LogDataGenerator(IElasticClient elasticClient, string? indexName, string? identifierName)
     {
         _elasticClient = elasticClient;
-
-        Task.Run(async () =>
-        {
-            var config = JsonConvert.DeserializeObject<BaseModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
-            await CleanBeforeAsync(config);
-            await GetAndCheckIndexAsync();
-            await InsertAsync(config);
-        });
+        _indexName = indexName;
+        _identifierName = identifierName;
     }
 
     /// <summary>
-    ///    Abstract method for getting channel name
+    ///    Execute template method
     /// </summary>
-    protected abstract string? GetChanelName();
+    public async Task GenerateAsync()
+    {
+        var config = JsonConvert.DeserializeObject<BaseModel>(System.Text.Encoding.Default.GetString(ElcJsonResource.elkFillData));
+        
+        await CleanBeforeAsync(config); 
+        
+        var index = await GetIndexAsync();
+        
+        await CheckIndexAsync(index);
+        
+        await InsertAsync(config);
+    }
+
+    /// <summary>
+    ///    Create new Dto model
+    /// </summary>
+    protected abstract Task<TDtoModel> CreateNewDtoAsync(ConfigurationModel? configurationModel);
+    
     
     /// <summary>
-    ///    Get Identifier id for channel
-    /// </summary>
-    protected abstract string? GetIdentifierName();
-    
-    
-    /// <summary>
-    ///    Abstract method for getting resource data
-    /// </summary>
-    protected abstract Task<TDtoModel> CreateNewDtoAsync(ConfigurationModel configurationModel);
-    
-    /// <summary>
-    ///    Abstract method for cleaning data
+    ///     Cleaning data from elastic
     /// </summary>
     /// <param name="config">Configuration model</param>
     private async Task CleanBeforeAsync(BaseModel? config)
     {
-        _channelName = GetChanelName();
-
         config ??= new BaseModel {CleanBefore = true};
 
         var cleanBefore = config!.CleanBefore;
@@ -64,40 +63,44 @@ internal abstract class GeneratorTemplate<TDtoModel>
 
             await _elasticClient.DeleteByQueryAsync<TDtoModel>(w =>
                 w.Query(x => x.QueryString(q
-                    => q.Query("*"))).Index(_channelName));
+                    => q.Query("*"))).Index(_indexName));
 
-            await _elasticClient.Indices.DeleteAsync(_channelName);
+            await _elasticClient.Indices.DeleteAsync(_indexName);
 
             Console.WriteLine(@"Force clean has been comlpete!");
         }
     }
 
     /// <summary>
-    ///    Abstract method for checking index
+    ///     Get elastic index
     /// </summary>
-    private async Task GetAndCheckIndexAsync()
+    private async Task<ExistsResponse> GetIndexAsync()
     {
-        var index = await _elasticClient.Indices.ExistsAsync(_channelName);
-
+        return  await _elasticClient.Indices.ExistsAsync(_indexName);
+    }
+    
+    /// <summary>
+    ///     Checking index
+    /// </summary>
+    private async Task CheckIndexAsync(ExistsResponse index)
+    {
         if (!index.Exists)
         {
-            Console.WriteLine($@"Creating index {_channelName}");
+            Console.WriteLine($@"Creating index {_indexName}");
 
-            var response = await _elasticClient.Indices.CreateAsync(_channelName, r
-                => r.Map<TDtoModel>(x => x.AutoMap()));
+            var response = await _elasticClient.Indices.CreateAsync(_indexName, r  => r.Map<TDtoModel>(x => x.AutoMap()));
 
-            if (!response.ShardsAcknowledged)
-                throw response.OriginalException;
+            if (!response.ShardsAcknowledged) throw response.OriginalException;
 
             Console.WriteLine(@"Index successfully created!");
         }
     }
     
     /// <summary>
-    ///     Override InsertAsync with you logic
+    ///     Insert Data to Elk
     /// </summary>
     /// <param name="config">Configuration model</param>
-    private async Task InsertAsync(BaseModel? config)
+    protected virtual async Task InsertAsync(BaseModel? config)
     {
         Console.WriteLine(@"Get configuration for generation data");
 
@@ -112,18 +115,15 @@ internal abstract class GeneratorTemplate<TDtoModel>
             var data = GenerateDataAsync(configurationModel);
 
             Console.WriteLine($@"Generation {configurationModel.ServiceName} is completed");
-
-            var identifier = GetIdentifierName();
             
-            if (identifier == null)  throw new ArgumentNullException(GetIdentifierName(),@"Identifier Name can not be null");
+            if (_identifierName == null)  throw new ArgumentNullException(_identifierName,@"Identifier Name can not be null");
     
             await foreach (var dto in data)
             {
-                var identifierValue =  dto.GetType().GetProperty(identifier)?.GetValue(dto, null);
+                var identifierValue =  dto.GetType().GetProperty(_identifierName)?.GetValue(dto, null);
 
                 if (identifierValue != null)
-                    await _elasticClient.CreateAsync(dto, s => s.Index(GetChanelName()).Id(identifierValue.ToString()));
-
+                    await _elasticClient.CreateAsync(dto, s => s.Index(_indexName).Id(identifierValue.ToString()));
             }
 
             Console.WriteLine(@"Data has been saved");
@@ -140,10 +140,11 @@ internal abstract class GeneratorTemplate<TDtoModel>
     }
     
     /// <summary>
-    ///     Data generation
+    ///     Generate data
     /// </summary>
     /// <param name="configurationModel">Configuration model</param>
-    private async IAsyncEnumerable<TDtoModel> GenerateDataAsync(ConfigurationModel configurationModel)
+    /// <returns>List of dto model</returns>
+    protected virtual async IAsyncEnumerable<TDtoModel> GenerateDataAsync(ConfigurationModel configurationModel)
     {
         for (var i = 0; i < configurationModel.Count; i++)
             yield return await CreateNewDtoAsync(configurationModel);

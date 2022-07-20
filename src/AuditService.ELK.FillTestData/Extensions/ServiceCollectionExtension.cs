@@ -23,9 +23,9 @@ namespace AuditService.ELK.FillTestData.Extensions
             services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")!);
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
-            services.AddScoped<AuditLogGenerator>();
-            services.AddScoped<BlockedPlayersGenerator>();
-            services.AddScoped<PlayerChangesGenerator>();
+            services.AddScoped<AuditLogDataGenerator>();
+            services.AddScoped<BlockedPlayersLogDataGenerator>();
+            services.AddScoped<PlayerChangesLogDataLogDataGenerator>();
             services.AddElasticSearch();
         }
     }
