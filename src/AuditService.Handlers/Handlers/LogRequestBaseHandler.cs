@@ -76,8 +76,7 @@ namespace AuditService.Handlers.Handlers
         public async Task<PageResponseDto<TResponse>> Handle(LogFilterRequestDto<TFilter, TSort, TResponse> request, CancellationToken cancellationToken)
         {
             var response = await _elasticClient.SearchAsync<TResponse>(w => Search(w, request), cancellationToken);
-            return new PageResponseDto<TResponse>(request.Pagination, response.HitsMetadata?.Total?.Value ?? 0,
-                response.Documents);
+            return new PageResponseDto<TResponse>(request.Pagination, response.HitsMetadata?.Total?.Value ?? 0, response.Documents);
         }
 
         /// <summary>

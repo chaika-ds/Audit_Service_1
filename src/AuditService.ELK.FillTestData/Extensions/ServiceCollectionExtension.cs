@@ -1,4 +1,4 @@
-﻿using AuditService.ELK.FillTestData.Generators;
+using AuditService.Localization;
 using AuditService.Setup;
 using AuditService.Setup.ServiceConfigurations;
 using KIT.Kafka;
@@ -19,13 +19,12 @@ namespace AuditService.ELK.FillTestData.Extensions
         public static void RegisterAppServices(this IServiceCollection services)
         {
             services.RegisterSettings();
+            services.ConfigureLocalization();
             services.ConfigureRedis();
             services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")!);
             Handlers.DiConfigure.RegisterServices(services);
             services.AddScoped<CategoryDictionary>();
-            services.AddScoped<AuditLogDataGenerator>();
-            services.AddScoped<BlockedPlayersLogDataGenerator>();
-            services.AddScoped<PlayerChangesLogDataLogDataGenerator>();
+            services.AddScoped<ElasticSearchDataFiller>();
             services.AddElasticSearch();
         }
     }

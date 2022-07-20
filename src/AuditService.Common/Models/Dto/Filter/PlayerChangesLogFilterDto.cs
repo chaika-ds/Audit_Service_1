@@ -31,6 +31,11 @@
         public DateTime? EndDate { get; set; }
 
         /// <summary>
+        ///     Language for localization
+        /// </summary>
+        public string? Language { get; set; }
+
+        /// <summary>
         /// Event keys
         /// </summary>
         public IEnumerable<string> EventKeys { get; set; }
