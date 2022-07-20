@@ -1,3 +1,5 @@
+using AuditService.Common.Enums;
+using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.ELK.FillTestData.Models;
@@ -11,54 +13,59 @@ namespace AuditService.ELK.FillTestData.Generators;
 /// <summary>
 ///   Player Changes Log Generator models
 /// </summary>
-internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerChangesLogResponseDto, PlayerChangesLogConfigModel>
+internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerChangesLogDomainModel, PlayerChangesLogConfigModel>
 {
     private readonly Random _random;
 
     /// <summary>
     ///   Player Changes Log Generator
     /// </summary>
-    public PlayerChangesLogDataLogDataGenerator(IElasticClient elasticClient,
-        IElasticIndexSettings elasticIndexSettings)
-        : base(elasticClient, ElkJsonResource.playerChanges, elasticIndexSettings.PlayerChangesLog,nameof(PlayerChangesLogResponseDto.UserId))
+    public PlayerChangesLogDataLogDataGenerator(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
         _random = new Random();
     }
 
+    /// <summary>
+    ///    Set Index of elastic
+    /// </summary>
+    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.PlayerChangesLog;
+    
+    /// <summary>
+    ///    Set identifier of index
+    /// </summary>
+    protected override string GetIdentifierName() => nameof(PlayerChangesLogResponseDto.UserId);
 
+    /// <summary>
+    ///    Override resource data
+    /// </summary>
+    protected override byte[]? GetResourceData() => ElkJsonResource.playerChanges;
+    
     /// <summary>
     ///     Create model for inserting data to elastic
     /// </summary>
     /// <returns>PlayerChangesLogResponseDto</returns>
-    protected override Task<PlayerChangesLogResponseDto> CreateNewDtoAsync()
+    protected override Task<PlayerChangesLogDomainModel> CreateNewDtoAsync()
     {
-        var uid = Guid.NewGuid();
-        var dto = new PlayerChangesLogResponseDto
+        var dto = new PlayerChangesLogDomainModel
         {
-            UserId = uid,
+            PlayerId = Guid.NewGuid(),
+            ProjectId = Guid.NewGuid(),
+            NodeId = Guid.NewGuid(),
             Timestamp = DateTime.Now.GetRandomItem(_random),
-            UserLogin = "test@gmail.com",
             IpAddress = "0.0.0.0",
-            EventKey = "PushKey",
-            EventName = "PushedName",
             Reason = "Updated",
-            OldValue = new List<LocalizedPlayerAttributeDomainModel>
+            OldValues = new Dictionary<string, PlayerAttributeDomainModel>(),
+            NewValues = new Dictionary<string, PlayerAttributeDomainModel>(),
+            User = new UserInitiatorDomainModel
             {
-                new ()
-                {
-                    Label = "old value",
-                    Type = "old type",
-                    Value = "old value"
-                }
+                Id = Guid.NewGuid(),
+                UserAgent = $"agent_{Guid.NewGuid()}",
+                Email = "test@gmail.com"
             },
-            NewValue = new List<LocalizedPlayerAttributeDomainModel>            {
-                new ()
-                {
-                    Label = "new value",
-                    Type = "new type",
-                    Value = "new value"
-                }
-            },
+            EventCode = "Code",
+            ModuleName = ConfigurationModel?.ModuleName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
+            EventInitiator = ConfigurationModel?.EventInitiator ?? Enum.GetValues<EventInitiator>().GetRandomItem(_random),
         };
 
         return Task.FromResult(dto);

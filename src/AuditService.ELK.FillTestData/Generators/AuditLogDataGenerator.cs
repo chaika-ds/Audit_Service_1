@@ -23,15 +23,29 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
     ///   Initialize Audit Log Generator
     /// </summary>
     public AuditLogDataGenerator(
-        IElasticClient elasticClient,
-        IElasticIndexSettings elasticIndexSettings,
+        IServiceProvider serviceProvider,
         CategoryDictionary categoryDictionary) 
-        : base(elasticClient,ElkJsonResource.auditLog,  elasticIndexSettings.AuditLog, nameof(AuditLogTransactionDomainModel.EntityId))
+        : base(serviceProvider)
     {
         _categoryDictionary = categoryDictionary;
 
         _random = new Random();
     }
+
+    /// <summary>
+    ///    Set Index of elastic
+    /// </summary>
+    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.AuditLog;
+    
+    /// <summary>
+    ///    Set identifier of index
+    /// </summary>
+    protected override string GetIdentifierName() => nameof(AuditLogTransactionDomainModel.EntityId);
+    
+    /// <summary>
+    ///    Override resource data
+    /// </summary>
+    protected override byte[]? GetResourceData() => ElkJsonResource.auditLog;
 
 
     /// <summary>
@@ -43,7 +57,9 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
         {
-            NodeId = uid,
+            EntityId = Guid.NewGuid(),
+            ProjectId = Guid.NewGuid(),
+            NodeId = Guid.NewGuid(),
             ModuleName = ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
             Node = ConfigurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
             Action = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
@@ -51,10 +67,8 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
             EntityName = nameof(AuditLogTransactionDomainModel),
-            EntityId = Guid.NewGuid(),
             OldValue = "{ 'value': '0' }",
             NewValue = "{ 'value': '1' }",
-            ProjectId = Guid.NewGuid(),
             User = new IdentityUserDomainModel
             {
                 Id = uid,
@@ -70,5 +84,4 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
 
         return dto;
     }
-    
 }

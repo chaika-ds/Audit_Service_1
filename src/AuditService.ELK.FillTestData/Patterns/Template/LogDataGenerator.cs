@@ -1,5 +1,7 @@
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Resources;
+using AuditService.Setup.AppSettings;
+using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Newtonsoft.Json;
 
@@ -13,28 +15,44 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
     where TConfig : BaseConfig
 {
     private readonly IElasticClient _elasticClient;
-    private readonly string? _indexName;
-    private readonly string? _identifierName;
-    private readonly byte[] _resource;
+    private readonly IElasticIndexSettings _elasticIndexSettings;
     protected TConfig? ConfigurationModel;
 
     /// <summary>
     ///  Initialize LogDataGenerator
     /// </summary>
-    protected LogDataGenerator(IElasticClient elasticClient, byte[] resource, string? indexName, string? identifierName)
+    protected LogDataGenerator(IServiceProvider serviceProvider)
     {
-        _elasticClient = elasticClient;
-        _indexName = indexName;
-        _identifierName = identifierName;
-        _resource = resource;
+        _elasticClient = serviceProvider.GetRequiredService<IElasticClient>();
+        _elasticIndexSettings = serviceProvider.GetRequiredService<IElasticIndexSettings>();
     }
 
+    /// <summary>
+    ///    Create new Dto model
+    /// </summary>
+    protected abstract Task<TDtoModel> CreateNewDtoAsync();
+    
+    /// <summary>
+    ///    Get Index of elastic
+    /// </summary>
+    protected abstract string? GetIndex(IElasticIndexSettings indexes);
+    
+    /// <summary>
+    ///    Get identifier of index
+    /// </summary>
+    protected abstract string GetIdentifierName();
+    
+    /// <summary>
+    ///    Get resource data
+    /// </summary>
+    protected abstract byte[]? GetResourceData();
+    
     /// <summary>
     ///    Execute template method
     /// </summary>
     public async Task GenerateAsync()
     {
-        var config = JsonConvert.DeserializeObject<BaseModel<TConfig>>(System.Text.Encoding.Default.GetString(_resource));
+        var config = JsonConvert.DeserializeObject<BaseModel<TConfig>>(System.Text.Encoding.Default.GetString(GetResourceData()!));
         
         await CleanBeforeAsync(config); 
         
@@ -45,12 +63,6 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
         await InsertAsync(config);
     }
 
-    /// <summary>
-    ///    Create new Dto model
-    /// </summary>
-    protected abstract Task<TDtoModel> CreateNewDtoAsync();
-    
-    
     /// <summary>
     ///     Cleaning data from elastic
     /// </summary>
@@ -65,9 +77,9 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
 
             await _elasticClient.DeleteByQueryAsync<TDtoModel>(w =>
                 w.Query(x => x.QueryString(q
-                    => q.Query("*"))).Index(_indexName));
+                    => q.Query("*"))).Index(GetIndex(_elasticIndexSettings)));
 
-            await _elasticClient.Indices.DeleteAsync(_indexName);
+            await _elasticClient.Indices.DeleteAsync(GetIndex(_elasticIndexSettings));
 
             Console.WriteLine(@"Force clean has been comlpete!");
         }
@@ -78,7 +90,7 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
     /// </summary>
     private async Task<ExistsResponse> GetIndexAsync()
     {
-        return  await _elasticClient.Indices.ExistsAsync(_indexName);
+        return  await _elasticClient.Indices.ExistsAsync(GetIndex(_elasticIndexSettings));
     }
     
     /// <summary>
@@ -88,9 +100,9 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
     {
         if (!index.Exists)
         {
-            Console.WriteLine($@"Creating index {_indexName}");
+            Console.WriteLine($@"Creating index {GetIndex(_elasticIndexSettings)}");
 
-            var response = await _elasticClient.Indices.CreateAsync(_indexName, r  => r.Map<TDtoModel>(x => x.AutoMap()));
+            var response = await _elasticClient.Indices.CreateAsync(GetIndex(_elasticIndexSettings), r  => r.Map<TDtoModel>(x => x.AutoMap()));
 
             if (!response.ShardsAcknowledged) throw response.OriginalException;
 
@@ -116,16 +128,16 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
 
             var data = GenerateDataAsync(configurationModel);
             
-            Console.WriteLine($@"Generation {_identifierName} is completed");
+            Console.WriteLine($@"Generation {GetIdentifierName()} is completed");
             
-            if (_identifierName == null)  throw new ArgumentNullException(_identifierName,@"Identifier Name can not be null");
+            if (GetIdentifierName() == null)  throw new ArgumentNullException(GetIdentifierName(),@"Identifier Name can not be null");
     
             await foreach (var dto in data)
             {
-                var identifierValue =  dto.GetType().GetProperty(_identifierName)?.GetValue(dto, null);
+                var identifierValue =  dto.GetType().GetProperty(GetIdentifierName())?.GetValue(dto, null);
 
                 if (identifierValue != null)
-                    await _elasticClient.CreateAsync(dto, s => s.Index(_indexName).Id(identifierValue.ToString()));
+                    await _elasticClient.CreateAsync(dto, s => s.Index(GetIndex(_elasticIndexSettings)).Id(identifierValue.ToString()));
             }
 
             Console.WriteLine(@"Data has been saved");
