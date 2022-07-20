@@ -7,7 +7,7 @@ namespace KIT.Kafka.Settings;
 /// <summary>
 /// Kafka settings
 /// </summary>
-public class KafkaSettings : IKafkaSettings
+internal class KafkaSettings : IKafkaSettings
 {
     public KafkaSettings(IConfiguration configuration)
     {

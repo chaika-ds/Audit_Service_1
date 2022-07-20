@@ -93,7 +93,7 @@ namespace AuditService.Handlers.Handlers
         /// Method for getting all events
         /// </summary>
         /// <returns>All events</returns>
-        private async Task<IDictionary<ModuleName,EventDomainModel[]>> GetServiceEventsAsync()
+        private async Task<IDictionary<ModuleName, EventDomainModel[]>> GetServiceEventsAsync()
         {
             var events = JsonConvert.DeserializeObject<IDictionary<ModuleName, EventDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceEvents));
             if (events == null)

@@ -4,11 +4,11 @@ using Tolar.Redis;
 namespace KIT.Redis.Settings;
 
 /// <summary>
-///     Redis service settings
+/// Redis service settings
 /// </summary>
-public class RedisSettings : IRedisSettings
+internal class RedisSettings : IRedisSettings
 {
-    public RedisSettings(IConfiguration configuration)
+    internal RedisSettings(IConfiguration configuration)
     {
         ApplySettings(configuration);
     }

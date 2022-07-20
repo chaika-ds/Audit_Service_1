@@ -5,6 +5,8 @@
   },
   "ElasticSearch": {
     "ConnectionString": "$ELK_CONNECTION_URL",
+    "UserName": "$ELK_CONNECTION_USERNAME",
+    "Password": "$ELK_CONNECTION_PASSWORD",
     "Indexes": {
       "AuditLog": "$ELK_INDEX_AUDITLOG",
       "ApplicationLog": "$ELK_INDEX_APPLOG",
@@ -54,5 +56,13 @@
   },
   "Swagger": {
     "XmlComments": [ "AuditService.Common.xml", "AuditService.WebApi.xml" ]
-  }
+  },
+  "Localization": {
+    "Storage": {
+      "CacheLifetimeInMinutes": "$LOCALIZATION_CACHE_LIFE_TIME_MINUTES"
+    },
+    "Source": {
+      "UriTemplate": "$LOCALIZATION_SOURCE_TEMPLATE_URI"
+    } 
+  } 
 }

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\elkFillData.json">
+    <Content Include="Resources\auditData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -36,17 +36,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\ElcJsonResource.Designer.cs">
+    <Compile Update="Resources\ElkJsonResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ElcJsonResource.resx</DependentUpon>
+      <DependentUpon>ElkJsonResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\ElcJsonResource.resx">
+    <EmbeddedResource Update="Resources\ElkJsonResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ElcJsonResource.Designer.cs</LastGenOutput>
+      <LastGenOutput>ElkJsonResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 	
