@@ -41,7 +41,7 @@ internal class BlockedPlayersGenerator: GeneratorTemplate<BlockedPlayersLogRespo
             PlayerId = uid,
             HallId = uid,
             PlayerLogin = "player@gmail.com",
-            PlayerIp = "",
+            PlayerIp = "0.0.0.0",
             Language = "en",
             Timestamp = DateTime.Now.GetRandomItem(_random),
             PreviousBlockingDate = DateTime.Now.GetRandomItem(_random),
