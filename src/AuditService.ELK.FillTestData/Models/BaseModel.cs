@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace AuditService.ELK.FillTestData.Models;
 
 /// <summary>
-///     Model of app settings
+///     Base Model of all generator models
 /// </summary>
-internal class AppSettingModel
+internal class BaseModel<TConfig>
 {
     /// <summary>
     ///     Clean before switcher
     /// </summary>
     public bool CleanBefore { get; set; }
-
+    
     /// <summary>
     /// Fillers of configuration model
     /// </summary>
     [JsonProperty("Fillers")]
-    public ConfigurationModel[] Fillers { get; set; } = null!;
+    public TConfig[] Fillers { get; set; } = null!;
 }
