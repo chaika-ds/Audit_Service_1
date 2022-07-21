@@ -2,6 +2,7 @@
 using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
 using KIT.Redis;
+using KIT.RocketChat;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tolar.Authenticate;
@@ -18,6 +19,7 @@ public static class DiConfigure
     {
         services.ConfigureRedis();
         services.ConfigureLocalization();
+        services.ConfigureRocketChat();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
         services.AddSingleton<ITokenService, TokenService>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
