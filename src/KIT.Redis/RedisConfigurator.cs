@@ -20,7 +20,7 @@ public static class RedisConfigurator
         services.AddSettings<IRedisSettings, RedisSettings>();
         services.AddSingleton<IRedisRepository, RedisRepository>();
         services.AddRedisCache();
-        services.AddSingleton<IRedisHealthCheck, RedisHealthCheck>();  
+        services.AddSingleton<IRedisHealthCheck, RedisHealthCheck>();
     }
 
     /// <summary>
