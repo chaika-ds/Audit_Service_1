@@ -57,12 +57,12 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
         var uid = Guid.NewGuid();
         var dto = new AuditLogTransactionDomainModel
         {
-            EntityId = Guid.NewGuid(),
+            EntityId = Guid.NewGuid().ToString(),
             ProjectId = Guid.NewGuid(),
             NodeId = Guid.NewGuid(),
             ModuleName = ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            Node = ConfigurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
-            Action = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
+            NodeType = ConfigurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
+            ActionName = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
@@ -73,7 +73,7 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
             {
                 Id = uid,
                 Ip = "127.0.0.0",
-                Login = $"login_{uid}",
+                Email = $"login_{uid}",
                 UserAgent = $"agent_{uid}"
             }
         };

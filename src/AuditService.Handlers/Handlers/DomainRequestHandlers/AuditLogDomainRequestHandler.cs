@@ -35,17 +35,17 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
             if (!string.IsNullOrEmpty(filter.CategoryCode))
                 container &= queryContainerDescriptor.Match(t => t.Field(x => x.CategoryCode).Query(filter.CategoryCode));
 
-            if (filter.EntityId.HasValue)
-                container &= queryContainerDescriptor.Term(t => t.EntityId, filter.EntityId.Value);
+            if (!string.IsNullOrEmpty(filter.EntityId))
+                container &= queryContainerDescriptor.Match(t => t.Field(x => x.EntityId).Query(filter.EntityId));
 
             if (!string.IsNullOrEmpty(filter.Ip))
                 container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Ip).Query(filter.Ip));
 
             if (!string.IsNullOrEmpty(filter.Login))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Login).Query(filter.Login));
+                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
             if (filter.Action.Any())
-                container &= queryContainerDescriptor.Terms(t => t.Field(w => w.Action).Terms(filter.Action));
+                container &= queryContainerDescriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action));
 
             if (filter.StartDate.HasValue)
                 container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));

@@ -13,5 +13,5 @@ public interface IPostBufferedMessageCommand
     /// <param name="request">Request model for post a buffered message in a thread</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Execution result</returns>
-    Task<bool> Execute(PostBufferedMessageRequest request, CancellationToken cancellationToken);
+    Task<bool> Execute(PostBufferedMessageRequest request, CancellationToken cancellationToken = default);
 }

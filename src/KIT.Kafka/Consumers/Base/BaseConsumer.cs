@@ -12,13 +12,12 @@ namespace KIT.Kafka.Consumers.Base;
 public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new()
 {
     private readonly IKafkaConsumerFactory _consumerFactory;
-    private readonly IKafkaTopics _kafkaTopics;
     private IKafkaConsumer? _consumer;
-
+    protected readonly IKafkaTopics KafkaTopics;
     protected BaseConsumer(IServiceProvider serviceProvider)
     {
         _consumerFactory = serviceProvider.GetRequiredService<IKafkaConsumerFactory>();
-        _kafkaTopics = serviceProvider.GetRequiredService<IKafkaTopics>();
+        KafkaTopics = serviceProvider.GetRequiredService<IKafkaTopics>();
     }
 
     /// <summary>
@@ -26,7 +25,7 @@ public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new
     /// </summary>
     public void Start()
     {
-        _consumer = _consumerFactory.CreateConsumer(GetTopic(_kafkaTopics));
+        _consumer = _consumerFactory.CreateConsumer(GetTopic(KafkaTopics));
         _consumer.MessageReceived += OnMessageReceivedAsync;
         _consumer.Start();
     }
