@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Xunit;
 
 /// <summary>
-/// Verifier for testing DI injection
+/// Assert for testing DI injection
 /// </summary>
 public partial class Assert
 {

@@ -5,7 +5,7 @@ namespace AuditService.Tests.AuditService.WebApi.Verifiers;
 /// <summary>
 /// ServiceDescriptionExtensions class
 /// </summary>
-public static class ServiceDescriptionExtensions
+internal static class ServiceDescriptionExtensions
 {
     /// <summary>
     /// Check if checked service is in the list of injected services
@@ -15,7 +15,7 @@ public static class ServiceDescriptionExtensions
     /// <param name="serviceDescriptor">ServiceDescriptor</param>
     /// <param name="lifetime">ServiceLifetime</param>
     /// <returns>Is injected or not</returns>
-    public static bool Is<TService, TInstance>(this ServiceDescriptor serviceDescriptor, ServiceLifetime lifetime)
+    internal static bool Is<TService, TInstance>(this ServiceDescriptor serviceDescriptor, ServiceLifetime lifetime)
     {
         var cc = serviceDescriptor.ServiceType == typeof(TService) &&
                  serviceDescriptor.ImplementationType == typeof(TInstance) &&
@@ -23,7 +23,7 @@ public static class ServiceDescriptionExtensions
         return cc;
     }
 
-    public static bool Is<TService>(this ServiceDescriptor serviceDescriptor, ServiceLifetime lifetime)
+    internal static bool Is<TService>(this ServiceDescriptor serviceDescriptor, ServiceLifetime lifetime)
     {
         var cc = serviceDescriptor.ServiceType == typeof(TService) &&
                  serviceDescriptor.Lifetime == lifetime;
