@@ -9,6 +9,17 @@ namespace AuditService.Tests.AuditService.WebApi.Fakes;
 /// </summary>
 public static class ServiceCollectionFake
 {
+    private readonly ServiceCollection _serviceCollectionTest;
+    private readonly ServiceCollectionVerifier _serviceCollectionVerifier;
+
+    public ServiceCollectionFake()
+    {
+        _serviceCollectionTest = new ServiceCollection();
+        _serviceCollectionTest.AddScoped<IConfiguration, ConfigurationFake>();
+
+        _serviceCollectionVerifier = new ServiceCollectionVerifier(_serviceCollectionTest);
+    }
+
     /// <summary>
     /// Fake IServiceCollection for unit test
     /// </summary>
