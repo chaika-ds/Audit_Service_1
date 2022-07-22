@@ -94,7 +94,7 @@ internal class RedisCacheStorage : IRocketChatStorage
         try
         {
             await _redisRepository.SetAsync(CreateKeyForChatBufferKey(bufferedMessage.BufferKey), bufferedMessage,
-                TimeSpan.FromSeconds(_rocketChatStorageSettings.MessageBufferingTimeInMinutes!.Value));
+                TimeSpan.FromMinutes(_rocketChatStorageSettings.MessageBufferingTimeInMinutes!.Value));
         }
         catch (Exception ex)
         {

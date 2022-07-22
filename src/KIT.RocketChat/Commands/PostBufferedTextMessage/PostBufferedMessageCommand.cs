@@ -38,7 +38,7 @@ internal class PostBufferedMessageCommand : IPostBufferedMessageCommand
     /// <param name="request">Request model for post a buffered message in a thread</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Execution result</returns>
-    public async Task<bool> Execute(PostBufferedMessageRequest request, CancellationToken cancellationToken)
+    public async Task<bool> Execute(PostBufferedMessageRequest request, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -49,8 +49,7 @@ internal class PostBufferedMessageCommand : IPostBufferedMessageCommand
                 return false;
 
             var bufferedMessage = await _rocketChatStorage.GetBufferedMessage(request.BufferKey, cancellationToken);
-            var messageId = await TryPostMessage(authData, request.Message, roomId, bufferedMessage?.MessageId,
-                cancellationToken);
+            var messageId = await TryPostMessage(authData, request.Message, roomId, bufferedMessage?.MessageId, cancellationToken);
 
             if (messageId is null)
                 return false;

@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Consts;
 using bgTeam.Extensions;
+using FluentValidation;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
@@ -43,8 +44,8 @@ public static class KafkaConfigurator
         services.AddSettings<IKafkaSettings, KafkaSettings>();
         services.AddSettings<IKafkaConsumerSettings, KafkaConsumerSettings>();
         services.AddSettings<IPermissionPusherSettings, PermissionPusherSettings>();
+        services.AddSettings<ITopicValidationSettings, TopicValidationSettings>();
         services.AddSettings<IKafkaTopics, KafkaTopics>();
-
         return services;
     }
 
@@ -59,7 +60,7 @@ public static class KafkaConfigurator
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
-
+        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>();
         return services;
     }
 }
