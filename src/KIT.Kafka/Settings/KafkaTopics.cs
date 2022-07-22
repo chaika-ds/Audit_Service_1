@@ -6,7 +6,7 @@ namespace KIT.Kafka.Settings;
 /// <summary>
 /// Configuration section of kafka topics
 /// </summary>
-public class KafkaTopics : IKafkaTopics
+internal class KafkaTopics : IKafkaTopics
 {
     /// <summary>
     /// Topic of AuditLog

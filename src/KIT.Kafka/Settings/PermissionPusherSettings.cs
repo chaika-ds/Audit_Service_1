@@ -6,7 +6,7 @@ namespace KIT.Kafka.Settings;
 /// <summary>
 ///     Permission pusher interface to SSO
 /// </summary>
-public class PermissionPusherSettings : IPermissionPusherSettings
+internal class PermissionPusherSettings : IPermissionPusherSettings
 {
     public PermissionPusherSettings(IConfiguration configuration) => ApplySettings(configuration);
 
