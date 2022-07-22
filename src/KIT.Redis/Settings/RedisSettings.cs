@@ -4,7 +4,7 @@ using Tolar.Redis;
 namespace KIT.Redis.Settings;
 
 /// <summary>
-///     Redis service settings
+/// Redis service settings
 /// </summary>
 internal class RedisSettings : IRedisSettings
 {

@@ -39,7 +39,7 @@
     <Compile Update="Resources\ElkJsonResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ElcJsonResource.resx</DependentUpon>
+      <DependentUpon>ElkJsonResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
