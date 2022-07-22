@@ -66,7 +66,7 @@ public class DIConfigureTest
 
         // Assert
         IsRegisteredSettings<IRedisSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<RedisRepository, RedisRepository>(serviceCollectionFake, ServiceLifetime.Singleton);
+        IsRegisteredService<IRedisRepository, RedisRepository>(serviceCollectionFake, ServiceLifetime.Singleton);
         IsRegisteredService<IRedisHealthCheck, RedisHealthCheck>(serviceCollectionFake, ServiceLifetime.Singleton);
     }
 

@@ -40,6 +40,7 @@
       <ProjectReference Include="..\KIT.Kafka\KIT.Kafka.csproj" />
       <ProjectReference Include="..\KIT.NLog\KIT.NLog.csproj" />
       <ProjectReference Include="..\KIT.Redis\KIT.Redis.csproj" />
+      <ProjectReference Include="..\KIT.RocketChat\KIT.RocketChat.csproj" />
     </ItemGroup>
 
   <ItemGroup>

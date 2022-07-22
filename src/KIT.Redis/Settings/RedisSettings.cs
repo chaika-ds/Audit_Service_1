@@ -8,7 +8,7 @@ namespace KIT.Redis.Settings;
 /// </summary>
 internal class RedisSettings : IRedisSettings
 {
-    internal RedisSettings(IConfiguration configuration)
+    public RedisSettings(IConfiguration configuration)
     {
         ApplySettings(configuration);
     }

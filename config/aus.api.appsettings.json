@@ -63,6 +63,21 @@
     },
     "Source": {
       "UriTemplate": "$LOCALIZATION_SOURCE_TEMPLATE_URI"
+    }
+  },
+  "RocketChat": {
+    "User": "$ROCKETCHAT_USER",
+    "Password": "$ROCKETCHAT_PASSWORD",
+    "BaseApiUrl": "$ROCKETCHAT_BASE_API_URL",
+    "ApiVersion": "$ROCKETCHAT_API_VERSION",
+    "Methods": {
+      "Login": "$ROCKETCHAT_METHOD_LOGIN",
+      "GetRooms": "$ROCKETCHAT_METHOD_GETROOMS",
+      "PostMessage": "$ROCKETCHAT_METHOD_POSTMESSAGE"
+    },
+    "Storage": {
+      "AuthDataLifetimeInHours": "$ROCKETCHAT_STORAGE_AUTHDATA_LIFETIME_HOURS",
+      "MessageBufferingTimeInMinutes": "$ROCKETCHAT_STORAGE_MESSAGE_BUFFERING_TIME_MINUTES"
     } 
   } 
 }
