@@ -138,7 +138,7 @@ public class DIConfigureTest
     }
 
     /// <summary>
-    /// Testing ConfigureRedis Method
+    /// Testing RegisterSettings Method
     /// </summary>
     [Fact]
     public void RegisterSettings_SettingsInjection_Injected()
