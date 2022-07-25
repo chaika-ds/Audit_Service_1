@@ -7,6 +7,7 @@ using KIT.RocketChat.ApiClient.Methods.PostMessage;
 using KIT.RocketChat.ApiClient.Methods.PostMessage.Models;
 using KIT.RocketChat.Commands.Authorization;
 using KIT.RocketChat.Commands.PostBufferedTextMessage.Models;
+using KIT.RocketChat.Settings.Interfaces;
 using KIT.RocketChat.Storage;
 using Microsoft.Extensions.Logging;
 
@@ -20,16 +21,19 @@ internal class PostBufferedMessageCommand : IPostBufferedMessageCommand
     private readonly IRocketChatApiClient _apiClient;
     private readonly IAuthorizationCommand _authorizationCommand;
     private readonly ILogger<PostBufferedMessageCommand> _logger;
+    private readonly IRocketChatApiSettings _rocketChatApiSettings;
     private readonly IRocketChatStorage _rocketChatStorage;
 
     public PostBufferedMessageCommand(IAuthorizationCommand authorizationCommand,
         IRocketChatStorage rocketChatStorage, IRocketChatApiClient apiClient,
-        ILogger<PostBufferedMessageCommand> logger)
+        ILogger<PostBufferedMessageCommand> logger,
+        IRocketChatApiSettings rocketChatApiSettings)
     {
         _authorizationCommand = authorizationCommand;
         _rocketChatStorage = rocketChatStorage;
         _apiClient = apiClient;
         _logger = logger;
+        _rocketChatApiSettings = rocketChatApiSettings;
     }
 
     /// <summary>
@@ -40,24 +44,27 @@ internal class PostBufferedMessageCommand : IPostBufferedMessageCommand
     /// <returns>Execution result</returns>
     public async Task<bool> Execute(PostBufferedMessageRequest request, CancellationToken cancellationToken = default)
     {
+        if (_rocketChatApiSettings.IsActive! == false)
+            return false;
+
         try
         {
+            if (await _rocketChatStorage.GetBufferedMessage(request.BufferKey, cancellationToken) is var bufferedMessage 
+                && bufferedMessage is not null && bufferedMessage.IsBlockedMessage)
+                return false;
+
             var authData = await _authorizationCommand.Execute(cancellationToken);
             var roomId = await FindRoomId(request.RoomName, authData, cancellationToken);
 
             if (roomId is null)
                 return false;
-
-            var bufferedMessage = await _rocketChatStorage.GetBufferedMessage(request.BufferKey, cancellationToken);
+            
             var messageId = await TryPostMessage(authData, request.Message, roomId, bufferedMessage?.MessageId, cancellationToken);
 
             if (messageId is null)
                 return false;
 
-            if (bufferedMessage is null)
-                await _rocketChatStorage.SetBufferedMessage(new BufferedMessage(messageId, request.BufferKey),
-                    cancellationToken);
-
+            await ProcessBufferedMessage(bufferedMessage, messageId, request.BufferKey, cancellationToken);
             return true;
         }
         catch (Exception ex)
@@ -65,6 +72,26 @@ internal class PostBufferedMessageCommand : IPostBufferedMessageCommand
             _logger.LogException(ex, contextModel: request);
             return false;
         }
+    }
+
+    /// <summary>
+    ///     Process buffered message after sending.
+    ///     If there is no buffered message - create.
+    /// </summary>
+    /// <param name="bufferedMessage">Buffered message</param>
+    /// <param name="messageId">Message Id</param>
+    /// <param name="bufferKey">Buffer key</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Execution result</returns>
+    private async Task ProcessBufferedMessage(BufferedMessage? bufferedMessage, string messageId, string bufferKey, CancellationToken cancellationToken)
+    {
+        if (bufferedMessage is null)
+        {
+            await _rocketChatStorage.SetBufferedMessage(new BufferedMessage(messageId, bufferKey), cancellationToken);
+            return;
+        }
+
+        await _rocketChatStorage.SetBlockOnBufferedMessage(bufferedMessage.MessageId, cancellationToken);
     }
 
     /// <summary>

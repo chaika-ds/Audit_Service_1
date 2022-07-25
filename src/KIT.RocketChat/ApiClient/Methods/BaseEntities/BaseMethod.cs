@@ -21,12 +21,14 @@ public abstract class BaseMethod<TRequest, TResponse> : IBaseMethod where TReque
     private readonly IRocketChatMethodsSettings _chatMethodsSettings;
     private readonly ILogger<BaseMethod<TRequest, TResponse>> _logger;
     private readonly RestClient _restClient;
+    private readonly IRocketChatApiSettings _rocketChatApiSettings;
 
     protected BaseMethod(IServiceProvider serviceProvider)
     {
         _restClient = serviceProvider.GetRequiredService<RestClient>();
         _logger = serviceProvider.GetRequiredService<ILogger<BaseMethod<TRequest, TResponse>>>();
         _chatMethodsSettings = serviceProvider.GetRequiredService<IRocketChatMethodsSettings>();
+        _rocketChatApiSettings = serviceProvider.GetRequiredService<IRocketChatApiSettings>();
     }
 
     /// <summary>
@@ -39,6 +41,9 @@ public abstract class BaseMethod<TRequest, TResponse> : IBaseMethod where TReque
     {
         try
         {
+            if (_rocketChatApiSettings.IsActive! == false)
+                return new BaseApiResponse<TResponse>("RocketChat is disabled. To resume the chat, enable the chat in the settings.");
+
             var request = CreateRequest(requestModel);
             var response = await _restClient.ExecuteAsync(request, cancellationToken);
 

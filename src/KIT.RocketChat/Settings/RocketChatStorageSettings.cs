@@ -16,9 +16,14 @@ internal class RocketChatStorageSettings : IRocketChatStorageSettings
     public int? AuthDataLifetimeInHours { get; set; }
 
     /// <summary>
-    ///     Message buffering time in minutes
+    ///     Buffered message lifetime in minutes
     /// </summary>
-    public int? MessageBufferingTimeInMinutes { get; set; }
+    public int? BufferedMessageLifetimeInMinutes { get; set; }
+
+    /// <summary>
+    ///     Buffered message block time in minutes
+    /// </summary>
+    public int? BufferedMessageBlockLifetimeInMinutes { get; set; }
 
     /// <summary>
     ///     Apply settings
@@ -26,6 +31,7 @@ internal class RocketChatStorageSettings : IRocketChatStorageSettings
     private void ApplySettings(IConfiguration configuration)
     {
         AuthDataLifetimeInHours = Convert.ToInt32(configuration["RocketChat:Storage:AuthDataLifetimeInHours"]);
-        MessageBufferingTimeInMinutes = Convert.ToInt32(configuration["RocketChat:Storage:MessageBufferingTimeInMinutes"]);
+        BufferedMessageLifetimeInMinutes = Convert.ToInt32(configuration["RocketChat:Storage:BufferedMessageLifetimeInMinutes"]);
+        BufferedMessageBlockLifetimeInMinutes = int.Parse(configuration["RocketChat:Storage:BufferedMessageBlockLifetimeInMinutes"]);
     }
 }

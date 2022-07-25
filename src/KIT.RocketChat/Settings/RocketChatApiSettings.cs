@@ -14,6 +14,12 @@ namespace KIT.RocketChat.Settings
         }
 
         /// <summary>
+        ///     Flag indicating chat activity.
+        ///     Chat can be turned off if needed.
+        /// </summary>
+        public bool? IsActive { get; set; }
+
+        /// <summary>
         ///     API user to authenticate
         /// </summary>
         public string? User { get; set; }
@@ -42,6 +48,7 @@ namespace KIT.RocketChat.Settings
             Password = configuration["RocketChat:Password"];
             BaseApiUrl = configuration["RocketChat:BaseApiUrl"];
             ApiVersion = configuration["RocketChat:ApiVersion"];
+            IsActive = bool.Parse(configuration["RocketChat:IsActive"]);
         }
     }
 }
