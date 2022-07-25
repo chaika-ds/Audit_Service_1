@@ -6,7 +6,7 @@ namespace AuditService.Handlers.Extensions;
 /// <summary>
 ///     ELK extension methods
 /// </summary>
-internal static class ElasticSearchExtensions
+public static class ElasticSearchExtensions
 {
     /// <summary>
     ///     This extension method should only be used in expressions which are analysed by Nest.
