@@ -1,6 +1,8 @@
-﻿using AuditService.Common.Attributes;
+﻿using System.Reflection;
 using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
+using AuditService.Handlers.Helpers;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using MediatR;
 using Newtonsoft.Json;
 using Tolar.Redis;
@@ -32,17 +34,17 @@ public class CachePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
         RequestHandlerDelegate<TResponse> next)
     {
-        if (GetCacheAttribute() is not UseCacheAttribute cacheAttribute)
+        if (GetPipelineBehaviorsAttribute() is not UsePipelineBehaviors usePipelineBehaviorsAttribute)
             return await next();
 
-        var cacheKey = GenerateCacheKey(request, cacheAttribute);
+        var cacheKey = GenerateCacheKey(request);
         var response = await _redisRepository.GetAsync<TResponse>(cacheKey);
 
         if (response is not null)
             return response;
 
         response = await next();
-        await _redisRepository.SetAsync(cacheKey, response, TimeSpan.FromSeconds(cacheAttribute.Lifetime));
+        await _redisRepository.SetAsync(cacheKey, response, TimeSpan.FromSeconds(usePipelineBehaviorsAttribute.CacheLifeTime));
         return response;
     }
 
@@ -50,23 +52,19 @@ public class CachePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     ///     Generate a key to store the cache
     /// </summary>
     /// <param name="request">Request Model</param>
-    /// <param name="useCacheAttribute">Attribute for working with cache</param>
     /// <returns>Key to store the cache</returns>
-    private static string? GenerateCacheKey(TRequest request, UseCacheAttribute useCacheAttribute)
+    private static string? GenerateCacheKey(TRequest request)
     {
-        var masterCacheKey = !string.IsNullOrEmpty(useCacheAttribute.Key)
-            ? useCacheAttribute.Key
-            : request.GetType().Name;
-
         var json = JsonConvert.SerializeObject(request);
-        var key = $"{masterCacheKey}--{json}";
+        var key = $"{request.GetType().Name}--{json}";
         return key.GetHash(HashType.MD5);
     }
 
     /// <summary>
-    ///     Get the cache attribute
+    ///     Get the "UsePipelineBehaviors" attribute
     /// </summary>
-    /// <returns>Cache attribute</returns>
-    private object? GetCacheAttribute()
-        => typeof(TRequest).GetCustomAttributes(typeof(UseCacheAttribute), false).FirstOrDefault();
+    /// <returns>"UsePipelineBehaviors" attribute</returns>
+    private object GetPipelineBehaviorsAttribute() => 
+        HandlerArguments.GetArgumentsThatUsePipelines().FirstOrDefault(arguments =>
+        arguments.RequestType == typeof(TRequest) && arguments.ResponseType == typeof(TResponse)).UsePipelineAttribute;
 }

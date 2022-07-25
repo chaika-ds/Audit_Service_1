@@ -2,6 +2,7 @@
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -10,6 +11,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
     /// <summary>
     ///     Request handler for receiving audit logs (Domain model)
     /// </summary>
+    [UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
     public class AuditLogDomainRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
     {
         public AuditLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
