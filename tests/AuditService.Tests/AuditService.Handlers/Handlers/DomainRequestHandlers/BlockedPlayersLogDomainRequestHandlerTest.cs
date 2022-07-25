@@ -31,13 +31,10 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         Assert.Equal(filter!, _elasticIndexSettings.BlockedPlayersLog!);
     }
 
-    [Fact]
-    public void ApplyFilter_Test()
+    [Theory]
+    [MemberData(nameof(ApplyFilterData))]
+    public void ApplyFilter_Test(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, QueryContainer expected )
     {
-        QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel>();
-        BlockedPlayersLogFilterDto filter = new BlockedPlayersLogFilterDto();
-        QueryContainer expected = new QueryContainer();
-        
         var result = ApplyFilter(queryContainerDescriptor, filter);
 
         Assert.Equal(expected, result);
@@ -103,4 +100,69 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         };
     }
     
+    private IEnumerable<object> ApplyFilterData()
+    {
+        var queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel> ();
+        var filter = new BlockedPlayersLogFilterDto();
+        var container = new QueryContainer();
+
+
+        filter.BlockingDateFrom = DateTime.Now.AddMonths(-1);
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.BlockingDateFrom.Value));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+
+        
+        filter.BlockingDateTo = DateTime.Now.AddMonths(1);
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.BlockingDateTo.Value));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.PreviousBlockingDateFrom = DateTime.Now.AddMonths(-2);
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).GreaterThan(filter.PreviousBlockingDateFrom.Value));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.PreviousBlockingDateTo = DateTime.Now.AddMonths(-1);
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).LessThan(filter.PreviousBlockingDateTo.Value));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+
+        
+        filter.PlayerLogin = "player@gmail.com";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.PlayerId = Guid.NewGuid();
+        container &= queryContainerDescriptor.Term(t => t.PlayerId.UseSuffix(), filter.PlayerId.Value);
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.PlayerIp = "0.0.0.0";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.HallId = Guid.NewGuid();
+        container &= queryContainerDescriptor.Term(t => t.HallId.UseSuffix(), filter.HallId.Value);
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.Platform = "windows";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.Browser = "chrome";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.Browser).Query(filter.Browser));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        
+        filter.Version = "1";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.BrowserVersion).Query(filter.Version));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+        
+        filter.Language = "wn";
+        container &= queryContainerDescriptor.Match(t => t.Field(x => x.Language).Query(filter.Language));
+        yield return new object[] {  queryContainerDescriptor, filter, container };
+    }
 }
