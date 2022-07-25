@@ -5,6 +5,7 @@ using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Localization.Localizer;
 using AuditService.Localization.Localizer.Models;
 using MediatR;
@@ -14,6 +15,7 @@ namespace AuditService.Handlers.Handlers;
 /// <summary>
 ///     Request handler for receiving player changelog
 /// </summary>
+[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
 public class PlayerChangesLogRequestHandler : IRequestHandler<
     LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto>,
     PageResponseDto<PlayerChangesLogResponseDto>>
