@@ -33,9 +33,18 @@ public interface IRocketChatStorage
 
     /// <summary>
     ///     Set buffered message
+    ///     When specifying the "IsBlockedMessage" parameter - blocks the message
     /// </summary>
     /// <param name="bufferedMessage">Buffered message</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Execution result</returns>
     Task SetBufferedMessage(BufferedMessage bufferedMessage, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Set a block on a buffered message
+    /// </summary>
+    /// <param name="messageId">Message Id</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Execution result</returns>
+    Task SetBlockOnBufferedMessage(string messageId, CancellationToken cancellationToken = default);
 }
