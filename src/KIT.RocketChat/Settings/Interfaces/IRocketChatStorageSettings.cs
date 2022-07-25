@@ -11,7 +11,12 @@ public interface IRocketChatStorageSettings
     int? AuthDataLifetimeInHours { get; set; }
 
     /// <summary>
-    ///     Message buffering time in minutes
+    ///     Buffered message lifetime in minutes
     /// </summary>
-    int? MessageBufferingTimeInMinutes { get; set; }
+    int? BufferedMessageLifetimeInMinutes { get; set; }
+
+    /// <summary>
+    ///     Buffered message block time in minutes
+    /// </summary>
+    int? BufferedMessageBlockLifetimeInMinutes { get; set; }
 }
