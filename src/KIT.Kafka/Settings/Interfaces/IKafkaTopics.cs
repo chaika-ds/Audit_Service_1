@@ -1,22 +1,27 @@
 ﻿namespace KIT.Kafka.Settings.Interfaces;
 
 /// <summary>
-/// Configuration section of kafka topics
+///     Configuration section of kafka topics
 /// </summary>
 public interface IKafkaTopics
 {
     /// <summary>
-    /// Topic of AuditLog
+    ///     Topic of BlockedPlayersLog
+    /// </summary>
+    string BlockedPlayersLog { get; set; }
+
+    /// <summary>
+    ///     Topic of AuditLog
     /// </summary>
     string AuditLog { get; set; }
 
     /// <summary>
-    /// Topic of Permissions
+    ///     Topic of Permissions
     /// </summary>
     string Permissions { get; set; }
 
     /// <summary>
-    /// Topic of HealthCheck
+    ///     Topic of HealthCheck
     /// </summary>
     string HealthCheck { get; set; }
 }

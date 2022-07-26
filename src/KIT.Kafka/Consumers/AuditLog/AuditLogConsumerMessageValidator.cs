@@ -4,7 +4,7 @@ using FluentValidation;
 namespace KIT.Kafka.Consumers.AuditLog;
 
 /// <summary>
-/// Audit log consumer message model validator
+///     Audit log consumer message model validator
 /// </summary>
 public class AuditLogConsumerMessageValidator : AbstractValidator<AuditLogConsumerMessage>
 {
