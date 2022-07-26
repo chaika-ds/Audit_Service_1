@@ -2,6 +2,7 @@
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -10,6 +11,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
     /// <summary>
     ///     Request handler for receiving audit logs (Domain model)
     /// </summary>
+    [UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
     public class AuditLogDomainRequestHandler : LogRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
     {
         public AuditLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
@@ -35,17 +37,17 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
             if (!string.IsNullOrEmpty(filter.CategoryCode))
                 container &= queryContainerDescriptor.Match(t => t.Field(x => x.CategoryCode).Query(filter.CategoryCode));
 
-            if (filter.EntityId.HasValue)
-                container &= queryContainerDescriptor.Term(t => t.EntityId, filter.EntityId.Value);
+            if (!string.IsNullOrEmpty(filter.EntityId))
+                container &= queryContainerDescriptor.Match(t => t.Field(x => x.EntityId).Query(filter.EntityId));
 
             if (!string.IsNullOrEmpty(filter.Ip))
                 container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Ip).Query(filter.Ip));
 
             if (!string.IsNullOrEmpty(filter.Login))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Login).Query(filter.Login));
+                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
             if (filter.Action.Any())
-                container &= queryContainerDescriptor.Terms(t => t.Field(w => w.Action).Terms(filter.Action));
+                container &= queryContainerDescriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action));
 
             if (filter.StartDate.HasValue)
                 container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));

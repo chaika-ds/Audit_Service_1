@@ -33,7 +33,7 @@ internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerCha
     /// <summary>
     ///    Set identifier of index
     /// </summary>
-    protected override string GetIdentifierName() => nameof(PlayerChangesLogResponseDto.UserId);
+    protected override string GetIdentifierName() => nameof(PlayerChangesLogResponseDto.Timestamp);
 
     /// <summary>
     ///    Override resource data

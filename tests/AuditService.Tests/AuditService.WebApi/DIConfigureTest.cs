@@ -16,7 +16,7 @@ using AuditService.Localization.Settings;
 using AuditService.Setup;
 using AuditService.Setup.AppSettings;
 using AuditService.Setup.ServiceConfigurations;
-using AuditService.Tests.AuditService.WebApi.Fakes;
+using AuditService.Tests.Fakes;
 using KIT.Kafka;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.HealthCheck;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.Tests.AuditService.WebApi.Fakes;
+namespace AuditService.Tests.Fakes;
 
 /// <summary>
 /// Fake ServiceCollection class for DI unit test

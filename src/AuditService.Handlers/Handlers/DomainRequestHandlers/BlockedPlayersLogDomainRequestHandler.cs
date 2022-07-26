@@ -4,6 +4,7 @@ using AuditService.Common.Models.Domain.BlockedPlayersLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Handlers.Extensions;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
 using ISort = Nest.ISort;
@@ -13,6 +14,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 /// <summary>
 ///     Request handler for receiving blocked players log (Domain model)
 /// </summary>
+[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
 public class BlockedPlayersLogDomainRequestHandler : LogRequestBaseHandler<BlockedPlayersLogFilterDto,
     BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>
 {

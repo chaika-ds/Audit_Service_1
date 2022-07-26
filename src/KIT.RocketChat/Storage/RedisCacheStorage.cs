@@ -4,6 +4,7 @@ using KIT.NLog.Extensions;
 using KIT.RocketChat.ApiClient.Methods.BaseEntities;
 using KIT.RocketChat.Commands.PostBufferedTextMessage.Models;
 using KIT.RocketChat.Settings.Interfaces;
+using KIT.RocketChat.Storage.Models;
 using Microsoft.Extensions.Logging;
 using Tolar.Redis;
 
@@ -35,8 +36,8 @@ internal class RedisCacheStorage : IRocketChatStorage
     {
         try
         {
-            var resources = await _redisRepository.GetAsync<AuthData>(CreateKeyForAuthData());
-            return resources;
+            var authData = await _redisRepository.GetAsync<AuthData>(CreateKeyForAuthData());
+            return authData;
         }
         catch (Exception ex)
         {
@@ -73,8 +74,10 @@ internal class RedisCacheStorage : IRocketChatStorage
     {
         try
         {
-            var resources = await _redisRepository.GetAsync<BufferedMessage>(CreateKeyForChatBufferKey(bufferKey));
-            return resources;
+            var bufferedMessageStoreModel = await _redisRepository.GetAsync<BufferedMessageStoreModel>(CreateKeyForChatBufferKey(bufferKey));
+
+            return bufferedMessageStoreModel == null ? null : 
+                new BufferedMessage(bufferedMessageStoreModel.MessageId, bufferedMessageStoreModel.BufferKey, await IsBlockedMessage(bufferedMessageStoreModel.MessageId));
         }
         catch (Exception ex)
         {
@@ -85,6 +88,7 @@ internal class RedisCacheStorage : IRocketChatStorage
 
     /// <summary>
     ///     Set buffered message
+    ///     When specifying the "IsBlockedMessage" parameter - blocks the message
     /// </summary>
     /// <param name="bufferedMessage">Buffered message</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -93,14 +97,65 @@ internal class RedisCacheStorage : IRocketChatStorage
     {
         try
         {
-            await _redisRepository.SetAsync(CreateKeyForChatBufferKey(bufferedMessage.BufferKey), bufferedMessage,
-                TimeSpan.FromSeconds(_rocketChatStorageSettings.MessageBufferingTimeInMinutes!.Value));
+            var bufferedMessageStoreModel = new BufferedMessageStoreModel(bufferedMessage.MessageId, bufferedMessage.BufferKey);
+
+            await _redisRepository.SetAsync(CreateKeyForChatBufferKey(bufferedMessage.BufferKey), bufferedMessageStoreModel,
+                TimeSpan.FromMinutes(_rocketChatStorageSettings.BufferedMessageLifetimeInMinutes!.Value));
+
+            if (bufferedMessage.IsBlockedMessage)
+                await SetBlockOnBufferedMessage(bufferedMessage.MessageId, cancellationToken);
         }
         catch (Exception ex)
         {
             _logger.LogException(ex, "Setting BufferedMessage to cache failed", bufferedMessage);
         }
     }
+
+    /// <summary>
+    ///     Set a block on a buffered message
+    /// </summary>
+    /// <param name="messageId">Message Id</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Execution result</returns>
+    public async Task SetBlockOnBufferedMessage(string messageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var cacheKey = CreateKeyForMessageBlocking(messageId);
+            await _redisRepository.DeleteAsync(cacheKey);
+            await _redisRepository.SetAsync(cacheKey, new BlockingMessageStoreModel(messageId), 
+                TimeSpan.FromMinutes(_rocketChatStorageSettings.BufferedMessageBlockLifetimeInMinutes!.Value));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogException(ex, "Block buffered message failed", messageId);
+        }
+    }
+    
+    /// <summary>
+    ///     Check if a message is blocked
+    /// </summary>
+    /// <param name="messageId">Message Id</param>
+    /// <returns>The message is blocked</returns>
+    private async Task<bool> IsBlockedMessage(string messageId)
+    {
+        try
+        {
+            return await _redisRepository.GetAsync<BlockingMessageStoreModel>(CreateKeyForMessageBlocking(messageId)) != null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogException(ex, "Getting BlockingMessage from cache failed", messageId);
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Create key to message blocking
+    /// </summary>
+    /// <param name="messageId">Message Id</param>
+    /// <returns>Redis cache key</returns>
+    private static string CreateKeyForMessageBlocking(string messageId) => $"MessageBlocking_{messageId}".GetHash(HashType.MD5)!;
 
     /// <summary>
     ///     Create key to auth data(Redis cache key)

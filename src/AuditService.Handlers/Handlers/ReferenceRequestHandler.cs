@@ -3,6 +3,7 @@ using AuditService.Common.Extensions;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Resources;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -11,6 +12,7 @@ namespace AuditService.Handlers.Handlers
     /// <summary>
     /// Handler for a request to receive reference resources (services\categories)
     /// </summary>
+    [UsePipelineBehaviors(UseCache = true, UseLogging = true)]
     public class ReferenceRequestHandler : IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
         IRequestHandler<GetCategoriesRequest, IDictionary<ModuleName, CategoryDomainModel[]>>,
         IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>,

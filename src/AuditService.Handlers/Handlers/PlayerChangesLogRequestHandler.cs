@@ -5,6 +5,7 @@ using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Localization.Localizer;
 using AuditService.Localization.Localizer.Models;
 using MediatR;
@@ -14,6 +15,7 @@ namespace AuditService.Handlers.Handlers;
 /// <summary>
 ///     Request handler for receiving player changelog
 /// </summary>
+[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
 public class PlayerChangesLogRequestHandler : IRequestHandler<
     LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto>,
     PageResponseDto<PlayerChangesLogResponseDto>>
@@ -63,7 +65,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
         var eventByModules = await _mediator.Send(new GetEventsRequest(), cancellationToken);
 
         return await groupedModels.SelectManyAsync(
-            groupedModel => GenerateResponseModelsAsync(groupedModel, eventByModules[groupedModel.Key], language, cancellationToken));
+            groupedModel => GenerateResponseGroupedModelsAsync(groupedModel, eventByModules[groupedModel.Key], language, cancellationToken));
     }
 
     /// <summary>
@@ -74,9 +76,10 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
     /// <param name="language">Language for localization</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Response model for player card logchanges</returns>
-    private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseModelsAsync(
+    private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseGroupedModelsAsync(
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModel, EventDomainModel[] @events, string? language, CancellationToken cancellationToken)
     {
+        var cc = groupedModel.GetType();
         var localizedKeys = await LocalizeKeysForGroupedModelsAsync(groupedModel, language, cancellationToken);
 
         return groupedModel.Select(model => SelectToPlayerChangesLogResponseDto(model, localizedKeys,
