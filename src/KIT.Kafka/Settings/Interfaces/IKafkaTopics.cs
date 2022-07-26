@@ -6,6 +6,11 @@
 public interface IKafkaTopics
 {
     /// <summary>
+    ///     Topic of PlayerChangesLog
+    /// </summary>
+    string PlayerChangesLog { get; set; }
+
+    /// <summary>
     ///     Topic of BlockedPlayersLog
     /// </summary>
     string BlockedPlayersLog { get; set; }

@@ -14,7 +14,13 @@ internal class KafkaTopics : IKafkaTopics
         Permissions = config["Kafka:Topics:PermissionsTopic"];
         HealthCheck = config["Kafka:Topics:HealthCheck"];
         BlockedPlayersLog = config["Kafka:Topics:BlockedPlayersLog"];
+        PlayerChangesLog = config["Kafka:Topics:PlayerChangesLog"];
     }
+
+    /// <summary>
+    ///     Topic of PlayerChangesLog
+    /// </summary>
+    public string PlayerChangesLog { get; set; }
 
     /// <summary>
     ///     Topic of BlockedPlayersLog
