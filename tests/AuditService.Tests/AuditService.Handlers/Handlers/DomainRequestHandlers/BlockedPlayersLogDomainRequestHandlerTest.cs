@@ -11,16 +11,25 @@ using Nest;
 
 namespace AuditService.Tests.AuditService.Handlers.Handlers.DomainRequestHandlers;
 
+
+/// <summary>
+/// Blocked Players Log Domain Request Handler Test
+/// </summary>
 public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomainRequestHandler
 {
     private readonly IElasticIndexSettings _elasticIndexSettings;
 
+    /// <summary>
+    /// Initialize Blocked Players Log Domain Request Handler
+    /// </summary>
     public BlockedPlayersLogDomainRequestHandlerTest(IServiceProvider serviceProvider) : base(serviceProvider)
     {
         _elasticIndexSettings = serviceProvider.GetRequiredService<IElasticIndexSettings>();
     }
-
     
+    /// <summary>
+    /// Unit Test for GetQueryIndex
+    /// </summary>
     [Fact]
     public void QueryIndex_Test()
     {
@@ -31,6 +40,9 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         Assert.Equal(filter!, _elasticIndexSettings.BlockedPlayersLog!);
     }
 
+    /// <summary>
+    /// Unit Test for ApplyFilter
+    /// </summary>
     [Theory]
     [MemberData(nameof(ApplyFilterData))]
     public void ApplyFilter_Test(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, QueryContainer expected )
@@ -40,6 +52,10 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         Assert.Equal(expected, result);
     }
     
+    
+    /// <summary>
+    /// Unit Test for ApplySorting
+    /// </summary>
     [Theory]
     [MemberData(nameof(ApplySortingData))]
     public void ApplySorting_Test(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel, SortDescriptor<BlockedPlayersLogDomainModel> expected)
@@ -49,7 +65,9 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         Assert.Equal(expected, result);
     }
 
-
+    /// <summary>
+    /// Unit Test for GetColumnNameToSort
+    /// </summary>
     [Theory]
     [MemberData(nameof(GetColumnNameToSortData))]
     public void GetColumnNameToSort_Test(BlockedPlayersLogSortDto actual, string expected)
@@ -59,6 +77,9 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Input test data for GetColumnNameToSort
+    /// </summary>
     private IEnumerable<object> GetColumnNameToSortData()
     {
         yield return new object[]
@@ -83,6 +104,9 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         };
     }
 
+    /// <summary>
+    /// Input test data for ApplySorting
+    /// </summary>
     private IEnumerable<object> ApplySortingData()
     {
         var sortDescriptor = new SortDescriptor<BlockedPlayersLogDomainModel>();
@@ -100,6 +124,9 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         };
     }
     
+    /// <summary>
+    /// Input test data for ApplyFilter
+    /// </summary>
     private IEnumerable<object> ApplyFilterData()
     {
         var queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel> ();

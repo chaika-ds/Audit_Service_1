@@ -9,8 +9,16 @@ using Moq;
 
 namespace AuditService.Tests.AuditService.Handlers.Handlers;
 
+
+/// <summary>
+/// Blocked Players Log Request Handler Test
+/// </summary>
 public class BlockedPlayersLogRequestHandlerTest
 {
+    
+    /// <summary>
+    /// Unit test for handle method async
+    /// </summary>
     [Fact]
     public async Task Handle_Test_Async()
     {
