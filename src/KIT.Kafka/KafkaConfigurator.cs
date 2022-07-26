@@ -4,7 +4,9 @@ using FluentValidation;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
+using KIT.Kafka.Consumers.AuditLog.Validators;
 using KIT.Kafka.Consumers.BlockedPlayersLog;
+using KIT.Kafka.Consumers.PlayerChangesLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -36,6 +38,11 @@ public static class KafkaConfigurator
                 });
 
                 configuration.Consumer<BlockedPlayersLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<PlayerChangesLogConsumer>(settings =>
                 {
                     settings.RunForEnvironments(validationConsumerEnvironments);
                 });

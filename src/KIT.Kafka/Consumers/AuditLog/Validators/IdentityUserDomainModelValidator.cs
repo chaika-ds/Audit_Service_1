@@ -1,7 +1,7 @@
 ﻿using AuditService.Common.Models.Domain;
 using FluentValidation;
 
-namespace KIT.Kafka.Consumers.AuditLog;
+namespace KIT.Kafka.Consumers.AuditLog.Validators;
 
 /// <summary>
 /// User information model validator.
