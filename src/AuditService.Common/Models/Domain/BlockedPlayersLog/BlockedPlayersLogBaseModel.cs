@@ -5,74 +5,43 @@ namespace AuditService.Common.Models.Domain.BlockedPlayersLog;
 /// <summary>
 ///     Blocked player log base model
 /// </summary>
-public abstract class BlockedPlayersLogBaseModel
+public abstract class BlockedPlayersLogBaseModel : BlockedPlayersLogBriefBaseModel
 {
     protected BlockedPlayersLogBaseModel()
     {
-        PlayerLogin = string.Empty;
-        Browser = string.Empty;
-        Language = string.Empty;
-        BrowserVersion = string.Empty;
+        HallName = string.Empty;
+        ProjectName = string.Empty;
+        LastVisitIpAddress = string.Empty;
+        Platform = string.Empty;
     }
 
     /// <summary>
-    ///     Player hall Id
+    ///     Hall name
     /// </summary>
     [Required]
-    public Guid HallId { get; set; }
+    public string HallName { get; set; }
 
     /// <summary>
-    ///     Login of the blocked player
-    ///     (if not - then mail, if there is no mail - phone)
+    ///     ID of the project where the hall is located
     /// </summary>
     [Required]
-    public string PlayerLogin { get; set; }
+    public Guid ProjectId { get; set; }
 
     /// <summary>
-    ///     Blocked player Id
+    ///     Project name
     /// </summary>
     [Required]
-    public Guid PlayerId { get; set; }
+    public string ProjectName { get; set; }
 
     /// <summary>
-    ///     Date and time the lock was set
+    ///     The IP address from which the login attempt was made before being blocked
     /// </summary>
     [Required]
-    public DateTime BlockingDate { get; set; }
+    public string LastVisitIpAddress { get; set; }
 
     /// <summary>
-    ///     Date and time of the previous block
-    /// </summary>
-    public DateTime? PreviousBlockingDate { get; set; }
-
-    /// <summary>
-    ///     Counter of the number of player bans
-    ///     (1 - if the first, 2 - if the second, etc.)
+    ///     The operating system of the device with which the player logged in
     /// </summary>
     [Required]
-    public int BlocksCounter { get; set; }
-
-    /// <summary>
-    ///     Browser that the player logged in from
-    /// </summary>
-    [Required]
-    public string Browser { get; set; }
-
-    /// <summary>
-    ///     Browser version
-    /// </summary>
-    [Required]
-    public string BrowserVersion { get; set; }
-
-    /// <summary>
-    ///     Player interface language code
-    /// </summary>
-    [Required]
-    public string Language { get; set; }
-
-    /// <summary>
-    ///     Date and time of the blocked (ISO 8601 UTC standard)
-    /// </summary>
-    [Required]
-    public DateTime Timestamp { get; set; }
+    public string Platform { get; set; }
 }
