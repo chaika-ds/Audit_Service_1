@@ -1,8 +1,10 @@
 ﻿using AuditService.Common.Consts;
 using bgTeam.Extensions;
+using FluentValidation;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
+using KIT.Kafka.Consumers.BlockedPlayersLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -23,16 +25,24 @@ public static class KafkaConfigurator
     /// <param name="environmentName">Host environment name</param>
     public static void ConfigureKafka(this IServiceCollection services, string environmentName)
     {
+        var validationConsumerEnvironments = GetValidationConsumerEnvironments();
+
         services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(
             configuration =>
             {
                 configuration.Consumer<AuditLogConsumer>(settings =>
                 {
-                    settings.RunForEnvironments(EnvironmentNameConst.Debug, EnvironmentNameConst.Development);
+                    settings.RunForEnvironments(validationConsumerEnvironments);
                 });
+
+                configuration.Consumer<BlockedPlayersLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
             }, environmentName);
     }
-
+    
     /// <summary>
     ///     Add settings for working with kafka
     /// </summary>
@@ -43,8 +53,8 @@ public static class KafkaConfigurator
         services.AddSettings<IKafkaSettings, KafkaSettings>();
         services.AddSettings<IKafkaConsumerSettings, KafkaConsumerSettings>();
         services.AddSettings<IPermissionPusherSettings, PermissionPusherSettings>();
+        services.AddSettings<ITopicValidationSettings, TopicValidationSettings>();
         services.AddSettings<IKafkaTopics, KafkaTopics>();
-
         return services;
     }
 
@@ -59,7 +69,20 @@ public static class KafkaConfigurator
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
-
+        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
         return services;
     }
+
+    /// <summary>
+    ///     Get validation consumers environments
+    /// </summary>
+    /// <returns>Validation consumers environments</returns>
+    private static string[] GetValidationConsumerEnvironments() =>
+        new[]
+        {
+            EnvironmentNameConst.Debug,
+            EnvironmentNameConst.Development,
+            EnvironmentNameConst.Uat,
+            EnvironmentNameConst.Test
+        };
 }

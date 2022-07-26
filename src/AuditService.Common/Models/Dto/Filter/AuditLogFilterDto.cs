@@ -33,7 +33,7 @@ public class AuditLogFilterDto
     /// <summary>
     ///     ID of the logged entity (possible types of UUID/Long values)
     /// </summary>
-    public Guid? EntityId { get; set; }
+    public string? EntityId { get; set; }
 
     /// <summary>
     ///     Types of action

@@ -44,8 +44,12 @@
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
       "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS",
-      "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK"
-    }
+      "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK",
+      "BlockedPlayersLog": "$KAFKA_TOPIC_BLOCKED_PLAYERS_LOG"
+    },
+    "TopicValidation": {
+      "ValidationResultChat": "$KAFKA_TOPIC_VALIDATIONRESULT_CHAT"
+    }  
   },
   "SSO": {
     "ServiceName": "$SSO_SERVICE_NAME",
@@ -68,6 +72,7 @@
   "RocketChat": {
     "User": "$ROCKETCHAT_USER",
     "Password": "$ROCKETCHAT_PASSWORD",
+    "IsActive": "$ROCKETCHAT_IS_ACTIVE",
     "BaseApiUrl": "$ROCKETCHAT_BASE_API_URL",
     "ApiVersion": "$ROCKETCHAT_API_VERSION",
     "Methods": {
@@ -77,7 +82,8 @@
     },
     "Storage": {
       "AuthDataLifetimeInHours": "$ROCKETCHAT_STORAGE_AUTHDATA_LIFETIME_HOURS",
-      "MessageBufferingTimeInMinutes": "$ROCKETCHAT_STORAGE_MESSAGE_BUFFERING_TIME_MINUTES"
-    } 
+      "BufferedMessageLifetimeInMinutes": "$ROCKETCHAT_STORAGE_BUFFERED_MESSAGE_LIFETIME_MINUTES",
+      "BufferedMessageBlockLifetimeInMinutes": "$ROCKETCHAT_STORAGE_BUFFERED_MESSAGE_BLOCKTIME_MINUTES"
+    }
   } 
 }

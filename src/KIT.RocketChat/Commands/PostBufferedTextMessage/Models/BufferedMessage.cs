@@ -5,10 +5,11 @@
 /// </summary>
 public class BufferedMessage
 {
-    public BufferedMessage(string messageId, string bufferKey)
+    public BufferedMessage(string messageId, string bufferKey, bool isBlockedMessage = true)
     {
         MessageId = messageId;
         BufferKey = bufferKey;
+        IsBlockedMessage = isBlockedMessage;
     }
 
     /// <summary>
@@ -20,4 +21,9 @@ public class BufferedMessage
     ///     Buffer key
     /// </summary>
     public string BufferKey { get; set; }
+
+    /// <summary>
+    ///     Buffered message blocked
+    /// </summary>
+    public bool IsBlockedMessage { get; set; }
 }

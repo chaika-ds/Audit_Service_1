@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Tolar.Authenticate" Version="6.0.860" />
     <PackageReference Include="Tolar.Kafka" Version="6.0.860" />
@@ -17,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\KIT.NLog\KIT.NLog.csproj" />
+    <ProjectReference Include="..\KIT.RocketChat\KIT.RocketChat.csproj" />
   </ItemGroup>
 
 </Project>

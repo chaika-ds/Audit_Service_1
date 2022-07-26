@@ -6,7 +6,7 @@ namespace AuditService.Common.Models.Dto;
 /// <summary>
 ///     Blocked player log response model
 /// </summary>
-public class BlockedPlayersLogResponseDto : BlockedPlayersLogBaseModel
+public class BlockedPlayersLogResponseDto : BlockedPlayersLogBriefBaseModel
 {
     public BlockedPlayersLogResponseDto()
     {
@@ -28,4 +28,10 @@ public class BlockedPlayersLogResponseDto : BlockedPlayersLogBaseModel
     /// </summary>
     [Required]
     public string OperatingSystem { get; set; }
+
+    /// <summary>
+    ///     Date and time of the blocked (ISO 8601 UTC standard)
+    /// </summary>
+    [Required]
+    public DateTime Timestamp { get; set; }
 }
