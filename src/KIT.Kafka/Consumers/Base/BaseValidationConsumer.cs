@@ -1,13 +1,17 @@
 ﻿using System.Text;
 using AuditService.Common.Consts;
+using AuditService.Common.Enums;
+using AuditService.Common.Extensions;
 using FluentValidation;
 using FluentValidation.Results;
+using KIT.Kafka.Consumers.AuditLog;
 using KIT.Kafka.Settings.Interfaces;
 using KIT.NLog.Extensions;
 using KIT.RocketChat.Commands.PostBufferedTextMessage;
 using KIT.RocketChat.Commands.PostBufferedTextMessage.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace KIT.Kafka.Consumers.Base;
 
@@ -105,6 +109,29 @@ public abstract class BaseValidationConsumer<TModel> : BaseConsumer<TModel> wher
         stringBuilder.AppendLine("*Validation errors:*");
         errors.ForEach(error => stringBuilder.AppendLine($"> {error.ErrorMessage}"));
         return stringBuilder.ToString();
+    }
+
+    /// <summary>
+    ///     Get module name from message(json message from topic)
+    /// </summary>
+    /// <param name="topicMessage">Topic message</param>
+    /// <returns>Module name(Identificator of service)</returns>
+    protected ModuleName? GetModuleNameFromMessage(string topicMessage)
+    {
+        try
+        {
+            var data = JObject.Parse(topicMessage);
+            var moduleNameStringValue = data[nameof(AuditLogConsumerMessage.ModuleName).ToCamelCase()]?.Value<string>();
+
+            if (string.IsNullOrEmpty(moduleNameStringValue))
+                return null;
+
+            return Enum.Parse<ModuleName>(moduleNameStringValue);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
