@@ -24,24 +24,28 @@ internal class ConsumersRunningConfiguration
     /// <param name="setUp">Consumer setup action</param>
     public void Consumer<TConsumer>(Action<ConsumerSettings>? setUp = null) where TConsumer : class, IConsumer
     {
-        if (NeedRegisterConsumer(setUp))
-            _serviceCollection.AddSingleton<IConsumer, TConsumer>();
+        if (setUp is null)
+        {
+            _serviceCollection.AddTransient<IConsumer, TConsumer>();
+            return;
+        }
+
+        var consumerSettings = new ConsumerSettings();
+        setUp.Invoke(consumerSettings);
+
+        if (!NeedRegisterConsumer(consumerSettings))
+            return;
+
+        for (var i = 0; i < consumerSettings.LaunchedCounts; i++)
+            _serviceCollection.AddTransient<IConsumer, TConsumer>();
     }
 
     /// <summary>
     ///     Check if the consumer needs to be register
     /// </summary>
-    /// <param name="setUp">Consumer setup action</param>
+    /// <param name="consumerSettings">Consumer settings</param>
     /// <returns>Need to register</returns>
-    private bool NeedRegisterConsumer(Action<ConsumerSettings>? setUp = null)
-    {
-        if (setUp is null)
-            return true;
-
-        var consumerSettings = new ConsumerSettings();
-        setUp.Invoke(consumerSettings);
-
-        return consumerSettings.AvailableEnvironments == null || consumerSettings.AvailableEnvironments.Any(env =>
-            string.Equals(env, _environmentName, StringComparison.CurrentCultureIgnoreCase));
-    }
+    private bool NeedRegisterConsumer(ConsumerSettings consumerSettings) => 
+        consumerSettings.AvailableEnvironments == null || consumerSettings.AvailableEnvironments.Any(env =>
+        string.Equals(env, _environmentName, StringComparison.CurrentCultureIgnoreCase));
 }

@@ -1,5 +1,4 @@
 using AuditService.ELK.FillTestData.Models;
-using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;

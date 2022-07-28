@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KIT.Redis", "src\KIT.Redis\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Localization", "src\AuditService.Localization\AuditService.Localization.csproj", "{4B24FF84-051A-40EB-9FA1-16F0193562C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIT.RocketChat", "src\KIT.RocketChat\KIT.RocketChat.csproj", "{C3124417-34C6-43A6-95CF-0D7E9317730B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KIT.RocketChat", "src\KIT.RocketChat\KIT.RocketChat.csproj", "{C3124417-34C6-43A6-95CF-0D7E9317730B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AuditService.ELK.FillTestData.Resources
-{
+namespace AuditService.ELK.FillTestData.Resources {
     using System;
     
     
@@ -56,8 +55,7 @@ namespace AuditService.ELK.FillTestData.Resources
             get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
@@ -88,6 +86,16 @@ namespace AuditService.ELK.FillTestData.Resources
         internal static byte[] playerChanges {
             get {
                 object obj = ResourceManager.GetObject("playerChanges", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] visitLogData {
+            get {
+                object obj = ResourceManager.GetObject("visitLogData", resourceCulture);
                 return ((byte[])(obj));
             }
         }
