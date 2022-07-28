@@ -28,6 +28,7 @@ namespace AuditService.ELK.FillTestData.Extensions
             services.AddScoped<AuditLogDataGenerator>();
             services.AddScoped<BlockedPlayersLogDataGenerator>();
             services.AddScoped<PlayerChangesLogDataLogDataGenerator>();
+            services.AddScoped<VisitLogGenerator>();
 
             services.AddElasticSearch();
         }

@@ -15,6 +15,9 @@ internal class KafkaTopics : IKafkaTopics
         HealthCheck = config["Kafka:Topics:HealthCheck"];
         BlockedPlayersLog = config["Kafka:Topics:BlockedPlayersLog"];
         PlayerChangesLog = config["Kafka:Topics:PlayerChangesLog"];
+        SsoPlayersChangesLog = config["Kafka:Topics:SsoPlayersChangesLog"];
+        SsoUsersChangesLog = config["Kafka:Topics:SsoUsersChangesLog"];
+        Visitlog = config["Kafka:Topics:Visitlog"];
     }
 
     /// <summary>
@@ -41,4 +44,19 @@ internal class KafkaTopics : IKafkaTopics
     ///     Topic of HealthCheck
     /// </summary>
     public string HealthCheck { get; set; }
+
+    /// <summary>
+    ///     Topic of SsoPlayersChangesLog
+    /// </summary>
+    public string SsoPlayersChangesLog { get; set; }
+
+    /// <summary>
+    ///     Topic of SsoUsersChangesLog
+    /// </summary>
+    public string SsoUsersChangesLog { get; set; }
+
+    /// <summary>
+    ///     Topic of Visitlog
+    /// </summary>
+    public string Visitlog { get; set; }
 }
