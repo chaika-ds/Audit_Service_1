@@ -229,6 +229,27 @@ pentest deploy:
   tags:
     - pentest
 
+stage deploy:
+  extends: .k8sdeploy
+  when: manual
+  only:
+    - master
+    - web
+  variables:
+    NAMESPACE: "core2"
+    K8SCONF: "$LTKUBECFG"
+    DOMAIN_CI: "k8slt.work"
+    APPDOMAIN: "audit-stage"
+    KAFKA1: kafka-b1.k8slt.work
+    KAFKA2: kafka-b2.k8slt.work
+    KAFKA3: kafka-b3.k8slt.work
+    IPS1: 10.77.7.15
+    IPS2: 10.77.7.21
+    IPS3: 10.77.7.27
+    TLS: cloudflare-tls
+  tags:
+    - lt
+
 prod deploy:
   extends: .k8sdeploy
   when: manual
