@@ -1,12 +1,22 @@
+using System.Security.Cryptography;
 using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Domain.BlockedPlayersLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers;
 using AuditService.Handlers.Extensions;
 using AuditService.Handlers.Handlers.DomainRequestHandlers;
 using AuditService.Setup.AppSettings;
+using AuditService.Tests.AuditService.GetAuditLog;
+using AuditService.Tests.AuditService.GetAuditLog.Models;
+using AuditService.Tests.Factories.Fakes;
+using AuditService.Tests.Resources;
+using bgTeam.Extensions;
+using Elasticsearch.Net;
 using Microsoft.Extensions.DependencyInjection;
+using Namotion.Reflection;
 using Nest;
 
 namespace AuditService.Tests.AuditService.Handlers.Handlers.DomainRequestHandlers;
@@ -17,21 +27,22 @@ namespace AuditService.Tests.AuditService.Handlers.Handlers.DomainRequestHandler
 /// </summary>
 public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomainRequestHandler
 {
+    private static readonly IServiceProvider ServiceProvider = GetServiceProvder();
     private readonly IElasticIndexSettings _elasticIndexSettings;
 
     /// <summary>
     /// Initialize Blocked Players Log Domain Request Handler
     /// </summary>
-    public BlockedPlayersLogDomainRequestHandlerTest(IServiceProvider serviceProvider) : base(serviceProvider)
+    public BlockedPlayersLogDomainRequestHandlerTest() : base(ServiceProvider)
     {
-        _elasticIndexSettings = serviceProvider.GetRequiredService<IElasticIndexSettings>();
+        _elasticIndexSettings = ServiceProvider.GetRequiredService<IElasticIndexSettings>();
     }
     
     /// <summary>
     /// Unit Test for GetQueryIndex
     /// </summary>
     [Fact]
-    public void QueryIndex_Test()
+    public void Check_QueryIndex_Method_Return_IndexName()
     {
         var filter = GetQueryIndex(_elasticIndexSettings);
 
@@ -45,11 +56,11 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     /// </summary>
     [Theory]
     [MemberData(nameof(ApplyFilterData))]
-    public void ApplyFilter_Test(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, QueryContainer expected )
+    public void Check_ApplyFilter_Method_Return_Result(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, QueryContainer expected )
     {
-        var result = ApplyFilter(queryContainerDescriptor, filter);
+        var result =  ApplyFilter(queryContainerDescriptor, filter);
 
-        Assert.Equal(expected, result);
+        Assert.Equal(result, expected);
     }
     
     
@@ -58,11 +69,11 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     /// </summary>
     [Theory]
     [MemberData(nameof(ApplySortingData))]
-    public void ApplySorting_Test(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel, SortDescriptor<BlockedPlayersLogDomainModel> expected)
+    public void Check_ApplySorting_Method_Return_Sort_Field(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel, SortDescriptor<BlockedPlayersLogDomainModel> expected)
     {
         var result = ApplySorting(sortDescriptor, logSortModel) as SortDescriptor<BlockedPlayersLogDomainModel>;
-
-        Assert.Equal(expected, result);
+        
+        Assert.Equal(expected,result);
     }
 
     /// <summary>
@@ -70,7 +81,7 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     /// </summary>
     [Theory]
     [MemberData(nameof(GetColumnNameToSortData))]
-    public void GetColumnNameToSort_Test(BlockedPlayersLogSortDto actual, string expected)
+    public void Check_GetColumnNameToSort_Return_SortedColumName(BlockedPlayersLogSortDto actual, string expected)
     {
         var result = GetColumnNameToSort(actual);
 
@@ -80,15 +91,15 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     /// <summary>
     /// Input test data for GetColumnNameToSort
     /// </summary>
-    private IEnumerable<object> GetColumnNameToSortData()
+    private static IEnumerable<object> GetColumnNameToSortData()
     {
         yield return new object[]
         {
-            new BlockedPlayersLogSortDto {FieldSortType = BlockedPlayersLogSortType.BlockingDate}, nameof(BlockedPlayersLogDomainModel.BlocksCounter).ToCamelCase()
+            new BlockedPlayersLogSortDto {FieldSortType = BlockedPlayersLogSortType.BlockingDate}, nameof(BlockedPlayersLogDomainModel.BlockingDate).ToCamelCase()
         };
         yield return new object[]
         {
-            new BlockedPlayersLogSortDto {FieldSortType = BlockedPlayersLogSortType.BlocksCounter}, nameof(BlockedPlayersLogDomainModel.BlockingDate).ToCamelCase()
+            new BlockedPlayersLogSortDto {FieldSortType = BlockedPlayersLogSortType.BlocksCounter}, nameof(BlockedPlayersLogDomainModel.BlocksCounter).ToCamelCase()
         };
         yield return new object[]
         {
@@ -98,16 +109,12 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         {
             new BlockedPlayersLogSortDto {FieldSortType = BlockedPlayersLogSortType.Version}, nameof(BlockedPlayersLogDomainModel.BrowserVersion).ToCamelCase()
         };
-        yield return new object[]
-        {
-            new BlockedPlayersLogSortDto(), nameof(BlockedPlayersLogDomainModel.Timestamp).ToCamelCase()
-        };
     }
 
     /// <summary>
     /// Input test data for ApplySorting
     /// </summary>
-    private IEnumerable<object> ApplySortingData()
+    private static IEnumerable<object> ApplySortingData()
     {
         var sortDescriptor = new SortDescriptor<BlockedPlayersLogDomainModel>();
         var logSortModel = new BlockedPlayersLogSortDto() {FieldSortType = BlockedPlayersLogSortType.Version};
@@ -118,16 +125,12 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
             logSortModel,
             sortDescriptor.Field(field => field.BrowserVersion.UseSuffix(), (SortOrder) logSortModel.SortableType)
         };
-        yield return new object[]
-        {
-            base.ApplySorting(sortDescriptor, logSortModel)
-        };
     }
     
     /// <summary>
     /// Input test data for ApplyFilter
     /// </summary>
-    private IEnumerable<object> ApplyFilterData()
+    private static IEnumerable<object> ApplyFilterData()
     {
         var queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel> ();
         var filter = new BlockedPlayersLogFilterDto();
@@ -191,5 +194,25 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         filter.Language = "wn";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.Language).Query(filter.Language));
         yield return new object[] {  queryContainerDescriptor, filter, container };
+    }
+    
+    /// <summary>
+    ///     Getting fake service provider 
+    /// </summary>
+    private static IServiceProvider GetServiceProvder()
+    {
+        var services = new ServiceCollection();
+
+        DiConfigure.RegisterServices(services);
+        services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
+        services.AddLogging();
+        services.AddScoped(serviceProvider =>
+        {
+            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse);
+        });
+
+        var serviceProvider = services.BuildServiceProvider();
+
+        return serviceProvider;
     }
 }

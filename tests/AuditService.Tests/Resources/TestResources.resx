@@ -121,6 +121,10 @@
     <value>as-auditlog</value>
     <comment>default index for testing</comment>
   </data>
+  <data name="BlockedPlayersLog" xml:space="preserve">
+    <value>as-blockedplayerslog</value>
+    <comment> blocked players log index for testing</comment>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ElasticSearchResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ElasticSearchResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

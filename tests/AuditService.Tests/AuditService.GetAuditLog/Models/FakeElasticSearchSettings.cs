@@ -49,5 +49,6 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     public FakeElasticSearchSettings()
     {
         AuditLog = TestResources.DefaultIndex;
+        BlockedPlayersLog = TestResources.BlockedPlayersLog;
     }
 }
