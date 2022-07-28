@@ -28,6 +28,8 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     /// </summary>
     public string? BlockedPlayersLog { get; set; }
 
+    public string? VisitLog { get; set; }
+
     /// <summary>
     ///     Connection URL for ELK
     /// </summary>

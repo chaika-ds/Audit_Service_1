@@ -1,6 +1,7 @@
 ﻿using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Handlers;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.AuditService.GetAuditLog.Models;
 using AuditService.Tests.Factories.Fakes;
@@ -45,7 +46,7 @@ public class ElasticSearchGetAuditLogTest
     {
         var services = new ServiceCollection();
 
-        Handlers.DiConfigure.RegisterServices(services);
+        DiConfigure.RegisterServices(services);
         services.AddSingleton<IRedisRepository, FakeRedisReposetoryForCachePipelineBehavior>();
         services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
         services.AddLogging();
