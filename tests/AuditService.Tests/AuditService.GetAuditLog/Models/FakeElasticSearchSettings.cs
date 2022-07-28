@@ -34,9 +34,19 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     public string? ConnectionUrl { get; set; }
 
     /// <summary>
+    ///     UserName for ELK
+    /// </summary>
+    public string? UserName { get; set; }
+
+    /// <summary>
+    ///     Password for ELK
+    /// </summary>
+    public string? Password { get; set; }
+
+    /// <summary>
     ///     Apply ELK indexes configs
     /// </summary>
-    private void ApplySettings()
+    public FakeElasticSearchSettings()
     {
         AuditLog = TestResources.DefaultIndex;
     }
