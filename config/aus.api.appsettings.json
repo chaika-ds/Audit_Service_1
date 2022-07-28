@@ -44,10 +44,12 @@
     "Topics": {
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
       "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS",
-      "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK"
+      "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK",
+      "BlockedPlayersLog": "$KAFKA_TOPIC_BLOCKED_PLAYERS_LOG",
+      "PlayerChangesLog": "$KAFKA_TOPIC_PLAYER_CHANGES_LOG"
     },
     "TopicValidation": {
-      "ValidationResultChat": "$KAFKA_TOPIC_VALIDATIONRESULT_CHAT"
+      "ValidationResultChat": "$KAFKA_VALIDATION_RESULT_CHAT"
     }  
   },
   "SSO": {

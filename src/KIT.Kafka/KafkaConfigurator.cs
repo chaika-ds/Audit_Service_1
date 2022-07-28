@@ -4,6 +4,9 @@ using FluentValidation;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
+using KIT.Kafka.Consumers.AuditLog.Validators;
+using KIT.Kafka.Consumers.BlockedPlayersLog;
+using KIT.Kafka.Consumers.PlayerChangesLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -24,16 +27,29 @@ public static class KafkaConfigurator
     /// <param name="environmentName">Host environment name</param>
     public static void ConfigureKafka(this IServiceCollection services, string environmentName)
     {
+        var validationConsumerEnvironments = GetValidationConsumerEnvironments();
+
         services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(
             configuration =>
             {
                 configuration.Consumer<AuditLogConsumer>(settings =>
                 {
-                    settings.RunForEnvironments(EnvironmentNameConst.Debug, EnvironmentNameConst.Development);
+                    settings.RunForEnvironments(validationConsumerEnvironments);
                 });
+
+                configuration.Consumer<BlockedPlayersLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<PlayerChangesLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
             }, environmentName);
     }
-
+    
     /// <summary>
     ///     Add settings for working with kafka
     /// </summary>
@@ -60,7 +76,20 @@ public static class KafkaConfigurator
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
-        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>();
+        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
         return services;
     }
+
+    /// <summary>
+    ///     Get validation consumers environments
+    /// </summary>
+    /// <returns>Validation consumers environments</returns>
+    private static string[] GetValidationConsumerEnvironments() =>
+        new[]
+        {
+            EnvironmentNameConst.Debug,
+            EnvironmentNameConst.Development,
+            EnvironmentNameConst.Uat,
+            EnvironmentNameConst.Test
+        };
 }

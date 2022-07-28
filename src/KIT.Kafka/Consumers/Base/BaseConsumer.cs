@@ -14,6 +14,7 @@ public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new
     private readonly IKafkaConsumerFactory _consumerFactory;
     private IKafkaConsumer? _consumer;
     protected readonly IKafkaTopics KafkaTopics;
+
     protected BaseConsumer(IServiceProvider serviceProvider)
     {
         _consumerFactory = serviceProvider.GetRequiredService<IKafkaConsumerFactory>();
