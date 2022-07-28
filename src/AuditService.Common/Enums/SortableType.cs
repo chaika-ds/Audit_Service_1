@@ -1,13 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace AuditService.Common.Enums;
 
-namespace AuditService.Common.Enums
+/// <summary>
+///     Sortable type
+/// </summary>
+public enum SortableType
 {
-    /// <summary>
-    ///     Sortable type
-    /// </summary>
-    public enum SortableType
-    {
-        Ascending = 1,
-        Descending = 2
-    }
+    Ascending = 1,
+    Descending = 2
 }

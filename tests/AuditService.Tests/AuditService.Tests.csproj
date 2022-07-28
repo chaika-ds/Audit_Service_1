@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -36,6 +36,21 @@
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
     <ProjectReference Include="..\..\src\KIT.Kafka\KIT.Kafka.csproj" />
     <ProjectReference Include="..\..\src\KIT.Redis\KIT.Redis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\TestResources.Designer.cs">
+      <DependentUpon>TestResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\TestResources.resx">
+      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   
 </Project>
