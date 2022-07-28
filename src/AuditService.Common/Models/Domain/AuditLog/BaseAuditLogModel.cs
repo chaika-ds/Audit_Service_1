@@ -1,12 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using AuditService.Common.Enums;
+using Newtonsoft.Json;
 
-namespace AuditService.Common.Models.Domain.AuditLog;
-
-/// <summary>
-///     Audit log base model
-/// </summary>
-public abstract class BaseAuditLogModel
+namespace AuditService.Common.Models.Domain.AuditLog
 {
     protected BaseAuditLogModel()
     {
@@ -29,7 +25,7 @@ public abstract class BaseAuditLogModel
     public Guid NodeId { get; set; }
 
     /// <summary>
-    ///     Node Type
+    ///     Audit log base model
     /// </summary>
     [Required]
     public NodeType NodeType { get; set; }
