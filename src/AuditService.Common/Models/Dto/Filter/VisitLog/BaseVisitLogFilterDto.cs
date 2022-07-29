@@ -1,9 +1,9 @@
-﻿namespace AuditService.Common.Models.Dto.Filter;
+﻿namespace AuditService.Common.Models.Dto.Filter.VisitLog;
 
 /// <summary>
-///     Filter model for player visit log
+///     Base filter model for visit log
 /// </summary>
-public class PlayerVisitLogFilterDto
+public abstract class BaseVisitLogFilterDto
 {
     /// <summary>
     ///     Login
@@ -11,19 +11,9 @@ public class PlayerVisitLogFilterDto
     public string? Login { get; set; }
 
     /// <summary>
-    ///     Player Id
-    /// </summary>
-    public Guid? PlayerId { get; set; }
-
-    /// <summary>
     ///     Ip
     /// </summary>
     public string? Ip { get; set; }
-
-    /// <summary>
-    ///     Hall Id
-    /// </summary>
-    public Guid? HallId { get; set; }
 
     /// <summary>
     ///     Device type
