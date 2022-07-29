@@ -5,6 +5,6 @@
 /// </summary>
 public enum SortableType
 {
-    Ascending = 1,
-    Descending = 2
+    Ascending = 0,
+    Descending = 1
 }

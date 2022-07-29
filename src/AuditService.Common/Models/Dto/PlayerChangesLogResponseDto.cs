@@ -1,5 +1,4 @@
 ﻿using AuditService.Common.Models.Domain.PlayerChangesLog;
-using Newtonsoft.Json;
 
 namespace AuditService.Common.Models.Dto;
 

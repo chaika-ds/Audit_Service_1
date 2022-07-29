@@ -91,7 +91,7 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
         {
             OperatingSystem = $"linux_{randomValue}",
             Browser = $"opera_{randomValue}",
-            DeviceType = DeviceType.Desktop,
+            DeviceType = "Desktop"
         };
 
         if (isPlayer)

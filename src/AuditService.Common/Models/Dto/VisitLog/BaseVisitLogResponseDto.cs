@@ -1,19 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AuditService.Common.Enums;
 
-namespace AuditService.Common.Models.Domain;
+namespace AuditService.Common.Models.Dto.VisitLog;
 
 /// <summary>
-///     An object containing authorization data
+///     Response model for base visit log
 /// </summary>
-public class AuthorizationDataDomainModel
+public abstract class BaseVisitLogResponseDto
 {
-    public AuthorizationDataDomainModel()
+    protected BaseVisitLogResponseDto()
     {
+        Login = string.Empty;
+        Ip = string.Empty;
+        DeviceType = string.Empty;
         OperatingSystem = string.Empty;
         Browser = string.Empty;
-        DeviceType = string.Empty;
     }
+
+    /// <summary>
+    ///     Login
+    /// </summary>
+    [Required]
+    public string Login { get; set; }
+
+    /// <summary>
+    ///     IP address
+    /// </summary>
+    [Required]
+    public string Ip { get; set; }
 
     /// <summary>
     ///     Device type
@@ -34,7 +47,8 @@ public class AuthorizationDataDomainModel
     public string Browser { get; set; }
 
     /// <summary>
-    ///     Player authorization type
+    ///     Date and time of visit(Start date)
     /// </summary>
-    public string? AuthorizationType { get; set; }
+    [Required]
+    public DateTime VisitTime { get; set; }
 }
