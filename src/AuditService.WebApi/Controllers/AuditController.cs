@@ -83,7 +83,7 @@ public class AuditController : ControllerBase
     /// </summary>
     [HttpGet]
     [Route("usersvisitlog")]
-    [Authorization("Audit.Journal.GetPlayersVisitLog")]
+    [Authorization("Audit.Journal.GetUsersVisitLog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<UserVisitLogResponseDto>))]
     public async Task<PageResponseDto<UserVisitLogResponseDto>> GetUsersVisitLogAsync(
         [FromQuery] LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto> request, CancellationToken cancellationToken)
