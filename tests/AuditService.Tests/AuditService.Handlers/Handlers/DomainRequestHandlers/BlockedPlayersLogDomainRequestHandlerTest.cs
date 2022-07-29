@@ -1,33 +1,25 @@
-using System.Security.Cryptography;
 using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
-using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Domain.BlockedPlayersLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers;
-using AuditService.Handlers.Extensions;
+using AuditService.Handlers.Consts;
 using AuditService.Handlers.Handlers.DomainRequestHandlers;
 using AuditService.Setup.AppSettings;
-using AuditService.Tests.AuditService.GetAuditLog;
 using AuditService.Tests.AuditService.GetAuditLog.Models;
 using AuditService.Tests.Factories.Fakes;
 using AuditService.Tests.Resources;
-using bgTeam.Extensions;
-using Elasticsearch.Net;
 using Microsoft.Extensions.DependencyInjection;
-using Namotion.Reflection;
 using Nest;
 
 namespace AuditService.Tests.AuditService.Handlers.Handlers.DomainRequestHandlers;
-
 
 /// <summary>
 /// Blocked Players Log Domain Request Handler Test
 /// </summary>
 public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomainRequestHandler
 {
-    private static readonly IServiceProvider ServiceProvider = GetServiceProvder();
+    private static readonly IServiceProvider ServiceProvider = GetServiceProvider();
     private readonly IElasticIndexSettings _elasticIndexSettings;
 
     /// <summary>
@@ -37,7 +29,7 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     {
         _elasticIndexSettings = ServiceProvider.GetRequiredService<IElasticIndexSettings>();
     }
-    
+
     /// <summary>
     /// Unit Test for GetQueryIndex
     /// </summary>
@@ -45,8 +37,6 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     public void Check_QueryIndex_Method_Return_IndexName()
     {
         var filter = GetQueryIndex(_elasticIndexSettings);
-
-        Assert.NotNull(filter!);
 
         Assert.Equal(filter!, _elasticIndexSettings.BlockedPlayersLog!);
     }
@@ -56,24 +46,29 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
     /// </summary>
     [Theory]
     [MemberData(nameof(ApplyFilterData))]
-    public void Check_ApplyFilter_Method_Return_Result(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, QueryContainer expected )
+    public void Check_ApplyFilter_Method_Return_Result(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter, IQueryContainer expected)
     {
-        var result =  ApplyFilter(queryContainerDescriptor, filter);
+        var result = ApplyFilter(queryContainerDescriptor, filter);
 
-        Assert.Equal(result, expected);
+        if (expected is QueryContainerDescriptor<BlockedPlayersLogDomainModel>)
+            Assert.Contains(expected, (result as IQueryContainer).Bool.Must);
+        else
+            Assert.Equal(expected, result);
+
+        Assert.True(true);
     }
-    
-    
+
     /// <summary>
     /// Unit Test for ApplySorting
     /// </summary>
     [Theory]
     [MemberData(nameof(ApplySortingData))]
-    public void Check_ApplySorting_Method_Return_Sort_Field(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel, SortDescriptor<BlockedPlayersLogDomainModel> expected)
+    public void Check_ApplySorting_Method_Return_Sort_Field(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel,
+        SortDescriptor<BlockedPlayersLogDomainModel> expected)
     {
         var result = ApplySorting(sortDescriptor, logSortModel) as SortDescriptor<BlockedPlayersLogDomainModel>;
-        
-        Assert.Equal(expected,result);
+
+        Assert.Equal(expected, result);
     }
 
     /// <summary>
@@ -123,93 +118,88 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         {
             sortDescriptor,
             logSortModel,
-            sortDescriptor.Field(field => field.BrowserVersion.UseSuffix(), (SortOrder) logSortModel.SortableType)
+            sortDescriptor.Field(field => field.BrowserVersion.Suffix(ElasticConst.SuffixKeyword), (SortOrder) logSortModel.SortableType)
         };
     }
-    
+
     /// <summary>
     /// Input test data for ApplyFilter
     /// </summary>
     private static IEnumerable<object> ApplyFilterData()
     {
-        var queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel> ();
+        var queryContainerDescriptor = new QueryContainerDescriptor<BlockedPlayersLogDomainModel>();
         var filter = new BlockedPlayersLogFilterDto();
         var container = new QueryContainer();
 
 
         filter.BlockingDateFrom = DateTime.Now.AddMonths(-1);
         container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.BlockingDateFrom.Value));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
+        yield return new object[] {queryContainerDescriptor, filter, container};
 
-        
+
         filter.BlockingDateTo = DateTime.Now.AddMonths(1);
         container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.BlockingDateTo.Value));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.PreviousBlockingDateFrom = DateTime.Now.AddMonths(-2);
         container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).GreaterThan(filter.PreviousBlockingDateFrom.Value));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.PreviousBlockingDateTo = DateTime.Now.AddMonths(-1);
         container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).LessThan(filter.PreviousBlockingDateTo.Value));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
+        yield return new object[] {queryContainerDescriptor, filter, container};
 
-        
+
         filter.PlayerLogin = "player@gmail.com";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.PlayerId = Guid.NewGuid();
-        container &= queryContainerDescriptor.Term(t => t.PlayerId.UseSuffix(), filter.PlayerId.Value);
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        container &= queryContainerDescriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId.Value);
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.PlayerIp = "0.0.0.0";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.HallId = Guid.NewGuid();
-        container &= queryContainerDescriptor.Term(t => t.HallId.UseSuffix(), filter.HallId.Value);
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        container &= queryContainerDescriptor.Term(t => t.HallId.Suffix(ElasticConst.SuffixKeyword), filter.HallId.Value);
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.Platform = "windows";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.Browser = "chrome";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.Browser).Query(filter.Browser));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
+
         filter.Version = "1";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.BrowserVersion).Query(filter.Version));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
-        
+        yield return new object[] {queryContainerDescriptor, filter, container};
+
         filter.Language = "wn";
         container &= queryContainerDescriptor.Match(t => t.Field(x => x.Language).Query(filter.Language));
-        yield return new object[] {  queryContainerDescriptor, filter, container };
+        yield return new object[] {queryContainerDescriptor, filter, container};
     }
-    
+
     /// <summary>
     ///     Getting fake service provider 
     /// </summary>
-    private static IServiceProvider GetServiceProvder()
+    private static IServiceProvider GetServiceProvider()
     {
         var services = new ServiceCollection();
 
-        DiConfigure.RegisterServices(services);
         services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
-        services.AddLogging();
-        services.AddScoped(serviceProvider =>
-        {
-            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse);
-        });
+        services.AddScoped(_ => FakeElasticSearchClientProvider.GetFakeElasticSearchClient<BlockedPlayersLogDomainModel>(TestResources.ElasticSearchResponse));
 
         var serviceProvider = services.BuildServiceProvider();
 
