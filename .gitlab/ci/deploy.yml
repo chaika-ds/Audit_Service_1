@@ -13,14 +13,17 @@ services:
   only:
     - develop
   image:
-    name: bitnami/kubectl
+    name: ${K8S_DEPLOY_IMAGE}
     entrypoint: [""]
   stage: deploy
+  dependencies:
+    - apiVersion
   tags:
     - testuat
   before_script:
     - echo "$K8SCONF" > k8sconfig
     - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
+    - export CI_IMAGE_TAG=$(cat version/current.ver)
   script:
     - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
     - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deploymentsuat.yml
@@ -40,15 +43,17 @@ services:
         kubectl -n $NAMESPACE rollout status deployment audit-service-api
         exit 1
       fi
+    - notify deploy --env ${K8S_ENV} --service-name ${CI_PROJECT_NAME} --version ${CI_IMAGE_TAG} --commit ${CI_COMMIT_SHA}
 
 .k8sdeploy:
   only:
     - develop
   image:
-    name: bitnami/kubectl
+    name: ${K8S_DEPLOY_IMAGE}
     entrypoint: [""]
   stage: deploy
   dependencies:
+    - apiVersion
     - sonar
   tags:
     - demo
@@ -57,6 +62,7 @@ services:
   before_script:
     - echo "$K8SCONF" > k8sconfig
     - export KUBECONFIG="$CI_PROJECT_DIR/k8sconfig"
+    - export CI_IMAGE_TAG=$(cat version/current.ver)
   script:
     - sed -ie "s/from_ci_NS/$NAMESPACE/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
     - sed -ie "s/from_ci_APPDOMAIN/$APPDOMAIN/g" $CI_PROJECT_DIR/.gitlab/ci/manifests/deployments.yml
@@ -76,11 +82,15 @@ services:
         kubectl -n $NAMESPACE rollout status deployment audit-service-api
         exit 1
       fi
+    - notify deploy --env ${K8S_ENV} --service-name ${CI_PROJECT_NAME} --version ${CI_IMAGE_TAG} --commit ${CI_COMMIT_SHA}
 
 test deploy:
   extends: .k8sdeployuat
   when: manual
+  environment:
+    name: test
   variables:
+    K8S_ENV: test
     NAMESPACE: "test-tolar-audit-service"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
@@ -98,7 +108,10 @@ test deploy:
 test2 deploy:
   extends: .k8sdeployuat
   when: manual
+  environment:
+    name: test2
   variables:
+    K8S_ENV: test2
     NAMESPACE: "test2"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
@@ -116,7 +129,10 @@ test2 deploy:
 test3 deploy:
   extends: .k8sdeployuat
   when: manual
+  environment:
+    name: test3
   variables:
+    K8S_ENV: test3
     NAMESPACE: "test3"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
@@ -134,7 +150,10 @@ test3 deploy:
 uat deploy:
   extends: .k8sdeployuat
   when: manual
+  environment:
+    name: uat
   variables:
+    K8S_ENV: uat
     NAMESPACE: "tolar-audit-service"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
@@ -152,7 +171,10 @@ uat deploy:
 t9 deploy:
   extends: .k8sdeployuat
   when: manual
+  environment:
+    name: t9
   variables:
+    K8S_ENV: t9
     NAMESPACE: "t9"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
@@ -170,10 +192,13 @@ t9 deploy:
 demo deploy:
   extends: .k8sdeploy
   when: manual
+  environment:
+    name: demo
   only:
     - develop
     - web
   variables:
+    K8S_ENV: demo
     NAMESPACE: "core2"
     K8SCONF: "$DEMOKUBECFG"
     DOMAIN_CI: "k8demo.cyou"
@@ -191,10 +216,13 @@ demo deploy:
 lt deploy:
   extends: .k8sdeploy
   when: manual
+  environment:
+    name: lt
   only:
     - master
     - web
   variables:
+    K8S_ENV: lt
     NAMESPACE: "audit"
     K8SCONF: "$LTKUBECFG"
     DOMAIN_CI: "k8slt.work"
@@ -212,9 +240,12 @@ lt deploy:
 pentest deploy:
   extends: .k8sdeploy
   when: manual
+  environment:
+    name: pentest
 #  only:
 #     - master
   variables:
+    K8S_ENV: pentest
     NAMESPACE: "audit"
     K8SCONF: "$PENTEST_KUBECFG"
     DOMAIN_CI: "penp2.work"
@@ -232,10 +263,13 @@ pentest deploy:
 stage deploy:
   extends: .k8sdeploy
   when: manual
+  environment:
+    name: stage
   only:
     - master
     - web
   variables:
+    K8S_ENV: stage
     NAMESPACE: "core2"
     K8SCONF: "$LTKUBECFG"
     DOMAIN_CI: "k8slt.work"
@@ -253,10 +287,13 @@ stage deploy:
 prod deploy:
   extends: .k8sdeploy
   when: manual
+  environment:
+    name: production
   only:
     - master
     - web
   variables:
+    K8S_ENV: production
     NAMESPACE: "audit"
     K8SCONF: "$PROD_KUBECFG"
     DOMAIN_CI: "k8platform.xyz"
