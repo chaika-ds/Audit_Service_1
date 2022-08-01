@@ -34,7 +34,6 @@ public class ElasticSearchGetAuditLogTest
         //Act 
         var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
 
-
         //Assert
         Assert.True(result.List.Any());
     }     

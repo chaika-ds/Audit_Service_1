@@ -61,6 +61,33 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to as-internal-applicationlog.
+        /// </summary>
+        public static string ApplicationLog {
+            get {
+                return ResourceManager.GetString("ApplicationLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-blockedplayerslog.
+        /// </summary>
+        public static string BlockedPlayersLog {
+            get {
+                return ResourceManager.GetString("BlockedPlayersLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://localhost:9200.
+        /// </summary>
+        public static string ConnectionUrl {
+            get {
+                return ResourceManager.GetString("ConnectionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to as-auditlog.
         /// </summary>
         public static string DefaultIndex {
@@ -76,6 +103,15 @@ namespace AuditService.Tests.Resources {
             get {
                 object obj = ResourceManager.GetObject("ElasticSearchResponse", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-playerchangeslog.
+        /// </summary>
+        public static string PlayerChangesLog {
+            get {
+                return ResourceManager.GetString("PlayerChangesLog", resourceCulture);
             }
         }
     }

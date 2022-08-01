@@ -4,7 +4,6 @@ using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
 using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
-using Nest;
 
 namespace AuditService.ELK.FillTestData.Generators;
 
