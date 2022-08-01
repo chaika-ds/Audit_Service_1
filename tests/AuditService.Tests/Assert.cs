@@ -47,4 +47,15 @@ public partial class Assert
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
         True(serviceDescriptor?.Is<TService>(lifetime));
     }
+
+    /// <summary>
+    /// Assert if response is received in TResponse format
+    /// </summary>
+    /// <typeparam name="TResponse">Response type</typeparam>
+    /// <param name="response">TResponse</param>
+    public static void IsPlayerChangesLogReceived<TResponse>(TResponse response)
+    {
+        NotNull(response!);
+        IsType<TResponse>(response!);
+    }
 }

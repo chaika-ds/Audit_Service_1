@@ -1,26 +1,16 @@
 ﻿using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Pagination;
+using static Xunit.Assert;
 
-namespace Xunit;
+namespace AuditService.Tests.AuditService.Handlers.Asserts;
 
 /// <summary>
-/// Assert for testing LogRequestBaseHandlerMo
+/// Assert for testing LogRequestBaseHandler
 /// </summary>
-public partial class Assert
+public static class LogRequestBaseHandlerAsserts
 {
-        /// <summary>
-        /// Assert if response is received in TResponse format
-        /// </summary>
-        /// <typeparam name="TResponse">Response type</typeparam>
-        /// <param name="response">TResponse</param>
-        public static void IsPlayerChangesLogReceived<TResponse>(TResponse response)
-        {
-            NotNull(response!);
-            IsType<PageResponseDto<PlayerChangesLogResponseDto>>(response!);
-        }
-
-        /// <summary>
+    /// <summary>
         /// Assert if pagination mapping is correct
         /// </summary>
         /// <param name="paginationResponse">PaginationResponseDto</param>

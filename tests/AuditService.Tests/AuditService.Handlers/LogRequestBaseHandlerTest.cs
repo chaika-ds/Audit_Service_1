@@ -6,6 +6,7 @@ using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Handlers.Handlers;
+using AuditService.Tests.AuditService.Handlers.Asserts;
 using AuditService.Tests.AuditService.Handlers.Fakes;
 using AuditService.Tests.AuditService.Handlers.Mock;
 using AuditService.Tests.Extensions;
@@ -53,10 +54,10 @@ public class LogRequestBaseHandlerTest
 
         //Assert
         IsPlayerChangesLogReceived(playerChangesLogHandleResponse);
-        IsEqualPaginationResponse(playerChangesLogHandleResponse.Pagination, handleSendResponse.Pagination);
-        IsEqualPlayerChangesLogResponse(playerChangesLogHandleResponse.List.ToList(), handleSendResponse.List.ToList(),
+        LogRequestBaseHandlerAsserts.IsEqualPaginationResponse(playerChangesLogHandleResponse.Pagination, handleSendResponse.Pagination);
+        LogRequestBaseHandlerAsserts.IsEqualPlayerChangesLogResponse(playerChangesLogHandleResponse.List.ToList(), handleSendResponse.List.ToList(),
             responseModelsSendResponse.Values.SelectMany(v => v.Select(x => x.Name)).ToArray());
-        IsLocalizePlayerAttributeLocalized(playerChangesLogHandleResponse.List.ToList(),
+        LogRequestBaseHandlerAsserts.IsLocalizePlayerAttributeLocalized(playerChangesLogHandleResponse.List.ToList(),
             handleSendResponse.List.ToList(), tryLocalizeResponse);
     }
 
