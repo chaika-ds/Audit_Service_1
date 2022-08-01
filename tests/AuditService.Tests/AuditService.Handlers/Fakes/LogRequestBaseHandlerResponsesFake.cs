@@ -26,10 +26,9 @@ internal class LogRequestBaseHandlerResponsesFake
     /// Fake request for mediator Send method with LogFilterRequestDto param
     /// </summary>
     /// <returns>PageResponseDto of PlayerChangesLogDomainModel</returns>
-    internal static List<PlayerChangesLogDomainModel> GetTestPlayerChangesLogDomainModelNullResponse()
+    internal static PlayerChangesLogDomainModel GetTestPlayerChangesLogDomainModelResponse()
     {
-        return new List<PlayerChangesLogDomainModel>
-        {
+        return
             new()
             {
                 User = new()
@@ -41,7 +40,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode2,
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp2),
+                Timestamp = FakeValues.Timestamp2,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()
@@ -73,7 +72,18 @@ internal class LogRequestBaseHandlerResponsesFake
                     }
                 },
                 ModuleName = ModuleName.CCR
-            }
+            };
+    }
+
+    /// <summary>
+    /// Fake request for mediator Send method with array of LogFilterRequestDto param
+    /// </summary>
+    /// <returns>PageResponseDto of PlayerChangesLogDomainModel</returns>
+    internal static List<PlayerChangesLogDomainModel> GetTestPlayerChangesLogDomainModelNullResponse()
+    {
+        return new List<PlayerChangesLogDomainModel>
+        {
+            GetTestPlayerChangesLogDomainModelResponse()
         };
     }
 
@@ -96,7 +106,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode1,
                 IpAddress = FakeValues.IpAddress1,
                 Reason = FakeValues.Reason1,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp1),
+                Timestamp = FakeValues.Timestamp1,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey1"] = new()
@@ -140,7 +150,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode2,
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp2),
+                Timestamp = FakeValues.Timestamp2,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()

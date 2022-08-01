@@ -1,12 +1,15 @@
-﻿namespace AuditService.Tests.AuditService.Handlers.Fakes;
+﻿using System.Globalization;
+using Xunit.Sdk;
+
+namespace AuditService.Tests.AuditService.Handlers.Fakes;
 
 /// <summary>
 /// Fake values for testing PlayerChangesLogRequestHandler
 /// </summary>
 internal class FakeValues
 {
-    internal static string Timestamp1 = "28/07/2022";
-    internal static string Timestamp2 = "29/07/2022";
+    internal static DateTime Timestamp1 = DateTime.ParseExact("28/07/2022", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+    internal static DateTime Timestamp2 = DateTime.ParseExact("29/07/2022", "dd/MM/yyyy", CultureInfo.InvariantCulture);
     internal static Guid UserId1 = Guid.NewGuid();
     internal static Guid UserId2 = Guid.NewGuid();
 
