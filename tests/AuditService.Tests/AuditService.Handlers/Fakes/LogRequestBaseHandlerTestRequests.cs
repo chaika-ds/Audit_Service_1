@@ -48,7 +48,7 @@ internal class LogRequestBaseHandlerTestRequests
                 "EventKey1",
                 "EventKey2"
             },
-            Language = "ENG"
+            Language = FakeValues.LanguageTest
         };
     }
 

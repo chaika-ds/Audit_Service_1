@@ -79,7 +79,6 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
     private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseGroupedModelsAsync(
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModel, EventDomainModel[] @events, string? language, CancellationToken cancellationToken)
     {
-        var cc = groupedModel.GetType();
         var localizedKeys = await LocalizeKeysForGroupedModelsAsync(groupedModel, language, cancellationToken);
 
         return groupedModel.Select(model => SelectToPlayerChangesLogResponseDto(model, localizedKeys,

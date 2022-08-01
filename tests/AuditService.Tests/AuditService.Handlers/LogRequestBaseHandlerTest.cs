@@ -21,14 +21,12 @@ public class LogRequestBaseHandlerTest
     private readonly HandlerMock<PlayerChangesLogFilterDto, LogSortDto,
         PlayerChangesLogDomainModel> _handlersMock;
 
-    private readonly string _languageTest;
     private readonly CancellationToken _tokenTest;
 
 
     public LogRequestBaseHandlerTest()
     {
         _handlersMock = new HandlerMock<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>();
-        _languageTest = "ENG";
         var cts = new CancellationTokenSource();
         _tokenTest = cts.Token;
     }
@@ -84,7 +82,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
-                domainModels, _languageTest, _tokenTest);
+                domainModels, FakeValues.LanguageTest, _tokenTest);
 
         ////Assert
         Equal(playerChangesLogResponseDto.SerializeToString(), responseInvoke.ToList().SerializeToString());
@@ -106,7 +104,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
-                domainModels, _languageTest, _tokenTest);
+                domainModels, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         IsNotType<IEnumerable<PlayerChangesLogResponseDto>>(() => responseInvoke);
@@ -130,7 +128,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
-                domainModels, _languageTest, _tokenTest);
+                domainModels, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         NotNull(() => responseInvoke.Exception!);
@@ -162,7 +160,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>(
-                "GenerateResponseGroupedModelsAsync", groupedModels, events, _languageTest, _tokenTest);
+                "GenerateResponseGroupedModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         Equal(playerChangesLogResponseDto.SerializeToString(), responseInvoke.ToList().SerializeToString());
@@ -186,7 +184,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>(
-                "GenerateResponseGroupedModelsAsync", groupedModels, events, _languageTest, _tokenTest);
+                "GenerateResponseGroupedModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         IsNotType<IEnumerable<PlayerChangesLogResponseDto>>(() => responseInvoke);
@@ -211,7 +209,7 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseGroupedModelsAsync",
-                groupedModels, events, _languageTest, _tokenTest);
+                groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         NotNull(() => responseInvoke.Exception!);

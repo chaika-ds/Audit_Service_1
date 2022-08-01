@@ -34,13 +34,13 @@ internal class LogRequestBaseHandlerResponsesFake
             {
                 User = new()
                 {
-                    Email = "test@test.email2",
+                    Email = FakeValues.UserLogin2,
                     Id = FakeValues.UserId2,
                     UserAgent = FakeValues.UserAgent2
                 },
                 EventCode = FakeValues.EventCode2,
-                IpAddress = "111.111.111.111",
-                Reason = "TestReason2",
+                IpAddress = FakeValues.IpAddress2,
+                Reason = FakeValues.Reason2,
                 Timestamp = DateTime.Parse(FakeValues.Timestamp2),
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {

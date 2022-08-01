@@ -57,4 +57,6 @@ internal class FakeValues
 
     internal static string UserLogin1 = "test@test.email1";
     internal static string UserLogin2 = "test@test.email2";
+
+    internal static string LanguageTest = "en";
 }
