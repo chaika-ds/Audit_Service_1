@@ -11,6 +11,11 @@ internal class ConsumerSettings
     public IList<string>? AvailableEnvironments { get; set; }
 
     /// <summary>
+    ///     Number of concurrently running consumers
+    /// </summary>
+    public int LaunchedCounts { get; set; } = 1;
+
+    /// <summary>
     ///     Run consumers for environments
     /// </summary>
     /// <param name="environments">Run consumers for environments</param>

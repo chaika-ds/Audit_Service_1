@@ -1,3 +1,4 @@
+using AuditService.Tests.Factories.Interfaces;
 using AuditService.Tests.Factories.Models;
 using Moq;
 using Nest;
@@ -11,7 +12,7 @@ namespace AuditService.Tests.Factories;
 /// <summary>
 ///     Mock Creator Factory
 /// </summary>
-public class MockCreatorFactory
+public class MockCreatorFactory : IMockFactory
 {
     private readonly Mock<IRedisRepository> _mockRedisRepository;
     private readonly Mock<IAuthenticateService> _authenticateService;
@@ -25,13 +26,13 @@ public class MockCreatorFactory
         _kafkaConsumer = new Mock<IKafkaConsumer>();
         _elasticClient = new Mock<IElasticClient>();
     }
-    
+
     /// <summary>
     ///     Create mock object
     /// </summary>
     /// <param name="type">Define type of Mock</param>
     /// <param name="input">Input params of Mock</param>
-    public Mock CreateMockObject<TModel>(IEnumerable<BaseMock> input)
+    public Mock CreateMockObject<TModel>(IEnumerable<IBaseMock> input)
     {
         return typeof(TModel).Name switch
         {
@@ -42,7 +43,7 @@ public class MockCreatorFactory
             _ => throw new Exception("type not exist")
         };
     }
-    
+
     /// <summary>
     ///     Create Redis Mock
     /// </summary>
@@ -54,10 +55,10 @@ public class MockCreatorFactory
             _mockRedisRepository.Setup(e => e.SetAsync(item.RedisKey, item.RedisValue, TimeSpan.FromMinutes(item.ExpireInMinute))).Returns(Task.FromResult(true));
             _mockRedisRepository.Setup(e => e.GetAsync<string>(item.RedisKey)).Returns(Task.FromResult(item.RedisValue)!);
         }
-        
+
         return _mockRedisRepository;
     }
-    
+
     /// <summary>
     ///     Create Sso Mock
     /// </summary>
@@ -65,30 +66,29 @@ public class MockCreatorFactory
     private Mock SsoMock(SsoMock input)
     {
         _authenticateService.Setup(e => e.AuthenticationService()).Returns(Task.FromResult(input.ExpectedObject));
-       
+
         _authenticateService.Setup(e => e.GetIsUserAuthenticate(input.Token, input.NodeId)).Returns(Task.FromResult(input.ExpectedObject as AuthenticatedResponse));
-        
+
         return _mockRedisRepository;
     }
-    
+
     /// <summary>
     ///     Create Elk Mock
     /// </summary>
     private Mock ElkMock()
     {
         // todo need create mock
-        
+
         return _elasticClient;
     }
-    
+
     /// <summary>
     ///     Create Kafka Mock
     /// </summary>
     private Mock KafkaMock()
     {
         // todo need create mock
-        
+
         return _kafkaConsumer;
     }
-    
 }

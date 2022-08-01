@@ -24,4 +24,9 @@ public interface IElasticIndexSettings
     /// Log of blocked players
     /// </summary>
     public string? BlockedPlayersLog { get; set; }
+
+    /// <summary>
+    /// Visit log
+    /// </summary>
+    public string? VisitLog { get; set; }
 }

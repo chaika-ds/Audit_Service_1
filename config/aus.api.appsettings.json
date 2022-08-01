@@ -11,7 +11,8 @@
       "AuditLog": "$ELK_INDEX_AUDITLOG",
       "ApplicationLog": "$ELK_INDEX_APPLOG",
       "PlayerChangesLog": "$ELK_INDEX_PLAYER_CHANGES_LOG",
-      "BlockedPlayersLog": "$ELK_INDEX_BLOCKED_PlAYERS_LOG"
+      "BlockedPlayersLog": "$ELK_INDEX_BLOCKED_PlAYERS_LOG",
+      "VisitLog": "$ELK_INDEX_VISIT_LOG"
     }
   },
   "Kafka": {
@@ -45,10 +46,14 @@
       "AuditLog": "$KAFKA_TOPIC_AUDITLOG",
       "PermissionsTopic": "$KAFKA_TOPIC_PERMISSIONS",
       "HealthCheck": "$KAFKA_TOPIC_HEALTH_CHECK",
-      "BlockedPlayersLog": "$KAFKA_TOPIC_BLOCKED_PLAYERS_LOG"
+      "BlockedPlayersLog": "$KAFKA_TOPIC_BLOCKED_PLAYERS_LOG",
+      "PlayerChangesLog": "$KAFKA_TOPIC_PLAYER_CHANGES_LOG",
+      "SsoPlayersChangesLog": "$KAFKA_TOPIC_SSO_PLAYERS_CHANGES_LOG",
+      "SsoUsersChangesLog": "$KAFKA_TOPIC_SSO_USERS_CHANGES_LOG",
+      "Visitlog": "$KAFKA_TOPIC_VISIT_LOG"
     },
     "TopicValidation": {
-      "ValidationResultChat": "$KAFKA_TOPIC_VALIDATIONRESULT_CHAT"
+      "ValidationResultChat": "$KAFKA_VALIDATION_RESULT_CHAT"
     }  
   },
   "SSO": {

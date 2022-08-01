@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace KIT.Kafka.Consumers.BlockedPlayersLog;
+namespace KIT.Kafka.Consumers.BlockedPlayersLog.Validators;
 
 /// <summary>
 ///     Blocked players log consumer message model validator

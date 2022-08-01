@@ -4,7 +4,11 @@ using FluentValidation;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
+using KIT.Kafka.Consumers.AuditLog.Validators;
 using KIT.Kafka.Consumers.BlockedPlayersLog;
+using KIT.Kafka.Consumers.PlayerChangesLog;
+using KIT.Kafka.Consumers.SsoPlayerChangesLog;
+using KIT.Kafka.Consumers.SsoUserChangesLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -27,8 +31,7 @@ public static class KafkaConfigurator
     {
         var validationConsumerEnvironments = GetValidationConsumerEnvironments();
 
-        services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(
-            configuration =>
+        services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(configuration =>
             {
                 configuration.Consumer<AuditLogConsumer>(settings =>
                 {
@@ -38,6 +41,21 @@ public static class KafkaConfigurator
                 configuration.Consumer<BlockedPlayersLogConsumer>(settings =>
                 {
                     settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<PlayerChangesLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<SsoPlayerChangesLogConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 3;
+                });
+
+                configuration.Consumer<SsoUserChangesLogConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 3;
                 });
 
             }, environmentName);
