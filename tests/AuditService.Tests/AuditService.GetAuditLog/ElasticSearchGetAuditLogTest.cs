@@ -8,6 +8,7 @@ using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Redis;
+using static AuditService.Handlers.DiConfigure;
 
 namespace AuditService.Tests.AuditService.GetAuditLog;
 
@@ -45,7 +46,7 @@ public class ElasticSearchGetAuditLogTest
     {
         var services = new ServiceCollection();
 
-        Handlers.DiConfigure.RegisterServices(services);
+        RegisterServices(services);
         services.AddSingleton<IRedisRepository, FakeRedisReposetoryForCachePipelineBehavior>();
         services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
         services.AddLogging();

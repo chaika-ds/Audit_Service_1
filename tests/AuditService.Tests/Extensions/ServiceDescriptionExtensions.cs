@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.Tests.AuditService.WebApi.Verifiers;
+namespace AuditService.Tests.Extensions;
 
 /// <summary>
 /// ServiceDescriptionExtensions class

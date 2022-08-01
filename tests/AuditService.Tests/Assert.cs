@@ -1,4 +1,4 @@
-﻿using AuditService.Tests.AuditService.WebApi.Verifiers;
+﻿using AuditService.Tests.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Xunit;
@@ -15,7 +15,8 @@ public partial class Assert
     /// <typeparam name="TInstance">ImplementationType</typeparam>
     /// <param name="serviceCollection">IServiceCollection</param>
     /// <param name="lifetime">ServiceLifetime</param>
-    public static void IsRegisteredService<TService, TInstance>(IServiceCollection serviceCollection, ServiceLifetime lifetime)
+    public static void IsRegisteredService<TService, TInstance>(IServiceCollection serviceCollection,
+        ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
         True(serviceDescriptor?.Is<TService, TInstance>(lifetime));
@@ -27,7 +28,8 @@ public partial class Assert
     /// <typeparam name="TService">ServiceType</typeparam>
     /// <param name="serviceCollection">IServiceCollection</param>
     /// <param name="lifetime">ServiceLifetime</param>
-    public static void IsRegisteredInternalService<TService>(IServiceCollection serviceCollection, ServiceLifetime lifetime)
+    public static void IsRegisteredInternalService<TService>(IServiceCollection serviceCollection,
+        ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
         True(serviceDescriptor?.Is<TService>(lifetime));
@@ -44,5 +46,16 @@ public partial class Assert
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
         True(serviceDescriptor?.Is<TService>(lifetime));
+    }
+
+    /// <summary>
+    /// Assert if response is received in TResponse format
+    /// </summary>
+    /// <typeparam name="TResponse">Response type</typeparam>
+    /// <param name="response">TResponse</param>
+    public static void IsPlayerChangesLogReceived<TResponse>(TResponse response)
+    {
+        NotNull(response!);
+        IsType<TResponse>(response!);
     }
 }
