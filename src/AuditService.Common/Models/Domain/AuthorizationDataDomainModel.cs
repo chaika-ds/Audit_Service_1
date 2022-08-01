@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AuditService.Common.Enums;
 
 namespace AuditService.Common.Models.Domain;
 
