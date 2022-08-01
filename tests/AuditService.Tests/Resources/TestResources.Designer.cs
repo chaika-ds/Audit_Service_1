@@ -63,5 +63,12 @@ namespace AuditService.Tests.Resources {
                 return ((byte[])(obj));
             }
         }
+        
+        public static byte[] BlockedPlayersLogResponse {
+            get {
+                object obj = ResourceManager.GetObject("BlockedPlayersLogResponse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

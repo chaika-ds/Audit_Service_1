@@ -196,7 +196,7 @@ public class BlockedPlayersLogDomainRequestHandlerTest : BlockedPlayersLogDomain
         var services = new ServiceCollection();
 
         services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
-        services.AddScoped(_ => FakeElasticSearchClientProvider.GetFakeElasticSearchClient<BlockedPlayersLogDomainModel>(TestResources.ElasticSearchResponse));
+        services.AddScoped(_ => FakeElasticSearchClientProvider.GetFakeElasticSearchClient<BlockedPlayersLogDomainModel>(TestResources.BlockedPlayersLogResponse,TestResources.BlockedPlayersLog));
 
         var serviceProvider = services.BuildServiceProvider();
 

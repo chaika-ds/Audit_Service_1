@@ -52,7 +52,7 @@ public class ElasticSearchGetAuditLogTest
         services.AddLogging();
         services.AddScoped(serviceProvider =>
         {
-            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse);
+            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
         });
 
         var serviceProvider = services.BuildServiceProvider();
