@@ -1,6 +1,4 @@
-﻿using AuditService.Common.Models.Domain.AuditLog;
-using AuditService.Tests.AuditService.GetAuditLog.Models;
-using AuditService.Tests.Resources;
+﻿using AuditService.Tests.Resources;
 using Elasticsearch.Net;
 using Nest;
 using Newtonsoft.Json;
@@ -8,7 +6,7 @@ using System.Text;
 
 namespace AuditService.Tests.Factories.Fakes;
 /// <summary>
-/// Fake elastic search client provider
+///     Fake elastic search client provider
 /// </summary>
 internal static class FakeElasticSearchClientProvider
 {
@@ -17,7 +15,7 @@ internal static class FakeElasticSearchClientProvider
     const string fixedUri = "http://localhost:9200";
 
     /// <summary>
-    /// Getting fake elastic search client
+    ///     Getting fake elastic search client
     /// </summary>
     internal static IElasticClient GetFakeElasticSearchClient<T>(byte[] jsonContent)
     {
@@ -40,11 +38,35 @@ internal static class FakeElasticSearchClientProvider
         };
 
         var responseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
+
         var connection = new InMemoryConnection(responseBytes, fixedStatusCode);
-        var connectionPool = new SingleNodeConnectionPool(new Uri(fixedUri));
-        var settings = new ConnectionSettings(connectionPool, connection).DefaultIndex(TestResources.DefaultIndex);
-        var client = new ElasticClient(settings);
+
+        var client = ClientBuilder(connection);
 
         return client;
+    }
+
+    /// <summary>
+    ///     Getting fake elastic search client
+    /// </summary>
+    internal static IElasticClient GetFakeElasticSearchClient()
+    {
+        var connection = new InMemoryConnection();
+
+        var client = ClientBuilder(connection);
+
+        return client;
+    }
+
+    /// <summary>
+    ///     Builder of fake elastic search client 
+    /// </summary>
+    private static IElasticClient ClientBuilder(InMemoryConnection connection)
+    {
+        var connectionPool = new SingleNodeConnectionPool(new Uri(fixedUri));
+
+        var settings = new ConnectionSettings(connectionPool, connection).DefaultIndex(TestResources.DefaultIndex);
+
+        return new ElasticClient(settings);
     }
 }

@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AuditService.ELK.FillTestData\AuditService.ELK.FillTestData.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />
