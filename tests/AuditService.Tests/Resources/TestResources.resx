@@ -141,4 +141,8 @@
     <value>as-playerchangeslog</value>
     <comment>player changes log</comment>
   </data>
+  <data name="VisitLog" xml:space="preserve">
+    <value>as-visitlog</value>
+    <comment>visit log</comment>
+  </data>
 </root>

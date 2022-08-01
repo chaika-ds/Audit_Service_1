@@ -114,5 +114,14 @@ namespace AuditService.Tests.Resources {
                 return ResourceManager.GetString("PlayerChangesLog", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-visitlog.
+        /// </summary>
+        public static string VisitLog {
+            get {
+                return ResourceManager.GetString("VisitLog", resourceCulture);
+            }
+        }
     }
 }
