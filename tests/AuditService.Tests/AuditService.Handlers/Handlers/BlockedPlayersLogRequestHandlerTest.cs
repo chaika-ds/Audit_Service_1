@@ -25,17 +25,7 @@ public class BlockedPlayersLogRequestHandlerTest
         // Arrange
         var mediator = new Mock<IMediator>();
 
-        var mock = new PageResponseDto<BlockedPlayersLogDomainModel>(
-            new PaginationResponseDto(1, 2, 3),
-            new List<BlockedPlayersLogDomainModel>()
-            {
-                new()
-                {
-                    ProjectId = Guid.NewGuid(),
-                    PlayerId = Guid.NewGuid(),
-                    HallId = Guid.NewGuid(),
-                }
-            });
+        var mock = await CreateMockDataAsync();
 
         mediator.Setup(x => x.Send(
                 It.IsAny<LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>>(),
@@ -60,5 +50,22 @@ public class BlockedPlayersLogRequestHandlerTest
         Assert.Equal(response.List.FirstOrDefault()?.PlayerId, mock.List.FirstOrDefault()?.PlayerId);
         Assert.Equal(response.List.FirstOrDefault()?.HallId, mock.List.FirstOrDefault()?.HallId);
 
+    }
+
+    private async Task<PageResponseDto<BlockedPlayersLogDomainModel>> CreateMockDataAsync()
+    {
+        var mock = new PageResponseDto<BlockedPlayersLogDomainModel>(
+            new PaginationResponseDto(1, 2, 3),
+            new List<BlockedPlayersLogDomainModel>()
+            {
+                new()
+                {
+                    ProjectId = Guid.NewGuid(),
+                    PlayerId = Guid.NewGuid(),
+                    HallId = Guid.NewGuid(),
+                }
+            });
+        
+        return await Task.FromResult(mock);
     }
 }
