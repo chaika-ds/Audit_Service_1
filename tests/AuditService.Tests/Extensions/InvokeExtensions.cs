@@ -20,17 +20,9 @@ internal static class InvokeExtensions
     public static T Invoke<T>(this object obj, string methodName, params object[] parameters)
     {
 
-        var method = obj.GetType().GetMethod(methodName,
-            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-        if (method == null)
-        {
-            throw new ArgumentException(
-                $"No private method \"{methodName}\" found in class \"{obj.GetType().Name}\"");
-        }
-
-        var methodInvokeResult = method.Invoke(obj, parameters);
-
+        var methodInvokeResult = obj.GetType().InvokeMember(methodName,
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, Type.DefaultBinder, obj, parameters);
+        
         if (methodInvokeResult is T resultInvoke)
         {
             return resultInvoke;
@@ -38,6 +30,5 @@ internal static class InvokeExtensions
 
         throw new ArgumentException(
             $"Bad type parameter. Type parameter is of type \"{typeof(T).Name}\", whereas method invocation result is of type \"{methodInvokeResult?.GetType().Name}\"");
-
     }
 }

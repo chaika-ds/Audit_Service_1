@@ -136,10 +136,10 @@ public class LogRequestBaseHandlerTest
 
     #endregion
 
-    #region Testing GenerateResponseGroupedModelsAsync
+    #region Testing GenerateResponseModelsAsync with grouped data 
 
     /// <summary>
-    /// Testing GenerateResponseGroupedModelsAsync Method
+    /// Testing GenerateResponseGroupedModelsAsync Method with grouped data 
     /// </summary>
     [Fact]
     public async Task LogRequestBaseHandler_GenerateResponseGroupedModels_GetPlayerChangesLogResponseDto()
@@ -160,14 +160,14 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>(
-                "GenerateResponseGroupedModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
+                "GenerateResponseModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         Equal(playerChangesLogResponseDto.SerializeToString(), responseInvoke.ToList().SerializeToString());
     }
 
     /// <summary>
-    /// Testing GenerateResponseGroupedModelsAsync Method - not all Key
+    /// Testing GenerateResponseModelsAsync Method with grouped data - not all Key
     /// </summary>
     [Fact]
     public async Task LogRequestBaseHandler_GenerateGroupedResponseModels_GetNoLocalizedKey()
@@ -184,14 +184,14 @@ public class LogRequestBaseHandlerTest
         //Act
         var responseInvoke =
             await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>(
-                "GenerateResponseGroupedModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
+                "GenerateResponseModelsAsync", groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert
         IsNotType<IEnumerable<PlayerChangesLogResponseDto>>(() => responseInvoke);
     }
 
     /// <summary>
-    /// Testing GenerateResponseGroupedModelsAsync Method Throw Exception
+    /// Testing GenerateResponseGroupedModelsAsync Method with grouped data Throw Exception
     /// </summary>
     [Fact]
     public void LogRequestBaseHandler_GenerateGroupedResponseModelsAsyncThrowException_KeyNotFoundException()
@@ -208,7 +208,7 @@ public class LogRequestBaseHandlerTest
 
         //Act
         var responseInvoke =
-            handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseGroupedModelsAsync",
+            handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
                 groupedModels, events, FakeValues.LanguageTest, _tokenTest);
 
         //Assert

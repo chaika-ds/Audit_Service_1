@@ -65,7 +65,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
         var eventByModules = await _mediator.Send(new GetEventsRequest(), cancellationToken);
 
         return await groupedModels.SelectManyAsync(
-            groupedModel => GenerateResponseGroupedModelsAsync(groupedModel, eventByModules[groupedModel.Key], language, cancellationToken));
+            groupedModel => GenerateResponseModelsAsync(groupedModel, eventByModules[groupedModel.Key], language, cancellationToken));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
     /// <param name="language">Language for localization</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Response model for player card logchanges</returns>
-    private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseGroupedModelsAsync(
+    private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseModelsAsync(
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModel, EventDomainModel[] @events, string? language, CancellationToken cancellationToken)
     {
         var localizedKeys = await LocalizeKeysForGroupedModelsAsync(groupedModel, language, cancellationToken);
