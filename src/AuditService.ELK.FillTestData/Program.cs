@@ -16,4 +16,4 @@ await scope.ServiceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>()
 await scope.ServiceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
 await scope.ServiceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
 
-await host.RunAsync();
+Environment.Exit(1);

@@ -12,6 +12,7 @@ using KIT.Kafka.Consumers.SsoUserChangesLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
+using KIT.RocketChat;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Kafka;
 
@@ -88,6 +89,7 @@ public static class KafkaConfigurator
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
         services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
+        RocketChatConfigurator.ConfigureRocketChat(services);
         return services;
     }
 

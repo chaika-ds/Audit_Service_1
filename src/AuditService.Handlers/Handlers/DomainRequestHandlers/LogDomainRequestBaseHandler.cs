@@ -8,7 +8,7 @@ using Nest;
 using ISort = Nest.ISort;
 using sort = AuditService.Common.Models.Dto.Sort;
 
-namespace AuditService.Handlers.Handlers
+namespace AuditService.Handlers.Handlers.DomainRequestHandlers
 {
     /// <summary>
     /// The base request handler for receiving the log
@@ -16,20 +16,20 @@ namespace AuditService.Handlers.Handlers
     /// <typeparam name="TFilter">Filter model type</typeparam>
     /// <typeparam name="TSort">Sort model type</typeparam>
     /// <typeparam name="TResponse">Response type</typeparam>
-    public abstract class LogRequestBaseHandler<TFilter, TSort, TResponse> : IRequestHandler<LogFilterRequestDto<TFilter, TSort, TResponse>, PageResponseDto<TResponse>> 
-        where TFilter : class, new() 
+    public abstract class LogDomainRequestBaseHandler<TFilter, TSort, TResponse> : IRequestHandler<LogFilterRequestDto<TFilter, TSort, TResponse>, PageResponseDto<TResponse>>
+        where TFilter : class, new()
         where TResponse : class
         where TSort : class, sort.ISort, new()
     {
         private readonly IElasticClient _elasticClient;
         private readonly IElasticIndexSettings _elasticIndexSettings;
 
-        protected LogRequestBaseHandler(IServiceProvider serviceProvider)
+        protected LogDomainRequestBaseHandler(IServiceProvider serviceProvider)
         {
             _elasticClient = serviceProvider.GetRequiredService<IElasticClient>();
             _elasticIndexSettings = serviceProvider.GetRequiredService<IElasticIndexSettings>();
         }
-        
+
         /// <summary>
         /// Apply filter to query container
         /// </summary>
@@ -66,7 +66,7 @@ namespace AuditService.Handlers.Handlers
                 ? sortDescriptor.Ascending(new Field(columnNameToSort))
                 : sortDescriptor.Descending(new Field(columnNameToSort));
         }
-       
+
         /// <summary>
         /// Handle a request to receive a log in ELK.
         /// </summary>

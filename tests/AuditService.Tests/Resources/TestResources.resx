@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationLog" xml:space="preserve">
+    <value>as-internal-applicationlog</value>
+    <comment>application log</comment>
+  </data>
+  <data name="BlockedPlayersLog" xml:space="preserve">
+    <value>as-blockedplayerslog</value>
+    <comment>blocked players log</comment>
+  </data>
+  <data name="ConnectionUrl" xml:space="preserve">
+    <value>http://localhost:9200</value>
+    <comment>connection url</comment>
+  </data>
   <data name="DefaultIndex" xml:space="preserve">
     <value>as-auditlog</value>
     <comment>default index for testing</comment>
@@ -124,5 +136,13 @@
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ElasticSearchResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ElasticSearchResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PlayerChangesLog" xml:space="preserve">
+    <value>as-playerchangeslog</value>
+    <comment>player changes log</comment>
+  </data>
+  <data name="VisitLog" xml:space="preserve">
+    <value>as-visitlog</value>
+    <comment>visit log</comment>
   </data>
 </root>
