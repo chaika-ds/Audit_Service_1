@@ -15,7 +15,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 ///     Request handler for receiving blocked players log (Domain model)
 /// </summary>
 [UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
-public class BlockedPlayersLogDomainRequestHandler : LogRequestBaseHandler<BlockedPlayersLogFilterDto,
+public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler<BlockedPlayersLogFilterDto,
     BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>
 {
     public BlockedPlayersLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)

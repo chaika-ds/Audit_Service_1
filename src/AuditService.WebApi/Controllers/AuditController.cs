@@ -88,4 +88,32 @@ public class AuditController : ControllerBase
     public async Task<PageResponseDto<UserVisitLogResponseDto>> GetUsersVisitLogAsync(
         [FromQuery] LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto> request, CancellationToken cancellationToken)
         => await _mediator.Send(request, cancellationToken);
+
+    /// <summary>
+    ///     Export players visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("playersvisitlog/export")]
+    [Authorization("Audit.Journal.ExportPlayersVisitLog")]
+    [Produces(mediaType.Octet, Type = typeof(FileResult))]
+    public async Task<FileResult> ExportPlayersVisitLogAsync(
+        [FromQuery] ExportLogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto> request, CancellationToken cancellationToken)
+    {
+        var dataToExport = await _mediator.Send(request, cancellationToken);
+        return File(dataToExport.Content, dataToExport.ContentType, dataToExport.FileName);
+    }
+
+    /// <summary>
+    ///     Export users visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("usersvisitlog/export")]
+    [Authorization("Audit.Journal.ExportUsersVisitLog")]
+    [Produces(mediaType.Octet, Type = typeof(FileResult))]
+    public async Task<FileResult> ExportUsersVisitLogAsync(
+        [FromQuery] ExportLogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto> request, CancellationToken cancellationToken)
+    {
+        var dataToExport = await _mediator.Send(request, cancellationToken);
+        return File(dataToExport.Content, dataToExport.ContentType, dataToExport.FileName);
+    }
 }
