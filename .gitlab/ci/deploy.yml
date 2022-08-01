@@ -174,7 +174,7 @@ t9 deploy:
   environment:
     name: t9
   variables:
-    K8S_ENV: t9
+    K8S_ENV: test-t9
     NAMESPACE: "t9"
     K8SCONF: "$KUBECFG"
     DOMAIN_CI: "netreportservice.xyz"
