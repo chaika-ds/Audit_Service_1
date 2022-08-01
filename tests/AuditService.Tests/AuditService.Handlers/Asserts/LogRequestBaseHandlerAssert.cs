@@ -79,16 +79,16 @@ public partial class Assert
 
                 });
 
-                log.OldValue.ToList().ForEach(nVal =>
+                log.OldValue.ToList().ForEach(oVal =>
                 {
-                    Contains(nVal.Value, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Value)));
-                    Contains(nVal.Type, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Type)));
+                    Contains(oVal.Value, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Value)));
+                    Contains(oVal.Type, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Type)));
 
                     var mockOldValues =
-                        playerChangesLogMock.SelectMany(l => l.OldValues.Where(t => t.Value.Value == nVal.Value))
+                        playerChangesLogMock.SelectMany(l => l.OldValues.Where(t => t.Value.Value == oVal.Value))
                             .FirstOrDefault();
 
-                    Equal(nVal.Label,
+                    Equal(oVal.Label,
                         mockOldValues.Value.IsTranslatable ? localizedKeys[mockOldValues.Key] : mockOldValues.Key);
                 });
             });
