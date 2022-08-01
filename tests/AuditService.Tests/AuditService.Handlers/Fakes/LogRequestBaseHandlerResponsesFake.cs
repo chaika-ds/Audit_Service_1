@@ -41,7 +41,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode2,
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp2),
+                Timestamp = FakeValues.Timestamp2,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()
@@ -96,7 +96,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode1,
                 IpAddress = FakeValues.IpAddress1,
                 Reason = FakeValues.Reason1,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp1),
+                Timestamp = FakeValues.Timestamp1,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey1"] = new()
@@ -140,7 +140,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 EventCode = FakeValues.EventCode2,
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp2),
+                Timestamp = FakeValues.Timestamp2,
                 NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()

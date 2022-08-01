@@ -41,8 +41,8 @@ internal class LogRequestBaseHandlerTestRequests
         {
             Login = FakeValues.UserLogin1,
             IpAddress = FakeValues.IpAddress1,
-            StartDate = DateTime.Parse(FakeValues.Timestamp1),
-            EndDate = DateTime.Parse(FakeValues.Timestamp2),
+            StartDate = FakeValues.Timestamp1,
+            EndDate = FakeValues.Timestamp2,
             EventKeys = new List<string>()
             {
                 "EventKey1",
@@ -65,7 +65,7 @@ internal class LogRequestBaseHandlerTestRequests
                 EventKey = FakeValues.EventKey1,
                 EventName = FakeValues.EventName1,
                 IpAddress = FakeValues.IpAddress1,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp1),
+                Timestamp = FakeValues.Timestamp1,
                 Reason = FakeValues.Reason1,
                 UserId = FakeValues.UserId1,
                 UserLogin = FakeValues.UserLogin1,
@@ -105,7 +105,7 @@ internal class LogRequestBaseHandlerTestRequests
                 EventKey = FakeValues.EventKey2,
                 EventName = FakeValues.EventName2,
                 IpAddress = FakeValues.IpAddress2,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp2),
+                Timestamp = FakeValues.Timestamp2,
                 Reason = FakeValues.Reason2,
                 UserId = FakeValues.UserId2,
                 UserLogin = FakeValues.UserLogin2,
@@ -156,7 +156,7 @@ internal class LogRequestBaseHandlerTestRequests
                 EventKey = FakeValues.EventKey1,
                 EventName = FakeValues.EventName1,
                 IpAddress = FakeValues.IpAddress1,
-                Timestamp = DateTime.Parse(FakeValues.Timestamp1),
+                Timestamp = FakeValues.Timestamp1,
                 Reason = FakeValues.Reason1,
                 UserId = FakeValues.UserId1,
                 UserLogin = FakeValues.UserLogin1,
