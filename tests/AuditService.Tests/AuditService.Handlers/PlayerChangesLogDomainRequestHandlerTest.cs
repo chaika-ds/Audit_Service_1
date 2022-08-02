@@ -1,91 +1,83 @@
-﻿using AuditService.Common.Enums;
+﻿using AuditService.Common.Helpers;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
+using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Handlers.DomainRequestHandlers;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.AuditService.Handlers.Fakes;
-using AuditService.Tests.Fakes;
+using AuditService.Tests.Factories.Fakes;
+using AuditService.Tests.Resources;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
-using static Xunit.Assert;
 
 namespace AuditService.Tests.AuditService.Handlers;
 
 /// <summary>
 /// PlayerChangesLogDomainRequestHandler Test class
 /// </summary>
-public class PlayerChangesLogDomainRequestHandlerTest : PlayerChangesLogDomainRequestHandler
+public class PlayerChangesLogDomainRequestHandlerTest
 {
 
     private readonly IElasticIndexSettings _elasticIndexSettings;
-    private static readonly IServiceProvider ServiceProvider = ServiceProviderFake.CreateElkServiceProviderFake();
+    private static IServiceProvider _serviceProvider;
+    private readonly PlayerChangesLogDomainRequestHandlerFake _handlerTest;
 
-    public PlayerChangesLogDomainRequestHandlerTest(IServiceProvider serviceProvider) : base(serviceProvider)
+    public PlayerChangesLogDomainRequestHandlerTest()
     {
-        _elasticIndexSettings = ServiceProvider.GetRequiredService<IElasticIndexSettings>();
+        var playerChangesLogDomainModel =
+            JsonHelper.ObjectToByteArray(LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel());
+        _serviceProvider = ServiceProviderFake.CreateElkServiceProviderFake<PlayerChangesLogDomainModel>(playerChangesLogDomainModel);
+        _elasticIndexSettings = _serviceProvider.GetRequiredService<IElasticIndexSettings>();
+        _handlerTest = new PlayerChangesLogDomainRequestHandlerFake(_serviceProvider);
     }
 
-
     /// <summary>
-    /// Testing for  GetQueryIndex
+    /// Testing for accepting any result from Send method with PlayerChangesLog filters
     /// </summary>
     [Fact]
-    public void PlayerChangesLogDomainRequestHandler_ApplyFilter_Test()
+    public async Task Send_PlayerChangesLogFilterSend_ReturnsNotEmptyResultAsync()
     {
         //Arrange
-        //var result = ApplyFilter(queryContainerDescriptor, filter);
+        var cts = new CancellationTokenSource();
+        var mediatorService = _serviceProvider.GetRequiredService<IMediator>();
 
+        var filter = new LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>();
 
-        //// var filter = _responses.GetTestPlayerChangesLogFilterDto();
-        // QueryContainer expected = new QueryContainer();
-
-        // //Act
-        // var result = ApplyFilter(queryContainerDescriptor, filter);
-
-        //Assert
-        //Equal(expected, result);
-    }
-
-    //[Theory]
-    //[MemberData(nameof(GetColumnNameToSortData))]
-    //public void GetColumnNameToSort_Test(LogSortDto logSortModel, string expected)
-    //{
-    //    var result = GetColumnNameToSort(actual);
-
-    //    Equal(expected, result);
-    //}
-
-
-    /// <summary>
-    /// Testing for getting Query index from Elastic search
-    /// </summary>
-    [Fact]
-    public void PlayerChangesLogDomainRequestHandler_GetQueryIndex_ReturnQueryIndex()
-    {
-        //Act
-        var queryIndex = GetQueryIndex(_elasticIndexSettings);
+        //Act 
+        var result = await mediatorService.Send(filter, cts.Token);
 
         //Assert
-        IsPlayerChangesLogReceived(queryIndex);
+        NotEmpty(result.List);
     }
 
     /// <summary>
     /// Testing for getting Query index from Elastic search
     /// </summary>
     [Fact]
-    public void PlayerChangesLogDomainRequestHandler_GetColumnNameToSort_ReturnNameOfColumnToSort()
+    public void GetQueryIndex_IndexFromElastic_ReturnQueryIndex()
     {
-        //Arrange
-        var logSortModelTest = new LogSortDto()
-        {
-            SortableType = SortableType.Ascending
-        };
-
         //Act
-        var queryIndex = GetColumnNameToSort(logSortModelTest);
+        var queryIndex = _handlerTest.GetQueryIndexFake(_elasticIndexSettings);
 
         //Assert
-        
+        IsResponseTypeReceived(queryIndex);
+        Equal(TestResources.PlayerChangesLog, queryIndex!);
+    }
+
+    /// <summary>
+    /// Testing for getting Query index from Elastic search
+    /// </summary>
+    [Fact]
+    public void GetColumnNameToSort_NameOfPlayerChangesLogDomainModelTimestamp_ReturnNameOfColumnToSort()
+    {
+        //Arrange
+        var logSortModelTest = new LogSortDto();
+
+        //Act
+        var columnName = _handlerTest.GetColumnNameToSortFake(logSortModelTest);
+
+        //Assert
+        IsResponseTypeReceived(columnName);
+        Equal(nameof(PlayerChangesLogDomainModel.Timestamp).ToLower(), columnName);
     }
 
 }

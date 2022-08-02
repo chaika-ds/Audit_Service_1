@@ -35,7 +35,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
 using Tolar.Redis;
-using static Xunit.Assert;
 using DiConfigure = AuditService.Handlers.DiConfigure;
 using GetCategoriesRequest = AuditService.Common.Models.Dto.GetCategoriesRequest;
 

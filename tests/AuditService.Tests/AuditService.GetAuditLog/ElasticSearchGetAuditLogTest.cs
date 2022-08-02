@@ -1,14 +1,10 @@
 ﻿using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Setup.AppSettings;
-using AuditService.Tests.AuditService.GetAuditLog.Models;
 using AuditService.Tests.Factories.Fakes;
 using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Tolar.Redis;
-using static AuditService.Handlers.DiConfigure;
 
 namespace AuditService.Tests.AuditService.GetAuditLog;
 
@@ -24,8 +20,10 @@ public class ElasticSearchGetAuditLogTest
     public async Task Check_if_the_result_is_coming_from_elastic_search()
     {
         //Arrange
+        IServiceProvider serviceProvider =
+            ServiceProviderFake.CreateElkServiceProviderFake<AuditLogTransactionDomainModel>(TestResources
+                .ElasticSearchResponse);
 
-        var serviceProvider = GetServiceProvder();
 
         var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
 
@@ -35,27 +33,6 @@ public class ElasticSearchGetAuditLogTest
         var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
 
         //Assert
-        Assert.True(result.List.Any());
-    }     
-
-    /// <summary>
-    ///     Getting fake service provider 
-    /// </summary>
-    private IServiceProvider GetServiceProvder()
-    {
-        var services = new ServiceCollection();
-
-        RegisterServices(services);
-        services.AddSingleton<IRedisRepository, FakeRedisReposetoryForCachePipelineBehavior>();
-        services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
-        services.AddLogging();
-        services.AddScoped(serviceProvider =>
-        {
-            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse);
-        });
-
-        var serviceProvider = services.BuildServiceProvider();
-
-        return serviceProvider;
+        NotEmpty(result.List);
     }
 }

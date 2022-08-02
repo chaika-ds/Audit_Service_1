@@ -1,7 +1,6 @@
 ﻿using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Pagination;
-using static Xunit.Assert;
 
 namespace AuditService.Tests.AuditService.Handlers.Asserts;
 

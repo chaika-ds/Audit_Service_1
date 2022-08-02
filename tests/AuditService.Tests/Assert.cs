@@ -53,7 +53,7 @@ public partial class Assert
     /// </summary>
     /// <typeparam name="TResponse">Response type</typeparam>
     /// <param name="response">TResponse</param>
-    public static void IsPlayerChangesLogReceived<TResponse>(TResponse response)
+    public static void IsResponseTypeReceived<TResponse>(TResponse response)
     {
         NotNull(response!);
         IsType<TResponse>(response!);
