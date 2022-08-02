@@ -67,6 +67,7 @@ public abstract class BaseMigrationConsumer<TSourceModelType, TDestinationModelT
             {
                 // todo Убрать как будет доработан топик sso.players-changes
                 //_logger.LogError($"Failed to deserialize the topic '{sourceTopic}' model.", context);
+
                 return;
             }
 

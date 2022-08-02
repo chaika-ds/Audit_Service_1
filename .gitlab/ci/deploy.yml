@@ -10,8 +10,8 @@ services:
   - name: docker:20.10.3-dind
 
 .k8sdeployuat:
-  only:
-    - develop
+  # only:
+  #   - develop
   image:
     name: ${K8S_DEPLOY_IMAGE}
     entrypoint: [""]
@@ -46,8 +46,8 @@ services:
     - notify deploy --env ${K8S_ENV} --service-name ${CI_PROJECT_NAME} --version ${CI_IMAGE_TAG} --commit ${CI_COMMIT_SHA}
 
 .k8sdeploy:
-  only:
-    - develop
+  # only:
+  #   - develop
   image:
     name: ${K8S_DEPLOY_IMAGE}
     entrypoint: [""]
@@ -195,7 +195,7 @@ demo deploy:
   environment:
     name: demo
   only:
-    - develop
+    # - develop
     - web
   variables:
     K8S_ENV: demo
@@ -243,7 +243,7 @@ pentest deploy:
   environment:
     name: pentest
 #  only:
-#     - master
+#     - main
   variables:
     K8S_ENV: pentest
     NAMESPACE: "audit"
@@ -266,7 +266,7 @@ stage deploy:
   environment:
     name: stage
   only:
-    - master
+    - main
     - web
   variables:
     K8S_ENV: stage
@@ -290,7 +290,7 @@ prod deploy:
   environment:
     name: production
   only:
-    - master
+    - main
     - web
   variables:
     K8S_ENV: production
