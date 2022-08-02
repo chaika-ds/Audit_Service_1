@@ -19,7 +19,7 @@ internal static class FakeElasticSearchClientProvider
     /// <summary>
     /// Getting fake elastic search client
     /// </summary>
-    internal static IElasticClient GetFakeElasticSearchClient<T>(byte[] jsonContent, string elkIndex)
+    internal static IElasticClient GetFakeElasticSearchClient<T>(byte[] jsonContent, string elasticIndex)
     {
         var elkResponse = JsonConvert.DeserializeObject<List<T>>(Encoding.Default.GetString(jsonContent));
 
@@ -29,9 +29,9 @@ internal static class FakeElasticSearchClientProvider
             {
                 hits = Enumerable.Range(1, elkResponse.Count).Select(i => (object)new
                 {
-                    _index = elkIndex,
-                    _type = elkIndex,
-                    _id = $"{elkIndex} {i}",
+                    _index = elasticIndex,
+                    _type = elasticIndex,
+                    _id = $"{elasticIndex} {i}",
                     _score = 1.0,
                     _source = elkResponse[i - 1]
                 }).ToArray()
