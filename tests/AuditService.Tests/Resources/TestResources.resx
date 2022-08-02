@@ -137,6 +137,9 @@
   <data name="ElasticSearchResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ElasticSearchResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="BlockedPlayersLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>BlockedPlayersLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PlayerChangesLog" xml:space="preserve">
     <value>as-playerchangeslog</value>
     <comment>player changes log</comment>

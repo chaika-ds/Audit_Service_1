@@ -107,6 +107,16 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] BlockedPlayersLogResponse {
+            get {
+                object obj = ResourceManager.GetObject("BlockedPlayersLogResponse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to as-playerchangeslog.
         /// </summary>
         public static string PlayerChangesLog {
