@@ -9,6 +9,7 @@ using KIT.Kafka.Consumers.BlockedPlayersLog;
 using KIT.Kafka.Consumers.PlayerChangesLog;
 using KIT.Kafka.Consumers.SsoPlayerChangesLog;
 using KIT.Kafka.Consumers.SsoUserChangesLog;
+using KIT.Kafka.Consumers.VisitLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -40,6 +41,11 @@ public static class KafkaConfigurator
                 });
 
                 configuration.Consumer<BlockedPlayersLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<VisitLogConsumer>(settings =>
                 {
                     settings.RunForEnvironments(validationConsumerEnvironments);
                 });
