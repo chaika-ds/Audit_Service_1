@@ -1,5 +1,4 @@
 using AuditService.Common.Enums;
-using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto;
 using AuditService.ELK.FillTestData.Models;

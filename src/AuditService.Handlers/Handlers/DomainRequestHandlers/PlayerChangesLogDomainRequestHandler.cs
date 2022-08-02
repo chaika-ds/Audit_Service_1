@@ -10,7 +10,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 /// <summary>
 ///     Request handler for receiving player changelog (Domain model)
 /// </summary>
-public class PlayerChangesLogDomainRequestHandler : LogRequestBaseHandler<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>
+public class PlayerChangesLogDomainRequestHandler : LogDomainRequestBaseHandler<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>
 {
     public PlayerChangesLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
     {

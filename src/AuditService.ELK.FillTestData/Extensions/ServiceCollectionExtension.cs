@@ -24,11 +24,11 @@ namespace AuditService.ELK.FillTestData.Extensions
             services.ConfigureRedis();
             services.ConfigureKafka(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")!);
             Handlers.DiConfigure.RegisterServices(services);
-            services.AddScoped<CategoryDictionary>();
-            services.AddScoped<AuditLogDataGenerator>();
-            services.AddScoped<BlockedPlayersLogDataGenerator>();
-            services.AddScoped<PlayerChangesLogDataLogDataGenerator>();
             services.AddScoped<VisitLogGenerator>();
+            services.AddTransient<CategoryDictionary>();
+            services.AddTransient<AuditLogDataGenerator>();
+            services.AddTransient<BlockedPlayersLogDataGenerator>();
+            services.AddTransient<PlayerChangesLogDataLogDataGenerator>();
 
             services.AddElasticSearch();
         }

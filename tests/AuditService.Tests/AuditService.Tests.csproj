@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GlobalUsings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
@@ -31,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AuditService.ELK.FillTestData\AuditService.ELK.FillTestData.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Setup\AuditService.Setup.csproj" />
     <ProjectReference Include="..\..\src\AuditService.WebApi\AuditService.WebApi.csproj" />

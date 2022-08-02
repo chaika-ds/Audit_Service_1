@@ -1,7 +1,6 @@
 ﻿using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.AuditService.GetAuditLog.Models;
 using AuditService.Tests.Factories.Fakes;
@@ -9,6 +8,7 @@ using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Redis;
+using static AuditService.Handlers.DiConfigure;
 
 namespace AuditService.Tests.AuditService.GetAuditLog;
 
@@ -34,7 +34,6 @@ public class ElasticSearchGetAuditLogTest
         //Act 
         var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
 
-
         //Assert
         Assert.True(result.List.Any());
     }     
@@ -46,13 +45,13 @@ public class ElasticSearchGetAuditLogTest
     {
         var services = new ServiceCollection();
 
-        DiConfigure.RegisterServices(services);
+        RegisterServices(services);
         services.AddSingleton<IRedisRepository, FakeRedisReposetoryForCachePipelineBehavior>();
         services.AddScoped<IElasticIndexSettings, FakeElasticSearchSettings>();
         services.AddLogging();
         services.AddScoped(serviceProvider =>
         {
-            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse);
         });
 
         var serviceProvider = services.BuildServiceProvider();

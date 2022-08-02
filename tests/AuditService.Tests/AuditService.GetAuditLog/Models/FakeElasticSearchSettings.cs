@@ -53,7 +53,11 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     /// </summary>
     public FakeElasticSearchSettings()
     {
+        VisitLog = TestResources.VisitLog;
         AuditLog = TestResources.DefaultIndex;
-        BlockedPlayersLog = TestResources.BlockedPlayersLog;
+        ApplicationLog = TestResources.ApplicationLog;
+        PlayerChangesLog = TestResources.PlayerChangesLog;
+        BlockedPlayersLog = TestResources.BlockedPlayersLog;    
+        ConnectionUrl = TestResources.ConnectionUrl;           
     }
 }

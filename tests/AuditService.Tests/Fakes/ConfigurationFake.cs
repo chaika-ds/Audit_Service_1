@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
-namespace AuditService.Tests.AuditService.WebApi.Fakes;
+namespace AuditService.Tests.Fakes;
 
 /// <summary>
 /// Fake Configuration class for DI unit test
