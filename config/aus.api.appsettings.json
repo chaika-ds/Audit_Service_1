@@ -50,7 +50,8 @@
       "PlayerChangesLog": "$KAFKA_TOPIC_PLAYER_CHANGES_LOG",
       "SsoPlayersChangesLog": "$KAFKA_TOPIC_SSO_PLAYERS_CHANGES_LOG",
       "SsoUsersChangesLog": "$KAFKA_TOPIC_SSO_USERS_CHANGES_LOG",
-      "Visitlog": "$KAFKA_TOPIC_VISIT_LOG"
+      "Visitlog": "$KAFKA_TOPIC_VISIT_LOG",
+      "LocalizationChanged": "$KAFKA_TOPIC_LOCALIZATION_CHANGED"
     },
     "TopicValidation": {
       "ValidationResultChat": "$KAFKA_VALIDATION_RESULT_CHAT"

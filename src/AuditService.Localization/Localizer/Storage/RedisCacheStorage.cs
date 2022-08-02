@@ -65,6 +65,25 @@ internal class RedisCacheStorage : ILocalizationStorage
     }
 
     /// <summary>
+    ///     Clear localization resources from storage
+    /// </summary>
+    /// <param name="resourceParameters">Localization resource parameters</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Task execution result</returns>
+    public async Task ClearResources(LocalizationResourceParameters resourceParameters, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var cacheKey = GenerateCacheKey(resourceParameters);
+            await _redisRepository.DeleteAsync(cacheKey);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogException(ex, "Cleaning localization resources failed", resourceParameters);
+        }
+    }
+
+    /// <summary>
     ///     Generate a key to store the cache
     /// </summary>
     /// <param name="resourceParameters">Localization resource parameters</param>
