@@ -18,6 +18,7 @@ internal class KafkaTopics : IKafkaTopics
         SsoPlayersChangesLog = config["Kafka:Topics:SsoPlayersChangesLog"];
         SsoUsersChangesLog = config["Kafka:Topics:SsoUsersChangesLog"];
         Visitlog = config["Kafka:Topics:Visitlog"];
+        LocalizationChanged = config["Kafka:Topics:LocalizationChanged"];
     }
 
     /// <summary>
@@ -59,4 +60,9 @@ internal class KafkaTopics : IKafkaTopics
     ///     Topic of Visitlog
     /// </summary>
     public string Visitlog { get; set; }
+
+    /// <summary>
+    ///     Topic of localization changes
+    /// </summary>
+    public string LocalizationChanged { get; set; }
 }

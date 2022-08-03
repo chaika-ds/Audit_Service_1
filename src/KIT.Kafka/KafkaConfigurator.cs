@@ -6,6 +6,7 @@ using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
 using KIT.Kafka.Consumers.AuditLog.Validators;
 using KIT.Kafka.Consumers.BlockedPlayersLog;
+using KIT.Kafka.Consumers.LocalizationChanged;
 using KIT.Kafka.Consumers.PlayerChangesLog;
 using KIT.Kafka.Consumers.SsoPlayerChangesLog;
 using KIT.Kafka.Consumers.SsoUserChangesLog;
@@ -63,6 +64,11 @@ public static class KafkaConfigurator
                 configuration.Consumer<SsoUserChangesLogConsumer>(settings =>
                 {
                     settings.LaunchedCounts = 3;
+                });
+
+                configuration.Consumer<LocalizationChangedConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 2;
                 });
 
             }, environmentName);
