@@ -1,5 +1,4 @@
 using AuditService.ELK.FillTestData.Models;
-using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
@@ -148,9 +147,6 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
         Console.WriteLine(@"All configuration models has been saved");
 
         Console.WriteLine($@"Total records: {configurationModels.Sum(w => w.Count)}.");
-
-        await Task.Delay(TimeSpan.FromMinutes(1));
-        Environment.Exit(1);
     }
     
     /// <summary>

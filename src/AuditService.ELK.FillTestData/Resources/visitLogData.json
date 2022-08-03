@@ -1,0 +1,13 @@
+{
+  "CleanBefore": true,
+  "Fillers": [
+    {
+      "Type": "User",
+      "Count": 100
+    },
+    {
+      "Type": "Player",
+      "Count": 50
+    }
+  ]
+}

@@ -3,7 +3,7 @@ using AuditService.Common.Extensions;
 using AuditService.Common.Models.Domain.BlockedPlayersLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Extensions;
+using AuditService.Handlers.Consts;
 using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
@@ -15,7 +15,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 ///     Request handler for receiving blocked players log (Domain model)
 /// </summary>
 [UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
-public class BlockedPlayersLogDomainRequestHandler : LogRequestBaseHandler<BlockedPlayersLogFilterDto,
+public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler<BlockedPlayersLogFilterDto,
     BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>
 {
     public BlockedPlayersLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
@@ -48,13 +48,13 @@ public class BlockedPlayersLogDomainRequestHandler : LogRequestBaseHandler<Block
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
 
         if (filter.PlayerId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.PlayerId.UseSuffix(), filter.PlayerId.Value);
+            container &= queryContainerDescriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId.Value);
 
         if (!string.IsNullOrEmpty(filter.PlayerIp))
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
 
         if (filter.HallId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.HallId.UseSuffix(), filter.HallId.Value);
+            container &= queryContainerDescriptor.Term(t => t.HallId.Suffix(ElasticConst.SuffixKeyword), filter.HallId.Value);
 
         if (!string.IsNullOrEmpty(filter.Platform))
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
@@ -88,7 +88,7 @@ public class BlockedPlayersLogDomainRequestHandler : LogRequestBaseHandler<Block
     protected override IPromise<IList<ISort>> ApplySorting(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel)
         => logSortModel.FieldSortType switch
         {
-            BlockedPlayersLogSortType.Version => sortDescriptor.Field(field => field.BrowserVersion.UseSuffix(), (SortOrder)logSortModel.SortableType),
+            BlockedPlayersLogSortType.Version => sortDescriptor.Field(field => field.BrowserVersion.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
             _ => base.ApplySorting(sortDescriptor, logSortModel)
         };
 

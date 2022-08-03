@@ -14,5 +14,6 @@ using var scope = host.Services.CreateScope();
 await scope.ServiceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
 await scope.ServiceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>().GenerateAsync();
 await scope.ServiceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
 
-await host.RunAsync();
+Environment.Exit(1);

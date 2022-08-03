@@ -29,4 +29,24 @@ public interface IKafkaTopics
     ///     Topic of HealthCheck
     /// </summary>
     string HealthCheck { get; set; }
+
+    /// <summary>
+    ///     Topic of SsoPlayersChangesLog
+    /// </summary>
+    string SsoPlayersChangesLog { get; set; }
+
+    /// <summary>
+    ///     Topic of SsoUsersChangesLog
+    /// </summary>
+    string SsoUsersChangesLog { get; set; }
+
+    /// <summary>
+    ///     Topic of Visitlog
+    /// </summary>
+    string Visitlog { get; set; }
+
+    /// <summary>
+    ///     Topic of localization changes
+    /// </summary>
+    string LocalizationChanged { get; set; }
 }

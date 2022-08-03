@@ -6,7 +6,6 @@ using AuditService.ELK.FillTestData.Patterns.Template;
 using AuditService.ELK.FillTestData.Resources;
 using AuditService.Setup.AppSettings;
 using ActionType = AuditService.Common.Enums.ActionType;
-using Nest;
 
 namespace AuditService.ELK.FillTestData.Generators;
 

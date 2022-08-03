@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
+    <ProjectReference Include="..\AuditService.Localization\AuditService.Localization.csproj" />
     <ProjectReference Include="..\KIT.NLog\KIT.NLog.csproj" />
     <ProjectReference Include="..\KIT.RocketChat\KIT.RocketChat.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 stages:
+  - version
   - build
   - sonar
   - deploy
@@ -9,10 +10,71 @@ stages:
 include:
   - local: .gitlab/ci/deploy.yml
 
+apiVersion:
+  stage: version
+  image: 
+    name: theharbor.xyz/docker-images/bitnami/kubectl-git-mongo:0.0.000
+    entrypoint: [""]
+  tags:
+    - build
+  retry: 1
+  before_script:
+    - echo "Start version job before script"
+  artifacts:
+    paths:
+    - version/*.ver
+    expire_in: 1 days  
+  allow_failure: false
+  script:
+    - echo "Start version job"
+    - export USERPROFILE="$CI_PROJECT_DIR"
+    - export HOME="$CI_PROJECT_DIR"
+    - cd $CI_PROJECT_DIR
+    - echo "check branch not use master withot tag"
+    - echo $CI_COMMIT_BRANCH 
+    - if echo $CI_COMMIT_BRANCH | grep -Eq 'master' ; then
+        echo "ERROR!!! Not FIX-Version TAG for master";
+        exit 403;
+      fi;
+    - echo "check tag prefix and branch for prod deploy job"
+    - >-
+      if echo $CI_COMMIT_TAG | grep -Eq "$JIRA_FIX_VERSION_PREFIX" ; then
+        COMMIT_IN_MASTER=$(curl --header "PRIVATE-TOKEN: ${P2_CI_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/commits/${CI_COMMIT_SHA}/refs?type=branch" | jq -r '.[].name' |grep master ) || FAILED=true;
+        echo $CI_COMMIT_TAG;
+        echo $JIRA_FIX_VERSION_PREFIX;
+        echo $CI_API_V4_URL;
+        echo $CI_PROJECT_ID;
+        echo $CI_COMMIT_SHA;
+        echo "debug text vars COMMIT_IN_MASTER: ${COMMIT_IN_MASTER}; CI_COMMIT_SHA: ${CI_COMMIT_SHA}; CI_PROJECT_ID: ${CI_PROJECT_ID}";
+        if echo $COMMIT_IN_MASTER | grep -Eq 'master' ; then
+          module_version=$CI_COMMIT_TAG;
+          echo "$module_version" > version/current.ver ;
+          echo "Current version - $module_version";
+          exit 0 ;
+        else
+          echo "ERROR!!! FIX-Version TAG not in the master";
+          exit 403;
+        fi;
+      fi;
+    - echo "Check release-branch for Demo-deploy (fix-version) and any-other branch (affected version)"
+    - if echo ${CI_COMMIT_BRANCH//release\//} | grep -Eq ^$JIRA_FIX_VERSION_PREFIX ; then
+        module_version="${CI_COMMIT_BRANCH//release\//}";
+        echo "$module_version" > version/current.ver ;
+        echo "Current version - $module_version";
+        exit 0 ;
+      else
+        module_version="dev_${JIRA_FIX_VERSION_PREFIX}${CI_PIPELINE_IID}";
+        echo "$module_version" > version/current.ver ;
+        echo "Current version - $module_version";
+        exit 0 ;
+      fi;
+
 build:
-  only:
-    - develop
   stage: build
+  needs:
+    - apiVersion
+  dependencies:
+    - apiVersion   
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -30,6 +92,7 @@ build:
       cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/${APPATH:-}${APP_NAME}/;
       cp $CI_PROJECT_DIR/nuget.config $CI_PROJECT_DIR/${SRCDIR:-src}/;
       fi
+    - CI_IMAGE_TAG=$(cat version/current.ver)
   script:
     - if echo $CI_COMMIT_TAG | grep -Eq "$JIRA_FIX_VERSION_PREFIX" ; then
       /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_COMMIT_SHORT_SHA --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --destination $REGISTRY/$DEPLOY_IMAGE:prod_$CI_IMAGE_TAG --build-arg APP_NAME="$APP_NAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
@@ -37,7 +100,7 @@ build:
       /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_COMMIT_SHORT_SHA --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --build-arg APP_NAME="$APP_NAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
       fi
   tags:
-    - build
+    - demo
   retry: 1
 
 # ========================================================================================================================
@@ -63,6 +126,7 @@ build:
     - apt-get -t stretch-backports install openjdk-11-jre-headless -y --no-install-recommends
     - export PATH="$PATH:/usr/bin:/root/.dotnet/tools"
     - dotnet tool install --global dotnet-sonarscanner
+    - CI_IMAGE_TAG=$(cat version/current.ver)
   script:
     - cd $CI_PROJECT_DIR/
     - dotnet new tool-manifest
@@ -70,7 +134,7 @@ build:
     - dotnet restore
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
     - dotnet build-server shutdown
-    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs /n:"AuditService-P2"
+    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs
     - dotnet build ./AuditServiceP2.sln -c Debug --no-restore
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
@@ -82,8 +146,6 @@ build:
     - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
 sonar:
-  only:
-    - develop
   extends: .sonartest
   needs:
     - build

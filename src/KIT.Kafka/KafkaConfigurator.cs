@@ -6,10 +6,15 @@ using KIT.Kafka.BackgroundServices.Runner.RunningRegistrar;
 using KIT.Kafka.Consumers.AuditLog;
 using KIT.Kafka.Consumers.AuditLog.Validators;
 using KIT.Kafka.Consumers.BlockedPlayersLog;
+using KIT.Kafka.Consumers.LocalizationChanged;
 using KIT.Kafka.Consumers.PlayerChangesLog;
+using KIT.Kafka.Consumers.SsoPlayerChangesLog;
+using KIT.Kafka.Consumers.SsoUserChangesLog;
+using KIT.Kafka.Consumers.VisitLog;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
+using KIT.RocketChat;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Kafka;
 
@@ -29,8 +34,7 @@ public static class KafkaConfigurator
     {
         var validationConsumerEnvironments = GetValidationConsumerEnvironments();
 
-        services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(
-            configuration =>
+        services.AddKafkaSettings().AddKafkaServices().RegisterСonsumersRunner(configuration =>
             {
                 configuration.Consumer<AuditLogConsumer>(settings =>
                 {
@@ -42,9 +46,29 @@ public static class KafkaConfigurator
                     settings.RunForEnvironments(validationConsumerEnvironments);
                 });
 
+                configuration.Consumer<VisitLogConsumer>(settings =>
+                {
+                    settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
                 configuration.Consumer<PlayerChangesLogConsumer>(settings =>
                 {
                     settings.RunForEnvironments(validationConsumerEnvironments);
+                });
+
+                configuration.Consumer<SsoPlayerChangesLogConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 3;
+                });
+
+                configuration.Consumer<SsoUserChangesLogConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 3;
+                });
+
+                configuration.Consumer<LocalizationChangedConsumer>(settings =>
+                {
+                    settings.LaunchedCounts = 2;
                 });
 
             }, environmentName);
@@ -77,6 +101,7 @@ public static class KafkaConfigurator
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
         services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
+        RocketChatConfigurator.ConfigureRocketChat(services);
         return services;
     }
 

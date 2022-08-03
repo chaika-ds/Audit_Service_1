@@ -30,6 +30,11 @@ internal class ElasticSearchSettings : IElasticSearchSettings
     public string? BlockedPlayersLog { get; set; }
 
     /// <summary>
+    /// Visit log
+    /// </summary>
+    public string? VisitLog { get; set; }
+
+    /// <summary>
     ///     Connection URL for ELK
     /// </summary>
     public string? ConnectionUrl { get; set; }
@@ -53,6 +58,7 @@ internal class ElasticSearchSettings : IElasticSearchSettings
         ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
         PlayerChangesLog = config["ElasticSearch:Indexes:PlayerChangesLog"];
         BlockedPlayersLog = config["ElasticSearch:Indexes:BlockedPlayersLog"];
+        VisitLog = config["ElasticSearch:Indexes:VisitLog"];
         ConnectionUrl = config["ElasticSearch:ConnectionString"];
         UserName = config["ElasticSearch:UserName"];
         Password = config["ElasticSearch:Password"];
