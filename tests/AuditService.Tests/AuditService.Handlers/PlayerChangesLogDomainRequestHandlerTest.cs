@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Helpers;
+﻿using System.Text;
+using AuditService.Common.Helpers;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
@@ -18,14 +19,15 @@ public class PlayerChangesLogDomainRequestHandlerTest
 {
 
     private readonly IElasticIndexSettings _elasticIndexSettings;
-    private static IServiceProvider _serviceProvider;
+    private static IServiceProvider _serviceProvider = null!;
     private readonly PlayerChangesLogDomainRequestHandlerFake _handlerTest;
 
     public PlayerChangesLogDomainRequestHandlerTest()
     {
         var playerChangesLogDomainModel =
-            JsonHelper.ObjectToByteArray(LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel());
-        _serviceProvider = ServiceProviderFake.CreateElkServiceProviderFake<PlayerChangesLogDomainModel>(playerChangesLogDomainModel);
+            Encoding.UTF8.GetBytes(LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel().SerializeToString());
+
+        _serviceProvider = FakeServiceProvider.CreateElkServiceProviderFake<PlayerChangesLogDomainModel>(playerChangesLogDomainModel);
         _elasticIndexSettings = _serviceProvider.GetRequiredService<IElasticIndexSettings>();
         _handlerTest = new PlayerChangesLogDomainRequestHandlerFake(_serviceProvider);
     }

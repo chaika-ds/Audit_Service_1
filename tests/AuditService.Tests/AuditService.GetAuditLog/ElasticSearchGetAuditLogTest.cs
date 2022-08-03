@@ -21,7 +21,7 @@ public class ElasticSearchGetAuditLogTest
     {
         //Arrange
         IServiceProvider serviceProvider =
-            ServiceProviderFake.CreateElkServiceProviderFake<AuditLogTransactionDomainModel>(TestResources
+            FakeServiceProvider.CreateElkServiceProviderFake<AuditLogTransactionDomainModel>(TestResources
                 .ElasticSearchResponse);
 
 

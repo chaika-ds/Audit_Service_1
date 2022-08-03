@@ -17,15 +17,4 @@ public static class JsonHelper
             Converters = new List<JsonConverter> { new StringEnumConverter() }
         });
     }
-
-    /// <summary>
-    /// Convert an object to a byte array
-    /// </summary>
-    /// <param name="obj">Object for converting</param>
-    /// <returns>Byte array</returns>
-    public static byte[] ObjectToByteArray(Object obj)
-    {
-        var jsonObject = SerializeToString(obj);
-        return Encoding.UTF8.GetBytes(jsonObject);
-    }
 }

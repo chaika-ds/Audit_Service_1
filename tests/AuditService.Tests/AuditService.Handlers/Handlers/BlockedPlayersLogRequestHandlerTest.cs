@@ -27,7 +27,7 @@ public class BlockedPlayersLogRequestHandlerTest
     public async Task Check_If_Result_FROM_Elastic_Search_Async()
     {
         //Arrange
-        IServiceProvider serviceProvider = ServiceProviderFake.CreateElkServiceProviderFake<BlockedPlayersLogDomainModel>(TestResources.BlockedPlayersLogResponse);
+        IServiceProvider serviceProvider = FakeServiceProvider.CreateElkServiceProviderFake<BlockedPlayersLogDomainModel>(TestResources.BlockedPlayersLogResponse);
         
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
         
