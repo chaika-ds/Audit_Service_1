@@ -1,4 +1,5 @@
 using AuditService.Common.Helpers;
+using static Xunit.Assert;
 
 namespace AuditService.Tests.AuditService.Utility.Helpers;
 
@@ -21,8 +22,8 @@ public class JsonHelperTest
         
         //Act 
         var result = obj.SerializeToString();
-        
+
         //Assert
-        Assert.IsType<string>(result);
+        IsType<string>(result);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AuditService.Localization.Localizer;
 using AuditService.Localization.Localizer.Source;
 using AuditService.Localization.Localizer.Storage;
+using AuditService.Localization.Localizer.Triggers;
 using AuditService.Localization.Settings;
 using bgTeam.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public static class LocalizationConfigurator
     {
         services.AddSettings<IRedisCacheStorageSettings, RedisCacheStorageSettings>();
         services.AddSettings<ILocalizationSourceSettings, LocalizationSourceSettings>();
+        services.AddScoped<IOnLocalizationChangesTrigger, OnLocalizationChangesTrigger>();
         services.AddScoped<ILocalizationStorage, RedisCacheStorage>();
         services.AddScoped<ILocalizationSource, LocalizationService>();
         services.AddScoped<ILocalizer, Localizer.Localizer>();

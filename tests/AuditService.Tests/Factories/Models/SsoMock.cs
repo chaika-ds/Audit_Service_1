@@ -1,11 +1,11 @@
-using Tolar.Authenticate.Dtos;
+using AuditService.Tests.Factories.Interfaces;
 
 namespace AuditService.Tests.Factories.Models;
 
 /// <summary>
 ///     SSO Mock model
 /// </summary>
-public class SsoMock : BaseMock
+public class SsoMock : IBaseMock
 {
     /// <summary>
     ///     SSO Token

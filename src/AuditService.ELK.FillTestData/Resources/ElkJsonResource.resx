@@ -127,4 +127,7 @@
   <data name="playerChanges" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>playerChangesData.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="visitLogData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>visitLogData.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

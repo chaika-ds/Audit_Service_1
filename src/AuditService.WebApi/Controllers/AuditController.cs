@@ -1,7 +1,9 @@
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
+using AuditService.Common.Models.Dto.Filter.VisitLog;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.Common.Models.Dto.VisitLog;
 using AuditService.Setup.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -64,4 +66,54 @@ public class AuditController : ControllerBase
     public async Task<PageResponseDto<BlockedPlayersLogResponseDto>> GetBlockedPlayersLogAsync(
         [FromQuery] LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto> request, CancellationToken cancellationToken)
         => await _mediator.Send(request, cancellationToken);
+
+    /// <summary>
+    ///     Allows you to get a list of players visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("playersvisitlog")]
+    [Authorization("Audit.Journal.GetPlayersVisitLog")]
+    [Produces(mediaType.Json, Type = typeof(PageResponseDto<PlayerVisitLogResponseDto>))]
+    public async Task<PageResponseDto<PlayerVisitLogResponseDto>> GetPlayersVisitLogAsync(
+        [FromQuery] LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto> request, CancellationToken cancellationToken)
+        => await _mediator.Send(request, cancellationToken);
+
+    /// <summary>
+    ///     Allows you to get a list of users visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("usersvisitlog")]
+    [Authorization("Audit.Journal.GetUsersVisitLog")]
+    [Produces(mediaType.Json, Type = typeof(PageResponseDto<UserVisitLogResponseDto>))]
+    public async Task<PageResponseDto<UserVisitLogResponseDto>> GetUsersVisitLogAsync(
+        [FromQuery] LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto> request, CancellationToken cancellationToken)
+        => await _mediator.Send(request, cancellationToken);
+
+    /// <summary>
+    ///     Export players visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("playersvisitlog/export")]
+    [Authorization("Audit.Journal.ExportPlayersVisitLog")]
+    [Produces(mediaType.Octet, Type = typeof(FileResult))]
+    public async Task<FileResult> ExportPlayersVisitLogAsync(
+        [FromQuery] ExportLogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto> request, CancellationToken cancellationToken)
+    {
+        var dataToExport = await _mediator.Send(request, cancellationToken);
+        return File(dataToExport.Content, dataToExport.ContentType, dataToExport.FileName);
+    }
+
+    /// <summary>
+    ///     Export users visit log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("usersvisitlog/export")]
+    [Authorization("Audit.Journal.ExportUsersVisitLog")]
+    [Produces(mediaType.Octet, Type = typeof(FileResult))]
+    public async Task<FileResult> ExportUsersVisitLogAsync(
+        [FromQuery] ExportLogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto> request, CancellationToken cancellationToken)
+    {
+        var dataToExport = await _mediator.Send(request, cancellationToken);
+        return File(dataToExport.Content, dataToExport.ContentType, dataToExport.FileName);
+    }
 }
