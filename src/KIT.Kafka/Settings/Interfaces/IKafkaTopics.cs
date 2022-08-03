@@ -44,4 +44,9 @@ public interface IKafkaTopics
     ///     Topic of Visitlog
     /// </summary>
     string Visitlog { get; set; }
+
+    /// <summary>
+    ///     Topic of localization changes
+    /// </summary>
+    string LocalizationChanged { get; set; }
 }

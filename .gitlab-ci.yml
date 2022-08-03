@@ -70,8 +70,6 @@ apiVersion:
       fi;
 
 build:
-  only:
-    - develop
   stage: build
   needs:
     - apiVersion
@@ -102,7 +100,7 @@ build:
       /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $DOCKERFILE --destination $REGISTRY/$DEPLOY_IMAGE:$CI_COMMIT_SHORT_SHA --destination $REGISTRY/$DEPLOY_IMAGE:$CI_IMAGE_TAG --destination $REGISTRY/$DEPLOY_IMAGE:${CI_IMAGE_TAG}${CI_PIPELINE_IID} --build-arg APP_NAME="$APP_NAME" --build-arg APPATH="${APPATH:-}" --build-arg SRCDIR="${SRCDIR:-src}";
       fi
   tags:
-    - build
+    - demo
   retry: 1
 
 # ========================================================================================================================
@@ -128,6 +126,7 @@ build:
     - apt-get -t stretch-backports install openjdk-11-jre-headless -y --no-install-recommends
     - export PATH="$PATH:/usr/bin:/root/.dotnet/tools"
     - dotnet tool install --global dotnet-sonarscanner
+    - CI_IMAGE_TAG=$(cat version/current.ver)
   script:
     - cd $CI_PROJECT_DIR/
     - dotnet new tool-manifest
@@ -135,7 +134,7 @@ build:
     - dotnet restore
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests/
     - dotnet build-server shutdown
-    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs /n:"AuditService-P2"
+    - dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /v:"$CI_IMAGE_TAG" /d:sonar.host.url="$SONAR_URL" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$CI_PROJECT_DIR/tests/AuditService.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions=”**Test*.cs
     - dotnet build ./AuditServiceP2.sln -c Debug --no-restore
     - dotnet tool restore -v q
     - ls -lah $CI_PROJECT_DIR/tests/AuditService.Tests
@@ -147,8 +146,6 @@ build:
     - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
 sonar:
-  only:
-    - develop
   extends: .sonartest
   needs:
     - build
