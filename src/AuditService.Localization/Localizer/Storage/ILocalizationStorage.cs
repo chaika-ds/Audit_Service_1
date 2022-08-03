@@ -22,4 +22,12 @@ public interface ILocalizationStorage
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task execution result</returns>
     Task SetResources(LocalizationResources localizationResources, CancellationToken cancellationToken);
+
+    /// <summary>
+    ///     Clear localization resources from storage
+    /// </summary>
+    /// <param name="resourceParameters">Localization resource parameters</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Task execution result</returns>
+    Task ClearResources(LocalizationResourceParameters resourceParameters, CancellationToken cancellationToken);
 }
