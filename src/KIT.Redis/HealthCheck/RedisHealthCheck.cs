@@ -12,7 +12,7 @@ namespace KIT.Redis.HealthCheck;
 /// <summary>
 ///     Service to check the health of Redis
 /// </summary>
-public class RedisHealthCheck : IRedisHealthCheck, IDisposable
+public sealed class RedisHealthCheck : IRedisHealthCheck
 {
     private readonly ILogger<RedisHealthCheck> _logger;
     private readonly IConnectionMultiplexer _connection;
@@ -21,6 +21,12 @@ public class RedisHealthCheck : IRedisHealthCheck, IDisposable
     {
         _logger = logger;
         _connection = ConnectionMultiplexer.Connect(redisSettings.RedisConnectionString);
+    }
+
+    ~RedisHealthCheck()
+    {
+        _connection.Close();
+        _connection.Dispose();
     }
 
     /// <summary>
@@ -103,11 +109,5 @@ public class RedisHealthCheck : IRedisHealthCheck, IDisposable
         {
             return HealthCheckResult.Unhealthy(ex.FullMessage());
         }
-    }
-
-    public void Dispose()
-    {
-        _connection.Close();
-        _connection.Dispose();
     }
 }

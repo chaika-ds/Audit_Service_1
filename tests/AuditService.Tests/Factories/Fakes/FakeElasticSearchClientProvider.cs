@@ -19,7 +19,7 @@ internal static class FakeElasticSearchClientProvider
     /// </summary>
     internal static IElasticClient GetFakeElasticSearchClient<T>(byte[] jsonContent, string elasticIndex)
     {
-        var elkResponse = JsonConvert.DeserializeObject<List<T>>(Encoding.Default.GetString(jsonContent));
+        var elkResponse = JsonConvert.DeserializeObject<List<T>>(Encoding.Default.GetString(jsonContent)) ?? new List<T>();
 
         var response = new
         {

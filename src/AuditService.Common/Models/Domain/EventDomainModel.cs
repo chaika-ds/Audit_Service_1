@@ -5,6 +5,15 @@ namespace AuditService.Common.Models.Domain;
 /// </summary>
 public class EventDomainModel
 {
+    public EventDomainModel()
+    {
+        Event = string.Empty;
+        Name = string.Empty;
+        Description = string.Empty;
+        ChangeableAttributes = Array.Empty<string>();
+        OldOrNewValue = string.Empty;
+    }
+
     /// <summary>
     ///     Type of event
     /// </summary>

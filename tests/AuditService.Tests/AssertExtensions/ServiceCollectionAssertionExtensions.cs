@@ -1,12 +1,12 @@
 ﻿using AuditService.Tests.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Xunit;
+namespace AuditService.Tests.AssertExtensions;
 
 /// <summary>
-/// Assert for testing DI injection
+///     Extensions for service collection assertion
 /// </summary>
-public partial class Assert
+public static class ServiceCollectionAssertionExtensions
 {
     /// <summary>
     /// Assert if checked service was registered
@@ -15,11 +15,10 @@ public partial class Assert
     /// <typeparam name="TInstance">ImplementationType</typeparam>
     /// <param name="serviceCollection">IServiceCollection</param>
     /// <param name="lifetime">ServiceLifetime</param>
-    public static void IsRegisteredService<TService, TInstance>(IServiceCollection serviceCollection,
-        ServiceLifetime lifetime)
+    public static void IsRegisteredService<TService, TInstance>(this IServiceCollection serviceCollection, ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
-        True(serviceDescriptor?.Is<TService, TInstance>(lifetime));
+        Assert.True(serviceDescriptor?.Is<TService, TInstance>(lifetime));
     }
 
     /// <summary>
@@ -28,11 +27,10 @@ public partial class Assert
     /// <typeparam name="TService">ServiceType</typeparam>
     /// <param name="serviceCollection">IServiceCollection</param>
     /// <param name="lifetime">ServiceLifetime</param>
-    public static void IsRegisteredInternalService<TService>(IServiceCollection serviceCollection,
-        ServiceLifetime lifetime)
+    public static void IsRegisteredInternalService<TService>(this IServiceCollection serviceCollection, ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
-        True(serviceDescriptor?.Is<TService>(lifetime));
+        Assert.True(serviceDescriptor?.Is<TService>(lifetime));
     }
 
     /// <summary>
@@ -41,21 +39,9 @@ public partial class Assert
     /// <typeparam name="TService">ServiceType</typeparam>
     /// <param name="serviceCollection">IServiceCollection</param>
     /// <param name="lifetime">ServiceLifetime</param>
-    public static void IsRegisteredSettings<TService>(IServiceCollection serviceCollection,
-        ServiceLifetime lifetime)
+    public static void IsRegisteredSettings<TService>(this IServiceCollection serviceCollection, ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
-        True(serviceDescriptor?.Is<TService>(lifetime));
-    }
-
-    /// <summary>
-    /// Assert if response is received in TResponse format
-    /// </summary>
-    /// <typeparam name="TResponse">Response type</typeparam>
-    /// <param name="response">TResponse</param>
-    public static void IsPlayerChangesLogReceived<TResponse>(TResponse response)
-    {
-        NotNull(response!);
-        IsType<TResponse>(response!);
+        Assert.True(serviceDescriptor?.Is<TService>(lifetime));
     }
 }
