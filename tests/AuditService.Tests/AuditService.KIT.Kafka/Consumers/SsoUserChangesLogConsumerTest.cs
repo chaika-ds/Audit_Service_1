@@ -14,17 +14,15 @@ namespace AuditService.Tests.AuditService.KIT.Kafka.Consumers;
 /// <summary>
 ///     SSO user changes log consumer Test
 /// </summary>
-public class SsoUserChangesLogConsumerTest
+public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
 {
     private readonly IKafkaTopics _kafkaTopics;
-    private readonly SsoUserChangesLogConsumerProtected _ssoUser;
 
 
-    public SsoUserChangesLogConsumerTest()
+    public SsoUserChangesLogConsumerTest() : base(GetServiceProvider())
     {
         var serviceProvider = GetServiceProvider();
         _kafkaTopics = serviceProvider.GetRequiredService<IKafkaTopics>();
-        _ssoUser =  new SsoUserChangesLogConsumerProtected(serviceProvider);
     }
 
     /// <summary>
@@ -33,7 +31,7 @@ public class SsoUserChangesLogConsumerTest
     [Fact]
     public void Get_Source_Topic_RETURN_Sso_Player_Changes_Log()
     {
-        var result = _ssoUser.GetSourceTopic(_kafkaTopics);
+        var result = GetSourceTopic(_kafkaTopics);
 
         Assert.Equal(_kafkaTopics.SsoUsersChangesLog, result);
     }
@@ -44,7 +42,7 @@ public class SsoUserChangesLogConsumerTest
     [Fact]
     public void Get_Destination_Topic_RETURN_Visit_Log()
     {
-        var result = _ssoUser.GetDestinationTopic(_kafkaTopics);
+        var result =  GetDestinationTopic(_kafkaTopics);
 
         Assert.Equal(_kafkaTopics.Visitlog, result);
     }
@@ -57,7 +55,7 @@ public class SsoUserChangesLogConsumerTest
     {
         var model = new SsoUserChangesLogConsumerMessage {EventType = VisitLogConst.EventTypeAuthorization};
 
-        var result = _ssoUser.NeedToMigrateMessage(model);
+        var result = NeedToMigrateMessage(model);
 
         Assert.True(result);
     }
@@ -70,7 +68,7 @@ public class SsoUserChangesLogConsumerTest
     {
         var model = new SsoUserChangesLogConsumerMessage();
 
-        var result = _ssoUser.NeedToMigrateMessage(model);
+        var result =  NeedToMigrateMessage(model);
 
         Assert.False(result);
     }
@@ -83,7 +81,7 @@ public class SsoUserChangesLogConsumerTest
     {
         var model = new SsoUserChangesLogConsumerMessage();
 
-        var result = _ssoUser.TransformSourceModel(model);
+        var result =  TransformSourceModel(model);
 
         Assert.IsType<VisitLogDomainModel>(result);
     }

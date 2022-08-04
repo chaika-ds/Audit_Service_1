@@ -14,17 +14,14 @@ namespace AuditService.Tests.AuditService.KIT.Kafka.Consumers;
 /// <summary>
 ///     SSO player changes log consumer Test
 /// </summary>
-public class SsoPlayerChangesLogConsumerTest
+public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
 {
     private readonly IKafkaTopics _kafkaTopics;
-    private readonly SsoPlayerChangesLogConsumerProtected _ssoPlayer;
     
-    public SsoPlayerChangesLogConsumerTest()
+    public SsoPlayerChangesLogConsumerTest() : base(GetServiceProvider())
     {
         var serviceProvider = GetServiceProvider();
         _kafkaTopics = serviceProvider.GetRequiredService<IKafkaTopics>();
-        
-        _ssoPlayer = new SsoPlayerChangesLogConsumerProtected(serviceProvider);
     }
 
     /// <summary>
@@ -33,7 +30,7 @@ public class SsoPlayerChangesLogConsumerTest
     [Fact]
     public void Get_Source_Topic_RETURN_Sso_Player_Changes_Log()
     {
-        var result = _ssoPlayer.GetSourceTopic(_kafkaTopics);
+        var result = GetSourceTopic(_kafkaTopics);
         
         Assert.Equal(_kafkaTopics.SsoPlayersChangesLog, result);
     }
@@ -44,7 +41,7 @@ public class SsoPlayerChangesLogConsumerTest
     [Fact]
     public void Get_Destination_Topic_RETURN_Visit_Log()
     {
-        var result = _ssoPlayer.GetDestinationTopic(_kafkaTopics);
+        var result = GetDestinationTopic(_kafkaTopics);
         
         Assert.Equal(_kafkaTopics.Visitlog, result);
     }
@@ -57,7 +54,7 @@ public class SsoPlayerChangesLogConsumerTest
     {
         var model = new SsoPlayerChangesLogConsumerMessage {  EventType = VisitLogConst.EventTypeAuthorization  };
         
-        var result = _ssoPlayer.NeedToMigrateMessage(model);
+        var result = NeedToMigrateMessage(model);
         
         Assert.True(result);
     }
@@ -70,7 +67,7 @@ public class SsoPlayerChangesLogConsumerTest
     {
         var model = new SsoPlayerChangesLogConsumerMessage ();
         
-        var result = _ssoPlayer.NeedToMigrateMessage(model);
+        var result = NeedToMigrateMessage(model);
         
         Assert.False(result);
     }
@@ -83,7 +80,7 @@ public class SsoPlayerChangesLogConsumerTest
     {
         var model = new SsoPlayerChangesLogConsumerMessage ();
         
-        var result = _ssoPlayer.TransformSourceModel(model);
+        var result = TransformSourceModel(model);
         
         Assert.IsType<VisitLogDomainModel>(result);
     }
