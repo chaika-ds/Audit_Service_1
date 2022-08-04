@@ -1,5 +1,4 @@
 using AuditService.Common.Helpers;
-using static Xunit.Assert;
 
 namespace AuditService.Tests.AuditService.Utility.Helpers;
 

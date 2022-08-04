@@ -26,10 +26,9 @@ internal class LogRequestBaseHandlerResponsesFake
     /// Fake request for mediator Send method with LogFilterRequestDto param
     /// </summary>
     /// <returns>PageResponseDto of PlayerChangesLogDomainModel</returns>
-    internal static List<PlayerChangesLogDomainModel> GetTestPlayerChangesLogDomainModelNullResponse()
+    internal static PlayerChangesLogDomainModel GetTestPlayerChangesLogDomainModelResponse()
     {
-        return new List<PlayerChangesLogDomainModel>
-        {
+        return
             new()
             {
                 User = new()
@@ -73,7 +72,18 @@ internal class LogRequestBaseHandlerResponsesFake
                     }
                 },
                 ModuleName = ModuleName.CCR
-            }
+            };
+    }
+
+    /// <summary>
+    /// Fake request for mediator Send method with array of LogFilterRequestDto param
+    /// </summary>
+    /// <returns>PageResponseDto of PlayerChangesLogDomainModel</returns>
+    internal static List<PlayerChangesLogDomainModel> GetTestPlayerChangesLogDomainModelNullResponse()
+    {
+        return new List<PlayerChangesLogDomainModel>
+        {
+            GetTestPlayerChangesLogDomainModelResponse()
         };
     }
 

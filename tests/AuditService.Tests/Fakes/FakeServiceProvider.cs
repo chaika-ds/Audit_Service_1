@@ -15,7 +15,7 @@ namespace AuditService.Tests.Fakes
         /// </summary>
         /// <typeparam name="T">type of elk document</typeparam>
         /// <param name="jsonContent">json with content for elk in byte[] formate</param>
-        /// <param name="elasticIndex">elk index</param>
+        /// <param name="index">elk index</param>
         /// <returns>Service provider</returns>
         internal static IServiceProvider GetServiceProviderForLogHandlers<T>(byte[] jsonContent, string index)
         {
@@ -23,10 +23,7 @@ namespace AuditService.Tests.Fakes
 
             RegistrationServices(services);
 
-            services.AddScoped(serviceProvider =>
-            {
-                return FakeElasticSearchClientProvider.GetFakeElasticSearchClient<T>(jsonContent, index);
-            });
+            services.AddScoped(serviceProvider => FakeElasticSearchClientProvider.GetFakeElasticSearchClient<T>(jsonContent, index));
 
             var serviceProvider = services.BuildServiceProvider();
 

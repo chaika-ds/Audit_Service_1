@@ -10,7 +10,6 @@ using AuditService.Tests.AuditService.Handlers.Asserts;
 using AuditService.Tests.AuditService.Handlers.Fakes;
 using AuditService.Tests.AuditService.Handlers.Mock;
 using AuditService.Tests.Extensions;
-using static Xunit.Assert;
 
 namespace AuditService.Tests.AuditService.Handlers;
 
@@ -36,7 +35,7 @@ public class LogRequestBaseHandlerTest
     /// Testing Handle Method
     /// </summary>
     [Fact]
-    public async Task LogRequestBaseHandler_HandlerWorks_AllDataIsHandled()
+    public async Task LogRequestBaseHandler_HandlerWorks_AllDataIsHandledAsync()
     {
         //Arrange
         var handleSendResponse = LogRequestBaseHandlerResponsesFake.GetSendHandleResponse();
@@ -67,7 +66,7 @@ public class LogRequestBaseHandlerTest
     /// Testing GenerateResponseModelsAsync Method
     /// </summary>
     [Fact]
-    public async Task LogRequestBaseHandler_GenerateResponseModels_GetPlayerChangesLogResponseDto()
+    public async Task LogRequestBaseHandler_GenerateResponseModels_GetPlayerChangesLogResponseDtoAsync()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
@@ -93,7 +92,7 @@ public class LogRequestBaseHandlerTest
     /// Testing GenerateResponseModelsAsync Method - not all Key
     /// </summary>
     [Fact]
-    public async Task LogRequestBaseHandler_GenerateResponseModels_GetNoLocalizedKey()
+    public async Task LogRequestBaseHandler_GenerateResponseModels_GetNoLocalizedKeyAsync()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
@@ -115,7 +114,7 @@ public class LogRequestBaseHandlerTest
     /// Testing GenerateResponseModelsAsync Method Throw Exception
     /// </summary>
     [Fact]
-    public void LogRequestBaseHandler_GenerateResponseModelsAsyncThrowException_KeyNotFoundException()
+    public void LogRequestBaseHandler_GenerateResponseModelsAsyncThrowException_KeyNotFoundExceptionAsync()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
@@ -143,7 +142,7 @@ public class LogRequestBaseHandlerTest
     /// Testing GenerateResponseGroupedModelsAsync Method with grouped data 
     /// </summary>
     [Fact]
-    public async Task LogRequestBaseHandler_GenerateResponseGroupedModels_GetPlayerChangesLogResponseDto()
+    public async Task LogRequestBaseHandler_GenerateResponseGroupedModels_GetPlayerChangesLogResponseDtoAsync()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
@@ -171,7 +170,7 @@ public class LogRequestBaseHandlerTest
     /// Testing GenerateResponseModelsAsync Method with grouped data - not all Key
     /// </summary>
     [Fact]
-    public async Task LogRequestBaseHandler_GenerateGroupedResponseModels_GetNoLocalizedKey()
+    public async Task LogRequestBaseHandler_GenerateGroupedResponseModels_GetNoLocalizedKeyAsync()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
