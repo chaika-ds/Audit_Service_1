@@ -24,4 +24,10 @@ public class PaginationRequestDto
     /// </summary>
     [Required]
     public int PageNumber { get; set; }
+
+    /// <summary>
+    ///     Define offset
+    /// </summary>
+    /// <returns>Offset from the first result to fetch</returns>
+    public int GetOffset() => (PageNumber - 1) * PageSize;
 }

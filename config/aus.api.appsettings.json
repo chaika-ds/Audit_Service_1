@@ -9,7 +9,6 @@
     "Password": "$ELK_CONNECTION_PASSWORD",
     "Indexes": {
       "AuditLog": "$ELK_INDEX_AUDITLOG",
-      "ApplicationLog": "$ELK_INDEX_APPLOG",
       "PlayerChangesLog": "$ELK_INDEX_PLAYER_CHANGES_LOG",
       "BlockedPlayersLog": "$ELK_INDEX_BLOCKED_PlAYERS_LOG",
       "VisitLog": "$ELK_INDEX_VISIT_LOG"

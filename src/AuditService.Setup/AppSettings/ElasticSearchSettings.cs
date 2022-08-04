@@ -15,11 +15,6 @@ internal class ElasticSearchSettings : IElasticSearchSettings
     public string? AuditLog { get; set; }
 
     /// <summary>
-    ///     Internal application logs
-    /// </summary>
-    public string? ApplicationLog { get; set; }
-
-    /// <summary>
     /// Player card changelog
     /// </summary>
     public string? PlayerChangesLog { get; set; }
@@ -55,7 +50,6 @@ internal class ElasticSearchSettings : IElasticSearchSettings
     private void ApplySettings(IConfiguration config)
     {
         AuditLog = config["ElasticSearch:Indexes:AuditLog"];
-        ApplicationLog = config["ElasticSearch:Indexes:ApplicationLog"];
         PlayerChangesLog = config["ElasticSearch:Indexes:PlayerChangesLog"];
         BlockedPlayersLog = config["ElasticSearch:Indexes:BlockedPlayersLog"];
         VisitLog = config["ElasticSearch:Indexes:VisitLog"];

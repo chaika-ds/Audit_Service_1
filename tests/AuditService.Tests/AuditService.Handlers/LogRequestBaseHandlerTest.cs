@@ -52,7 +52,7 @@ public class LogRequestBaseHandlerTest
         var playerChangesLogHandleResponse = await handlerTest.Handle(logFilterRequest, _tokenTest);
 
         //Assert
-        IsResponseTypeReceived(playerChangesLogHandleResponse);
+        NotNull(playerChangesLogHandleResponse);
         LogRequestBaseHandlerAsserts.IsEqualPaginationResponse(playerChangesLogHandleResponse.Pagination, handleSendResponse.Pagination);
         LogRequestBaseHandlerAsserts.IsEqualPlayerChangesLogResponse(playerChangesLogHandleResponse.List.ToList(), handleSendResponse.List.ToList(),
             responseModelsSendResponse.Values.SelectMany(v => v.Select(x => x.Name)).ToArray());
@@ -223,54 +223,42 @@ public class LogRequestBaseHandlerTest
     /// Testing when ELK Send method with LogFilterRequestDto params returns Exception
     /// </summary>
     [Fact]
-    public void LogRequestBaseHandler_ELKSendLogFilterRequestDtoException_ExceptionHandled()
+    public async Task LogRequestBaseHandler_ELKSendLogFilterRequestDtoException_ExceptionHandled()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorLogFilterRequestExceptionMock(),
             _handlersMock.LocalizerEmptyMock());
 
-        //Act
-        var playerChangesLogHandleResponse =
-            handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest);
-
         //Assert
-        ThrowsAnyAsync<Exception>(() => playerChangesLogHandleResponse);
+        await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));
     }
 
     /// <summary>
     /// Testing when ELK Send method with EventsRequest params returns Exception
     /// </summary>
     [Fact]
-    public void LogRequestBaseHandler_ELKSendEventsRequestException_ExceptionHandled()
+    public async Task LogRequestBaseHandler_ELKSendEventsRequestException_ExceptionHandled()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorEventsRequestExceptionMock(),
             _handlersMock.LocalizerEmptyMock());
 
-        //Act
-        var playerChangesLogHandleResponse =
-            handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest);
-
         //Assert
-        ThrowsAnyAsync<Exception>(() => playerChangesLogHandleResponse);
+        await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));
     }
 
     /// <summary>
     /// Testing when ELK Send method with EventsRequest params returns Exception
     /// </summary>
     [Fact]
-    public void LogRequestBaseHandler_LocalizerException_ExceptionHandled()
+    public async Task LogRequestBaseHandler_LocalizerException_ExceptionHandled()
     {
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorEmptyMock(),
             _handlersMock.LocalizerExceptionMock());
 
-        //Act
-        var playerChangesLogHandleResponse =
-            handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest);
-
         //Assert
-        ThrowsAnyAsync<Exception>(() => playerChangesLogHandleResponse);
+        await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));
     }
 
     #endregion

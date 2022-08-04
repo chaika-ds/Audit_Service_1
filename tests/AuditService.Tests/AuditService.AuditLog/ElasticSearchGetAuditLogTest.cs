@@ -6,7 +6,7 @@ using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.Tests.AuditService.GetAuditLog;
+namespace AuditService.Tests.AuditService.AuditLog;
 
 /// <summary>
 /// Test of AuditLogDomainRequestHandler
@@ -17,12 +17,10 @@ public class ElasticSearchGetAuditLogTest
     ///     Check if the result is coming from elastic search
     /// </summary>
     [Fact]
-    public async Task Check_if_the_result_is_coming_from_elastic_search()
+    public async Task GetAuditLogs_CreateAuditLog_ResultWithAuditLogs()
     {
         //Arrange
-        IServiceProvider serviceProvider =
-            FakeServiceProvider.GetServiceProviderForLogHandlers<AuditLogTransactionDomainModel>(
-                TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = FakeServiceProvider.GetServiceProviderForLogHandlers<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
 
         var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
 
@@ -32,6 +30,6 @@ public class ElasticSearchGetAuditLogTest
         var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
 
         //Assert
-        NotEmpty(result.List);
-    }
+        Assert.True(result.List.Any());
+    }     
 }

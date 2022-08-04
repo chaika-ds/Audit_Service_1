@@ -4,7 +4,7 @@
 ///     Attribute for using pipeline behaviors
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class UsePipelineBehaviors : Attribute
+public class UsePipelineBehaviorsAttribute : Attribute
 {
     /// <summary>
     ///     Flag indicating that logging should be used

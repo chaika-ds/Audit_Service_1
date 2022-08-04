@@ -18,7 +18,7 @@ internal class LogRequestBaseHandlerResponsesFake
     internal static PageResponseDto<PlayerChangesLogDomainModel> GetSendHandleResponse()
     {
         return new PageResponseDto<PlayerChangesLogDomainModel>(
-            new PaginationResponseDto(1, 1, 1),
+            new PaginationResponseDto(1, 1, 1, 1),
             GetTestPlayerChangesLogDomainModel());
     }
 

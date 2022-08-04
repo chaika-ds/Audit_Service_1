@@ -1,0 +1,42 @@
+[
+  {
+    "nodeId": "bf8c9684-3cbd-49f3-9a53-9d109625119d",
+    "nodeType": 0,
+    "userId": "b905ef97-2991-4731-b5f7-c3c435716913",
+    "userRoles": [
+      {
+        "code": "code_0",
+        "name": "role_0"
+      },
+      {
+        "code": "code_1",
+        "name": "role_1"
+      }
+    ],
+    "type": 0,
+    "projectId": "86f6b68c-6c32-43fb-89a1-d71bdf341573",
+    "login": "loginUser_0",
+    "ip": "27.1.0.0",
+    "authorization": {
+      "deviceType": "Desktop",
+      "operatingSystem": "linux_0",
+      "browser": "opera_0"
+    },
+    "timestamp": "2022-08-03T10:11:58.8948294+03:00"
+  },
+  {
+    "hallId": "ee814ce5-d71f-4e36-af25-388a92369369",
+    "playerId": "e56f9eb5-88bb-41d0-acf3-c6101f3195be",
+    "type": 1,
+    "projectId": "2ee701c9-af46-453f-95ec-4b1a06b7d730",
+    "login": "login_3",
+    "ip": "127.0.0.3",
+    "authorization": {
+      "deviceType": "Desktop",
+      "operatingSystem": "linux_3",
+      "browser": "opera_3",
+      "authorizationType": "type_3"
+    },
+    "timestamp": "2022-08-03T07:11:59.3594200+03:00"
+  }
+]

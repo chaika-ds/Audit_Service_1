@@ -5,7 +5,7 @@ using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.AuditService.Handlers.Fakes;
-using AuditService.Tests.Factories.Fakes;
+using AuditService.Tests.Fakes;
 using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +27,7 @@ public class PlayerChangesLogDomainRequestHandlerTest
         var playerChangesLogDomainModel =
             Encoding.UTF8.GetBytes(LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel().SerializeToString());
 
-        _serviceProvider = FakeServiceProvider.CreateElkServiceProviderFake<PlayerChangesLogDomainModel>(playerChangesLogDomainModel);
+        _serviceProvider = FakeServiceProvider.GetServiceProviderForLogHandlers<PlayerChangesLogDomainModel>(playerChangesLogDomainModel, TestResources.PlayerChangesLog);
         _elasticIndexSettings = _serviceProvider.GetRequiredService<IElasticIndexSettings>();
         _handlerTest = new PlayerChangesLogDomainRequestHandlerFake(_serviceProvider);
     }
@@ -61,7 +61,7 @@ public class PlayerChangesLogDomainRequestHandlerTest
         var queryIndex = _handlerTest.GetQueryIndexFake(_elasticIndexSettings);
 
         //Assert
-        IsResponseTypeReceived(queryIndex);
+        NotNull(queryIndex);
         Equal(TestResources.PlayerChangesLog, queryIndex!);
     }
 
@@ -78,7 +78,7 @@ public class PlayerChangesLogDomainRequestHandlerTest
         var columnName = _handlerTest.GetColumnNameToSortFake(logSortModelTest);
 
         //Assert
-        IsResponseTypeReceived(columnName);
+        NotNull(columnName);
         Equal(nameof(PlayerChangesLogDomainModel.Timestamp).ToLower(), columnName);
     }
 
