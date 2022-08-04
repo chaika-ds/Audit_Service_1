@@ -26,7 +26,7 @@ public class LocalizationChangedConsumer : BaseConsumer<LocalizationChangedConsu
     /// </summary>
     /// <param name="context">The context of consumption</param>
     /// <returns>Task execution result</returns>
-    protected override async Task Consume(ConsumeContext<LocalizationChangedConsumerMessage> context)
+    protected override async Task ConsumeAsync(ConsumeContext<LocalizationChangedConsumerMessage> context)
     {
         if (context.Message is null)
         {

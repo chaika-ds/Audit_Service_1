@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace AuditService.Common.Extensions;
+﻿namespace AuditService.Common.Extensions;
 
 /// <summary>
 ///     Extension for working with strings

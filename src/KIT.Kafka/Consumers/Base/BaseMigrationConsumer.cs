@@ -56,7 +56,7 @@ public abstract class BaseMigrationConsumer<TSourceModelType, TDestinationModelT
     /// </summary>
     /// <param name="context">The context of consumption</param>
     /// <returns>Task execution result</returns>
-    protected override async Task Consume(ConsumeContext<TSourceModelType> context)
+    protected override async Task ConsumeAsync(ConsumeContext<TSourceModelType> context)
     {
         var sourceTopic = GetDestinationTopic(KafkaTopics);
         var destinationTopic = GetDestinationTopic(KafkaTopics);
@@ -64,12 +64,7 @@ public abstract class BaseMigrationConsumer<TSourceModelType, TDestinationModelT
         try
         {
             if (context.Message is null)
-            {
-                // todo Убрать как будет доработан топик sso.players-changes
-                //_logger.LogError($"Failed to deserialize the topic '{sourceTopic}' model.", context);
-
                 return;
-            }
 
             if (!NeedToMigrateMessage(context.Message))
                 return;

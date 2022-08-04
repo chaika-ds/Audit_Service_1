@@ -5,7 +5,6 @@ using AuditService.Setup.AppSettings;
 using AuditService.Tests.AuditService.GetAuditLog.Models;
 using AuditService.Tests.Factories.Fakes;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 using Tolar.Redis;
 
 namespace AuditService.Tests.AuditService.ELK.FillTestData;
@@ -15,7 +14,6 @@ namespace AuditService.Tests.AuditService.ELK.FillTestData;
 /// </summary>
 public class FillTestDataTest
 {
-    Process proc;
     /// <summary>
     ///     Test of dependecies injection
     /// </summary>

@@ -10,7 +10,7 @@ using AuditService.Setup.AppSettings;
 using Nest;
 using ISort = Nest.ISort;
 
-namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
+namespace AuditService.Handlers.Handlers.DomainRequestHandlers.VisitLog;
 
 /// <summary>
 ///     Request handler for receiving user visit log (Domain model)
@@ -43,26 +43,7 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
         if (!string.IsNullOrEmpty(filter.UserRole))
             container &= queryContainerDescriptor.Match(t => t.Field(new Field(GetNameOfUserRoleNameField())).Query(filter.UserRole));
 
-        if (!string.IsNullOrEmpty(filter.Login))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Login).Query(filter.Login));
-
-        if (!string.IsNullOrEmpty(filter.Ip))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Ip).Query(filter.Ip));
-
-        if (!string.IsNullOrEmpty(filter.OperatingSystem))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.OperatingSystem).Query(filter.OperatingSystem));
-
-        if (!string.IsNullOrEmpty(filter.Browser))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.Browser).Query(filter.Browser));
-
-        if (!string.IsNullOrEmpty(filter.DeviceType))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.DeviceType).Query(filter.DeviceType));
-
-        if (filter.VisitTimeFrom.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.VisitTimeFrom.Value));
-
-        if (filter.VisitTimeTo.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.VisitTimeTo.Value));
+        container &= VisitLogBaseFilter.ApplyFilter(container, queryContainerDescriptor, filter);
 
         return container;
     }
