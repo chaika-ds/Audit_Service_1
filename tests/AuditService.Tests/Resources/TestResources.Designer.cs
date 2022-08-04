@@ -72,8 +72,10 @@ namespace AuditService.Tests.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] BlockedPlayersLogResponse {
-            get {
+        public static byte[] BlockedPlayersLogResponse
+        {
+            get
+            {
                 object obj = ResourceManager.GetObject("BlockedPlayersLogResponse", resourceCulture);
                 return ((byte[])(obj));
             }
@@ -108,6 +110,17 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ElasticSearchVisitLogResponse {
+            get {
+                object obj = ResourceManager.GetObject("ElasticSearchVisitLogResponse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-playerchangeslog.
         ///   Looks up a localized string similar to aus-system-player-changes-log.
         /// </summary>
         public static string PlayerChangesLog {
@@ -117,7 +130,16 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to aus-sso-visit-log.
+        ///   Looks up a localized string similar to NodeId1.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-visitlog.
         /// </summary>
         public static string VisitLog {
             get {

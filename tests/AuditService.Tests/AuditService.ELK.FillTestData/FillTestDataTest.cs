@@ -2,8 +2,8 @@
 using AuditService.ELK.FillTestData.Generators;
 using AuditService.Handlers;
 using AuditService.Setup.AppSettings;
-using AuditService.Tests.AuditService.GetAuditLog.Models;
-using AuditService.Tests.Factories.Fakes;
+using AuditService.Tests.Fakes;
+using AuditService.Tests.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Redis;
 
@@ -20,7 +20,7 @@ public class FillTestDataTest
     [Fact]
     internal void Test_of_dependecies_injection()
     {
-        _ = GetServiceProvider();
+        _ = GetServiceProvider(TestResources.DefaultIndex);
 
         Assert.True(true);
     }
@@ -31,7 +31,7 @@ public class FillTestDataTest
     [Fact]
     internal async Task Test_of_audit_log_data_generator()
     {
-        var serviceProvider = GetServiceProvider();
+        var serviceProvider = GetServiceProvider(TestResources.DefaultIndex);
 
         await serviceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
         
@@ -44,7 +44,7 @@ public class FillTestDataTest
     [Fact]
     internal async Task Test_of_blocked_players_log_data_generator()
     {
-        var serviceProvider = GetServiceProvider();
+        var serviceProvider = GetServiceProvider(TestResources.BlockedPlayersLog);
 
         await serviceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>().GenerateAsync();
 
@@ -57,7 +57,7 @@ public class FillTestDataTest
     [Fact]
     internal async Task Test_of_players_change_log_data_generator()
     {
-        var serviceProvider = GetServiceProvider();
+        var serviceProvider = GetServiceProvider(TestResources.PlayerChangesLog);
 
         await serviceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
 
@@ -70,7 +70,7 @@ public class FillTestDataTest
     [Fact]
     internal async Task Test_of_visit_log_data_generator()
     {
-        var serviceProvider = GetServiceProvider();
+        var serviceProvider = GetServiceProvider(TestResources.VisitLog);
 
         await serviceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
 
@@ -80,7 +80,7 @@ public class FillTestDataTest
     /// <summary>
     ///     Get in meamory service provider
     /// </summary>
-    private IServiceProvider GetServiceProvider()
+    private IServiceProvider GetServiceProvider(string elasticIndex)
     {
         var services = new ServiceCollection();
 
@@ -95,7 +95,7 @@ public class FillTestDataTest
         services.AddSingleton<IRedisRepository, FakeRedisReposetoryForCachePipelineBehavior>();
         services.AddScoped(serviceProvider =>
         {
-            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient();
+            return FakeElasticSearchClientProvider.GetFakeElasticSearchClient(elasticIndex);
         });
         var serviceProvider = services.BuildServiceProvider();
 

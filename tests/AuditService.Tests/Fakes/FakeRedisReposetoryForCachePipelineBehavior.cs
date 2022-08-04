@@ -1,6 +1,6 @@
 ﻿using Tolar.Redis;
 
-namespace AuditService.Tests.Factories.Fakes;
+namespace AuditService.Tests.Fakes;
 
 /// <summary>
 ///      Fake redis reposetory for cache pipeline behavior
