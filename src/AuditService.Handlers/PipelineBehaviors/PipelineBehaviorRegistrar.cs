@@ -16,7 +16,7 @@ internal static class PipelineBehaviorRegistrar
     /// <param name="services">Services сollection</param>
     /// <param name="pipelineBehaviorType">Type of Pipeline behavior</param>
     /// <param name="handlerFilteringFunc">Functions for filtering handlers for which pipeline needs to be registered</param>
-    public static void RegisterPipelineBehaviors(this IServiceCollection services, Type pipelineBehaviorType, Func<UsePipelineBehaviors, bool> handlerFilteringFunc)
+    public static void RegisterPipelineBehaviors(this IServiceCollection services, Type pipelineBehaviorType, Func<UsePipelineBehaviorsAttribute, bool> handlerFilteringFunc)
         => HandlerArguments.GetArgumentsThatUsePipelines()
             .Where(handlerArguments => handlerFilteringFunc(handlerArguments.UsePipelineAttribute)).ToList()
             .ForEach(handlerArguments =>

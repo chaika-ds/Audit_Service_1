@@ -25,7 +25,7 @@ public class HealthCheckController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> IndexAsync(CancellationToken cancellationToken)
     {
         var response = new HealthCheckDto
         {

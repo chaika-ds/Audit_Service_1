@@ -55,8 +55,8 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
         
         await CleanBeforeAsync(config); 
         
-        var index = await GetIndexAsync();
-        
+        var index = await _elasticClient.Indices.ExistsAsync(GetIndex(_elasticIndexSettings));
+
         await CheckAndCreateIndexAsync(index);
         
         await InsertAsync(config);
@@ -82,14 +82,6 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
 
             Console.WriteLine(@"Force clean has been comlpete!");
         }
-    }
-
-    /// <summary>
-    ///     Get elastic index
-    /// </summary>
-    private async Task<ExistsResponse> GetIndexAsync()
-    {
-        return  await _elasticClient.Indices.ExistsAsync(GetIndex(_elasticIndexSettings));
     }
     
     /// <summary>
@@ -128,8 +120,6 @@ internal abstract class LogDataGenerator<TDtoModel,TConfig>
             var data = GenerateDataAsync(configurationModel);
             
             Console.WriteLine($@"Generation {GetIdentifierName()} is completed");
-            
-            if (GetIdentifierName() == null)  throw new ArgumentNullException(GetIdentifierName(),@"Identifier Name can not be null");
     
             await foreach (var dto in data)
             {

@@ -2,24 +2,12 @@
 
 namespace AuditService.Setup.AppSettings;
 
+/// <summary>
+///     Settings for authentication in the SSO service
+/// </summary>
 internal class AuthSsoServiceSettings : IAuthSsoServiceSettings
 {
-    public AuthSsoServiceSettings(IConfiguration configuration) => ApplySettings(configuration);
-
-    public string? ServiceName { get; private set; }
-
-    public string? Connection { get; private set; }
-
-    public Guid ServiceId { get; private set; }
-
-    public string? ApiKey { get; private set; }
-
-    public Guid RootNodeId { get; private set; }
-
-    /// <summary>
-    ///     Apply SSO configs
-    /// </summary>
-    private void ApplySettings(IConfiguration config)
+    public AuthSsoServiceSettings(IConfiguration config)
     {
         ApiKey = config["SSO:ApiKey"];
         Connection = config["SSO:Url"];
@@ -27,4 +15,29 @@ internal class AuthSsoServiceSettings : IAuthSsoServiceSettings
         ServiceId = Guid.Parse(config["SSO:ServiceId"] ?? throw new InvalidOperationException("Wrong ServiceId."));
         RootNodeId = Guid.Parse(config["SSO:RootNodeId"] ?? throw new InvalidOperationException("Wrong RootNodeId."));
     }
+
+    /// <summary>
+    ///     Service name
+    /// </summary>
+    public string ServiceName { get; }
+
+    /// <summary>
+    ///     Connection to SSO
+    /// </summary>
+    public string? Connection { get; }
+
+    /// <summary>
+    ///     Service Id
+    /// </summary>
+    public Guid ServiceId { get; }
+
+    /// <summary>
+    ///     Api key
+    /// </summary>
+    public string? ApiKey { get; }
+
+    /// <summary>
+    ///     Root node Id
+    /// </summary>
+    public Guid RootNodeId { get; }
 }
