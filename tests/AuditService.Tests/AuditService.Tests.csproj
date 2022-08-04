@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="GlobalUsings.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -35,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AuditService.Common\AuditService.Common.csproj" />
     <ProjectReference Include="..\..\src\AuditService.ELK.FillTestData\AuditService.ELK.FillTestData.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Handlers\AuditService.Handlers.csproj" />
     <ProjectReference Include="..\..\src\AuditService.Setup\AuditService.Setup.csproj" />

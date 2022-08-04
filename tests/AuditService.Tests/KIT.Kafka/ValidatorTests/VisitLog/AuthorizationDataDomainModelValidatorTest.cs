@@ -5,7 +5,7 @@ using AuditService.Tests.KIT.Kafka.TestData;
 using FluentValidation.TestHelper;
 using KIT.Kafka.Consumers.VisitLog.Validators;
 
-namespace AuditService.Tests.KIT.Kafka.ValidatorTests;
+namespace AuditService.Tests.KIT.Kafka.ValidatorTests.VisitLog;
 
 /// <summary>
 /// AuthorizationDataDomainModelValidator tests
@@ -28,7 +28,7 @@ public class AuthorizationDataDomainModelValidatorTest
     public void AuthorizationDataDomainModelValidator_InsertStringNotValidParams_ShouldHaveValidationError(string stringValue)
     {
         //Act
-        var result = _validatorTest.TestValidate(AuthorizationDataDomainModelValidatorTestData.GetAuthorizationDataDomainStringModel(stringValue));
+        var result = _validatorTest.TestValidate(VisitLogValidatorTestData.GetAuthorizationDataDomainStringModel(stringValue));
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.DeviceType);
@@ -36,6 +36,6 @@ public class AuthorizationDataDomainModelValidatorTest
         result.ShouldHaveValidationErrorFor(log => log.Browser);
         result.ShouldHaveValidationErrorFor(log => log.OperatingSystem);
 
-        ValidatorAsserts<AuthorizationDataDomainModel>.AssertDomainModelNames(result, AuthorizationDataDomainModelValidatorTestData.GetAuthorizationDataDomainModelNames());
+        ValidatorAsserts<AuthorizationDataDomainModel>.AssertDomainModelNames(result, VisitLogValidatorTestData.GetAuthorizationDataDomainModelNames());
     }
 }

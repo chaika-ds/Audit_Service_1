@@ -4,7 +4,7 @@ using AuditService.Tests.KIT.Kafka.TestData;
 using FluentValidation.TestHelper;
 using KIT.Kafka.Consumers.PlayerChangesLog.Validators;
 
-namespace AuditService.Tests.KIT.Kafka.ValidatorTests;
+namespace AuditService.Tests.KIT.Kafka.ValidatorTests.PlayerChangesLog;
 
 /// <summary>
 /// UserInitiatorDomainModelValidatorTest tests

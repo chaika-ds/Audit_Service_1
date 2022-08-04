@@ -42,6 +42,17 @@ public static class ServiceCollectionAssertionExtensions
     public static void IsRegisteredSettings<TService>(this IServiceCollection serviceCollection, ServiceLifetime lifetime)
     {
         var serviceDescriptor = serviceCollection.FirstOrDefault(x => x.ServiceType == typeof(TService));
-        Assert.True(serviceDescriptor?.Is<TService>(lifetime));
+        True(serviceDescriptor?.Is<TService>(lifetime));
+    }
+
+    /// <summary>
+    /// Assert if response is received in TResponse format
+    /// </summary>
+    /// <typeparam name="TResponse">Response type</typeparam>
+    /// <param name="response">TResponse</param>
+    public static void IsResponseTypeReceived<TResponse>(TResponse response)
+    {
+        NotNull(response!);
+        IsType<TResponse>(response!);
     }
 }

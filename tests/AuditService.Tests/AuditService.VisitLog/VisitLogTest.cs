@@ -8,7 +8,7 @@ using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuditService.Tests.AuditService.GetPlayersVisitLog
+namespace AuditService.Tests.AuditService.VisitLog
 {
     /// <summary>
     ///     Test of PlayerVisitLogDomainRequestHandler

@@ -20,8 +20,9 @@ public class BlockedPlayersLogRequestHandlerTest
     [Fact]
     public async Task Check_If_Result_FROM_Elastic_Search_Async()
     {
+        //Arrange
         var serviceProvider = FakeServiceProvider.GetServiceProviderForLogHandlers<BlockedPlayersLogDomainModel>(TestResources.BlockedPlayersLogResponse, TestResources.BlockedPlayersLog);
-
+        
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
         
         var filter =  new LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>();
@@ -30,6 +31,6 @@ public class BlockedPlayersLogRequestHandlerTest
         var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
         //Assert
-        Assert.True(result.List.Any());
+        NotEmpty(result.List);
     }
 }

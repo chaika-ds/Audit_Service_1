@@ -11,9 +11,9 @@ namespace AuditService.Tests.Fakes;
 /// </summary>
 internal static class FakeElasticSearchClientProvider
 {
-    const int fixedStatusCode = 200;
+    const int FixedStatusCode = 200;
 
-    const string fixedUri = "http://localhost:9200";
+    const string FixedUri = "http://localhost:9200";
 
     /// <summary>
     ///     Getting fake elastic search client
@@ -30,7 +30,7 @@ internal static class FakeElasticSearchClientProvider
         {
             hits = new
             {
-                hits = Enumerable.Range(1, elkResponse.Count).Select(i => (object)new
+                hits = Enumerable.Range(1, elkResponse!.Count).Select(i => (object)new
                 {
                     _index = elasticIndex,
                     _type = elasticIndex,
@@ -43,7 +43,7 @@ internal static class FakeElasticSearchClientProvider
 
         var responseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(response));
 
-        var connection = new InMemoryConnection(responseBytes, fixedStatusCode);
+        var connection = new InMemoryConnection(responseBytes, FixedStatusCode);
 
         var client = ClientBuilder(connection, elasticIndex);
 
@@ -73,7 +73,7 @@ internal static class FakeElasticSearchClientProvider
     /// <returns>Elastic client</returns>
     private static IElasticClient ClientBuilder(InMemoryConnection connection, string elasticIndex)
     {
-        var connectionPool = new SingleNodeConnectionPool(new Uri(fixedUri));
+        var connectionPool = new SingleNodeConnectionPool(new Uri(FixedUri));
 
         var settings = new ConnectionSettings(connectionPool, connection)
             .DefaultIndex(elasticIndex)
