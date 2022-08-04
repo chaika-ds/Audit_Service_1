@@ -1,4 +1,6 @@
 using AuditService.Common.Consts;
+using AuditService.Common.Enums;
+using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.VisitLog;
 using AuditService.Tests.AuditService.KIT.Kafka.Fakes;
 using AuditService.Tests.Fakes;
@@ -29,7 +31,7 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
     ///     Check if the result is SsoPlayersChangesLog
     /// </summary>
     [Fact]
-    public void Get_Source_Topic_RETURN_Sso_Player_Changes_Log()
+    public void Get_Source_Topic_Return_Sso_Player_Changes_Log()
     {
         var result = GetSourceTopic(_kafkaTopics);
 
@@ -40,7 +42,7 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
     ///     Check if the result is Visitlog
     /// </summary>
     [Fact]
-    public void Get_Destination_Topic_RETURN_Visit_Log()
+    public void Get_Destination_Topic_Return_Visit_Log()
     {
         var result =  GetDestinationTopic(_kafkaTopics);
 
@@ -51,7 +53,7 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
     ///     Check if the result is true
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_RETURN_true()
+    public void Need_To_Migrate_Message_Return_true()
     {
         var model = new SsoUserChangesLogConsumerMessage {EventType = VisitLogConst.EventTypeAuthorization};
 
@@ -64,7 +66,7 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
     ///     Check if the result is false
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_RETURN_false()
+    public void Need_To_Migrate_Message_Return_false()
     {
         var model = new SsoUserChangesLogConsumerMessage();
 
@@ -77,15 +79,44 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
     ///     Check if the result is VisitLogDomainModel type
     /// </summary>
     [Fact]
-    public void Transform_Source_Model_RETURN_Visit_Log_Domain_Model()
+    public void Transform_Source_Model_Return_Visit_Log_Domain_Model()
     {
-        var model = new SsoUserChangesLogConsumerMessage();
+        var model = new SsoUserChangesLogConsumerMessage()
+        {
+            NodeId = Guid.NewGuid(),
+            NodeType = NodeType.HALL,
+            ProjectId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            UserLogin = "test@gmail.com",
+            UserRoles = new List<UserRoleDomainModel>(){ new ("","")},
+            UserIp = "0.0.0.0",
+            UserAuthorization = new AuthorizationDataDomainModel()
+            {
+                Browser = "chrome",
+                DeviceType = "Mobile",
+                OperatingSystem = "Windows",
+                AuthorizationType = ""
+            },
+            Timestamp = DateTime.Now,
+            EventType = "Create"
+            
+        };
 
         var result =  TransformSourceModel(model);
 
+        Assert.Equal(model.NodeId, result.NodeId);
+        Assert.Equal(model.NodeType, result.NodeType);
+        Assert.Equal(model.ProjectId, result.ProjectId);
+        Assert.Equal(model.UserId, result.UserId);
+        Assert.Equal(model.UserLogin, result.Login);
+        Assert.Equal(model.UserRoles, result.UserRoles);
+        Assert.Equal(model.UserIp, result.Ip);
+        Assert.Equal(model.UserAuthorization, result.Authorization);
+        Assert.Equal(model.Timestamp, result.Timestamp);
+        Assert.Equal(VisitLogType.User, result.Type);
+
         Assert.IsType<VisitLogDomainModel>(result);
     }
-
 
     /// <summary>
     ///     Getting fake service provider 

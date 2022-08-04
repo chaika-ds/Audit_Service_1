@@ -1,4 +1,6 @@
 using AuditService.Common.Consts;
+using AuditService.Common.Enums;
+using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.VisitLog;
 using AuditService.Tests.AuditService.KIT.Kafka.Fakes;
 using AuditService.Tests.Fakes;
@@ -28,7 +30,7 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
     ///     Check if the result is SsoPlayersChangesLog
     /// </summary>
     [Fact]
-    public void Get_Source_Topic_RETURN_Sso_Player_Changes_Log()
+    public void Get_Source_Topic_Return_Sso_Player_Changes_Log()
     {
         var result = GetSourceTopic(_kafkaTopics);
         
@@ -39,7 +41,7 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
     ///     Check if the result is Visitlog
     /// </summary>
     [Fact]
-    public void Get_Destination_Topic_RETURN_Visit_Log()
+    public void Get_Destination_Topic_Return_Visit_Log()
     {
         var result = GetDestinationTopic(_kafkaTopics);
         
@@ -50,7 +52,7 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
     ///     Check if the result is true
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_RETURN_true()
+    public void Need_To_Migrate_Message_Return_true()
     {
         var model = new SsoPlayerChangesLogConsumerMessage {  EventType = VisitLogConst.EventTypeAuthorization  };
         
@@ -63,7 +65,7 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
     ///     Check if the result is false
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_RETURN_false()
+    public void Need_To_Migrate_Message_Return_false()
     {
         var model = new SsoPlayerChangesLogConsumerMessage ();
         
@@ -76,13 +78,51 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
     ///     Check if the result is VisitLogDomainModel type
     /// </summary>
     [Fact]
-    public void Transform_Source_Model_RETURN_Visit_Log_Domain_Model()
+    public void Transform_Source_Model_Return_Visit_Log_Domain_Model()
     {
-        var model = new SsoPlayerChangesLogConsumerMessage ();
+        var model = new SsoPlayerChangesLogConsumerMessage ()
+        {
+            LastVisitIp = "0.0.0.0",
+            PlayerAuthorization = new AuthorizationDataDomainModel()
+            {
+                Browser = "chrome",
+                DeviceType = "Mobile",
+                OperatingSystem = "Windows",
+                AuthorizationType = ""
+            },
+            EventType = "Create",
+            ProjectId = Guid.NewGuid(),
+            PlayerId = Guid.NewGuid(),
+            HallId = Guid.NewGuid()
+        };
         
         var result = TransformSourceModel(model);
         
+        Assert.Equal(model.LastVisitIp, result.Ip);
+        Assert.Equal(model.PlayerAuthorization, result.Authorization);
+        Assert.Equal(model.EventDateTime, result.Timestamp);
+        Assert.Equal(VisitLogType.Player, result.Type);
+        Assert.Equal(model.ProjectId, result.ProjectId);
+        Assert.Equal(model.PlayerId, result.PlayerId);
+        Assert.Equal(DefineLoginFake(model), result.Login);
+        Assert.Equal(model.HallId, result.HallId);
+        
+        
         Assert.IsType<VisitLogDomainModel>(result);
+    }
+
+    
+    /// <summary>
+    ///     Define login
+    /// </summary>
+    /// <param name="sourceModel">Source model</param>
+    /// <returns>Login</returns>
+    private static string DefineLoginFake(SsoPlayerChangesLogConsumerMessage sourceModel)
+    {
+        if (!string.IsNullOrEmpty(sourceModel.Login))
+            return sourceModel.Login;
+
+        return sourceModel.Email ?? sourceModel.Phone!;
     }
     
     
