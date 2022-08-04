@@ -35,7 +35,7 @@ public class AuditController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     [HttpGet]
     [Route("auditlog")]
-    //[Authorization("Audit.Journal.GetAuditlog")]
+    [Authorization("Audit.Journal.GetAuditlog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
     public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
         [FromQuery] LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
