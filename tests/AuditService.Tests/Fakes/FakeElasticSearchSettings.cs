@@ -1,7 +1,7 @@
 ﻿using AuditService.Setup.AppSettings;
 using AuditService.Tests.Resources;
 
-namespace AuditService.Tests.AuditService.GetAuditLog.Models;
+namespace AuditService.Tests.Fakes;
 
 /// <summary>
 ///     Fake elastic search settings
@@ -51,7 +51,7 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
         VisitLog = TestResources.VisitLog;
         AuditLog = TestResources.DefaultIndex;
         PlayerChangesLog = TestResources.PlayerChangesLog;
-        BlockedPlayersLog = TestResources.BlockedPlayersLog;    
-        ConnectionUrl = TestResources.ConnectionUrl;           
+        BlockedPlayersLog = TestResources.BlockedPlayersLog;
+        ConnectionUrl = TestResources.ConnectionUrl;
     }
 }

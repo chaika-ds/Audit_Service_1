@@ -144,4 +144,10 @@
     <value>aus-sso-visit-log</value>
     <comment>visit log</comment>
   </data>
+  <data name="String" xml:space="preserve">
+    <value>NodeId1</value>
+  </data>
+  <data name="ElasticSearchVisitLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ElasticSearchVisitLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
