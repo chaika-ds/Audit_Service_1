@@ -14,11 +14,6 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     public string? AuditLog { get; set; }
 
     /// <summary>
-    ///     Internal application logs
-    /// </summary>
-    public string? ApplicationLog { get; set; }
-
-    /// <summary>
     /// Player card changelog
     /// </summary>
     public string? PlayerChangesLog { get; set; }
@@ -55,7 +50,6 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     {
         VisitLog = TestResources.VisitLog;
         AuditLog = TestResources.DefaultIndex;
-        ApplicationLog = TestResources.ApplicationLog;
         PlayerChangesLog = TestResources.PlayerChangesLog;
         BlockedPlayersLog = TestResources.BlockedPlayersLog;    
         ConnectionUrl = TestResources.ConnectionUrl;           

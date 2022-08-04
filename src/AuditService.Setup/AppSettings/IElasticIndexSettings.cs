@@ -9,12 +9,7 @@ public interface IElasticIndexSettings
     ///     Audit logs from services
     /// </summary>
     public string? AuditLog { get; set; }
-
-    /// <summary>
-    ///     Internal application logs
-    /// </summary>
-    public string? ApplicationLog { get; set; }
-
+    
     /// <summary>
     /// Player card changelog
     /// </summary>
