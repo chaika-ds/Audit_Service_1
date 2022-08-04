@@ -13,7 +13,7 @@ public class PageResponseDto<T>
     /// </summary>
     public PageResponseDto(PaginationRequestDto paginationRequest, long totalCount, IEnumerable<T> result)
     {
-        Pagination = new PaginationResponseDto(totalCount, paginationRequest.PageNumber, paginationRequest.PageSize);
+        Pagination = new PaginationResponseDto(totalCount, paginationRequest.PageNumber, paginationRequest.PageSize, result.Count());
         List = result;
     }
 
