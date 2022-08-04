@@ -19,33 +19,33 @@ internal class FakeRedisReposetoryForCachePipelineBehavior : IRedisRepository
     /// <summary>
     ///     stub for DeleteAsync to implement the interface IRedisRepository
     /// </summary>
-    public async Task<bool> DeleteAsync(string key)
+    public Task<bool> DeleteAsync(string key)
     {
-        return true;
+        return Task.FromResult(true);
     }
 
     /// <summary>
     ///     stub for ExpireAsync to implement the interface IRedisRepository
     /// </summary>
-    public async Task<bool> ExpireAsync(string key, TimeSpan? expiry)
+    public Task<bool> ExpireAsync(string key, TimeSpan? expiry)
     {
-        return true;
+        return Task.FromResult(true);
     }
 
     /// <summary>
     ///     stub for GetAsync to implement the interface IRedisRepository
     /// </summary>
-    public async Task<T?> GetAsync<T>(string key) where T : class
+    public Task<T?> GetAsync<T>(string key) where T : class
     {
-        return null;
+        return Task.FromResult<T?>(null);
     }
 
     /// <summary>
     ///     stub for GetValueAsynс to implement the interface IRedisRepository
     /// </summary>
-    public async Task<T?> GetValueAsync<T>(string key) where T : struct
+    public Task<T?> GetValueAsync<T>(string key) where T : struct
     {
-        throw new NotImplementedException();
+        return Task.FromResult<T?>(null);
     }
 
     /// <summary>
@@ -59,9 +59,9 @@ internal class FakeRedisReposetoryForCachePipelineBehavior : IRedisRepository
     /// <summary>
     ///     stub for SetAsync to implement the interface IRedisRepository
     /// </summary>
-    public async Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry = null)
+    public Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry = null)
     {
-        return true;
+        return Task.FromResult(true);
     }
 }
 

@@ -52,7 +52,7 @@ public abstract class BaseValidationConsumer<TModel> : BaseConsumer<TModel> wher
     /// </summary>
     /// <param name="context">The context of consumption</param>
     /// <returns>Task execution result</returns>
-    protected override async Task Consume(ConsumeContext<TModel> context)
+    protected override async Task ConsumeAsync(ConsumeContext<TModel> context)
     {
         try
         {

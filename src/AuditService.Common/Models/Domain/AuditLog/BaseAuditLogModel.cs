@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using AuditService.Common.Enums;
-using Newtonsoft.Json;
 
 namespace AuditService.Common.Models.Domain.AuditLog
 {

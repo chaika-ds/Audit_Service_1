@@ -16,6 +16,7 @@ using AuditService.Localization.Settings;
 using AuditService.Setup;
 using AuditService.Setup.AppSettings;
 using AuditService.Setup.ServiceConfigurations;
+using AuditService.Tests.AssertExtensions;
 using AuditService.Tests.Fakes;
 using KIT.Kafka;
 using KIT.Kafka.BackgroundServices;
@@ -35,7 +36,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
 using Tolar.Redis;
-using static Xunit.Assert;
 using DiConfigure = AuditService.Handlers.DiConfigure;
 using GetCategoriesRequest = AuditService.Common.Models.Dto.GetCategoriesRequest;
 
@@ -63,9 +63,9 @@ public class DIConfigureTest
         serviceCollectionFake.ConfigureRedis();
 
         // Assert
-        IsRegisteredSettings<IRedisSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<IRedisRepository, RedisRepository>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<IRedisHealthCheck, RedisHealthCheck>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IRedisSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IRedisRepository, RedisRepository>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IRedisHealthCheck, RedisHealthCheck>(ServiceLifetime.Singleton);
     }
 
     /// <summary>
@@ -78,39 +78,39 @@ public class DIConfigureTest
         DiConfigure.RegisterServices(serviceCollectionFake);
 
         // Assert
-        IsRegisteredService<IMediator, Mediator>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<
+        serviceCollectionFake.IsRegisteredService<IMediator, Mediator>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<
                 LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto,
                     BlockedPlayersLogResponseDto>, PageResponseDto<BlockedPlayersLogResponseDto>>
-            , BlockedPlayersLogRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<CheckElkHealthRequest, bool>, HealthCheckRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<CheckRedisHealthRequest, bool>, HealthCheckRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
+            , BlockedPlayersLogRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckElkHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckRedisHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
 
-        IsRegisteredService<IRequestHandler<LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto,
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto,
                 PlayerChangesLogResponseDto>,
-            PageResponseDto<PlayerChangesLogResponseDto>>, PlayerChangesLogRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
-            ReferenceRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<
+            PageResponseDto<PlayerChangesLogResponseDto>>, PlayerChangesLogRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<GetServicesRequest, IEnumerable<EnumResponseDto>>,
+            ReferenceRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<
             IRequestHandler<GetCategoriesRequest, IDictionary<ModuleName, CategoryDomainModel[]>>,
-            ReferenceRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>,
-            ReferenceRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<GetEventsRequest, IDictionary<ModuleName, EventDomainModel[]>>,
-            ReferenceRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<
+            ReferenceRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<GetActionsRequest, IEnumerable<ActionDomainModel>?>,
+            ReferenceRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<GetEventsRequest, IDictionary<ModuleName, EventDomainModel[]>>,
+            ReferenceRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<
                 LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>,
                 PageResponseDto<AuditLogTransactionDomainModel>>,
-            AuditLogDomainRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<
+            AuditLogDomainRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<
             LogFilterRequestDto<BlockedPlayersLogFilterDto,
                 BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>,
-            PageResponseDto<BlockedPlayersLogDomainModel>>, BlockedPlayersLogDomainRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<IRequestHandler<
+            PageResponseDto<BlockedPlayersLogDomainModel>>, BlockedPlayersLogDomainRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<
             LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>,
-            PageResponseDto<PlayerChangesLogDomainModel>>, PlayerChangesLogDomainRequestHandler>(serviceCollectionFake, ServiceLifetime.Transient);
+            PageResponseDto<PlayerChangesLogDomainModel>>, PlayerChangesLogDomainRequestHandler>(ServiceLifetime.Transient);
     }
 
     /// <summary>
@@ -123,16 +123,16 @@ public class DIConfigureTest
         serviceCollectionFake.ConfigureKafka("TestEnvName");
 
         // Assert
-        IsRegisteredSettings<IKafkaSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IKafkaConsumerSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IPermissionPusherSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IKafkaTopics>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IKafkaSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IKafkaConsumerSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IPermissionPusherSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IKafkaTopics>(ServiceLifetime.Singleton);
 
-        IsRegisteredService<IKafkaConsumerFactory, KafkaConsumerFactory>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<IKafkaProducer, KafkaProducer>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<IKafkaHealthCheck, KafkaHealthCheck>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IKafkaConsumerFactory, KafkaConsumerFactory>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IKafkaProducer, KafkaProducer>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IKafkaHealthCheck, KafkaHealthCheck>(ServiceLifetime.Singleton);
 
-        IsRegisteredService<IHostedService, PushPermissionService>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IHostedService, PushPermissionService>(ServiceLifetime.Singleton);
     }
 
     /// <summary>
@@ -145,11 +145,11 @@ public class DIConfigureTest
         serviceCollectionFake.RegisterSettings();
 
         // Assert
-        IsRegisteredSettings<IAuthenticateServiceSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IAuthSsoServiceSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IElasticSearchSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<IElasticIndexSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<ISwaggerSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IAuthenticateServiceSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IAuthSsoServiceSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IElasticSearchSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IElasticIndexSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<ISwaggerSettings>(ServiceLifetime.Singleton);
     }
 
     /// <summary>
@@ -162,9 +162,9 @@ public class DIConfigureTest
         serviceCollectionFake.AddEndpointsApiExplorer();
 
         // Assert
-        IsRegisteredInternalService<IActionDescriptorCollectionProvider>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredService<IApiDescriptionGroupCollectionProvider, ApiDescriptionGroupCollectionProvider>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredInternalService<IApiDescriptionProvider>(serviceCollectionFake, ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredInternalService<IActionDescriptorCollectionProvider>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IApiDescriptionGroupCollectionProvider, ApiDescriptionGroupCollectionProvider>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredInternalService<IApiDescriptionProvider>(ServiceLifetime.Transient);
     }
 
     /// <summary>
@@ -177,8 +177,8 @@ public class DIConfigureTest
         serviceCollectionFake.AddHealthChecks();
 
         // Assert
-        IsRegisteredInternalService<HealthCheckService>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredInternalService<IHostedService>(serviceCollectionFake, ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredInternalService<HealthCheckService>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredInternalService<IHostedService>(ServiceLifetime.Singleton);
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ public class DIConfigureTest
         serviceCollectionFake.AddElasticSearch();
 
         // Assert
-        IsRegisteredInternalService<IElasticClient>(serviceCollectionFake, ServiceLifetime.Scoped);
+        serviceCollectionFake.IsRegisteredInternalService<IElasticClient>(ServiceLifetime.Scoped);
     }
 
     /// <summary>
@@ -204,8 +204,8 @@ public class DIConfigureTest
         serviceCollectionFake.AddSwagger();
 
         // Assert
-        IsRegisteredService<ISwaggerProvider, SwaggerGenerator>(serviceCollectionFake, ServiceLifetime.Transient);
-        IsRegisteredService<ISchemaGenerator, SchemaGenerator>(serviceCollectionFake, ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<ISwaggerProvider, SwaggerGenerator>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<ISchemaGenerator, SchemaGenerator>(ServiceLifetime.Transient);
     }
 
     /// <summary>
@@ -218,10 +218,10 @@ public class DIConfigureTest
         serviceCollectionFake.ConfigureLocalization();
 
         // Assert
-        IsRegisteredSettings<IRedisCacheStorageSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredSettings<ILocalizationSourceSettings>(serviceCollectionFake, ServiceLifetime.Singleton);
-        IsRegisteredInternalService<ILocalizationStorage>(serviceCollectionFake, ServiceLifetime.Scoped);
-        IsRegisteredInternalService<ILocalizationSource>(serviceCollectionFake, ServiceLifetime.Scoped);
-        IsRegisteredInternalService<ILocalizer>(serviceCollectionFake, ServiceLifetime.Scoped);
+        serviceCollectionFake.IsRegisteredSettings<IRedisCacheStorageSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<ILocalizationSourceSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredInternalService<ILocalizationStorage>(ServiceLifetime.Scoped);
+        serviceCollectionFake.IsRegisteredInternalService<ILocalizationSource>(ServiceLifetime.Scoped);
+        serviceCollectionFake.IsRegisteredInternalService<ILocalizer>(ServiceLifetime.Scoped);
     }
 }

@@ -9,7 +9,7 @@ using AuditService.Setup.AppSettings;
 using Nest;
 using ISort = Nest.ISort;
 
-namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
+namespace AuditService.Handlers.Handlers.DomainRequestHandlers.VisitLog;
 
 /// <summary>
 ///     Request handler for receiving player visit log (Domain model)
@@ -39,29 +39,10 @@ public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<Pl
         if (filter.PlayerId.HasValue)
             container &= queryContainerDescriptor.Term(t => t.PlayerId, filter.PlayerId.Value);
 
-        if (!string.IsNullOrEmpty(filter.Login))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Login).Query(filter.Login));
-
-        if (!string.IsNullOrEmpty(filter.Ip))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Ip).Query(filter.Ip));
-
-        if (!string.IsNullOrEmpty(filter.OperatingSystem))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.OperatingSystem).Query(filter.OperatingSystem));
-
-        if (!string.IsNullOrEmpty(filter.Browser))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.Browser).Query(filter.Browser));
-
-        if (!string.IsNullOrEmpty(filter.DeviceType))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.DeviceType).Query(filter.DeviceType));
+        container &= VisitLogBaseFilter.ApplyFilter(container, queryContainerDescriptor, filter);
 
         if (!string.IsNullOrEmpty(filter.AuthorizationMethod))
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.AuthorizationType).Query(filter.AuthorizationMethod));
-
-        if (filter.VisitTimeFrom.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.VisitTimeFrom.Value));
-
-        if (filter.VisitTimeTo.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.VisitTimeTo.Value));
 
         return container;
     }
@@ -96,7 +77,7 @@ public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<Pl
     /// </summary>
     /// <param name="logSortModel">Model to apply sorting</param>
     /// <returns>Column name to sort</returns>
-    protected override string GetColumnNameToSort(PlayerVisitLogSortDto logSortModel) => 
+    protected override string GetColumnNameToSort(PlayerVisitLogSortDto logSortModel) =>
         logSortModel.FieldSortType switch
         {
             PlayerVisitLogSortType.HallId => nameof(PlayerVisitLogDomainModel.HallId).ToCamelCase(),

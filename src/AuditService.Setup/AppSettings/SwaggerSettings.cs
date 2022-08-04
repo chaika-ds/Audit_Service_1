@@ -2,17 +2,18 @@
 
 namespace AuditService.Setup.AppSettings;
 
+/// <summary>
+///     Configuration section of swagger
+/// </summary>
 internal class SwaggerSettings : ISwaggerSettings
 {
-    public SwaggerSettings(IConfiguration configuration) => ApplySettings(configuration);
-
-    public string[]? XmlComments { get; set; }
-
-    /// <summary>
-    ///     Apply settings
-    /// </summary>
-    private void ApplySettings(IConfiguration configuration)
+    public SwaggerSettings(IConfiguration configuration)
     {
         XmlComments = configuration.GetSection("Swagger:XmlComments").Get<string[]>();
     }
+
+    /// <summary>
+    ///     XML comments for swagger
+    /// </summary>
+    public string[] XmlComments { get; set; }
 }
