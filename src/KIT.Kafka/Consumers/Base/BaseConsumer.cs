@@ -53,7 +53,7 @@ public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new
     /// </summary>
     /// <param name="context">The context of consumption</param>
     /// <returns>Task execution result</returns>
-    protected abstract Task Consume(ConsumeContext<TModel> context);
+    protected abstract Task ConsumeAsync(ConsumeContext<TModel> context);
 
     /// <summary>
     ///     Get the topic within which the consumer will listen to messages
@@ -71,7 +71,7 @@ public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new
     private async Task OnMessageReceivedAsync(object? sender, MessageReceivedEventArgs args)
     {
         var message = GetMessageModel(args);
-        await Consume(new ConsumeContext<TModel>(args, message));
+        await ConsumeAsync(new ConsumeContext<TModel>(args, message));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public abstract class BaseConsumer<TModel> : IConsumer where TModel : class, new
     /// </summary>
     /// <param name="args">Event args of received message</param>
     /// <returns>Typed message</returns>
-    private TModel? GetMessageModel(MessageReceivedEventArgs args)
+    private static TModel? GetMessageModel(MessageReceivedEventArgs args)
     {
         try
         {

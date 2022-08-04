@@ -38,7 +38,7 @@ namespace AuditService.Handlers.Handlers
         /// <returns>Available categories</returns>
         public async Task<IDictionary<ModuleName, CategoryDomainModel[]>> Handle(GetCategoriesRequest request, CancellationToken cancellationToken)
         {
-            var categories = await GetCategoriesAsync();
+            var categories = GetCategories();
 
             if (request.ModuleName.HasValue)
                 categories = categories!.Where(w => w.Key == request.ModuleName.Value).ToDictionary(w => w.Key, w => w.Value);
@@ -54,9 +54,7 @@ namespace AuditService.Handlers.Handlers
         /// <returns>Available services</returns>
         public async Task<IEnumerable<ActionDomainModel>?> Handle(GetActionsRequest request, CancellationToken cancellationToken)
         {
-            var categories = await GetCategoriesAsync();
-
-            var response = categories!.SelectMany(sm => sm.Value).Where(filter => filter.CategoryCode == request.CategoryCode)
+            var response = GetCategories().SelectMany(sm => sm.Value).Where(filter => filter.CategoryCode == request.CategoryCode)
                 .Select(s => s.Action).FirstOrDefault();
 
             return await Task.FromResult(response);
@@ -70,7 +68,7 @@ namespace AuditService.Handlers.Handlers
         /// <returns>Available events</returns>
         public async Task<IDictionary<ModuleName, EventDomainModel[]>> Handle(GetEventsRequest request, CancellationToken cancellationToken)
         {
-            var events = await GetServiceEventsAsync();
+            var events = GetServiceEvents();
             
             if (request.ModuleName.HasValue)
                 events = events!.Where(w => w.Key == request.ModuleName.Value).ToDictionary(w => w.Key, w => w.Value);
@@ -82,26 +80,28 @@ namespace AuditService.Handlers.Handlers
         /// Method for getting all categories
         /// </summary>
         /// <returns>All categories</returns>
-        private async Task< IDictionary<ModuleName, CategoryDomainModel[]>> GetCategoriesAsync()
+        private static IDictionary<ModuleName, CategoryDomainModel[]> GetCategories()
         {
             var categories = JsonConvert.DeserializeObject<IDictionary<ModuleName, CategoryDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceCategories));
+
             if (categories == null)
                 throw new FileNotFoundException("Not include data of categories.");
 
-            return await Task.FromResult(categories);
+            return categories;
         }
         
         /// <summary>
         /// Method for getting all events
         /// </summary>
         /// <returns>All events</returns>
-        private async Task<IDictionary<ModuleName, EventDomainModel[]>> GetServiceEventsAsync()
+        private static IDictionary<ModuleName, EventDomainModel[]> GetServiceEvents()
         {
             var events = JsonConvert.DeserializeObject<IDictionary<ModuleName, EventDomainModel[]>>(System.Text.Encoding.Default.GetString(JsonResource.ServiceEvents));
+
             if (events == null)
                 throw new FileNotFoundException("Not include data of events.");
 
-            return await Task.FromResult(events);
+            return events;
         }
     }
 }

@@ -7,6 +7,11 @@ namespace KIT.RocketChat.ApiClient.Methods.Login.Models;
 /// </summary>
 public class Services
 {
+    public Services(Password password)
+    {
+        Password = password;
+    }
+
     /// <summary>
     ///     Password
     /// </summary>

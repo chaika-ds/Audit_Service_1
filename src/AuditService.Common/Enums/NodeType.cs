@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AuditService.Common.Enums;
+﻿namespace AuditService.Common.Enums;
 
 /// <summary>
 ///     NODE TYPE

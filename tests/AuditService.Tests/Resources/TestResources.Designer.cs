@@ -61,20 +61,23 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to as-internal-applicationlog.
-        /// </summary>
-        public static string ApplicationLog {
-            get {
-                return ResourceManager.GetString("ApplicationLog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to as-blockedplayerslog.
+        ///   Looks up a localized string similar to aus-sso-blocked-players-log.
         /// </summary>
         public static string BlockedPlayersLog {
             get {
                 return ResourceManager.GetString("BlockedPlayersLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] BlockedPlayersLogResponse
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("BlockedPlayersLogResponse", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -88,7 +91,7 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to as-auditlog.
+        ///   Looks up a localized string similar to aus-system-auditlog2.
         /// </summary>
         public static string DefaultIndex {
             get {
@@ -109,19 +112,29 @@ namespace AuditService.Tests.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] BlockedPlayersLogResponse {
+        public static byte[] ElasticSearchVisitLogResponse {
             get {
-                object obj = ResourceManager.GetObject("BlockedPlayersLogResponse", resourceCulture);
+                object obj = ResourceManager.GetObject("ElasticSearchVisitLogResponse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to as-playerchangeslog.
+        ///   Looks up a localized string similar to aus-system-player-changes-log.
         /// </summary>
         public static string PlayerChangesLog {
             get {
                 return ResourceManager.GetString("PlayerChangesLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NodeId1.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

@@ -1,7 +1,7 @@
 ﻿using AuditService.Setup.AppSettings;
 using AuditService.Tests.Resources;
 
-namespace AuditService.Tests.AuditService.GetAuditLog.Models;
+namespace AuditService.Tests.Fakes;
 
 /// <summary>
 ///     Fake elastic search settings
@@ -12,11 +12,6 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     ///     Audit logs from services
     /// </summary>
     public string? AuditLog { get; set; }
-
-    /// <summary>
-    ///     Internal application logs
-    /// </summary>
-    public string? ApplicationLog { get; set; }
 
     /// <summary>
     /// Player card changelog
@@ -55,9 +50,8 @@ internal class FakeElasticSearchSettings : IElasticSearchSettings
     {
         VisitLog = TestResources.VisitLog;
         AuditLog = TestResources.DefaultIndex;
-        ApplicationLog = TestResources.ApplicationLog;
         PlayerChangesLog = TestResources.PlayerChangesLog;
-        BlockedPlayersLog = TestResources.BlockedPlayersLog;    
-        ConnectionUrl = TestResources.ConnectionUrl;           
+        BlockedPlayersLog = TestResources.BlockedPlayersLog;
+        ConnectionUrl = TestResources.ConnectionUrl;
     }
 }

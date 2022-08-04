@@ -77,14 +77,9 @@ public static class LoggerExtension
         object? contextModel = null,
         LogLevel logLevel = LogLevel.Error)
     {
+        contextModel ??= new { exception.Message };
+
         var fullMessage = $"{message} - Exception: {exception.FullMessage()}";
-
-        if (contextModel is null)
-        {
-            logger.Log(logLevel, fullMessage);
-            return;
-        }
-
         logger.Log(logLevel, fullMessage, contextModel);
     }
 

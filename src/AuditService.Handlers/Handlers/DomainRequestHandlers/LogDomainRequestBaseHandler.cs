@@ -88,7 +88,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
         private ISearchRequest Search(SearchDescriptor<TResponse> searchDescriptor, LogFilterRequestDto<TFilter, TSort, TResponse> request)
         {
             var query = searchDescriptor
-                .From(request.Pagination.PageNumber - 1)
+                .From(request.Pagination.GetOffset())
                 .Size(request.Pagination.PageSize)
                 .Query(w => ApplyFilter(w, request.Filter));
 

@@ -34,7 +34,7 @@ public class CachePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
         RequestHandlerDelegate<TResponse> next)
     {
-        if (GetPipelineBehaviorsAttribute() is not UsePipelineBehaviors usePipelineBehaviorsAttribute)
+        if (GetPipelineBehaviorsAttribute() is not UsePipelineBehaviorsAttribute usePipelineBehaviorsAttribute)
             return await next();
 
         var cacheKey = GenerateCacheKey(request);
@@ -64,7 +64,7 @@ public class CachePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     ///     Get the "UsePipelineBehaviors" attribute
     /// </summary>
     /// <returns>"UsePipelineBehaviors" attribute</returns>
-    private object GetPipelineBehaviorsAttribute() => 
+    private static object GetPipelineBehaviorsAttribute() => 
         HandlerArguments.GetArgumentsThatUsePipelines().FirstOrDefault(arguments =>
         arguments.RequestType == typeof(TRequest) && arguments.ResponseType == typeof(TResponse)).UsePipelineAttribute;
 }
