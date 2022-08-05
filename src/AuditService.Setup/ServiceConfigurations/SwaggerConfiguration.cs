@@ -76,6 +76,12 @@ public static class SwaggerConfiguration
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v2/swagger.json", $"{app.Services.GetRequiredService<IAuthSsoServiceSettings>().ServiceName} v2");
+            c.InjectStylesheet("/bootstrap/dist/css/bootstrap.min.css");
+            c.InjectJavascript("/jquery/jquery.js");
+            c.InjectJavascript("/bootstrap/dist/js/bootstrap.min.js");
+            c.InjectJavascript("/lib/quickGuid.js");
+            c.InjectJavascript("/lib/modalSvc.js");
+            c.InjectJavascript("/lib/inject.js");
         });
     }
 }

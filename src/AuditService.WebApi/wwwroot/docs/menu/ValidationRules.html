@@ -1,0 +1,49 @@
+﻿<h5 class="modal-title">Validation rules</h5>
+<div class="modal-body">
+
+    <div style="padding: 5px; font-size:90%;">
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        In .NET, type casting is automatic. Therefore, if you specify a value in the filter field that does not correspond to the type, then it will be ignored.
+                        Automatic type casting is described below. Be careful!
+                    </div>
+                    <div class="row mt-2">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Format</th>
+                                <th scope="col">The field can be null</th>
+                                <th scope="col">Required field</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>GUID</td>
+                                <td>NULL</td>
+                                <td>00000000-0000-0000-0000-000000000000</td>
+                            </tr>
+                            <tr>
+                                <td>DateTime</td>
+                                <td>NULL</td>
+                                <td>01/01/0001</td>
+                            </tr>
+                            <tr>
+                                <td>Int</td>
+                                <td>NULL</td>
+                                <td>0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            When specifying the date in the wrong format (filter.Date= 11ay.sut1.y12/14)
+                            the server will treat this as null if the field is nullable.
+                            See source for details: <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/default-values">docs.microsoft.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

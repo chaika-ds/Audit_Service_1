@@ -26,6 +26,7 @@ try
     if (!app.Environment.IsProduction())
         app.UseDeveloperExceptionPage();
 
+    app.UseStaticFiles();
     app.UseSwagger();
     app.UseHttpsRedirection();
     app.UseAuthorization();

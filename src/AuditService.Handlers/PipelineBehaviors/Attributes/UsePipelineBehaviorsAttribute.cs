@@ -17,6 +17,11 @@ public class UsePipelineBehaviorsAttribute : Attribute
     public bool UseCache { get; set; } = false;
 
     /// <summary>
+    ///      Flag indicating that validation should be used
+    /// </summary>
+    public bool UseValidation { get; set; } = false;
+
+    /// <summary>
     ///     Cache lifetime in seconds
     /// </summary>
     public int CacheLifeTime { get; set; } = 600;
