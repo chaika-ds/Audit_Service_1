@@ -7,6 +7,9 @@ using KIT.Kafka.Consumers.VisitLog.Validators;
 
 namespace AuditService.Tests.Tests.Kafka.Validators.VisitLog;
 
+/// <summary>
+/// VisitLogConsumerMessageValidator tests
+/// </summary>
 public class VisitLogConsumerMessageValidatorTest
 {
     private readonly VisitLogConsumerMessageValidator _validatorTest;

@@ -4,6 +4,9 @@ using KIT.Kafka.Consumers.PlayerChangesLog.Validators;
 
 namespace AuditService.Tests.Tests.Kafka.Validators.PlayerChangesLog;
 
+/// <summary>
+/// PlayerAttributeDomainModelValidator tests
+/// </summary>
 public class PlayerAttributeDomainModelValidatorTest
 {
     private readonly PlayerAttributeDomainModelValidator _playerAttributeValidatorTest;

@@ -5,6 +5,9 @@ using KIT.Kafka.Consumers.AuditLog.Validators;
 
 namespace AuditService.Tests.Tests.Kafka.Validators.AuditLog;
 
+/// <summary>
+/// AuditLogConsumerMessageValidator tests
+/// </summary>
 public class AuditLogConsumerMessageValidatorTest
 {
     private readonly AuditLogConsumerMessageValidator _validatorTest;

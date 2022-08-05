@@ -7,6 +7,9 @@ using KIT.Kafka.Consumers.AuditLog.Validators;
 
 namespace AuditService.Tests.Tests.Kafka.Validators.AuditLog;
 
+/// <summary>
+/// IdentityUserDomainModelValidator tests
+/// </summary>
 public class IdentityUserDomainModelValidatorTest
 {
     private readonly IdentityUserDomainModelValidator _validatorTest;

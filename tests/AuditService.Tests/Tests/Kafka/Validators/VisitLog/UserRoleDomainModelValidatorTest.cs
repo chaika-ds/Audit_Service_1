@@ -4,6 +4,9 @@ using KIT.Kafka.Consumers.VisitLog.Validators;
 
 namespace AuditService.Tests.Tests.Kafka.Validators.VisitLog;
 
+/// <summary>
+/// UserRoleDomainModelValidator ests
+/// </summary>
 public class UserRoleDomainModelValidatorTest
 {
     private readonly UserRoleDomainModelValidator _validatorTest;

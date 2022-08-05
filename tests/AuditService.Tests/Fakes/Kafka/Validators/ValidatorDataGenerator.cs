@@ -4,6 +4,9 @@ using DocumentFormat.OpenXml.Office2010.PowerPoint;
 
 namespace AuditService.Tests.Fakes.Kafka.Validators;
 
+/// <summary>
+/// Data generator for testing validation params
+/// </summary>
 public class ValidatorDataGenerator
 {
     /// <summary>
