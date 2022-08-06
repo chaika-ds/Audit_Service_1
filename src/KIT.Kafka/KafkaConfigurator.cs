@@ -101,7 +101,7 @@ public static class KafkaConfigurator
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
         services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
-        RocketChatConfigurator.ConfigureRocketChat(services);
+        services.ConfigureRocketChat();
         return services;
     }
 

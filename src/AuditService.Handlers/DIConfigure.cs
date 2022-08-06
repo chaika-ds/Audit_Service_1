@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using AuditService.Handlers.PipelineBehaviors;
+using AuditService.Handlers.Validators;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Export.Services;
@@ -19,7 +21,9 @@ public static class DiConfigure
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.RegisterPipelineBehaviors(typeof(LogPipelineBehavior<,>), attribute => attribute.UseLogging);
+        services.RegisterPipelineBehaviors(typeof(ValidationPipelineBehavior<,>), attribute => attribute.UseValidation);
         services.RegisterPipelineBehaviors(typeof(CachePipelineBehavior<,>), attribute => attribute.UseCache);
+        services.AddValidatorsFromAssemblyContaining<AuditLogDomainRequestValidator>(ServiceLifetime.Transient);
         services.RegisterExportServices();
     }
 
