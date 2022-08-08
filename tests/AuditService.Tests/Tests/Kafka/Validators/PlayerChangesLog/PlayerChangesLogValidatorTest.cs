@@ -3,7 +3,7 @@ using AuditService.Tests.Fakes.Kafka.Validators;
 using FluentValidation.TestHelper;
 using KIT.Kafka.Consumers.PlayerChangesLog.Validators;
 
-namespace AuditService.Tests.Tests.Kafka.Validators;
+namespace AuditService.Tests.Tests.Kafka.Validators.PlayerChangesLog;
 
 /// <summary>
 /// PlayerChangesLogConsumerMessageValidator tests
@@ -38,7 +38,7 @@ public class PlayerChangesLogValidatorTest
     /// Testing Guid params for PlayerChangesLogConsumerMessageValidator
     /// </summary>
     /// <param name="guidValue">Guid values for validation error testing</param>
-    [Theory, MemberData(nameof(GetPlayerChangesLogConsumerMessageGuidValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetTestGuidValues), MemberType =typeof(ValidatorDataGenerator))]
     public void PlayerChangesLogConsumerMessageValidator_InsertGuidNotValidParams_ShouldHaveValidationError(Guid guidValue)
     {
         //Act
@@ -51,22 +51,10 @@ public class PlayerChangesLogValidatorTest
     }
 
     /// <summary>
-    /// Guid values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetPlayerChangesLogConsumerMessageGuidValues
-    {
-        get
-        {
-            yield return new object[] { Guid.Empty };
-            yield return new object[] { new Guid() };
-        }
-    }
-
-    /// <summary>
     /// Testing DateTime params for PlayerChangesLogConsumerMessageValidator
     /// </summary>
     /// <param name="dateTimeValue">DateTime values for validation error testing</param>
-    [Theory, MemberData(nameof(GetPlayerChangesLogConsumerMessageDateTimeValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetTestDateTimeValues), MemberType = typeof(ValidatorDataGenerator))]
     public void PlayerChangesLogConsumerMessageValidator_InsertDateTimeNotValidParams_ShouldHaveValidationError(DateTime dateTimeValue)
     {
         //Act
@@ -77,24 +65,10 @@ public class PlayerChangesLogValidatorTest
     }
 
     /// <summary>
-    /// DateTime values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetPlayerChangesLogConsumerMessageDateTimeValues
-    {
-        get
-        {
-            yield return new object[] { DateTime.MinValue };
-            yield return new object[] { null! };
-            yield return new object[] { default(DateTime) };
-
-        }
-    }
-
-    /// <summary>
     /// Testing Old-NewValue params for PlayerChangesLogConsumerMessageValidator
     /// </summary>
     /// <param name="value">Old-NewValues values for validation error testing</param>
-    [Theory, MemberData(nameof(GetPlayerChangesLogConsumerMessageOldNewValueValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetPlayerAttributeDomainModelDictionaryValues), MemberType = typeof(ValidatorDataGenerator))]
     public void PlayerChangesLogConsumerMessageValidator_InsertOldNewValueNotValidParams_ShouldHaveValidationError(Dictionary<string, PlayerAttributeDomainModel> value)
     {
         //Act
@@ -106,21 +80,10 @@ public class PlayerChangesLogValidatorTest
     }
 
     /// <summary>
-    /// Old-NewValues values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetPlayerChangesLogConsumerMessageOldNewValueValues
-    {
-        get
-        {
-            yield return new object[] { new Dictionary<string, PlayerAttributeDomainModel>() };
-        }
-    }
-
-    /// <summary>
     /// Testing User params for PlayerChangesLogConsumerMessageValidator
     /// </summary>
     /// <param name="userValue">User values for validation error testing</param>
-    [Theory, MemberData(nameof(GetPlayerChangesLogConsumerMessageUserValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetUserInitiatorDomainModelValues), MemberType = typeof(ValidatorDataGenerator))]
     public void PlayerChangesLogConsumerMessageValidator_InsertUserNotValidParams_ShouldHaveValidationError(UserInitiatorDomainModel userValue)
     {
         //Act
@@ -128,17 +91,5 @@ public class PlayerChangesLogValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.User);
-    }
-
-    /// <summary>
-    /// User values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetPlayerChangesLogConsumerMessageUserValues
-    {
-        get
-        {
-            yield return new object[] { null! };
-            yield return new object[] { default(UserInitiatorDomainModel)! };
-        }
     }
 }

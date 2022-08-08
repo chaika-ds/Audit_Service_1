@@ -20,7 +20,6 @@ internal class PlayerChangesLogValidatorTestData
             IpAddress = stringValue,
         };
 
-
     /// <summary>
     /// Get PlayerChangesLog Guid params with testing values 
     /// </summary>
@@ -33,7 +32,6 @@ internal class PlayerChangesLogValidatorTestData
             ProjectId = guidValue,
             PlayerId = guidValue
         };
-
 
     /// <summary>
     /// Get PlayerChangesLog DateTime params with testing values 

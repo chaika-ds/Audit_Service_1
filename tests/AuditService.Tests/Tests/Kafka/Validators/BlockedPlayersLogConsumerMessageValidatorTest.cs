@@ -41,7 +41,7 @@ public class BlockedPlayersLogConsumerMessageValidatorTest
     /// Testing Guid params for BlockedPlayersLogConsumerMessageValidator
     /// </summary>
     /// <param name="guidValue">Guid values for validation error testing</param>
-    [Theory, MemberData(nameof(GetBlockedPlayersLogConsumerMessageGuidValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetTestGuidValues), MemberType = typeof(ValidatorDataGenerator))]
     public void BlockedPlayersLogConsumerMessageValidator_InsertGuidNotValidParams_ShouldHaveValidationError(Guid guidValue)
     {
         //Act
@@ -54,22 +54,10 @@ public class BlockedPlayersLogConsumerMessageValidatorTest
     }
 
     /// <summary>
-    /// Guid values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetBlockedPlayersLogConsumerMessageGuidValues
-    {
-        get
-        {
-            yield return new object[] { Guid.Empty };
-            yield return new object[] { new Guid() };
-        }
-    }
-
-    /// <summary>
     /// Testing DateTime params for BlockedPlayersLogConsumerMessageValidator
     /// </summary>
     /// <param name="dateTimeValue">DateTime values for validation error testing</param>
-    [Theory, MemberData(nameof(GetBlockedPlayersLogConsumerMessageDateTimeValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetTestDateTimeValues), MemberType = typeof(ValidatorDataGenerator))]
     public void BlockedPlayersLogConsumerMessageValidator_InsertDateTimeNotValidParams_ShouldHaveValidationError(DateTime dateTimeValue)
     {
         //Act
@@ -77,18 +65,5 @@ public class BlockedPlayersLogConsumerMessageValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.BlockingDate);
-    }
-
-    /// <summary>
-    /// DateTime values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetBlockedPlayersLogConsumerMessageDateTimeValues
-    {
-        get
-        {
-            yield return new object[] { DateTime.MinValue };
-            yield return new object[] { null! };
-            yield return new object[] { default(DateTime) };
-        }
     }
 }
