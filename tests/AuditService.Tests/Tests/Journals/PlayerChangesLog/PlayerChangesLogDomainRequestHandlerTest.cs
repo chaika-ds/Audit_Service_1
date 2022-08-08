@@ -10,6 +10,7 @@ using AuditService.Tests.Fakes.ServiceData;
 using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace AuditService.Tests.Tests.Journals.PlayerChangesLog;
 
@@ -22,13 +23,14 @@ public class PlayerChangesLogDomainRequestHandlerTest
     private readonly IElasticIndexSettings _elasticIndexSettings;
     private static IServiceProvider _serviceProvider = null!;
     private readonly PlayerChangesLogDomainRequestHandlerFake _handlerTest;
+    private readonly byte[] _playerChangesLogDomainModel;
+
 
     public PlayerChangesLogDomainRequestHandlerTest()
     {
-        var playerChangesLogDomainModel =
+        _playerChangesLogDomainModel =
             Encoding.UTF8.GetBytes(LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel().SerializeToString());
-
-        _serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<PlayerChangesLogDomainModel>(playerChangesLogDomainModel, TestResources.PlayerChangesLog);
+        _serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<PlayerChangesLogDomainModel>(_playerChangesLogDomainModel, TestResources.PlayerChangesLog);
         _elasticIndexSettings = _serviceProvider.GetRequiredService<IElasticIndexSettings>();
         _handlerTest = new PlayerChangesLogDomainRequestHandlerFake(_serviceProvider);
     }
@@ -50,6 +52,44 @@ public class PlayerChangesLogDomainRequestHandlerTest
 
         //Assert
         NotEmpty(result.List);
+    }
+
+    /// <summary>
+    ///     Validation of player changes log response
+    /// </summary>
+    [Fact]
+    public async Task PlayerChangesLogResponseValidation_CreatePlayerChangesLog_HandlerResponseСorrespondsToTheExpected()
+    {
+        //Arrange
+        var mediatorService = _serviceProvider.GetRequiredService<IMediator>();
+
+        var filter = new LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>();
+
+        var expected = JsonConvert.DeserializeObject<List<PlayerChangesLogDomainModel>>(Encoding.Default.GetString(_playerChangesLogDomainModel))             
+            ?.FirstOrDefault();
+
+        //Act 
+        var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+
+        var actual = result.List.FirstOrDefault(x => x.PlayerId == expected.PlayerId);
+
+        //Assert
+        Equal(expected.ModuleName, actual.ModuleName);
+        Equal(expected.NodeId, actual.NodeId);
+        Equal(expected.ProjectId, actual.ProjectId);
+        Equal(expected.ModuleName, actual.ModuleName);
+        Equal(expected.EventCode, actual.EventCode);
+        Equal(expected.EventInitiator, actual.EventInitiator);
+        Equal(expected.Timestamp, actual.Timestamp);
+        Equal(expected.PlayerId, actual.PlayerId);
+        Equal(expected.IpAddress, actual.IpAddress);
+        Equal(expected.Reason, actual.Reason);
+        if (expected.User != null)
+        {
+            Equal(expected.User.Id, actual.User.Id);
+            Equal(expected.User.Email, actual.User.Email);
+            Equal(expected.User.UserAgent, actual.User.UserAgent);
+        };
     }
 
     /// <summary>
