@@ -1,4 +1,6 @@
-﻿using AuditService.Common.Models.Domain.VisitLog;
+﻿using AuditService.Common.Enums;
+using AuditService.Common.Models.Domain.AuditLog;
+using AuditService.Common.Models.Domain.VisitLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Filter.VisitLog;
 using AuditService.Common.Models.Dto.Sort;
@@ -7,6 +9,8 @@ using AuditService.Tests.Fakes.ServiceData;
 using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace AuditService.Tests.Tests.Journals.VisitLog
 {
@@ -25,16 +29,51 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var serviceProvider = ServiceProviderFake
                 .GetServiceProviderForLogHandlers<PlayerVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
 
-            var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
             var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
 
             //Act 
-            var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
             //Assert
-            Assert.True(result.List.Any());
+            True(result.List.Any());
         }
+
+        /// <summary>
+        ///     Validation of player visit log response
+        /// </summary>
+        [Fact]
+        public async Task PlayerVisiLogResponseValidation_CreateVisitLog_HandlerResponseСorrespondsToTheExpected()
+        {
+            //Arrange
+            var serviceProvider = ServiceProviderFake
+                .GetServiceProviderForLogHandlers<PlayerVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
+
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
+
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
+
+            var expected = JsonConvert.DeserializeObject<List<PlayerVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
+               ?.FirstOrDefault(x => x.Type == VisitLogType.Player);
+
+            //Act 
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+
+            var actual = result.List.FirstOrDefault(x => x.PlayerId == expected.PlayerId);
+
+            //Assert
+            Equal(expected.Authorization.OperatingSystem, actual.Authorization.OperatingSystem);
+            Equal(expected.Authorization.Browser, actual.Authorization.Browser);
+            Equal(expected.Authorization.DeviceType, actual.Authorization.DeviceType);
+            Equal(expected.Ip, actual.Ip);
+            Equal(expected.Login, actual.Login);
+            Equal(expected.Timestamp, actual.Timestamp);
+            Equal(expected.PlayerId, actual.PlayerId);
+            Equal(expected.HallId, actual.HallId);
+            Equal(expected.Authorization.AuthorizationType!, actual.Authorization.AuthorizationType!);
+        }
+
 
         /// <summary>
         ///     Check if the result is coming from users visit log domain handler
@@ -46,15 +85,53 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var serviceProvider = ServiceProviderFake
                 .GetServiceProviderForLogHandlers<UserVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
 
-            var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
             var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
 
             //Act 
-            var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
             //Assert
-            Assert.True(result.List.Any());
+            True(result.List.Any());
+        }
+
+        /// <summary>
+        ///     Validation of user visit log response
+        /// </summary>
+        [Fact]
+        public async Task UserVisiLogResponseValidation_CreateVisitLog_HandlerResponseСorrespondsToTheExpected()
+        {
+            //Arrange
+            var serviceProvider = ServiceProviderFake
+                .GetServiceProviderForLogHandlers<UserVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
+
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
+
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
+
+            var expected = JsonConvert.DeserializeObject<List<UserVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
+               ?.FirstOrDefault(x => x.Type == VisitLogType.User);
+
+            //Act 
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+
+            var actual = result.List.FirstOrDefault(x => x.UserId == expected.UserId);
+
+            //Assert
+            Equal(expected.Authorization.OperatingSystem, actual.Authorization.OperatingSystem);
+            Equal(expected.Authorization.Browser, actual.Authorization.Browser);
+            Equal(expected.Authorization.DeviceType, actual.Authorization.DeviceType);
+            Equal(expected.Ip, actual.Ip);
+            Equal(expected.Login, actual.Login);
+            Equal(expected.Timestamp, actual.Timestamp);
+            Equal(expected.NodeId, actual.NodeId);
+            Equal(expected.UserId, actual.UserId);
+            if (expected.UserRoles != null && expected.UserRoles.Any())
+            {
+                Equal(expected.UserRoles.FirstOrDefault().Name, actual.UserRoles.FirstOrDefault().Name);
+                Equal(expected.UserRoles.FirstOrDefault().Code, actual.UserRoles.FirstOrDefault().Code);
+            };
         }
 
         /// <summary>
@@ -67,19 +144,19 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var serviceProvider = ServiceProviderFake
                 .GetServiceProviderForLogHandlers<PlayerVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
 
-            var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
             var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>();
 
             //Act 
-            var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
             //Assert
-            Assert.True(result.List.Any());
+            True(result.List.Any());
         }
 
         /// <summary>
-        ///     Check_if the result is coming from users visit log handler
+        ///     Check if the result is coming from users visit log handler
         /// </summary>
         [Fact]
         public async Task GetUserVisiLogs_CreateVisitLog_ResultWithUserDtoLogs()
@@ -88,15 +165,95 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var serviceProvider = ServiceProviderFake
                 .GetServiceProviderForLogHandlers<UserVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
 
-            var auditLogDomainRequestHandler = serviceProvider.GetRequiredService<IMediator>();
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
             var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>();
 
             //Act 
-            var result = await auditLogDomainRequestHandler.Send(filter, new TaskCanceledException().CancellationToken);
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
             //Assert
-            Assert.True(result.List.Any());
+            True(result.List.Any());
+        }
+
+        /// <summary>
+        ///     Check mapping user visit log from domain model to dto
+        /// </summary>
+        [Fact]
+        public async Task CheckMappingUserVisitLogFromDomainModelToDto_CreateVisitLog_ResultWithUserDtoLogs()
+        {
+            //Arrange
+            var serviceProvider = ServiceProviderFake
+                .GetServiceProviderForLogHandlers<UserVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
+
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
+
+            var filterForDomainModelHandler = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
+
+            var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
+
+            var expected = resultForDomainModelHandler.List
+                ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.User);
+
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>();
+
+            //Act 
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+
+            var actual = result.List?.FirstOrDefault(x => x.UserId == expected.UserId);
+
+            //Assert
+            Equal(expected.Authorization.OperatingSystem, actual.OperatingSystem);
+            Equal(expected.Authorization.Browser, actual.Browser);
+            Equal(expected.Authorization.DeviceType, actual.DeviceType);
+            Equal(expected.Ip, actual.Ip);
+            Equal(expected.Login, actual.Login);
+            Equal(expected.Timestamp, actual.VisitTime);
+            Equal(expected.NodeId, actual.NodeId);
+            Equal(expected.UserId, actual.UserId);
+            if (expected.UserRoles != null && expected.UserRoles.Any())
+            {
+                Equal(expected.UserRoles.FirstOrDefault().Name, actual.UserRoles.FirstOrDefault().Name);
+                Equal(expected.UserRoles.FirstOrDefault().Code, actual.UserRoles.FirstOrDefault().Code);
+            };
+        }
+
+        /// <summary>
+        ///     Check mapping player visit log from domain model to dto
+        /// </summary>
+        [Fact]
+        public async Task CheckMappingPlayerVisitLogFromDomainModelToDto_CreateVisitLog_DtoMatchesDomainModel()
+        {
+            //Arrange
+            var serviceProvider = ServiceProviderFake
+                .GetServiceProviderForLogHandlers<PlayerVisitLogDomainModel>(TestResources.ElasticSearchVisitLogResponse, TestResources.VisitLog);
+
+            var mediatorService = serviceProvider.GetRequiredService<IMediator>();
+
+            var filterForDomainModelHandler = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
+
+            var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
+
+            var expected = resultForDomainModelHandler.List
+                ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.Player);
+
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>();
+
+            //Act 
+            var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+
+            var actual = result.List?.FirstOrDefault(x => x.PlayerId == expected.PlayerId);
+
+            //Assert
+            Equal(expected.Authorization.OperatingSystem, actual.OperatingSystem);
+            Equal(expected.Authorization.Browser, actual.Browser);
+            Equal(expected.Authorization.DeviceType, actual.DeviceType);
+            Equal(expected.Ip, actual.Ip);
+            Equal(expected.Login, actual.Login);
+            Equal(expected.Timestamp, actual.VisitTime);
+            Equal(expected.PlayerId, actual.PlayerId);
+            Equal(expected.HallId, actual.HallId);
+            Equal(expected.Authorization.AuthorizationType!, actual.AuthorizationMethod);
         }
     }
 }
