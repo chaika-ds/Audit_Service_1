@@ -33,6 +33,21 @@ namespace AuditService.Tests.Fakes.ServiceData
         }
 
         /// <summary>
+        ///     Get service provider for reference request
+        /// </summary>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForReferenceRequestHandler()
+        {
+            var services = new ServiceCollection();
+
+            RegistrationServices(services);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
         ///     Registration default services 
         /// </summary>
         /// <param name="services">service collection</param>

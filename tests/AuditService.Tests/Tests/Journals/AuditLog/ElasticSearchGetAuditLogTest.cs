@@ -32,7 +32,7 @@ public class ElasticSearchGetAuditLogTest
         var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
         //Assert
-        Assert.True(result.List.Any());
+        True(result.List.Any());
     }     
 
     /// <summary>
