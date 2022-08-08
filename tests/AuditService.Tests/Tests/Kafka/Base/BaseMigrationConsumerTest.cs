@@ -1,5 +1,4 @@
 using AuditService.Common.Consts;
-using AuditService.Common.Models.Domain.VisitLog;
 using AuditService.Tests.Fakes.Kafka.Consumers;
 using AuditService.Tests.Fakes.Kafka.Messages;
 using AuditService.Tests.Fakes.Kafka.Models;
@@ -19,61 +18,66 @@ namespace AuditService.Tests.Tests.Kafka.Base;
 /// </summary>
 public class BaseMigrationConsumerTest : BaseMigrationConsumerFake
 {
-    public BaseMigrationConsumerTest() : base(GetServiceProvider()) { }
+    private static readonly Mock<IKafkaProducer> MockProvider = new();
+    private static readonly IServiceProvider ServiceProvider = GetServiceProvider();
+    
+    public BaseMigrationConsumerTest() : base(ServiceProvider)
+    {
+    }
 
     /// <summary>
     ///     Check if the result is SsoPlayersChangesLog
     /// </summary>
     [Fact]
-    public void Get_Source_Topic_Return_Sso_Player_Changes_Log()
+    public void GetSourceTopic_Return_SsoPlayerChangesLog()
     {
         var result = GetSourceTopic(KafkaTopics);
 
-        Assert.Equal(KafkaTopics.SsoUsersChangesLog, result);
+        Equal(KafkaTopics.SsoUsersChangesLog, result);
     }
 
     /// <summary>
     ///     Check if the result is Visitlog
     /// </summary>
     [Fact]
-    public void Get_Destination_Topic_Return_Visit_Log()
+    public void GetDestinationTopic_Return_VisitLog()
     {
         var result =  GetDestinationTopic(KafkaTopics);
 
-        Assert.Equal(KafkaTopics.Visitlog, result);
+        Equal(KafkaTopics.Visitlog, result);
     }
 
     /// <summary>
     ///     Check if the result is true
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_Return_true()
+    public void NeedToMigrateMessage_Return_true()
     {
         var model = new BaseConsumerMessageFake() {EventType = VisitLogConst.EventTypeAuthorization};
 
         var result = NeedToMigrateMessage(model);
 
-        Assert.True(result);
+        True(result);
     }
 
     /// <summary>
     ///     Check if the result is false
     /// </summary>
     [Fact]
-    public void Need_To_Migrate_Message_Return_false()
+    public void NeedToMigrateMessage_Return_false()
     {
         var model = new BaseConsumerMessageFake();
 
         var result =  NeedToMigrateMessage(model);
 
-        Assert.False(result);
+        False(result);
     }
 
     /// <summary>
     ///     Check if the result is VisitLogDomainModel type
     /// </summary>
     [Fact]
-    public void Transform_Source_Model_Return_Visit_Log_Domain_Model()
+    public void TransformSourceModel_Return_VisitLogDomainModel()
     {
         var model = new BaseConsumerMessageFake()
         {
@@ -83,18 +87,16 @@ public class BaseMigrationConsumerTest : BaseMigrationConsumerFake
 
         var result =  TransformSourceModel(model);
         
-        Assert.Equal(model.Timestamp, result.Timestamp);
-        Assert.IsType<VisitLogDomainModel>(result);
+        Equal(model.Timestamp, result.Timestamp);
+        IsType<BaseVisitLogDomainModelFake>(result);
     }
     
     /// <summary>
     ///     ConsumeAsync method will be tested and SendAsync will be executed at least one time
     /// </summary>
     [Fact]
-    public void Consume_Async_Result_Send_Async_Executed()
+    public void ConsumeAsync_Result_SendAsyncExecuted()
     {
-        var mockProvider = new Mock<IKafkaProducer>();
-        
         var fakeModel = new BaseConsumerMessageFake()
         {
             Timestamp = DateTime.Now,
@@ -103,59 +105,49 @@ public class BaseMigrationConsumerTest : BaseMigrationConsumerFake
 
         NeedToMigrateMessage(fakeModel);
         
-        mockProvider.Setup(x =>  x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None)).Returns(Task.CompletedTask);
-        
         var message = new MessageReceivedEventArgs(1, 1, null, "fakeModel", DateTime.Now);
 
         var result = ConsumeAsync(new ConsumeContext<BaseConsumerMessageFake>(message, fakeModel));
 
-        mockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Exactly(1));
+        MockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Exactly(1));
         
-        Assert.NotNull(result);
+        NotNull(result);
     }
 
     /// <summary>
     ///     ConsumeAsync method will be tested and SendAsync will be not executed
     /// </summary>
     [Fact]
-    public void Consume_Async_Result_Send_Async_Not_Executed_If_NeedToMigrateMessage_Not_Called()
+    public void ConsumeAsync_If_NeedToMigrateMessage_Not_Called_Result_SendAsync_NotExecuted()
     {
-        var mockProvider = new Mock<IKafkaProducer>();
-        
         var fakeModel = new BaseConsumerMessageFake()
         {
             Timestamp = DateTime.Now,
             EventType = VisitLogConst.EventTypeAuthorization,
         };
 
-        mockProvider.Setup(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None)).Returns(Task.CompletedTask);
-        
         var fakeMessage = new MessageReceivedEventArgs(1, 1, null, "fakeModel", DateTime.Now);
 
         var result = ConsumeAsync(new ConsumeContext<BaseConsumerMessageFake>(fakeMessage, fakeModel));
 
-        mockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Never);
+        MockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Never);
         
-        Assert.NotNull(result);
+        NotNull(result);
     }
     
     /// <summary>
     ///     ConsumeAsync method will be tested and SendAsync will be not executed
     /// </summary>
     [Fact]
-    public void Consume_Async_Result_Send_Async_Not_Called_Null_If_Message_Null()
+    public void ConsumeAsync_If_Message_Null_Result_Send_Async_Not_Called()
     {
-        var mockProvider = new Mock<IKafkaProducer>();
-
-        mockProvider.Setup(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None)).Returns(Task.CompletedTask);
-        
         var fakeMessage = new MessageReceivedEventArgs(1, 1, null, "fakeModel", DateTime.Now);
 
         var result = ConsumeAsync(new ConsumeContext<BaseConsumerMessageFake>(fakeMessage, null));
 
-        mockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Never);
+        MockProvider.Verify(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None), Times.Never);
         
-        Assert.NotNull(result);
+        NotNull(result);
     }
 
     /// <summary>
@@ -163,6 +155,8 @@ public class BaseMigrationConsumerTest : BaseMigrationConsumerFake
     /// </summary>
     private static IServiceProvider GetServiceProvider()
     {
+         MockProvider.Setup(x => x.SendAsync(It.IsAny<BaseVisitLogDomainModelFake>(), It.IsAny<string>(), CancellationToken.None)).Returns(Task.CompletedTask);
+        
         var services = ServiceCollectionFake.CreateServiceCollectionFake();
 
         services.ConfigureKafka("fakeEnv");
@@ -170,6 +164,8 @@ public class BaseMigrationConsumerTest : BaseMigrationConsumerFake
         services.AddLogging();
 
         services.AddSettings<IKafkaConsumerSettings, KafkaConsumerSettingsFake>();
+
+        services.AddScoped(_ => MockProvider.Object);
 
         var serviceProvider = services.BuildServiceProvider();
 
