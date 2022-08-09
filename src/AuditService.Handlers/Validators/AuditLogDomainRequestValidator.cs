@@ -11,7 +11,7 @@ namespace AuditService.Handlers.Validators;
 /// </summary>
 public class AuditLogDomainRequestValidator : LogRequestBaseValidator<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
 {
-    public AuditLogDomainRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator) : base(paginationRequestValidator)
+    public AuditLogDomainRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator) : base(paginationRequestValidator, logFilterValidator)
     {
         When(model => !string.IsNullOrEmpty(model.Filter.Ip), () =>
         {

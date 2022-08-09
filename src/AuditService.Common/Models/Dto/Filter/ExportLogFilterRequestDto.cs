@@ -11,7 +11,7 @@ namespace AuditService.Common.Models.Dto.Filter;
 /// <typeparam name="TFilter">Filter model type</typeparam>
 /// <typeparam name="TSort">Sort model type</typeparam>
 public class ExportLogFilterRequestDto<TFilter, TSort> : IRequest<ExportDataResponseDto>
-    where TFilter : class, new()
+    where TFilter : class, ILogFilter, new()
     where TSort : class, ISort, new()
 {
     public ExportLogFilterRequestDto()

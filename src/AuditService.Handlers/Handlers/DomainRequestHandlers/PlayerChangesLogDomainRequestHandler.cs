@@ -32,11 +32,8 @@ public class PlayerChangesLogDomainRequestHandler : LogDomainRequestBaseHandler<
         if (!string.IsNullOrEmpty(filter.Login))
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
-        if (filter.StartDate.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));
-
-        if (filter.EndDate.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.EndDate.Value));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
         if (filter.EventKeys.Any())
             container &= queryContainerDescriptor.Terms(t => t.Field(w => w.EventCode.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.EventKeys));

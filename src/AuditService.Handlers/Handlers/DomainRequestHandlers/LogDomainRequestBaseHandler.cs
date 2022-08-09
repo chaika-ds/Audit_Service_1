@@ -1,4 +1,5 @@
 ﻿using AuditService.Common.Enums;
+using AuditService.Common.Extensions;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Setup.AppSettings;
@@ -17,7 +18,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
     /// <typeparam name="TSort">Sort model type</typeparam>
     /// <typeparam name="TResponse">Response type</typeparam>
     public abstract class LogDomainRequestBaseHandler<TFilter, TSort, TResponse> : IRequestHandler<LogFilterRequestDto<TFilter, TSort, TResponse>, PageResponseDto<TResponse>>
-        where TFilter : class, new()
+        where TFilter : class, ILogFilter, new()
         where TResponse : class
         where TSort : class, sort.ISort, new()
     {
@@ -87,14 +88,22 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
         /// <returns>Elastic search request</returns>
         private ISearchRequest Search(SearchDescriptor<TResponse> searchDescriptor, LogFilterRequestDto<TFilter, TSort, TResponse> request)
         {
+            var indexes = DefineIndexesByTimestamp(request.Filter);
             var query = searchDescriptor
                 .From(request.Pagination.GetOffset())
                 .Size(request.Pagination.PageSize)
                 .Query(w => ApplyFilter(w, request.Filter));
 
             query = query.Sort(w => ApplySorting(w, request.Sort));
-
-            return query.Index(GetQueryIndex(_elasticIndexSettings));
+            return query.Index(Indices.Index(indexes));
         }
+
+        /// <summary>
+        ///     Define indexes by timestamp(filter dates)
+        /// </summary>
+        /// <param name="logFilter">Log filter</param>
+        /// <returns>Indexes</returns>
+        private string[] DefineIndexesByTimestamp(ILogFilter logFilter) 
+            => logFilter.TimestampFrom.GetTimeIntervalsOfDatesByMonth(logFilter.TimestampTo).Select(date => date.ToElasticIndexFormat(GetQueryIndex(_elasticIndexSettings))).ToArray();
     }
 }

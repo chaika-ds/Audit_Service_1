@@ -16,7 +16,7 @@ namespace AuditService.Handlers.Handlers.ExportRequestHandlers;
 /// <typeparam name="TSort">Sort model type</typeparam>
 /// <typeparam name="TResponse">Response type</typeparam>
 public abstract class ExportLogRequestBaseHandler<TFilter, TSort, TResponse> : IRequestHandler<ExportLogFilterRequestDto<TFilter, TSort>, ExportDataResponseDto>
-    where TFilter : class, new()
+    where TFilter : class, ILogFilter, new()
     where TResponse : class
     where TSort : class, ISort, new()
 {
