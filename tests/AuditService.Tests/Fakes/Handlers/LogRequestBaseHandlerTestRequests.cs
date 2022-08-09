@@ -42,8 +42,8 @@ internal class LogRequestBaseHandlerTestRequests
         {
             Login = FakeValues.UserLogin1,
             IpAddress = FakeValues.IpAddress1,
-            StartDate = FakeValues.Timestamp1,
-            EndDate = FakeValues.Timestamp2,
+            TimestampFrom = FakeValues.Timestamp1,
+            TimestampTo = FakeValues.Timestamp2,
             EventKeys = new List<string>()
             {
                 "EventKey1",

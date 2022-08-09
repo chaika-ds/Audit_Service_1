@@ -1,9 +1,12 @@
-﻿namespace AuditService.Common.Models.Dto.Filter;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AuditService.Common.Models.Dto.Filter;
 
 /// <summary>
 ///     Blocked players log filter model
 /// </summary>
-public class BlockedPlayersLogFilterDto
+public class BlockedPlayersLogFilterDto : ILogFilter
 {
     /// <summary>
     ///     Login of the blocked player
@@ -25,16 +28,6 @@ public class BlockedPlayersLogFilterDto
     ///     Player hall Id
     /// </summary>
     public Guid? HallId { get; set; }
-
-    /// <summary>
-    ///     Date and time the lock was set(Start date)
-    /// </summary>
-    public DateTime? BlockingDateFrom { get; set; }
-
-    /// <summary>
-    ///     Date and time the lock was set(End date)
-    /// </summary>
-    public DateTime? BlockingDateTo { get; set; }
 
     /// <summary>
     ///     Date and time of the previous block(Start date)
@@ -65,4 +58,18 @@ public class BlockedPlayersLogFilterDto
     ///     Player interface language code
     /// </summary>
     public string? Language { get; set; }
+
+    /// <summary>
+    ///      Date and time the lock was set(Start date)
+    /// </summary>
+    [Required]
+    [ModelBinder(Name = "blockingDateFrom")]
+    public DateTime TimestampFrom { get; set; }
+
+    /// <summary>
+    ///      Date and time the lock was set(End date)
+    /// </summary>
+    [Required]
+    [ModelBinder(Name = "blockingDateTo")]
+    public DateTime TimestampTo { get; set; }
 }

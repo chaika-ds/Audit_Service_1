@@ -49,11 +49,8 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
             if (filter.Action.Any())
                 container &= queryContainerDescriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action));
 
-            if (filter.StartDate.HasValue)
-                container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.StartDate.Value));
-
-            if (filter.EndDate.HasValue)
-                container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.EndDate.Value));
+            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
+            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
             return container;
         }

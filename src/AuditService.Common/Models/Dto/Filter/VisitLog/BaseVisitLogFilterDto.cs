@@ -1,9 +1,12 @@
-﻿namespace AuditService.Common.Models.Dto.Filter.VisitLog;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AuditService.Common.Models.Dto.Filter.VisitLog;
 
 /// <summary>
 ///     Base filter model for visit log
 /// </summary>
-public abstract class BaseVisitLogFilterDto
+public abstract class BaseVisitLogFilterDto : ILogFilter
 {
     /// <summary>
     ///     Login
@@ -33,10 +36,14 @@ public abstract class BaseVisitLogFilterDto
     /// <summary>
     ///     Date and time of visit(Start date)
     /// </summary>
-    public DateTime? VisitTimeFrom { get; set; }
+    [Required]
+    [ModelBinder(Name = "visitTimeFrom")]
+    public DateTime TimestampFrom { get; set; }
 
     /// <summary>
-    ///     Date and time of visit(End date)
+    ///      Date and time of visit(End date)
     /// </summary>
-    public DateTime? VisitTimeTo { get; set; }
+    [Required]
+    [ModelBinder(Name = "visitTimeTo")]
+    public DateTime TimestampTo { get; set; }
 }

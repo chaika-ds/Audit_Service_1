@@ -1,9 +1,12 @@
-﻿namespace AuditService.Common.Models.Dto.Filter
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AuditService.Common.Models.Dto.Filter
 {
     /// <summary>
     /// Filter model for player card changelog
     /// </summary>
-    public class PlayerChangesLogFilterDto
+    public class PlayerChangesLogFilterDto : ILogFilter
     {
         public PlayerChangesLogFilterDto()
         {
@@ -21,16 +24,6 @@
         public string? IpAddress { get; set; }
 
         /// <summary>
-        ///     Start date
-        /// </summary>
-        public DateTime? StartDate { get; set; }
-
-        /// <summary>
-        ///     End date
-        /// </summary>
-        public DateTime? EndDate { get; set; }
-
-        /// <summary>
         ///     Language for localization
         /// </summary>
         public string? Language { get; set; }
@@ -39,5 +32,19 @@
         /// Event keys
         /// </summary>
         public IEnumerable<string> EventKeys { get; set; }
+
+        /// <summary>
+        ///     Start date
+        /// </summary>
+        [Required]
+        [ModelBinder(Name = "startDate")]
+        public DateTime TimestampFrom { get; set; }
+
+        /// <summary>
+        ///     End date
+        /// </summary>
+        [Required]
+        [ModelBinder(Name = "endDate")]
+        public DateTime TimestampTo { get; set; }
     }
 }

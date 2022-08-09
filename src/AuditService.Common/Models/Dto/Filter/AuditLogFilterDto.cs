@@ -1,11 +1,13 @@
-﻿using AuditService.Common.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using AuditService.Common.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuditService.Common.Models.Dto.Filter;
 
 /// <summary>
 ///     Audit log filter. Filter model
 /// </summary>
-public class AuditLogFilterDto
+public class AuditLogFilterDto : ILogFilter
 {
     /// <summary>
     ///     Audit log filter. Filter model
@@ -49,14 +51,18 @@ public class AuditLogFilterDto
     ///     User login
     /// </summary>
     public string? Login { get; set; }
-    
-    /// <summary>
-    ///     Start Date
-    /// </summary>
-    public DateTime? StartDate { get; set; }
 
     /// <summary>
-    ///     End Date
+    ///      Start date
     /// </summary>
-    public DateTime? EndDate { get; set; }
+    [Required]
+    [ModelBinder(Name = "startDate")]
+    public DateTime TimestampFrom { get; set; }
+
+    /// <summary>
+    ///     End date
+    /// </summary>
+    [Required]
+    [ModelBinder(Name = "endDate")]
+    public DateTime TimestampTo { get; set; }
 }

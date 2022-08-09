@@ -15,7 +15,7 @@ namespace AuditService.Handlers.Handlers;
 /// <summary>
 ///     Request handler for receiving player changelog
 /// </summary>
-[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
+[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120, UseValidation = true)]
 public class PlayerChangesLogRequestHandler : IRequestHandler<
     LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto>,
     PageResponseDto<PlayerChangesLogResponseDto>>

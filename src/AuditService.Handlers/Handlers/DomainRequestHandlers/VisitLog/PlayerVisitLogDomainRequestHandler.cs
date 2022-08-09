@@ -14,7 +14,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers.VisitLog;
 /// <summary>
 ///     Request handler for receiving player visit log (Domain model)
 /// </summary>
-[UsePipelineBehaviors(UseCache = true, UseLogging = true, CacheLifeTime = 120)]
+[UsePipelineBehaviors(UseCache = true, UseLogging = true, CacheLifeTime = 120, UseValidation = true)]
 public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>
 {
     public PlayerVisitLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
