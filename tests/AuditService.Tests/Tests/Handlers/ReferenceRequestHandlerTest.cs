@@ -23,7 +23,7 @@ public class ReferenceRequestHandlerTest
     /// </summary>
     public ReferenceRequestHandlerTest()
     {
-        _mediator = GetServiceProvider().GetRequiredService<IMediator>();
+        _mediator = ServiceProviderFake.GetServiceProviderForReferenceRequestHandler().GetRequiredService<IMediator>();
     }
 
     /// <summary>
@@ -37,19 +37,5 @@ public class ReferenceRequestHandlerTest
         var result = await _mediator.Send(new GetServicesRequest(), CancellationToken.None);
 
         Equal(JsonConvert.SerializeObject(enumList), JsonConvert.SerializeObject(result));
-    }
-
-    /// <summary>
-    ///     Getting fake service provider 
-    /// </summary>
-    private static IServiceProvider GetServiceProvider()
-    {
-        var services = ServiceCollectionFake.CreateServiceCollectionFake();
-        services.AddLogging();
-        DiConfigure.RegisterServices(services);
-        services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();
-        var serviceProvider = services.BuildServiceProvider();
-
-        return serviceProvider;
     }
 }
