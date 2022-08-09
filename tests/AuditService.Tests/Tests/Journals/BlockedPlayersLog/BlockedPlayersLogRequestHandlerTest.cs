@@ -27,8 +27,15 @@ public class BlockedPlayersLogRequestHandlerTest
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>();
-
+        var filter = new LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>()
+        {
+            Filter = new ()
+            {
+                TimestampFrom = DateTime.Now,
+                TimestampTo = DateTime.Now
+            }
+        };
+        
         //Act 
         var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -47,8 +54,15 @@ public class BlockedPlayersLogRequestHandlerTest
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>();
-
+        var filter = new LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>()
+        {
+            Filter = new ()
+            {
+                TimestampFrom = DateTime.Now,
+                TimestampTo = DateTime.Now
+            }
+        };
+        
         var expected = JsonConvert.DeserializeObject<List<BlockedPlayersLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
                 ?.FirstOrDefault();
 
