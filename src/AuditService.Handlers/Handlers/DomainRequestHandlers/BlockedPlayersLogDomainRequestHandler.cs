@@ -14,7 +14,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 /// <summary>
 ///     Request handler for receiving blocked players log (Domain model)
 /// </summary>
-[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120)]
+[UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120, UseValidation = true)]
 public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler<BlockedPlayersLogFilterDto,
     BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>
 {
@@ -32,11 +32,8 @@ public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler
     {
         var container = new QueryContainer();
 
-        if (filter.BlockingDateFrom.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.BlockingDateFrom.Value));
-
-        if (filter.BlockingDateTo.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.BlockingDateTo.Value));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.TimestampFrom));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.TimestampTo));
 
         if (filter.PreviousBlockingDateFrom.HasValue)
             container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).GreaterThan(filter.PreviousBlockingDateFrom.Value));

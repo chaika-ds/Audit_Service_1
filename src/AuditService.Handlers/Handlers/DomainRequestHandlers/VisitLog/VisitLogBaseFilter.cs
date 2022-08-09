@@ -34,11 +34,9 @@ internal static class VisitLogBaseFilter
         if (!string.IsNullOrEmpty(filter.DeviceType))
             container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.DeviceType).Query(filter.DeviceType));
 
-        if (filter.VisitTimeFrom.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.VisitTimeFrom.Value));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
 
-        if (filter.VisitTimeTo.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.VisitTimeTo.Value));
+        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
         return container;
     }

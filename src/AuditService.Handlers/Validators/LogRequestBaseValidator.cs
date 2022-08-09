@@ -12,12 +12,13 @@ namespace AuditService.Handlers.Validators;
 /// <typeparam name="TSort">Sort model type</typeparam>
 /// <typeparam name="TResponse">Response type</typeparam>
 public abstract class LogRequestBaseValidator<TFilter, TSort, TResponse> : AbstractValidator<LogFilterRequestDto<TFilter, TSort, TResponse>>
-    where TFilter : class, new()
+    where TFilter : class, ILogFilter, new()
     where TResponse : class
     where TSort : class, ISort, new()
 {
-    protected LogRequestBaseValidator(IValidator<PaginationRequestDto> paginationRequestValidator)
+    protected LogRequestBaseValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator)
     {
         RuleFor(model => model.Pagination).SetValidator(paginationRequestValidator);
+        RuleFor(model => model.Filter).SetValidator(logFilterValidator);
     }
 }

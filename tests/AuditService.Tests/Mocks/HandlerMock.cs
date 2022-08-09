@@ -17,7 +17,7 @@ namespace AuditService.Tests.Mocks;
 /// <typeparam name="TSort">Sort model type</typeparam>
 /// <typeparam name="TPlayers">Response type</typeparam>
 internal class HandlerMock<TFilter, TSort, TPlayers>
-    where TFilter : class, new()
+    where TFilter : class, ILogFilter, new()
     where TSort : class, ISort, new()
     where TPlayers : class
 {

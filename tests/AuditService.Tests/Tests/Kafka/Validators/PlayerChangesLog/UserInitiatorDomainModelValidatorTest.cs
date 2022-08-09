@@ -4,7 +4,7 @@ using AuditService.Tests.Fakes.Kafka.Validators;
 using FluentValidation.TestHelper;
 using KIT.Kafka.Consumers.PlayerChangesLog.Validators;
 
-namespace AuditService.Tests.Tests.Kafka.Validators;
+namespace AuditService.Tests.Tests.Kafka.Validators.PlayerChangesLog;
 
 /// <summary>
 /// UserInitiatorDomainModelValidatorTest tests
@@ -16,7 +16,6 @@ public class UserInitiatorDomainModelValidatorTest
     public UserInitiatorDomainModelValidatorTest()
     {
         _userValidatorTest = new UserInitiatorDomainModelValidator();
-
     }
 
     /// <summary>
@@ -41,7 +40,7 @@ public class UserInitiatorDomainModelValidatorTest
     /// Testing Guid params for PlayerChangesLogConsumerMessageValidator
     /// </summary>
     /// <param name="guidValue">Guid values for validation error testing</param>
-    [Theory, MemberData(nameof(GetUserInitiatorDomainModelValidatorGuidValues))]
+    [Theory, MemberData(nameof(ValidatorDataGenerator.GetTestGuidValues), MemberType = typeof(ValidatorDataGenerator))]
     public void UserInitiatorDomainModelValidator_InsertGuidNotValidParams_ShouldHaveValidationError(
         Guid guidValue)
     {
@@ -51,17 +50,5 @@ public class UserInitiatorDomainModelValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.Id);
-    }
-
-    /// <summary>
-    /// Guid values for testing
-    /// </summary>
-    public static IEnumerable<object[]> GetUserInitiatorDomainModelValidatorGuidValues
-    {
-        get
-        {
-            yield return new object[] { Guid.Empty };
-            yield return new object[] { new Guid() };
-        }
     }
 }
