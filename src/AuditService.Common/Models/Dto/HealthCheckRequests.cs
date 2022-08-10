@@ -16,4 +16,9 @@ namespace AuditService.Common.Models.Dto
     /// Redis service health check request
     /// </summary>
     public record CheckRedisHealthRequest : IRequest<bool>;
+    
+    /// <summary>
+    /// Redis service health check request
+    /// </summary>
+    public record CheckHealthRequest : IRequest<HealthCheckResponseDto>;
 }

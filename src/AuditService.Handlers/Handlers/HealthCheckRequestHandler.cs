@@ -1,4 +1,6 @@
-﻿using AuditService.Common.Models.Dto;
+﻿using System.Diagnostics;
+using AuditService.Common.Models.Dto;
+using AuditService.Handlers.Consts;
 using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
@@ -11,7 +13,8 @@ namespace AuditService.Handlers.Handlers;
 ///     Service health check request handler
 /// </summary>
 public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, bool>,
-    IRequestHandler<CheckKafkaHealthRequest, bool>, IRequestHandler<CheckRedisHealthRequest, bool>
+    IRequestHandler<CheckKafkaHealthRequest, bool>, IRequestHandler<CheckRedisHealthRequest, bool>,
+    IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>
 {
     private readonly IElasticClient _elasticClient;
     private readonly IKafkaHealthCheck _kafkaHealthCheck;
@@ -51,4 +54,63 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, 
     /// <returns>Service health check result</returns>
     public async Task<bool> Handle(CheckRedisHealthRequest request, CancellationToken cancellationToken) =>
         (await _redisHealthCheck.CheckHealthAsync(cancellationToken)).Status == HealthStatus.Healthy;
+
+    /// <summary>
+    ///     Handle a request for a health check of the all services
+    /// </summary>
+    /// <param name="request">All service health check request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Service health check result</returns>
+    public async Task<HealthCheckResponseDto> Handle(CheckHealthRequest request, CancellationToken cancellationToken)
+    {
+        var response = new HealthCheckResponseDto();
+
+        response.Components.Add(HealthCheckConst.Kafka, await GetComponentAsync(nameof(HealthCheckConst.Kafka), cancellationToken));
+        response.Components.Add(HealthCheckConst.Elk, await GetComponentAsync(nameof(HealthCheckConst.Elk), cancellationToken));
+        response.Components.Add(HealthCheckConst.Redis, await GetComponentAsync(nameof(HealthCheckConst.Redis), cancellationToken));
+        response.Version = new VersionDto();
+        
+        return response;
+    }
+
+    /// <summary>
+    ///     Creates a Component and tracks time for the selected services
+    /// </summary>
+    /// <param name="name">Selected service health check request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Components Dto with selected service</returns>
+    private async Task<ComponentsDto> GetComponentAsync(string name, CancellationToken cancellationToken)
+    {
+        var stopwatch = new Stopwatch();
+
+        stopwatch.Start();
+
+        var status = await GetServiceStatusAsync(name, cancellationToken);
+        
+        stopwatch.Stop();
+
+        return new ComponentsDto()
+        {
+            Name = name,
+            RequestTime = stopwatch.ElapsedMilliseconds,
+            Status = status
+        };
+    }
+
+    /// <summary>
+    ///     Handle a request for a health check selected services
+    /// </summary>
+    /// <param name="name">Selected service health check request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Service health check result</returns>
+    private async Task<bool> GetServiceStatusAsync(string name, CancellationToken cancellationToken)
+    {
+        return @name switch
+        {
+            HealthCheckConst.Kafka => await Handle(new CheckKafkaHealthRequest(), cancellationToken),
+            HealthCheckConst.Elk => await Handle(new CheckElkHealthRequest(), cancellationToken),
+            HealthCheckConst.Redis => await Handle(new CheckRedisHealthRequest(), cancellationToken),
+            _ => false
+        };
+    }
 }
