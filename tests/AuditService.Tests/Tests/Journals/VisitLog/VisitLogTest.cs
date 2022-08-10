@@ -31,8 +31,14 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
-
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -52,8 +58,15 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
-
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
+            
             var expected = JsonConvert.DeserializeObject<List<PlayerVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
                ?.FirstOrDefault(x => x.Type == VisitLogType.Player);
 
@@ -87,8 +100,14 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
-
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -108,8 +127,15 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
-
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
+            
             var expected = JsonConvert.DeserializeObject<List<UserVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
                ?.FirstOrDefault(x => x.Type == VisitLogType.User);
 
@@ -131,7 +157,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             {
                 Equal(expected.UserRoles.FirstOrDefault().Name, actual.UserRoles.FirstOrDefault().Name);
                 Equal(expected.UserRoles.FirstOrDefault().Code, actual.UserRoles.FirstOrDefault().Code);
-            };
+            }
         }
 
         /// <summary>
@@ -146,8 +172,14 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>();
-
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -167,8 +199,15 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>();
-
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
+            
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -188,15 +227,28 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filterForDomainModelHandler = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>();
-
+            var filterForDomainModelHandler = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
+            
             var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
 
             var expected = resultForDomainModelHandler.List
                 ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.User);
 
-            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>();
-
+            var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
@@ -215,7 +267,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             {
                 Equal(expected.UserRoles.FirstOrDefault().Name, actual.UserRoles.FirstOrDefault().Name);
                 Equal(expected.UserRoles.FirstOrDefault().Code, actual.UserRoles.FirstOrDefault().Code);
-            };
+            }
         }
 
         /// <summary>
@@ -230,15 +282,28 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
 
             var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-            var filterForDomainModelHandler = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>();
-
+            var filterForDomainModelHandler = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogDomainModel>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
+            
             var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
 
             var expected = resultForDomainModelHandler.List
                 ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.Player);
 
-            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>();
-
+            var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>()
+            {
+                Filter = new ()
+                {
+                    TimestampFrom = DateTime.Now,
+                    TimestampTo = DateTime.Now
+                }
+            };
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 

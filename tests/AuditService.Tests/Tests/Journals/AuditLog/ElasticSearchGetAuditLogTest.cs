@@ -26,14 +26,20 @@ public class ElasticSearchGetAuditLogTest
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>();
+        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>()
+        {
+            Filter = new ()
+            {
+                TimestampFrom = DateTime.Now,
+                TimestampTo = DateTime.Now
+            }
+        };
 
-        //Act 
         var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
 
         //Assert
         True(result.List.Any());
-    }     
+    }
 
     /// <summary>
     ///     Validation of audit log response
@@ -46,10 +52,17 @@ public class ElasticSearchGetAuditLogTest
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>();
+        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>()
+        {
+            Filter = new ()
+            {
+                TimestampFrom = DateTime.Now,
+                TimestampTo = DateTime.Now
+            }
+        };
 
         var expected = JsonConvert.DeserializeObject<List<AuditLogTransactionDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
-                ?.FirstOrDefault();
+            ?.FirstOrDefault();
 
         //Act 
         var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
