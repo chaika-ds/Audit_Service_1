@@ -132,7 +132,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, 
 
         var branch = GitInfoByArgument("rev-parse --abbrev-ref HEAD", startInfo);
         var lastCommit = GitInfoByArgument("rev-parse --verify HEAD", startInfo);
-        var tag = GitInfoByArgument("describe --tags --exact-match", startInfo);
+        var tag = GitInfoByArgument("describe --tags", startInfo);
 
         return new VersionDto
         {
