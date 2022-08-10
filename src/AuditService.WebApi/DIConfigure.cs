@@ -1,6 +1,7 @@
 ﻿using AuditService.Localization;
 using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
+using KIT.Minio;
 using KIT.Redis;
 using KIT.RocketChat;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -10,6 +11,9 @@ using Tolar.Authenticate.Impl;
 
 namespace AuditService.WebApi;
 
+/// <summary>
+///     DI configuration for api
+/// </summary>
 public static class DiConfigure
 {
     /// <summary>
@@ -20,6 +24,7 @@ public static class DiConfigure
         services.ConfigureRedis();
         services.ConfigureLocalization();
         services.ConfigureRocketChat();
+        services.ConfigureMinio();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();
         services.AddSingleton<ITokenService, TokenService>();
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
