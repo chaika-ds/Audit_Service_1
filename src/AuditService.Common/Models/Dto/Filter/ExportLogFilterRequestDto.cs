@@ -1,5 +1,4 @@
-﻿using AuditService.Common.Models.Dto.Pagination;
-using AuditService.Common.Models.Dto.Sort;
+﻿using AuditService.Common.Models.Dto.Sort;
 using MediatR;
 using Tolar.Export.Enumerations;
 
@@ -10,7 +9,7 @@ namespace AuditService.Common.Models.Dto.Filter;
 /// </summary>
 /// <typeparam name="TFilter">Filter model type</typeparam>
 /// <typeparam name="TSort">Sort model type</typeparam>
-public class ExportLogFilterRequestDto<TFilter, TSort> : IRequest<ExportDataResponseDto>
+public class ExportLogFilterRequestDto<TFilter, TSort> : IRequest<ExportFileResponseDto>
     where TFilter : class, ILogFilter, new()
     where TSort : class, ISort, new()
 {
@@ -18,18 +17,12 @@ public class ExportLogFilterRequestDto<TFilter, TSort> : IRequest<ExportDataResp
     {
         Sort = new TSort();
         Filter = new TFilter();
-        Pagination = new PaginationRequestDto();
     }
 
     /// <summary>
     ///     Filter info
     /// </summary>
     public TFilter Filter { get; set; }
-
-    /// <summary>
-    ///     Pagination info
-    /// </summary>
-    public PaginationRequestDto Pagination { get; set; }
 
     /// <summary>
     ///     Log filter. Sort model

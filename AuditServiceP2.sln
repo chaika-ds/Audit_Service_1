@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditService.Localization",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KIT.RocketChat", "src\KIT.RocketChat\KIT.RocketChat.csproj", "{C3124417-34C6-43A6-95CF-0D7E9317730B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIT.Minio", "src\KIT.Minio\KIT.Minio.csproj", "{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{C3124417-34C6-43A6-95CF-0D7E9317730B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3124417-34C6-43A6-95CF-0D7E9317730B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3124417-34C6-43A6-95CF-0D7E9317730B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{5D389A5D-D9C4-40DF-A6BD-A49D269C8592} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
 		{4B24FF84-051A-40EB-9FA1-16F0193562C4} = {AA42E5B6-DFC3-4D57-AF82-E697D3B76092}
 		{C3124417-34C6-43A6-95CF-0D7E9317730B} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
+		{0BD4AAA4-0D96-46A5-94B6-1174CDCC293A} = {7B21DD9A-E660-47D7-B8F0-65F3759566C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73685254-724E-430F-81DA-68858654B836}
