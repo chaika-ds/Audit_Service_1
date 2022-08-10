@@ -54,7 +54,7 @@
     },
     "TopicValidation": {
       "ValidationResultChat": "$KAFKA_VALIDATION_RESULT_CHAT"
-    }  
+    }
   },
   "SSO": {
     "ServiceName": "$SSO_SERVICE_NAME",
@@ -89,6 +89,17 @@
       "AuthDataLifetimeInHours": "$ROCKETCHAT_STORAGE_AUTHDATA_LIFETIME_HOURS",
       "BufferedMessageLifetimeInMinutes": "$ROCKETCHAT_STORAGE_BUFFERED_MESSAGE_LIFETIME_MINUTES",
       "BufferedMessageBlockLifetimeInMinutes": "$ROCKETCHAT_STORAGE_BUFFERED_MESSAGE_BLOCKTIME_MINUTES"
+    }
+  },
+  "Minio": {
+    "Endpoint": "$MINIO_ENDPOINT",
+    "AccessKey": "$MINIO_ACCESS_KEY",
+    "SecretKey": "$MINIO_SECRET_KEY",
+    "WithSSL": "$MINIO_WITHSSL",
+    "TraceRequests": "$MINIO_TRACE_REQUESTS",
+    "BucketName": "$MINIO_BUCKET_NAME",
+    "SharingFiles": {
+      "ExpirationInSeconds": "$MINIO_SHARING_FILES_EXPIRATION_IN_SECONDS"
     }
   } 
 }
