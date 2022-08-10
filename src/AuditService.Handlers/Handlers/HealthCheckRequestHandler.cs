@@ -68,8 +68,9 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, 
         response.Components.Add(HealthCheckConst.Kafka, await GetComponentAsync(nameof(HealthCheckConst.Kafka), cancellationToken));
         response.Components.Add(HealthCheckConst.Elk, await GetComponentAsync(nameof(HealthCheckConst.Elk), cancellationToken));
         response.Components.Add(HealthCheckConst.Redis, await GetComponentAsync(nameof(HealthCheckConst.Redis), cancellationToken));
-        response.Version = new VersionDto();
-        
+
+        response.Version = GetVersionDto();
+
         return response;
     }
 
@@ -86,7 +87,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, 
         stopwatch.Start();
 
         var status = await GetServiceStatusAsync(name, cancellationToken);
-        
+
         stopwatch.Stop();
 
         return new ComponentsDto()
@@ -112,5 +113,49 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, 
             HealthCheckConst.Redis => await Handle(new CheckRedisHealthRequest(), cancellationToken),
             _ => false
         };
+    }
+
+
+    /// <summary>
+    ///     Creates a Version Dto
+    /// </summary>
+    /// <returns>Version Dto of current branch</returns>
+    private VersionDto GetVersionDto()
+    {
+        var startInfo = new ProcessStartInfo("git")
+        {
+            WorkingDirectory = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.FullName,
+            UseShellExecute = false,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true
+        };
+
+        var branch = GitInfoByArgument("rev-parse --abbrev-ref HEAD", startInfo);
+        var lastCommit = GitInfoByArgument("rev-parse --verify HEAD", startInfo);
+        var tag = GitInfoByArgument("describe --tags --exact-match", startInfo);
+
+        return new VersionDto
+        {
+            Branch = branch,
+            Commit = lastCommit,
+            Tag = tag
+        };
+    }
+
+    /// <summary>
+    ///     Creates a Version Dto
+    /// </summary>
+    /// <param name="argument">Git command as argument</param>
+    /// <param name="startInfo">SProcessStartInfo</param>
+    /// <returns>Result of git command</returns>
+    private string? GitInfoByArgument(string argument, ProcessStartInfo startInfo)
+    {
+        startInfo.Arguments = argument;
+
+        using var process = new Process {StartInfo = startInfo};
+        
+        process.Start();
+
+        return process.StandardOutput.ReadLine();
     }
 }
