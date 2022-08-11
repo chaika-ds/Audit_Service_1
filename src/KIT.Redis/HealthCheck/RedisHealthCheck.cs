@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using AuditService.Common.Extensions;
+using AuditService.Common.Models.Dto;
 using KIT.NLog.Extensions;
 using KIT.Redis.Consts;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -34,11 +36,16 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default)
+    public async Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var message = $"Check Redis healthy on {DateTime.UtcNow}";
+        
+        var stopwatch = new Stopwatch();
+        
         try
         {
+            stopwatch.Start();
+            
             foreach (var endPoint in _connection.GetEndPoints(true))
             {
                 var result = await CheckHealthForEndPoint(endPoint);
@@ -47,15 +54,33 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
                     continue;
 
                 _logger.LogError(result.Description!, message);
-                return result;
+                
+                return new HealthCheckDto
+                {
+                    ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                    HealthCheckResult = result
+                };
             }
 
-            return HealthCheckResult.Healthy();
+            stopwatch.Stop();
+
+            return new HealthCheckDto
+            {
+                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                HealthCheckResult = HealthCheckResult.Healthy()
+            };
         }
         catch (Exception ex)
         {
+            stopwatch.Stop();
+            
             _logger.LogException(ex, message);
-            return HealthCheckResult.Unhealthy(ex.Message, ex);
+            
+            return new HealthCheckDto
+            {
+                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                HealthCheckResult = HealthCheckResult.Unhealthy(ex.Message, ex),
+            };
         }
     }
 

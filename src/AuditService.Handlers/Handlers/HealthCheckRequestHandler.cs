@@ -22,7 +22,6 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     private readonly IRedisHealthCheck _redisHealthCheck;
     private readonly IGitlabSettings _gitlabSettings;
     private readonly IGitLabClient _gitLabClient;
-    private readonly Stopwatch _stopwatch;
 
 
     public HealthCheckRequestHandler(IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
@@ -34,7 +33,6 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
         _gitlabSettings = gitlabSettings;
 
         _gitLabClient = new GitLabClient(gitlabSettings.Url);
-        _stopwatch = new Stopwatch();
     }
 
     /// <summary>
@@ -64,17 +62,18 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <returns>Service health check result</returns>
     private async Task<HealthCheckComponentsDto> CheckElkHealthAsync(string name, CancellationToken cancellationToken)
     {
-        _stopwatch.Reset();
-        _stopwatch.Start();
+        var stopwatch = new Stopwatch();
+
+        stopwatch.Start();
 
         var status = (await _elasticClient.Cluster.HealthAsync(ct: cancellationToken)).ApiCall.Success;
 
-        _stopwatch.Stop();
+        stopwatch.Stop();
 
         return new HealthCheckComponentsDto()
         {
             Name = name,
-            RequestTime = _stopwatch.ElapsedMilliseconds,
+            RequestTime = stopwatch.ElapsedMilliseconds,
             Status = status
         };
     }
@@ -88,18 +87,13 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <returns>Service health check result</returns>
     private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(string name, CancellationToken cancellationToken)
     {
-        _stopwatch.Reset();
-        _stopwatch.Start();
-
-        var status = (await _kafkaHealthCheck.CheckHealthAsync(cancellationToken)).Status;
-
-        _stopwatch.Stop();
+        var healthCheckDto = await _kafkaHealthCheck.CheckHealthAsync(cancellationToken);
 
         return new HealthCheckComponentsDto()
         {
             Name = name,
-            RequestTime = _stopwatch.ElapsedMilliseconds,
-            Status = status == HealthStatus.Healthy
+            RequestTime = healthCheckDto.ElapsedMilliseconds,
+            Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
         };
     }
 
@@ -112,18 +106,13 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <returns>Service health check result</returns>
     private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(string name, CancellationToken cancellationToken)
     {
-        _stopwatch.Reset();
-        _stopwatch.Start();
+        var healthCheckDto = await _redisHealthCheck.CheckHealthAsync(cancellationToken);
 
-        var status = (await _redisHealthCheck.CheckHealthAsync(cancellationToken)).Status ;
-
-        _stopwatch.Stop();
-
-        return new HealthCheckComponentsDto()
+        return new HealthCheckComponentsDto
         {
             Name = name,
-            RequestTime = _stopwatch.ElapsedMilliseconds,
-            Status = status == HealthStatus.Healthy
+            RequestTime = healthCheckDto.ElapsedMilliseconds,
+            Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
         };
     }
 

@@ -1,4 +1,6 @@
-﻿using KIT.Kafka.Settings.Interfaces;
+﻿using System.Diagnostics;
+using AuditService.Common.Models.Dto;
+using KIT.Kafka.Settings.Interfaces;
 using KIT.NLog.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -28,24 +30,52 @@ public class KafkaHealthCheck : IKafkaHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default)
+    public async Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var message = $"Check Kafka healthy on {DateTime.UtcNow}";
+        
+        var stopwatch = new Stopwatch();
+        
         try
         {
+            stopwatch.Start();
+            
             var task = _kafkaProducer.SendAsync(message, _kafkaTopics.HealthCheck);
 
             if (await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(1), cancellationToken)) == task)
-                return HealthCheckResult.Healthy();
+            {
+                stopwatch.Stop();
+                
+                return new HealthCheckDto
+                {
+                    ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                    HealthCheckResult = HealthCheckResult.Healthy()
+                };
+            }
 
+            stopwatch.Stop();
+            
             var errorMessage = "The kafka service is not responding";
+            
             _logger.LogError(errorMessage, message);
-            return HealthCheckResult.Degraded(errorMessage);
+            
+            return new HealthCheckDto
+            {
+                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                HealthCheckResult = HealthCheckResult.Degraded(errorMessage)
+            };
         }
         catch (Exception ex)
         {
+            stopwatch.Stop();
+
             _logger.LogException(ex, "Kafka service health check failed", message);
-            return HealthCheckResult.Unhealthy(ex.Message, ex);
+            
+            return new HealthCheckDto
+            {
+                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
+                HealthCheckResult = HealthCheckResult.Unhealthy(ex.Message, ex)
+            };
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using AuditService.Common.Models.Dto;
 
 namespace KIT.Kafka.HealthCheck;
 
@@ -12,5 +12,5 @@ public interface IKafkaHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default);
+    Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default);
 }
