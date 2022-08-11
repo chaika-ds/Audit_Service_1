@@ -101,5 +101,12 @@
     "SharingFiles": {
       "ExpirationInSeconds": "$MINIO_SHARING_FILES_EXPIRATION_IN_SECONDS"
     }
+  },
+
+  "SettingsService": {
+    "Url": "$SETTINGS_SERVICE_URL",
+    "Storage": {
+      "CacheLifetimeInMinutes": "$SETTINGS_SERVICE_CACHE_LIFE_TIME_MINUTES"
+    } 
   } 
 }
