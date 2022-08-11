@@ -1,4 +1,5 @@
 ﻿using AuditService.Localization;
+using AuditService.SettingsService;
 using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
 using KIT.Minio;
@@ -23,6 +24,7 @@ public static class DiConfigure
     {
         services.ConfigureRedis();
         services.ConfigureLocalization();
+        services.ConfigureSettingsService();
         services.ConfigureRocketChat();
         services.ConfigureMinio();
         services.AddHttpClient<IAuthenticateService, AuthenticateService>();

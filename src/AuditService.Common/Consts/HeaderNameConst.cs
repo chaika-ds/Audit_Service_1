@@ -14,4 +14,14 @@ public static class HeaderNameConst
     ///     Header name - Content-Type
     /// </summary>
     public const string ContentType = "Content-Type";
+
+    /// <summary>
+    ///     Header name - X-Node-Id
+    /// </summary>
+    public const string XNodeId = "X-Node-Id";
+
+    /// <summary>
+    ///     Header name - token
+    /// </summary>
+    public const string Token = "token";
 }
