@@ -1,9 +1,9 @@
 namespace AuditService.Common.Models.Dto;
 
 /// <summary>
-///    Component Model
+///    Health Check Component Model
 /// </summary>
-public class ComponentsDto
+public class HealthCheckComponentsDto
 {
     /// <summary>
     ///    RequestTime in milliseconds

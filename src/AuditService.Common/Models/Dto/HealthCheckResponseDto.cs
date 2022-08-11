@@ -8,8 +8,8 @@ public class HealthCheckResponseDto
     public HealthCheckResponseDto()
     {
         Timestamp = DateTime.Now;
-        Components = new Dictionary<string, ComponentsDto>();
-        Version = new VersionDto();
+        Components = new Dictionary<string, HealthCheckComponentsDto>();
+        HealthCheckVersion = new HealthCheckVersionDto();
     }
 
     /// <summary>
@@ -20,10 +20,10 @@ public class HealthCheckResponseDto
     /// <summary>
     ///     Components
     /// </summary>
-    public IDictionary<string, ComponentsDto> Components { get; set; }
+    public IDictionary<string, HealthCheckComponentsDto> Components { get; set; }
     
     /// <summary>
     ///     Version
     /// </summary>
-    public VersionDto Version { get; set; }
+    public HealthCheckVersionDto HealthCheckVersion { get; set; }
 }

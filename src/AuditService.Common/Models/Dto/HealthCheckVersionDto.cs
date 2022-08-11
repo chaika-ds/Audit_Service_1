@@ -1,9 +1,9 @@
 namespace AuditService.Common.Models.Dto;
 
 /// <summary>
-///    Version of project 
+///    Health Check Version of project 
 /// </summary>
-public class VersionDto
+public class HealthCheckVersionDto
 {
     /// <summary>
     ///    Current branch name
