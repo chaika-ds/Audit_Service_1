@@ -45,9 +45,9 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     {
         var response = new HealthCheckResponseDto();
 
-        response.Components.Add(HealthCheckConst.Kafka, await CheckKafkaHealthAsync(nameof(HealthCheckConst.Kafka), cancellationToken));
-        response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(nameof(HealthCheckConst.Elk), cancellationToken));
-        response.Components.Add(HealthCheckConst.Redis, await CheckRedisHealthAsync(nameof(HealthCheckConst.Redis), cancellationToken));
+        response.Components.Add(HealthCheckConst.Kafka, await CheckKafkaHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Redis, await CheckRedisHealthAsync(cancellationToken));
 
         response.HealthCheckVersion = await GetVersionDtoAsync();
 
@@ -57,10 +57,9 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <summary>
     ///     Handle a request for a health check of the Elk service
     /// </summary>
-    /// <param name="name">Selected service health check request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckElkHealthAsync(string name, CancellationToken cancellationToken)
+    private async Task<HealthCheckComponentsDto> CheckElkHealthAsync(CancellationToken cancellationToken)
     {
         var stopwatch = new Stopwatch();
 
@@ -72,7 +71,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
 
         return new HealthCheckComponentsDto()
         {
-            Name = name,
+            Name = nameof(HealthCheckConst.Elk),
             RequestTime = stopwatch.ElapsedMilliseconds,
             Status = status
         };
@@ -82,16 +81,15 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <summary>
     ///     Handle a request for a health check of the Kafka service
     /// </summary>
-    /// <param name="name">Selected service health check request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(string name, CancellationToken cancellationToken)
+    private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(CancellationToken cancellationToken)
     {
         var healthCheckDto = await _kafkaHealthCheck.CheckHealthAsync(cancellationToken);
 
         return new HealthCheckComponentsDto()
         {
-            Name = name,
+            Name = nameof(HealthCheckConst.Kafka),
             RequestTime = healthCheckDto.ElapsedMilliseconds,
             Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
         };
@@ -101,16 +99,15 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <summary>
     ///     Handle a request for a health check of the Redis service
     /// </summary>
-    /// <param name="name">Selected service health check request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(string name, CancellationToken cancellationToken)
+    private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(CancellationToken cancellationToken)
     {
         var healthCheckDto = await _redisHealthCheck.CheckHealthAsync(cancellationToken);
 
         return new HealthCheckComponentsDto
         {
-            Name = name,
+            Name = nameof(HealthCheckConst.Redis),
             RequestTime = healthCheckDto.ElapsedMilliseconds,
             Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
         };
@@ -123,7 +120,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <returns>Version Dto of current branch</returns>
     private async Task<HealthCheckVersionDto> GetVersionDtoAsync()
     {
-       await _gitLabClient.LoginAsync(_gitlabSettings.Username, _gitlabSettings.Password);
+        await _gitLabClient.LoginAsync(_gitlabSettings.Username, _gitlabSettings.Password);
 
         var branchInfo = await _gitLabClient.Branches.GetAsync(_gitlabSettings.ProjectId, _gitlabSettings.BranchName);
 
