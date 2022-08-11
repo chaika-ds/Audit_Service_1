@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
 using KIT.Kafka.Settings.Interfaces;
 using KIT.NLog.Extensions;
@@ -30,7 +31,7 @@ public class KafkaHealthCheck : IKafkaHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default)
+    public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var message = $"Check Kafka healthy on {DateTime.UtcNow}";
         
@@ -45,11 +46,12 @@ public class KafkaHealthCheck : IKafkaHealthCheck
             if (await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(1), cancellationToken)) == task)
             {
                 stopwatch.Stop();
-                
-                return new HealthCheckDto
+
+                return new HealthCheckComponentsDto()
                 {
-                    ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                    HealthCheckResult = HealthCheckResult.Healthy()
+                    Name = nameof(HealthCheckConst.Kafka),
+                    RequestTime = stopwatch.ElapsedMilliseconds,
+                    Status = HealthCheckResult.Healthy().Status == HealthStatus.Healthy
                 };
             }
 
@@ -59,10 +61,11 @@ public class KafkaHealthCheck : IKafkaHealthCheck
             
             _logger.LogError(errorMessage, message);
             
-            return new HealthCheckDto
+            return new HealthCheckComponentsDto()
             {
-                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                HealthCheckResult = HealthCheckResult.Degraded(errorMessage)
+                Name = nameof(HealthCheckConst.Kafka),
+                RequestTime = stopwatch.ElapsedMilliseconds,
+                Status =HealthCheckResult.Degraded(errorMessage).Status == HealthStatus.Healthy
             };
         }
         catch (Exception ex)
@@ -71,10 +74,11 @@ public class KafkaHealthCheck : IKafkaHealthCheck
 
             _logger.LogException(ex, "Kafka service health check failed", message);
             
-            return new HealthCheckDto
+            return new HealthCheckComponentsDto()
             {
-                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                HealthCheckResult = HealthCheckResult.Unhealthy(ex.Message, ex)
+                Name = nameof(HealthCheckConst.Kafka),
+                RequestTime = stopwatch.ElapsedMilliseconds,
+                Status = HealthCheckResult.Unhealthy(ex.Message, ex).Status == HealthStatus.Healthy
             };
         }
     }

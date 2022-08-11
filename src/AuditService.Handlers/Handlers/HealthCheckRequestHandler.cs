@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
+using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
-using AuditService.Handlers.Consts;
 using AuditService.Setup.AppSettings;
 using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Nest;
 using GitLabApiClient;
 
@@ -83,35 +82,17 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(CancellationToken cancellationToken)
-    {
-        var healthCheckDto = await _kafkaHealthCheck.CheckHealthAsync(cancellationToken);
+    private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(CancellationToken cancellationToken) =>
+        await _kafkaHealthCheck.CheckHealthAsync(cancellationToken);
 
-        return new HealthCheckComponentsDto()
-        {
-            Name = nameof(HealthCheckConst.Kafka),
-            RequestTime = healthCheckDto.ElapsedMilliseconds,
-            Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
-        };
-    }
-
-
+    
     /// <summary>
     ///     Handle a request for a health check of the Redis service
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(CancellationToken cancellationToken)
-    {
-        var healthCheckDto = await _redisHealthCheck.CheckHealthAsync(cancellationToken);
-
-        return new HealthCheckComponentsDto
-        {
-            Name = nameof(HealthCheckConst.Redis),
-            RequestTime = healthCheckDto.ElapsedMilliseconds,
-            Status = healthCheckDto.HealthCheckResult.Status == HealthStatus.Healthy
-        };
-    }
+    private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(CancellationToken cancellationToken)=>
+        await _redisHealthCheck.CheckHealthAsync(cancellationToken);
 
 
     /// <summary>

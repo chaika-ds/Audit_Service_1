@@ -12,5 +12,5 @@ public interface IKafkaHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default);
+    Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default);
 }

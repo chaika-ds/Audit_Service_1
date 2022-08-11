@@ -1,5 +1,4 @@
 ﻿using AuditService.Common.Models.Dto;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace KIT.Redis.HealthCheck;
 
@@ -13,5 +12,5 @@ public interface IRedisHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default);
+    Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default);
 }

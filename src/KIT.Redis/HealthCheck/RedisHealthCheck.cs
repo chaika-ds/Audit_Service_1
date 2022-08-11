@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using AuditService.Common.Consts;
 using AuditService.Common.Extensions;
 using AuditService.Common.Models.Dto;
 using KIT.NLog.Extensions;
@@ -36,7 +37,7 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckDto> CheckHealthAsync(CancellationToken cancellationToken = default)
+    public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var message = $"Check Redis healthy on {DateTime.UtcNow}";
         
@@ -55,19 +56,21 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
 
                 _logger.LogError(result.Description!, message);
                 
-                return new HealthCheckDto
+                return new HealthCheckComponentsDto()
                 {
-                    ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                    HealthCheckResult = result
+                    Name = nameof(HealthCheckConst.Redis),
+                    RequestTime = stopwatch.ElapsedMilliseconds,
+                    Status = result.Status == HealthStatus.Healthy
                 };
             }
 
             stopwatch.Stop();
 
-            return new HealthCheckDto
+            return new HealthCheckComponentsDto()
             {
-                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                HealthCheckResult = HealthCheckResult.Healthy()
+                Name = nameof(HealthCheckConst.Redis),
+                RequestTime = stopwatch.ElapsedMilliseconds,
+                Status = HealthCheckResult.Healthy().Status == HealthStatus.Healthy
             };
         }
         catch (Exception ex)
@@ -76,10 +79,11 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
             
             _logger.LogException(ex, message);
             
-            return new HealthCheckDto
+            return new HealthCheckComponentsDto()
             {
-                ElapsedMilliseconds = stopwatch.ElapsedMilliseconds,
-                HealthCheckResult = HealthCheckResult.Unhealthy(ex.Message, ex),
+                Name = nameof(HealthCheckConst.Redis),
+                RequestTime = stopwatch.ElapsedMilliseconds,
+                Status = HealthCheckResult.Unhealthy(ex.Message, ex).Status == HealthStatus.Healthy
             };
         }
     }

@@ -1,4 +1,4 @@
-namespace AuditService.Handlers.Consts;
+namespace AuditService.Common.Consts;
 
 /// <summary>
 ///     Constants for working with health check
