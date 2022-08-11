@@ -101,5 +101,12 @@
     "SharingFiles": {
       "ExpirationInSeconds": "$MINIO_SHARING_FILES_EXPIRATION_IN_SECONDS"
     }
-  } 
+  },
+  "Gitlab": {
+    "Url": "$GITLAB_URL",
+    "ProjectId": "$GITLAB_PROJECT_ID",
+    "Username": "$GITLAB_USERNAME",
+    "Password": "$GITLAB_USER_PASSWORD",
+    "BranchName": "$GITLAB_DEFAULT_BRANCHNAME"
+  }
 }

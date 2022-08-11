@@ -1,31 +1,39 @@
 ﻿using System.Diagnostics;
 using AuditService.Common.Models.Dto;
 using AuditService.Handlers.Consts;
+using AuditService.Setup.AppSettings;
 using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Nest;
+using GitLabApiClient;
+
 
 namespace AuditService.Handlers.Handlers;
 
 /// <summary>
 ///     Service health check request handler
 /// </summary>
-public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>
+public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>
 {
     private readonly IElasticClient _elasticClient;
     private readonly IKafkaHealthCheck _kafkaHealthCheck;
     private readonly IRedisHealthCheck _redisHealthCheck;
+    private readonly IGitlabSettings _gitlabSettings;
+    private readonly IGitLabClient _gitLabClient;
     private readonly Stopwatch _stopwatch;
 
 
     public HealthCheckRequestHandler(IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
-        IRedisHealthCheck redisHealthCheck)
+        IRedisHealthCheck redisHealthCheck, IGitlabSettings gitlabSettings)
     {
         _elasticClient = elasticClient;
         _kafkaHealthCheck = kafkaHealthCheck;
         _redisHealthCheck = redisHealthCheck;
+        _gitlabSettings = gitlabSettings;
+
+        _gitLabClient = new GitLabClient(gitlabSettings.Url);
         _stopwatch = new Stopwatch();
     }
 
@@ -43,11 +51,11 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(nameof(HealthCheckConst.Elk), cancellationToken));
         response.Components.Add(HealthCheckConst.Redis, await CheckRedisHealthAsync(nameof(HealthCheckConst.Redis), cancellationToken));
 
-        response.HealthCheckVersion = GetVersionDto();
+        response.HealthCheckVersion = await GetVersionDtoAsync();
 
         return response;
     }
-    
+
     /// <summary>
     ///     Handle a request for a health check of the Elk service
     /// </summary>
@@ -58,8 +66,8 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
     {
         _stopwatch.Reset();
         _stopwatch.Start();
-        
-        var status =  (await _elasticClient.Cluster.HealthAsync(ct: cancellationToken)).ApiCall.Success;
+
+        var status = (await _elasticClient.Cluster.HealthAsync(ct: cancellationToken)).ApiCall.Success;
 
         _stopwatch.Stop();
 
@@ -71,7 +79,7 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
         };
     }
 
-    
+
     /// <summary>
     ///     Handle a request for a health check of the Kafka service
     /// </summary>
@@ -82,8 +90,8 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
     {
         _stopwatch.Reset();
         _stopwatch.Start();
-        
-        var status =   (await _kafkaHealthCheck.CheckHealthAsync(cancellationToken)).Status == HealthStatus.Healthy;
+
+        var status = (await _kafkaHealthCheck.CheckHealthAsync(cancellationToken)).Status;
 
         _stopwatch.Stop();
 
@@ -91,10 +99,10 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
         {
             Name = name,
             RequestTime = _stopwatch.ElapsedMilliseconds,
-            Status = status
+            Status = status == HealthStatus.Healthy
         };
     }
-       
+
 
     /// <summary>
     ///     Handle a request for a health check of the Redis service
@@ -106,8 +114,8 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
     {
         _stopwatch.Reset();
         _stopwatch.Start();
-        
-        var status =   (await _redisHealthCheck.CheckHealthAsync(cancellationToken)).Status == HealthStatus.Healthy;
+
+        var status = (await _redisHealthCheck.CheckHealthAsync(cancellationToken)).Status ;
 
         _stopwatch.Stop();
 
@@ -115,7 +123,7 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
         {
             Name = name,
             RequestTime = _stopwatch.ElapsedMilliseconds,
-            Status = status
+            Status = status == HealthStatus.Healthy
         };
     }
 
@@ -124,42 +132,19 @@ public class HealthCheckRequestHandler :  IRequestHandler<CheckHealthRequest, He
     ///     Creates a Version Dto
     /// </summary>
     /// <returns>Version Dto of current branch</returns>
-    private HealthCheckVersionDto GetVersionDto()
+    private async Task<HealthCheckVersionDto> GetVersionDtoAsync()
     {
-        var startInfo = new ProcessStartInfo("git")
-        {
-            WorkingDirectory = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.FullName,
-            UseShellExecute = false,
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true
-        };
+       await _gitLabClient.LoginAsync(_gitlabSettings.Username, _gitlabSettings.Password);
 
-        var branch = GitInfoByArgument("rev-parse --abbrev-ref HEAD", startInfo);
-        var lastCommit = GitInfoByArgument("rev-parse --verify HEAD", startInfo);
-        var tag = GitInfoByArgument("describe --tags", startInfo);
+        var branchInfo = await _gitLabClient.Branches.GetAsync(_gitlabSettings.ProjectId, _gitlabSettings.BranchName);
+
+        var tags = await _gitLabClient.Tags.GetAsync(_gitlabSettings.ProjectId);
 
         return new HealthCheckVersionDto
         {
-            Branch = branch,
-            Commit = lastCommit,
-            Tag = tag
+            Branch = branchInfo.Name,
+            Commit = branchInfo.Commit.Id,
+            Tag = tags.MaxBy(x => x.Commit.CreatedAt)?.Name
         };
-    }
-
-    /// <summary>
-    ///     Creates a Version Dto
-    /// </summary>
-    /// <param name="argument">Git command as argument</param>
-    /// <param name="startInfo">SProcessStartInfo</param>
-    /// <returns>Result of git command</returns>
-    private string? GitInfoByArgument(string argument, ProcessStartInfo startInfo)
-    {
-        startInfo.Arguments = argument;
-
-        using var process = new Process {StartInfo = startInfo};
-        
-        process.Start();
-
-        return process.StandardOutput.ReadLine();
     }
 }
