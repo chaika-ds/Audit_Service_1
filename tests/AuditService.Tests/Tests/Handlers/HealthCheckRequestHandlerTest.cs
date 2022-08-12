@@ -34,13 +34,7 @@ public class HealthCheckRequestHandlerTest
 
         kafkaHcMock.Setup(x => x.CheckHealthAsync(CancellationToken.None)).Returns(Task.FromResult(new HealthCheckComponentsDto()));
         redisHcMock.Setup(x => x.CheckHealthAsync(CancellationToken.None)).Returns(Task.FromResult(new HealthCheckComponentsDto()));
-        mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None))
-            .Returns(Task.FromResult(new GitLabVersionResponseDto()
-            {
-                Branch = "Master",
-                Commit = "Commit",
-                Tag = "Tag"
-            }));
+        mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(Task.FromResult(new GitLabVersionResponseDto()));
         
         var handle = new HealthCheckRequestHandler(mediatorMock.Object, _elasticClient, kafkaHcMock.Object, redisHcMock.Object);
         await handle.Handle(new CheckHealthRequest(), CancellationToken.None);
