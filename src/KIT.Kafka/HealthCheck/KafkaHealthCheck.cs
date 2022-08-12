@@ -43,7 +43,7 @@ public class KafkaHealthCheck : IKafkaHealthCheck
 
         return new HealthCheckComponentsDto
         {
-            Name = nameof(HealthCheckConst.Kafka),
+            Name = HealthCheckConst.Kafka,
             RequestTime = stopwatch.ElapsedMilliseconds,
             Status = healthCheckResult.Status == HealthStatus.Healthy,
         };

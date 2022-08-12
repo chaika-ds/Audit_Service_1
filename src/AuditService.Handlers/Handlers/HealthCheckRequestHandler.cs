@@ -67,7 +67,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
 
         return new HealthCheckComponentsDto()
         {
-            Name = nameof(HealthCheckConst.Elk),
+            Name = HealthCheckConst.Elk,
             RequestTime = stopwatch.ElapsedMilliseconds,
             Status = status
         };

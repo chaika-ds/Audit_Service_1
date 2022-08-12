@@ -49,7 +49,7 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
 
         return new HealthCheckComponentsDto
         {
-            Name = nameof(HealthCheckConst.Redis),
+            Name = HealthCheckConst.Redis,
             RequestTime = stopwatch.ElapsedMilliseconds,
             Status = healthCheckResult.Status == HealthStatus.Healthy,
         };
