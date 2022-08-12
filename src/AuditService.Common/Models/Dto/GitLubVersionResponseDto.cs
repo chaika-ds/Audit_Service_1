@@ -1,9 +1,9 @@
 namespace AuditService.Common.Models.Dto;
 
 /// <summary>
-///    Health Check Version of project 
+///    GitLub version response model
 /// </summary>
-public class HealthCheckVersionDto
+public class GitLubVersionResponseDto
 {
     /// <summary>
     ///    Current branch name

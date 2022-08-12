@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Setup.ServiceConfigurations;
 
+/// <summary>
+///     Configuration of GitLub
+/// </summary>
 public static class GitLubConfiguration
 {
     /// <summary>
@@ -14,15 +17,11 @@ public static class GitLubConfiguration
         services.AddScoped<IGitLabClient>(serviceProvider =>
         {
             var configuration = serviceProvider.GetRequiredService<IGitlabSettings>();
+            
             if (string.IsNullOrEmpty(configuration.Url))
                 throw new ArgumentException($"{nameof(configuration.Url)} is null");
             
-            var gitLubClient = new GitLabClient(configuration.Url);
-
-            if (!string.IsNullOrEmpty(configuration.Username))
-                gitLubClient.LoginAsync(configuration.Username, configuration.Password);
-
-            return gitLubClient;
+            return new GitLabClient(configuration.Url);
         });
     }
 }

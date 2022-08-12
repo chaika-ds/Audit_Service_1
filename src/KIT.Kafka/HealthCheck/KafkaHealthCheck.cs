@@ -30,7 +30,7 @@ public class KafkaHealthCheck : IKafkaHealthCheck
     ///     Check the health of the kafka service
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Represents the result of a health check</returns>
+    /// <returns>Represents the result of a health check with millisecond</returns>
     public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var stopwatch = new Stopwatch();

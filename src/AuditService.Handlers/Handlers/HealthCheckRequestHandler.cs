@@ -16,21 +16,19 @@ namespace AuditService.Handlers.Handlers;
 /// </summary>
 public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>
 {
+    private readonly IMediator _mediator;
     private readonly IElasticClient _elasticClient;
     private readonly IKafkaHealthCheck _kafkaHealthCheck;
     private readonly IRedisHealthCheck _redisHealthCheck;
-    private readonly IGitlabSettings _gitlabSettings;
-    private readonly IGitLabClient _gitLabClient;
 
 
-    public HealthCheckRequestHandler(IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
-        IRedisHealthCheck redisHealthCheck, IGitLabClient gitLabClient, IGitlabSettings gitlabSettings)
+    public HealthCheckRequestHandler(IMediator mediator, IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
+        IRedisHealthCheck redisHealthCheck)
     {
         _elasticClient = elasticClient;
         _kafkaHealthCheck = kafkaHealthCheck;
         _redisHealthCheck = redisHealthCheck;
-        _gitLabClient = gitLabClient;
-        _gitlabSettings = gitlabSettings;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -47,7 +45,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
         response.Components.Add(HealthCheckConst.Redis, await _redisHealthCheck.CheckHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
 
-        response.HealthCheckVersion = await GetVersionDtoAsync();
+        response.GitLubVersionResponse = await _mediator.Send(new GitLubRequest(), cancellationToken);
 
         return response;
     }
@@ -72,25 +70,6 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
             Name = nameof(HealthCheckConst.Elk),
             RequestTime = stopwatch.ElapsedMilliseconds,
             Status = status
-        };
-    }
-
-
-    /// <summary>
-    ///     Creates a Version Dto
-    /// </summary>
-    /// <returns>Version Dto of current branch</returns>
-    private async Task<HealthCheckVersionDto> GetVersionDtoAsync()
-    {
-        var branchInfo = await _gitLabClient.Branches.GetAsync(_gitlabSettings.ProjectId, _gitlabSettings.BranchName);
-
-        var tags = await _gitLabClient.Tags.GetAsync(_gitlabSettings.ProjectId);
-
-        return new HealthCheckVersionDto
-        {
-            Branch = branchInfo.Name,
-            Commit = branchInfo.Commit.Id,
-            Tag = tags.MaxBy(x => x.Commit.CreatedAt)?.Name
         };
     }
 }

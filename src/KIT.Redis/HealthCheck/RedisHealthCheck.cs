@@ -36,7 +36,7 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
     ///     Check the health of the Redis service
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Represents the result of a health check</returns>
+    /// <returns>Represents the result of a health check with millisecond</returns>
     public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
         var stopwatch = new Stopwatch();
