@@ -24,14 +24,13 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
 
 
     public HealthCheckRequestHandler(IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
-        IRedisHealthCheck redisHealthCheck, IGitlabSettings gitlabSettings)
+        IRedisHealthCheck redisHealthCheck, IGitLabClient gitLabClient, IGitlabSettings gitlabSettings)
     {
         _elasticClient = elasticClient;
         _kafkaHealthCheck = kafkaHealthCheck;
         _redisHealthCheck = redisHealthCheck;
+        _gitLabClient = gitLabClient;
         _gitlabSettings = gitlabSettings;
-
-        _gitLabClient = new GitLabClient(gitlabSettings.Url);
     }
 
     /// <summary>
@@ -101,8 +100,6 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     /// <returns>Version Dto of current branch</returns>
     private async Task<HealthCheckVersionDto> GetVersionDtoAsync()
     {
-        await _gitLabClient.LoginAsync(_gitlabSettings.Username, _gitlabSettings.Password);
-
         var branchInfo = await _gitLabClient.Branches.GetAsync(_gitlabSettings.ProjectId, _gitlabSettings.BranchName);
 
         var tags = await _gitLabClient.Tags.GetAsync(_gitlabSettings.ProjectId);
