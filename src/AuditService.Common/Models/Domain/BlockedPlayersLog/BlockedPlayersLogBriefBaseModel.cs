@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AuditService.Common.Models.Interfaces;
 
 namespace AuditService.Common.Models.Domain.BlockedPlayersLog;
 
 /// <summary>
 ///     Blocked player log brief base model
 /// </summary>
-public abstract class BlockedPlayersLogBriefBaseModel
+public abstract class BlockedPlayersLogBriefBaseModel : INodeId
 {
     protected BlockedPlayersLogBriefBaseModel()
     {
@@ -16,10 +17,10 @@ public abstract class BlockedPlayersLogBriefBaseModel
     }
 
     /// <summary>
-    ///     Player hall Id
+    ///     Player node Id
     /// </summary>
     [Required]
-    public Guid HallId { get; set; }
+    public Guid NodeId { get; set; }
 
     /// <summary>
     ///     Login of the blocked player

@@ -8,12 +8,6 @@ namespace AuditService.Common.Models.Domain.VisitLog;
 public class PlayerVisitLogDomainModel : BaseVisitLogDomainModel
 {
     /// <summary>
-    ///     Hall Id 
-    /// </summary>
-    [Required]
-    public Guid HallId { get; set; }
-
-    /// <summary>
     ///     Player Id
     /// </summary>
     [Required]

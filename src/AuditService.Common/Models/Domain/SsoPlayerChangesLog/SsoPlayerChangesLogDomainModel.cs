@@ -15,16 +15,10 @@ public class SsoPlayerChangesLogDomainModel
     }
 
     /// <summary>
-    ///     Project Id
+    ///     NodeId Id
     /// </summary>
     [Required]
-    public Guid ProjectId { get; set; }
-
-    /// <summary>
-    ///     Hall Id
-    /// </summary>
-    [Required]
-    public Guid HallId { get; set; }
+    public Guid NodeId { get; set; }
 
     /// <summary>
     ///     Player Id

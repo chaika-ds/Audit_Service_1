@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AuditService.Common.Enums;
 
 namespace AuditService.Common.Models.Domain.VisitLog;
 
@@ -12,19 +11,7 @@ public class UserVisitLogDomainModel : BaseVisitLogDomainModel
     {
         UserRoles = new List<UserRoleDomainModel>();
     }
-
-    /// <summary>
-    ///     Node Id
-    /// </summary>
-    [Required]
-    public Guid NodeId { get; set; }
-
-    /// <summary>
-    ///     Node type
-    /// </summary>
-    [Required]
-    public NodeType NodeType { get; set; }
-
+    
     /// <summary>
     ///     User Id
     /// </summary>

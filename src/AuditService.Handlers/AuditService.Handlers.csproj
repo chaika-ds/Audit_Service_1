@@ -24,6 +24,7 @@
     <ItemGroup>
         <ProjectReference Include="..\AuditService.Common\AuditService.Common.csproj" />
         <ProjectReference Include="..\AuditService.Localization\AuditService.Localization.csproj" />
+        <ProjectReference Include="..\AuditService.SettingsService\AuditService.SettingsService.csproj" />
         <ProjectReference Include="..\AuditService.Setup\AuditService.Setup.csproj" />
         <ProjectReference Include="..\KIT.Kafka\KIT.Kafka.csproj" />
         <ProjectReference Include="..\KIT.Minio\KIT.Minio.csproj" />

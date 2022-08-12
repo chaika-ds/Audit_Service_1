@@ -25,45 +25,44 @@ public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler
     /// <summary>
     ///     Apply filter to query container
     /// </summary>
-    /// <param name="queryContainerDescriptor">Query container descriptor</param>
+    /// <param name="container">Query container</param>
+    /// <param name="descriptor">Query container descriptor</param>
     /// <param name="filter">The filter model to apply the query</param>
     /// <returns>Query container after applying the filter</returns>
-    protected override QueryContainer ApplyFilter(QueryContainerDescriptor<BlockedPlayersLogDomainModel> queryContainerDescriptor, BlockedPlayersLogFilterDto filter)
+    protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<BlockedPlayersLogDomainModel> descriptor, BlockedPlayersLogFilterDto filter)
     {
-        var container = new QueryContainer();
-
-        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.TimestampFrom));
-        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.TimestampTo));
+        container &= descriptor.DateRange(t => t.Field(w => w.BlockingDate).GreaterThan(filter.TimestampFrom));
+        container &= descriptor.DateRange(t => t.Field(w => w.BlockingDate).LessThan(filter.TimestampTo));
 
         if (filter.PreviousBlockingDateFrom.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).GreaterThan(filter.PreviousBlockingDateFrom.Value));
+            container &= descriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).GreaterThan(filter.PreviousBlockingDateFrom.Value));
 
         if (filter.PreviousBlockingDateTo.HasValue)
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).LessThan(filter.PreviousBlockingDateTo.Value));
+            container &= descriptor.DateRange(t => t.Field(w => w.PreviousBlockingDate).LessThan(filter.PreviousBlockingDateTo.Value));
 
         if (!string.IsNullOrEmpty(filter.PlayerLogin))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
+            container &= descriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
 
         if (filter.PlayerId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId.Value);
+            container &= descriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId.Value);
 
         if (!string.IsNullOrEmpty(filter.PlayerIp))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
+            container &= descriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
 
-        if (filter.HallId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.HallId.Suffix(ElasticConst.SuffixKeyword), filter.HallId.Value);
+        if (filter.NodeId.HasValue)
+            container &= descriptor.Term(t => t.NodeId.Suffix(ElasticConst.SuffixKeyword), filter.NodeId.Value);
 
         if (!string.IsNullOrEmpty(filter.Platform))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
+            container &= descriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
 
         if (!string.IsNullOrEmpty(filter.Browser))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Browser).Query(filter.Browser));
+            container &= descriptor.Match(t => t.Field(x => x.Browser).Query(filter.Browser));
 
         if (!string.IsNullOrEmpty(filter.Version))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.BrowserVersion).Query(filter.Version));
+            container &= descriptor.Match(t => t.Field(x => x.BrowserVersion).Query(filter.Version));
 
         if (!string.IsNullOrEmpty(filter.Language))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Language).Query(filter.Language));
+            container &= descriptor.Match(t => t.Field(x => x.Language).Query(filter.Language));
 
         return container;
     }

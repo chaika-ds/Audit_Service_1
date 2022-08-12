@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Enums;
+﻿using AuditService.Common.Contexts;
+using AuditService.Common.Enums;
 using AuditService.Common.Helpers;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
@@ -42,9 +43,10 @@ public class LogRequestBaseHandlerTest
         var responseModelsSendResponse = LogRequestBaseHandlerResponsesFake.GetSendResponseModelsResponse();
         var tryLocalizeResponse = LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse();
 
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(handleSendResponse, responseModelsSendResponse),
-            _handlersMock.LocalizerMock(tryLocalizeResponse));
+            _handlersMock.LocalizerMock(tryLocalizeResponse), new RequestContext());
 
         var logFilterRequest = LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest();
 
@@ -68,11 +70,12 @@ public class LogRequestBaseHandlerTest
     [Fact]
     public async Task LogRequestBaseHandler_GenerateResponseModels_GetPlayerChangesLogResponseDtoAsync()
     {
+        // todo переделать!!
         //Arrange
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(LogRequestBaseHandlerResponsesFake.GetSendHandleResponse(),
                 LogRequestBaseHandlerResponsesFake.GetSendResponseModelsResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IEnumerable<PlayerChangesLogDomainModel> domainModels =
             LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel();
@@ -94,9 +97,12 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_GenerateResponseModels_GetNoLocalizedKeyAsync()
     {
         //Arrange
+
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(null!, LogRequestBaseHandlerResponsesFake.GetSendResponseModelsResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponseNotAllKey()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponseNotAllKey()), new RequestContext());
         IEnumerable<PlayerChangesLogDomainModel> domainModels =
             LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModelNullResponse();
 
@@ -116,10 +122,12 @@ public class LogRequestBaseHandlerTest
     public void LogRequestBaseHandler_GenerateResponseModelsAsyncThrowException_KeyNotFoundExceptionAsync()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(LogRequestBaseHandlerResponsesFake.GetSendHandleResponse(),
                 LogRequestBaseHandlerResponsesFake.GetSendNoConcidenceKeyResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IEnumerable<PlayerChangesLogDomainModel> domainModels =
             LogRequestBaseHandlerResponsesFake.GetTestPlayerChangesLogDomainModel();
@@ -144,10 +152,12 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_GenerateResponseGroupedModels_GetPlayerChangesLogResponseDtoAsync()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(LogRequestBaseHandlerResponsesFake.GetSendHandleResponse(),
                 LogRequestBaseHandlerResponsesFake.GetSendResponseModelsResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
             .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
@@ -172,9 +182,11 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_GenerateGroupedResponseModels_GetNoLocalizedKeyAsync()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(null!, LogRequestBaseHandlerResponsesFake.GetSendResponseModelsResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponseNotAllKey()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponseNotAllKey()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
             .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
@@ -196,10 +208,12 @@ public class LogRequestBaseHandlerTest
     public void LogRequestBaseHandler_GenerateGroupedResponseModelsAsyncThrowException_KeyNotFoundException()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(
             _handlersMock.MediatorMock(LogRequestBaseHandlerResponsesFake.GetSendHandleResponse(),
                 LogRequestBaseHandlerResponsesFake.GetSendNoConcidenceKeyResponse()),
-            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()));
+            _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
             .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
@@ -225,8 +239,10 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_ELKSendLogFilterRequestDtoException_ExceptionHandled()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorLogFilterRequestExceptionMock(),
-            _handlersMock.LocalizerEmptyMock());
+            _handlersMock.LocalizerEmptyMock(), new RequestContext());
 
         //Assert
         await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));
@@ -239,8 +255,10 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_ELKSendEventsRequestException_ExceptionHandled()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorEventsRequestExceptionMock(),
-            _handlersMock.LocalizerEmptyMock());
+            _handlersMock.LocalizerEmptyMock(), new RequestContext());
 
         //Assert
         await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));
@@ -253,8 +271,10 @@ public class LogRequestBaseHandlerTest
     public async Task LogRequestBaseHandler_LocalizerException_ExceptionHandled()
     {
         //Arrange
+
+        // todo переделать!!
         var handlerTest = new PlayerChangesLogRequestHandler(_handlersMock.MediatorEmptyMock(),
-            _handlersMock.LocalizerExceptionMock());
+            _handlersMock.LocalizerExceptionMock(), new RequestContext());
 
         //Assert
         await ThrowsAnyAsync<Exception>(() => handlerTest.Handle(LogRequestBaseHandlerTestRequests.GetTestLogFilterRequest(), _tokenTest));

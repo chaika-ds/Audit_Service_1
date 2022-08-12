@@ -74,8 +74,7 @@ internal class VisitLogValidatorTestData
             return new()
             {
                 Type = logType,
-                ProjectId = guidValue,
-                HallId = guidValue,
+                NodeId = guidValue,
                 PlayerId = guidValue
             };
         }
@@ -83,7 +82,6 @@ internal class VisitLogValidatorTestData
         return new()
         {
             Type = logType,
-            ProjectId = guidValue,
             NodeId = guidValue,
             UserId = guidValue
         };

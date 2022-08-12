@@ -46,8 +46,6 @@ public class SsoUserChangesLogConsumer : BaseMigrationConsumer<SsoUserChangesLog
         => new()
         {
             NodeId = sourceModel.NodeId,
-            NodeType = sourceModel.NodeType,
-            ProjectId = sourceModel.ProjectId,
             UserId = sourceModel.UserId,
             Login = sourceModel.UserLogin,
             UserRoles = sourceModel.UserRoles,

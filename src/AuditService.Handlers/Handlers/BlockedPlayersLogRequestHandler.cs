@@ -52,7 +52,7 @@ namespace AuditService.Handlers.Handlers
                 PlayerId = model.PlayerId,
                 BlocksCounter = model.BlocksCounter,
                 Browser = model.Browser,
-                HallId = model.HallId,
+                NodeId = model.NodeId,
                 Language = model.Language,
                 OperatingSystem = model.Platform,
                 PlayerIp = model.LastVisitIpAddress,

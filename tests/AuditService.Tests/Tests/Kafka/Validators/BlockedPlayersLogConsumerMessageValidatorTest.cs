@@ -27,8 +27,6 @@ public class BlockedPlayersLogConsumerMessageValidatorTest
         var result = _validatorTest.TestValidate(BlockedPlayersLogConsumerMessageValidatorTestData.GetBlockedPlayersLogStringConsumerMessage(stringValue));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.HallName);
-        result.ShouldHaveValidationErrorFor(log => log.ProjectName);
         result.ShouldHaveValidationErrorFor(log => log.LastVisitIpAddress);
         result.ShouldHaveValidationErrorFor(log => log.Platform);
         result.ShouldHaveValidationErrorFor(log => log.PlayerLogin);
@@ -48,8 +46,7 @@ public class BlockedPlayersLogConsumerMessageValidatorTest
         var result = _validatorTest.TestValidate(BlockedPlayersLogConsumerMessageValidatorTestData.GetBlockedPlayersLogGuidConsumerMessage(guidValue));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.ProjectId);
-        result.ShouldHaveValidationErrorFor(log => log.HallId);
+        result.ShouldHaveValidationErrorFor(log => log.NodeId);
         result.ShouldHaveValidationErrorFor(log => log.PlayerId);
     }
 

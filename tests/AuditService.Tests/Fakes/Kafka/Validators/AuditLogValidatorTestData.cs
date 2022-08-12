@@ -16,10 +16,7 @@ internal class AuditLogValidatorTestData
     internal static AuditLogConsumerMessage GetAuditLogConsumerStringMessage(string stringValue) =>
         new()
         {
-            NodeName = stringValue,
             CategoryCode = stringValue,
-            EntityName = stringValue,
-            EntityId = stringValue
         };
 
     /// <summary>
@@ -30,8 +27,7 @@ internal class AuditLogValidatorTestData
     internal static AuditLogConsumerMessage GetAuditLogConsumerGuidMessage(Guid guidValue) =>
         new()
         {
-            NodeId = guidValue,
-            ProjectId = guidValue,
+            NodeId = guidValue
         };
 
     /// <summary>

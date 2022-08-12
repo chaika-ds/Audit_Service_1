@@ -33,11 +33,10 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
             {
                 Type = VisitLogType.Player,
                 Timestamp = DateTime.Now.AddHours(-randomValue),
-                ProjectId = Guid.NewGuid(),
                 Authorization = CreateAuthorizationDataDomainModel(randomValue),
                 Ip = $"127.0.0.{randomValue}",
                 Login = $"login_{randomValue}",
-                HallId = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
                 PlayerId = Guid.NewGuid()
             });
 
@@ -45,13 +44,11 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
         {
             Type = VisitLogType.User,
             Timestamp = DateTime.Now.AddHours(-randomValue),
-            ProjectId = Guid.NewGuid(),
             Authorization = CreateAuthorizationDataDomainModel(randomValue, false),
             Ip = $"27.1.0.{randomValue}",
             Login = $"loginUser_{randomValue}",
             UserId = Guid.NewGuid(),
             NodeId = Guid.NewGuid(),
-            NodeType = Enum.GetValues<NodeType>().GetRandomItem(_random),
             UserRoles = new List<UserRoleDomainModel>
             {
                 new($"code_{randomValue}", $"role_{randomValue}"),
@@ -71,7 +68,7 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
     ///     Get the field by which identification will be made
     /// </summary>
     /// <returns>Identifier name</returns>
-    protected override string GetIdentifierName() => nameof(VisitLogDomainModel.ProjectId);
+    protected override string GetIdentifierName() => nameof(VisitLogDomainModel.Timestamp);
 
     /// <summary>
     ///     Get resources to generate data

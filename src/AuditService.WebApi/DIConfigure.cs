@@ -1,4 +1,5 @@
-﻿using AuditService.Localization;
+﻿using AuditService.Common.Contexts;
+using AuditService.Localization;
 using AuditService.SettingsService;
 using AuditService.Setup.ModelProviders;
 using KIT.Kafka;
@@ -32,5 +33,6 @@ public static class DiConfigure
         services.TryAddEnumerable(ServiceDescriptor.Transient<IApplicationModelProvider, ResponseHttpCodeModelProvider>());
         Handlers.DiConfigure.RegisterServices(services);
         services.ConfigureKafka(environmentName);
+        services.AddScoped<RequestContext>();
     }
 }

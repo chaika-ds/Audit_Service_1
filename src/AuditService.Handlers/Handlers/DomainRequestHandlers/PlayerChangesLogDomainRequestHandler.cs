@@ -19,24 +19,21 @@ public class PlayerChangesLogDomainRequestHandler : LogDomainRequestBaseHandler<
     /// <summary>
     ///     Apply filter to query container
     /// </summary>
-    /// <param name="queryContainerDescriptor">Query container descriptor</param>
+    /// <param name="container">Query container</param>
+    /// <param name="descriptor">Query container descriptor</param>
     /// <param name="filter">The filter model to apply the query</param>
     /// <returns>Query container after applying the filter</returns>
-    protected override QueryContainer ApplyFilter(QueryContainerDescriptor<PlayerChangesLogDomainModel> queryContainerDescriptor, PlayerChangesLogFilterDto filter)
+    protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<PlayerChangesLogDomainModel> descriptor, PlayerChangesLogFilterDto filter)
     {
-        var container = new QueryContainer();
-
         if (!string.IsNullOrEmpty(filter.IpAddress))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.IpAddress).Query(filter.IpAddress));
+            container &= descriptor.Match(t => t.Field(x => x.IpAddress).Query(filter.IpAddress));
 
-        if (!string.IsNullOrEmpty(filter.Login))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
-
-        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
-        container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
+        container &= descriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId);
+        container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
+        container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
         if (filter.EventKeys.Any())
-            container &= queryContainerDescriptor.Terms(t => t.Field(w => w.EventCode.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.EventKeys));
+            container &= descriptor.Terms(t => t.Field(w => w.EventCode.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.EventKeys));
         
         return container;
     }

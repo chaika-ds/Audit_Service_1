@@ -29,10 +29,7 @@ public class AuditLogConsumerMessageValidatorTest
         var result = _validatorTest.TestValidate(AuditLogValidatorTestData.GetAuditLogConsumerStringMessage(stringValue));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.NodeName);
         result.ShouldHaveValidationErrorFor(log => log.CategoryCode);
-        result.ShouldHaveValidationErrorFor(log => log.EntityName);
-        result.ShouldHaveValidationErrorFor(log => log.EntityId);
     }
 
     /// <summary>
@@ -47,7 +44,6 @@ public class AuditLogConsumerMessageValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.NodeId);
-        result.ShouldHaveValidationErrorFor(log => log.ProjectId);
     }
 
     /// <summary>

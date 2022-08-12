@@ -16,6 +16,7 @@ using AuditService.Localization.Settings;
 using AuditService.Setup;
 using AuditService.Setup.AppSettings;
 using AuditService.Setup.ServiceConfigurations;
+using AuditService.Setup.ServiceConfigurations.Swagger;
 using AuditService.Tests.Extensions;
 using AuditService.Tests.Fakes.ServiceData;
 using KIT.Kafka;
@@ -101,8 +102,8 @@ public class DIConfigureTest
         serviceCollectionFake.IsRegisteredService<IRequestHandler<GetEventsRequest, IDictionary<ModuleName, EventDomainModel[]>>,
             ReferenceRequestHandler>(ServiceLifetime.Transient);
         serviceCollectionFake.IsRegisteredService<IRequestHandler<
-                LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>,
-                PageResponseDto<AuditLogTransactionDomainModel>>,
+                LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>,
+                PageResponseDto<AuditLogDomainModel>>,
             AuditLogDomainRequestHandler>(ServiceLifetime.Transient);
         serviceCollectionFake.IsRegisteredService<IRequestHandler<
             LogFilterRequestDto<BlockedPlayersLogFilterDto,

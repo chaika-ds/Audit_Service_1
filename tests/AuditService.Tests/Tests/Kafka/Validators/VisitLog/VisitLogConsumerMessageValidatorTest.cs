@@ -49,8 +49,7 @@ public class VisitLogConsumerMessageValidatorTest
         var result = _validatorTest.TestValidate(VisitLogValidatorTestData.GetVisitLogConsumerGuidMessage(guidValue, visitLogType));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.ProjectId);
-        result.ShouldHaveValidationErrorFor(log => log.HallId);
+        result.ShouldHaveValidationErrorFor(log => log.NodeId);
         result.ShouldHaveValidationErrorFor(log => log.PlayerId);
     }
 
@@ -68,7 +67,6 @@ public class VisitLogConsumerMessageValidatorTest
         var result = _validatorTest.TestValidate(VisitLogValidatorTestData.GetVisitLogConsumerGuidMessage(guidValue, visitLogType));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.ProjectId);
         result.ShouldHaveValidationErrorFor(log => log.NodeId);
         result.ShouldHaveValidationErrorFor(log => log.UserId);
     }

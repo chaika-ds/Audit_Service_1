@@ -29,7 +29,6 @@ internal class PlayerChangesLogValidatorTestData
         new()
         {
             NodeId = guidValue,
-            ProjectId = guidValue,
             PlayerId = guidValue
         };
 

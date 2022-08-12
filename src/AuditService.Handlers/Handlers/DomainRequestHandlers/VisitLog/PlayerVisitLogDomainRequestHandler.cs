@@ -24,25 +24,21 @@ public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<Pl
     /// <summary>
     ///     Apply filter to query container
     /// </summary>
-    /// <param name="queryContainerDescriptor">Query container descriptor</param>
+    /// <param name="container">Query container</param>
+    /// <param name="descriptor">Query container descriptor</param>
     /// <param name="filter">The filter model to apply the query</param>
     /// <returns>Query container after applying the filter</returns>
-    protected override QueryContainer ApplyFilter(QueryContainerDescriptor<PlayerVisitLogDomainModel> queryContainerDescriptor, PlayerVisitLogFilterDto filter)
+    protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<PlayerVisitLogDomainModel> descriptor, PlayerVisitLogFilterDto filter)
     {
-        var container = new QueryContainer();
-
-        container &= queryContainerDescriptor.Term(t => t.Type, VisitLogType.Player);
-
-        if (filter.HallId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.HallId, filter.HallId.Value);
+        container &= descriptor.Term(t => t.Type, VisitLogType.Player);
 
         if (filter.PlayerId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.PlayerId, filter.PlayerId.Value);
+            container &= descriptor.Term(t => t.PlayerId, filter.PlayerId.Value);
 
-        container &= VisitLogBaseFilter.ApplyFilter(container, queryContainerDescriptor, filter);
+        container &= VisitLogBaseFilter.ApplyFilter(container, descriptor, filter);
 
         if (!string.IsNullOrEmpty(filter.AuthorizationMethod))
-            container &= queryContainerDescriptor.Match(t => t.Field(x => x.Authorization.AuthorizationType).Query(filter.AuthorizationMethod));
+            container &= descriptor.Match(t => t.Field(x => x.Authorization.AuthorizationType).Query(filter.AuthorizationMethod));
 
         return container;
     }
@@ -80,7 +76,7 @@ public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<Pl
     protected override string GetColumnNameToSort(PlayerVisitLogSortDto logSortModel) =>
         logSortModel.FieldSortType switch
         {
-            PlayerVisitLogSortType.HallId => nameof(PlayerVisitLogDomainModel.HallId).ToCamelCase(),
+            PlayerVisitLogSortType.NodeId => nameof(PlayerVisitLogDomainModel.NodeId).ToCamelCase(),
             PlayerVisitLogSortType.PlayerId => nameof(PlayerVisitLogDomainModel.PlayerId).ToCamelCase(),
             PlayerVisitLogSortType.VisitTime => nameof(PlayerVisitLogDomainModel.Timestamp).ToCamelCase(),
             _ => nameof(PlayerVisitLogDomainModel.Timestamp).ToCamelCase()

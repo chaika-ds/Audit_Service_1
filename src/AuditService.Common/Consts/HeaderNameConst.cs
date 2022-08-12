@@ -24,4 +24,9 @@ public static class HeaderNameConst
     ///     Header name - token
     /// </summary>
     public const string Token = "token";
+
+    /// <summary>
+    ///     Header name - language
+    /// </summary>
+    public const string Language = "language";
 }

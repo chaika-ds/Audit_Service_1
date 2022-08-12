@@ -11,11 +11,6 @@ public class PlayerVisitLogFilterDto : BaseVisitLogFilterDto
     public Guid? PlayerId { get; set; }
 
     /// <summary>
-    ///     Hall Id
-    /// </summary>
-    public Guid? HallId { get; set; }
-
-    /// <summary>
     ///     Type/method of authorization
     /// </summary>
     public string? AuthorizationMethod { get; set; }

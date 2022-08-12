@@ -40,7 +40,7 @@ internal class LogRequestBaseHandlerTestRequests
     {
         return new PlayerChangesLogFilterDto
         {
-            Login = FakeValues.UserLogin1,
+            PlayerId = Guid.NewGuid(),
             IpAddress = FakeValues.IpAddress1,
             TimestampFrom = FakeValues.Timestamp1,
             TimestampTo = FakeValues.Timestamp2,
@@ -48,8 +48,7 @@ internal class LogRequestBaseHandlerTestRequests
             {
                 "EventKey1",
                 "EventKey2"
-            },
-            Language = FakeValues.LanguageTest
+            }
         };
     }
 

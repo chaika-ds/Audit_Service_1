@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AuditService.Common.Enums;
+using AuditService.Common.Models.Interfaces;
 
 namespace AuditService.Common.Models.Domain.VisitLog;
 
 /// <summary>
 ///     The base model of the visit log
 /// </summary>
-public abstract class BaseVisitLogDomainModel
+public abstract class BaseVisitLogDomainModel : INodeId
 {
     protected BaseVisitLogDomainModel()
     {
@@ -16,16 +17,16 @@ public abstract class BaseVisitLogDomainModel
     }
 
     /// <summary>
+    ///     NodeId Id
+    /// </summary>
+    [Required]
+    public Guid NodeId { get; set; }
+
+    /// <summary>
     ///     Type of the log of visits
     /// </summary>
     [Required]
     public VisitLogType Type { get; set; }
-
-    /// <summary>
-    ///     Project Id
-    /// </summary>
-    [Required]
-    public Guid ProjectId { get; set; }
 
     /// <summary>
     ///     Login

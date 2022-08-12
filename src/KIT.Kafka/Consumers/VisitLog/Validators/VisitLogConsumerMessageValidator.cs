@@ -11,22 +11,19 @@ public class VisitLogConsumerMessageValidator : AbstractValidator<VisitLogConsum
 {
     public VisitLogConsumerMessageValidator(IValidator<UserRoleDomainModel> userRoleValidator)
     {
-        RuleFor(message => message.ProjectId).NotEmpty();
         RuleFor(message => message.Login).NotEmpty();
         RuleFor(message => message.Ip).NotEmpty();
         RuleFor(message => message.Timestamp).NotEmpty();
         RuleFor(message => message.Authorization).NotNull();
+        RuleFor(model => model.NodeId).NotEmpty().NotEqual(Guid.Empty);
 
         When(message => message.Type == VisitLogType.Player, () =>
         {
-            RuleFor(model => model.HallId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(model => model.PlayerId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(model => model.Authorization)
                 .SetValidator(new AuthorizationDataDomainModelValidator(VisitLogType.Player));
         }).Otherwise(() =>
         {
-            RuleFor(model => model.NodeId).NotEmpty().NotEqual(Guid.Empty);
-            RuleFor(model => model.NodeType).NotNull();
             RuleFor(model => model.UserId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(model => model.UserRoles).NotEmpty();
             RuleForEach(model => model.UserRoles).SetValidator(userRoleValidator);

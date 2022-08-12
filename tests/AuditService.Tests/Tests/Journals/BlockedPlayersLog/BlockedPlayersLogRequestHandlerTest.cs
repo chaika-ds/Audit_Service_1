@@ -79,7 +79,7 @@ public class BlockedPlayersLogRequestHandlerTest
         Equal(expected.BlocksCounter, actual.BlocksCounter);
         Equal(expected.PlayerId, actual.PlayerId);
         Equal(expected.Browser, actual.Browser);
-        Equal(expected.HallId, actual.HallId);
+        Equal(expected.NodeId, actual.NodeId);
         Equal(expected.Language, actual.Language);
         Equal(expected.Platform, actual.OperatingSystem);
         Equal(expected.LastVisitIpAddress, actual.PlayerIp);

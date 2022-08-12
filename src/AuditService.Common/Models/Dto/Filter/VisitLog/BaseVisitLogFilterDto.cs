@@ -9,6 +9,11 @@ namespace AuditService.Common.Models.Dto.Filter.VisitLog;
 public abstract class BaseVisitLogFilterDto : ILogFilter
 {
     /// <summary>
+    ///     Node Id
+    /// </summary>
+    public Guid? NodeId { get; set; }
+
+    /// <summary>
     ///     Login
     /// </summary>
     public string? Login { get; set; }

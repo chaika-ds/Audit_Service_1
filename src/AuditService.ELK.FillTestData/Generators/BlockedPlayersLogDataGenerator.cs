@@ -47,10 +47,7 @@ internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLo
         var dto = new BlockedPlayersLogDomainModel
         {
             PlayerId = Guid.NewGuid(),
-            ProjectId = Guid.NewGuid(),
-            HallId = Guid.NewGuid(),
-            ProjectName = "Prject",
-            HallName = "current",
+            NodeId = Guid.NewGuid(),
             PlayerLogin = "player@gmail.com",
             Language = "en",
             Timestamp = DateTime.Now.GetRandomItem(_random),

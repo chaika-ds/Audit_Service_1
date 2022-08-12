@@ -15,8 +15,6 @@ internal class BlockedPlayersLogConsumerMessageValidatorTestData
     internal static BlockedPlayersLogConsumerMessage GetBlockedPlayersLogStringConsumerMessage(string stringValue) =>
         new ()
         {
-            HallName = stringValue,
-            ProjectName = stringValue,
             LastVisitIpAddress = stringValue,
             Platform = stringValue,
             PlayerLogin = stringValue,
@@ -33,8 +31,7 @@ internal class BlockedPlayersLogConsumerMessageValidatorTestData
     internal static BlockedPlayersLogConsumerMessage GetBlockedPlayersLogGuidConsumerMessage(Guid guidValue) =>
         new ()
         {
-            ProjectId = guidValue,
-            HallId = guidValue,
+            NodeId = guidValue,
             PlayerId = guidValue
         };
 

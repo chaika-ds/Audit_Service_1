@@ -25,25 +25,21 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
     /// <summary>
     ///     Apply filter to query container
     /// </summary>
-    /// <param name="queryContainerDescriptor">Query container descriptor</param>
+    /// <param name="container">Query container</param>
+    /// <param name="descriptor">Query container descriptor</param>
     /// <param name="filter">The filter model to apply the query</param>
     /// <returns>Query container after applying the filter</returns>
-    protected override QueryContainer ApplyFilter(QueryContainerDescriptor<UserVisitLogDomainModel> queryContainerDescriptor, UserVisitLogFilterDto filter)
+    protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<UserVisitLogDomainModel> descriptor, UserVisitLogFilterDto filter)
     {
-        var container = new QueryContainer();
-
-        container &= queryContainerDescriptor.Term(t => t.Type, VisitLogType.User);
-
-        if (filter.NodeId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.NodeId, filter.NodeId.Value);
+        container &= descriptor.Term(t => t.Type, VisitLogType.User);
 
         if (filter.UserId.HasValue)
-            container &= queryContainerDescriptor.Term(t => t.UserId, filter.UserId.Value);
+            container &= descriptor.Term(t => t.UserId, filter.UserId.Value);
 
         if (!string.IsNullOrEmpty(filter.UserRole))
-            container &= queryContainerDescriptor.Match(t => t.Field(new Field(GetNameOfUserRoleNameField())).Query(filter.UserRole));
+            container &= descriptor.Match(t => t.Field(new Field(GetNameOfUserRoleNameField())).Query(filter.UserRole));
 
-        container &= VisitLogBaseFilter.ApplyFilter(container, queryContainerDescriptor, filter);
+        container &= VisitLogBaseFilter.ApplyFilter(container, descriptor, filter);
 
         return container;
     }
