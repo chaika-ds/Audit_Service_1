@@ -137,6 +137,25 @@ services:
     networks:
       - ${NETWORKS_NAME}
 
+  logstash:
+    container_name: logstash
+    volumes:
+    - ./logstash.conf:/etc/logstash/conf.d/logstash.conf:ro
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    image: docker.elastic.co/logstash/logstash:${LOGSTASH_VERSION}
+    ports:
+      - ${LOGSTASH_PORT}:${LOGSTASH_PORT}
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - KAFKA_INTERNAL_HOST=${KAFKA_INTERNAL_HOST}
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS_PORT=${KAFKA_CLUSTERS_BOOTSTRAPSERVERS_PORT}
+      - ELK_INTERNAL_HOST=${ELK_INTERNAL_HOST}
+      - ELK_PORT=${ELK_PORT}
+    networks:
+      - ${NETWORKS_NAME}
+    depends_on:
+      - elasticsearch
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION}
