@@ -45,7 +45,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
         response.Components.Add(HealthCheckConst.Redis, await _redisHealthCheck.CheckHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
 
-        response.GitLubVersionResponse = await _mediator.Send(new GitLubRequest(), cancellationToken);
+        response.GitLabVersionResponse = await _mediator.Send(new GitLabRequest(), cancellationToken);
 
         return response;
     }

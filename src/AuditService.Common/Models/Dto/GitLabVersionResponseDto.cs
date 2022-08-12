@@ -1,9 +1,9 @@
 namespace AuditService.Common.Models.Dto;
 
 /// <summary>
-///    GitLub version response model
+///    GitLab version response model
 /// </summary>
-public class GitLubVersionResponseDto
+public class GitLabVersionResponseDto
 {
     /// <summary>
     ///    Current branch name

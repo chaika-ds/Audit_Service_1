@@ -5,14 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace AuditService.Setup.ServiceConfigurations;
 
 /// <summary>
-///     Configuration of GitLub
+///     Configuration of GitLab
 /// </summary>
-public static class GitLubConfiguration
+public static class GitLabConfiguration
 {
     /// <summary>
     ///     Create scope for GitLabClient
     /// </summary>
-    public static void AddGitLubClient(this IServiceCollection services)
+    public static void AddGitLabClient(this IServiceCollection services)
     {
         services.AddScoped<IGitLabClient>(serviceProvider =>
         {

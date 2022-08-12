@@ -3,7 +3,7 @@ using MediatR;
 namespace AuditService.Common.Models.Dto
 {
     /// <summary>
-    /// GitLub  request
+    /// GitLab  request
     /// </summary>
-    public record GitLubRequest : IRequest<GitLubVersionResponseDto>;
+    public record GitLabRequest : IRequest<GitLabVersionResponseDto>;
 }

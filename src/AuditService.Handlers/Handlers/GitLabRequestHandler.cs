@@ -6,14 +6,14 @@ using MediatR;
 namespace AuditService.Handlers.Handlers;
 
 /// <summary>
-///     GitLub request handler
+///     GitLab request handler
 /// </summary>
-public class GitLubRequestHandler : IRequestHandler<GitLubRequest, GitLubVersionResponseDto>
+public class GitLabRequestHandler : IRequestHandler<GitLabRequest, GitLabVersionResponseDto>
 {
     private readonly IGitlabSettings _gitlabSettings;
     private readonly IGitLabClient _gitLabClient;
 
-    public GitLubRequestHandler(IGitLabClient gitLabClient, IGitlabSettings gitlabSettings)
+    public GitLabRequestHandler(IGitLabClient gitLabClient, IGitlabSettings gitlabSettings)
     {
         _gitLabClient = gitLabClient;
         _gitlabSettings = gitlabSettings;
@@ -24,8 +24,8 @@ public class GitLubRequestHandler : IRequestHandler<GitLubRequest, GitLubVersion
     /// </summary>
     /// <param name="request">GitLub request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>GitLub version response dto</returns>
-    public async Task<GitLubVersionResponseDto> Handle(GitLubRequest request, CancellationToken cancellationToken)
+    /// <returns>GitLab version response dto</returns>
+    public async Task<GitLabVersionResponseDto> Handle(GitLabRequest request, CancellationToken cancellationToken)
     {
         await _gitLabClient.LoginAsync(_gitlabSettings.Username, _gitlabSettings.Password);
 
@@ -33,7 +33,7 @@ public class GitLubRequestHandler : IRequestHandler<GitLubRequest, GitLubVersion
 
         var tags = await _gitLabClient.Tags.GetAsync(_gitlabSettings.ProjectId);
 
-        return new GitLubVersionResponseDto
+        return new GitLabVersionResponseDto
         {
             Branch = branchInfo.Name,
             Commit = branchInfo.Commit.Id,
