@@ -21,9 +21,9 @@ public enum PlayerVisitLogSortType
     Ip = 2,
 
     /// <summary>
-    ///     Hall Id
+    ///     Node Id
     /// </summary>
-    HallId = 3,
+    NodeId = 3,
 
     /// <summary>
     ///     Device type

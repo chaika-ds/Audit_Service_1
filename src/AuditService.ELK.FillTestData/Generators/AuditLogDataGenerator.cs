@@ -12,7 +12,7 @@ namespace AuditService.ELK.FillTestData.Generators;
 /// <summary>
 ///   Audit Log Generator models
 /// </summary>
-internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomainModel, AuditLogConfigModel>
+internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, AuditLogConfigModel>
 {
     private readonly CategoryDictionary _categoryDictionary;
     private readonly Random _random;
@@ -39,7 +39,7 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
     /// <summary>
     ///    Set identifier of index
     /// </summary>
-    protected override string GetIdentifierName() => nameof(AuditLogTransactionDomainModel.EntityId);
+    protected override string GetIdentifierName() => nameof(AuditLogDomainModel.EntityId);
     
     /// <summary>
     ///    Override resource data
@@ -51,21 +51,19 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogTransactionDomai
     ///     Create model for inserting data to elastic
     /// </summary>
     /// <returns>AuditLogTransactionDomainModel</returns>
-    protected override async Task<AuditLogTransactionDomainModel> CreateNewDtoAsync()
+    protected override async Task<AuditLogDomainModel> CreateNewDtoAsync()
     {
         var uid = Guid.NewGuid();
-        var dto = new AuditLogTransactionDomainModel
+        var dto = new AuditLogDomainModel
         {
             EntityId = Guid.NewGuid().ToString(),
-            ProjectId = Guid.NewGuid(),
             NodeId = Guid.NewGuid(),
             ModuleName = ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            NodeType = ConfigurationModel?.NodeType ?? Enum.GetValues<NodeType>().GetRandomItem(_random),
             ActionName = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
             RequestUrl = "PUT: contracts/contractId?param=value",
             RequestBody = "{ 'myjson': 0 }",
             Timestamp = DateTime.Now.GetRandomItem(_random),
-            EntityName = nameof(AuditLogTransactionDomainModel),
+            EntityName = nameof(AuditLogDomainModel),
             OldValue = "{ 'value': '0' }",
             NewValue = "{ 'value': '1' }",
             User = new IdentityUserDomainModel

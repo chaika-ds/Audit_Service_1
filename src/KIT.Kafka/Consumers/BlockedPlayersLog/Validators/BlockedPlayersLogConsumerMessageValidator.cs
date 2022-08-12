@@ -9,12 +9,9 @@ public class BlockedPlayersLogConsumerMessageValidator : AbstractValidator<Block
 {
     public BlockedPlayersLogConsumerMessageValidator()
     {
-        RuleFor(message => message.HallName).NotEmpty();
-        RuleFor(message => message.ProjectId).NotEmpty();
-        RuleFor(message => message.ProjectName).NotEmpty();
         RuleFor(message => message.LastVisitIpAddress).NotEmpty();
         RuleFor(message => message.Platform).NotEmpty();
-        RuleFor(message => message.HallId).NotEmpty();
+        RuleFor(message => message.NodeId).NotEmpty();
         RuleFor(message => message.PlayerLogin).NotEmpty();
         RuleFor(message => message.PlayerId).NotEmpty();
         RuleFor(message => message.BlockingDate).NotEmpty();

@@ -83,7 +83,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             Equal(expected.Login, actual.Login);
             Equal(expected.Timestamp, actual.Timestamp);
             Equal(expected.PlayerId, actual.PlayerId);
-            Equal(expected.HallId, actual.HallId);
+            Equal(expected.NodeId, actual.NodeId);
             Equal(expected.Authorization.AuthorizationType!, actual.Authorization.AuthorizationType!);
         }
 
@@ -317,7 +317,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             Equal(expected.Login, actual.Login);
             Equal(expected.Timestamp, actual.VisitTime);
             Equal(expected.PlayerId, actual.PlayerId);
-            Equal(expected.HallId, actual.HallId);
+            Equal(expected.NodeId, actual.NodeId);
             Equal(expected.Authorization.AuthorizationType!, actual.AuthorizationMethod);
         }
     }

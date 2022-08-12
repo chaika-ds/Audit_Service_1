@@ -25,9 +25,9 @@ public class BlockedPlayersLogFilterDto : ILogFilter
     public string? PlayerIp { get; set; }
 
     /// <summary>
-    ///     Player hall Id
+    ///     Player node Id
     /// </summary>
-    public Guid? HallId { get; set; }
+    public Guid? NodeId { get; set; }
 
     /// <summary>
     ///     Date and time of the previous block(Start date)

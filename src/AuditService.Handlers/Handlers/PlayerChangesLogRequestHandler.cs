@@ -1,4 +1,5 @@
-﻿using AuditService.Common.Enums;
+﻿using AuditService.Common.Contexts;
+using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
 using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
@@ -22,11 +23,13 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
 {
     private readonly IMediator _mediator;
     private readonly ILocalizer _localizer;
+    private readonly RequestContext _requestContext;
 
-    public PlayerChangesLogRequestHandler(IMediator mediator, ILocalizer localizer)
+    public PlayerChangesLogRequestHandler(IMediator mediator, ILocalizer localizer, RequestContext requestContext)
     {
         _mediator = mediator;
         _localizer = localizer;
+        _requestContext = requestContext;
     }
 
     /// <summary>
@@ -47,7 +50,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
                 Pagination = request.Pagination
             }, cancellationToken);
 
-        var responseModels = await GenerateResponseModelsAsync(response.List, request.Filter.Language, cancellationToken);
+        var responseModels = await GenerateResponseModelsAsync(response.List, _requestContext.Language, cancellationToken);
         return new PageResponseDto<PlayerChangesLogResponseDto>(response.Pagination, responseModels);
     }
 

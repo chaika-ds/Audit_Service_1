@@ -12,7 +12,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
     ///     Request handler for receiving audit logs (Domain model)
     /// </summary>
     [UsePipelineBehaviors(UseLogging = true, UseCache = true, CacheLifeTime = 120, UseValidation = true)]
-    public class AuditLogDomainRequestHandler : LogDomainRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
+    public class AuditLogDomainRequestHandler : LogDomainRequestBaseHandler<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>
     {
         public AuditLogDomainRequestHandler(IServiceProvider serviceProvider) : base(serviceProvider)
         {
@@ -21,36 +21,35 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
         /// <summary>
         /// Apply filter to query container
         /// </summary>
-        /// <param name="queryContainerDescriptor">Query container descriptor</param>
+        /// <param name="container">Query container</param>
+        /// <param name="descriptor">Query container descriptor</param>
         /// <param name="filter">The filter model to apply the query</param>
         /// <returns>Query container after applying the filter</returns>
-        protected override QueryContainer ApplyFilter(QueryContainerDescriptor<AuditLogTransactionDomainModel> queryContainerDescriptor, AuditLogFilterDto filter)
+        protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<AuditLogDomainModel> descriptor, AuditLogFilterDto filter)
         {
-            var container = new QueryContainer();
-
             if (filter.Service.HasValue)
-                container &= queryContainerDescriptor.Term(t => t.ModuleName, filter.Service.Value);
+                container &= descriptor.Term(t => t.ModuleName, filter.Service.Value);
 
             if (filter.NodeId.HasValue)
-                container &= queryContainerDescriptor.Term(t => t.NodeId, filter.NodeId.Value);
+                container &= descriptor.Term(t => t.NodeId, filter.NodeId.Value);
 
             if (!string.IsNullOrEmpty(filter.CategoryCode))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.CategoryCode).Query(filter.CategoryCode));
+                container &= descriptor.Match(t => t.Field(x => x.CategoryCode).Query(filter.CategoryCode));
 
             if (!string.IsNullOrEmpty(filter.EntityId))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.EntityId).Query(filter.EntityId));
+                container &= descriptor.Match(t => t.Field(x => x.EntityId).Query(filter.EntityId));
 
             if (!string.IsNullOrEmpty(filter.Ip))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Ip).Query(filter.Ip));
+                container &= descriptor.Match(t => t.Field(x => x.User.Ip).Query(filter.Ip));
 
             if (!string.IsNullOrEmpty(filter.Login))
-                container &= queryContainerDescriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
+                container &= descriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
             if (filter.Action.Any())
-                container &= queryContainerDescriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action));
+                container &= descriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action));
 
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
-            container &= queryContainerDescriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
+            container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
+            container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
             return container;
         }
@@ -69,6 +68,6 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
         /// <param name="logSortModel">Model to apply sorting</param>
         /// <returns>Column name to sort</returns>
         protected override string GetColumnNameToSort(LogSortDto logSortModel) =>
-            nameof(AuditLogTransactionDomainModel.Timestamp).ToCamelCase();
+            nameof(AuditLogDomainModel.Timestamp).ToCamelCase();
     }
 }

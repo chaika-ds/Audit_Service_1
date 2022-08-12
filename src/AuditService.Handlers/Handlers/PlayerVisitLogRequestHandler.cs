@@ -49,7 +49,7 @@ public class PlayerVisitLogRequestHandler : IRequestHandler<LogFilterRequestDto<
         => new()
         {
             PlayerId = model.PlayerId,
-            HallId = model.HallId,
+            NodeId = model.NodeId,
             OperatingSystem = model.Authorization.OperatingSystem,
             Browser = model.Authorization.Browser,
             AuthorizationMethod = model.Authorization.AuthorizationType!,

@@ -12,7 +12,6 @@ public class PlayerChangesLogConsumerMessageValidator : AbstractValidator<Player
         IValidator<PlayerAttributeDomainModel> playerAttributeValidator)
     {
         RuleFor(message => message.NodeId).NotEmpty();
-        RuleFor(message => message.ProjectId).NotEmpty();
         RuleFor(message => message.EventCode).NotEmpty();
         RuleFor(message => message.Timestamp).NotEmpty();
         RuleFor(message => message.PlayerId).NotEmpty();

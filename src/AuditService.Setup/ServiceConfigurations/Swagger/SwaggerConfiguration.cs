@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Tolar.Authenticate;
 
-namespace AuditService.Setup.ServiceConfigurations;
+namespace AuditService.Setup.ServiceConfigurations.Swagger;
 
 public static class SwaggerConfiguration
 {
@@ -22,10 +22,11 @@ public static class SwaggerConfiguration
             var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
 
             c.SwaggerDoc("v2", new OpenApiInfo { Title = $"{ssoSettings.ServiceName} ({environment.EnvironmentName.ToLower()})", Version = "v2" });
+            c.OperationFilter<AddHeadersFilter>();
             c.DescribeAllParametersInCamelCase();
             c.UseInlineDefinitionsForEnums();
             c.CustomSchemaIds(type => type.ToString());
-            
+
             foreach (var path in swaggerSettings.XmlComments)
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, path), true);
 
@@ -66,7 +67,7 @@ public static class SwaggerConfiguration
             });
         });
     }
-    
+
     /// <summary>
     ///     Use swagger configuration UI
     /// </summary>

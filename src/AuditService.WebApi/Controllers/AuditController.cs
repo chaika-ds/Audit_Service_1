@@ -1,4 +1,5 @@
-using AuditService.Common.Models.Domain.AuditLog;
+using AuditService.Common.Attributes;
+using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Filter.VisitLog;
@@ -36,9 +37,9 @@ public class AuditController : ControllerBase
     [HttpGet]
     [Route("auditlog")]
     [Authorization("Audit.Journal.GetAuditlog")]
-    [Produces(mediaType.Json, Type = typeof(PageResponseDto<AuditLogTransactionDomainModel>))]
-    public async Task<PageResponseDto<AuditLogTransactionDomainModel>> GetAuditLogAsync(
-        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel> model, CancellationToken cancellationToken) 
+    [Produces(mediaType.Json, Type = typeof(PageResponseDto<AuditLogResponseDto>))]
+    public async Task<PageResponseDto<AuditLogResponseDto>> GetAuditLogAsync(
+        [FromQuery] LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogResponseDto> model, CancellationToken cancellationToken) 
         => await _mediator.Send(model, cancellationToken);
 
     /// <summary>
@@ -48,6 +49,7 @@ public class AuditController : ControllerBase
     /// <param name="cancellationToken">Cancellation token</param>
     [HttpGet]
     [Route("playerchangeslog")]
+    [UseHeader(Name = HeaderNameConst.Language)]
     [Authorization("Audit.Journal.GetPlayerChangesLog")]
     [Produces(mediaType.Json, Type = typeof(PageResponseDto<PlayerChangesLogResponseDto>))]
     public async Task<PageResponseDto<PlayerChangesLogResponseDto>> GetPlayerChangesLogAsync(

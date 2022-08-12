@@ -22,11 +22,11 @@ public class ElasticSearchGetAuditLogTest
     public async Task GetAuditLogs_CreateAuditLog_ResultWithAuditLogs()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>()
+        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>()
         {
             Filter = new ()
             {
@@ -48,11 +48,11 @@ public class ElasticSearchGetAuditLogTest
     public async Task AuditLogResponseValidation_CreateAuditLog_HandlerResponseСorrespondsToTheExpected()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogTransactionDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>()
+        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>()
         {
             Filter = new ()
             {
@@ -61,7 +61,7 @@ public class ElasticSearchGetAuditLogTest
             }
         };
 
-        var expected = JsonConvert.DeserializeObject<List<AuditLogTransactionDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
+        var expected = JsonConvert.DeserializeObject<List<AuditLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
             ?.FirstOrDefault();
 
         //Act 
@@ -74,7 +74,6 @@ public class ElasticSearchGetAuditLogTest
         Equal(expected.ActionName, actual.ActionName);
         Equal(expected.EntityName, actual.EntityName);
         Equal(expected.ModuleName, actual.ModuleName);
-        Equal(expected.ProjectId, actual.ProjectId);
         Equal(expected.NodeId, actual.NodeId);
         Equal(expected.CategoryCode, actual.CategoryCode);
         Equal(expected.RequestUrl, actual.RequestUrl);

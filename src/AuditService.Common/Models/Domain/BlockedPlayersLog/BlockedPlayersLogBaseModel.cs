@@ -9,29 +9,9 @@ public abstract class BlockedPlayersLogBaseModel : BlockedPlayersLogBriefBaseMod
 {
     protected BlockedPlayersLogBaseModel()
     {
-        HallName = string.Empty;
-        ProjectName = string.Empty;
         LastVisitIpAddress = string.Empty;
         Platform = string.Empty;
     }
-
-    /// <summary>
-    ///     Hall name
-    /// </summary>
-    [Required]
-    public string HallName { get; set; }
-
-    /// <summary>
-    ///     ID of the project where the hall is located
-    /// </summary>
-    [Required]
-    public Guid ProjectId { get; set; }
-
-    /// <summary>
-    ///     Project name
-    /// </summary>
-    [Required]
-    public string ProjectName { get; set; }
 
     /// <summary>
     ///     The IP address from which the login attempt was made before being blocked

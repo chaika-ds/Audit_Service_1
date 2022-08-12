@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AuditService.Common.Enums;
+using AuditService.Common.Models.Interfaces;
 
 namespace AuditService.Common.Models.Domain.PlayerChangesLog;
 
 /// <summary>
 ///     Changelog in player card
 /// </summary>
-public class PlayerChangesLogDomainModel
+public class PlayerChangesLogDomainModel : INodeId
 {
     public PlayerChangesLogDomainModel()
     {
@@ -28,12 +29,6 @@ public class PlayerChangesLogDomainModel
     /// </summary>
     [Required]
     public Guid NodeId { get; set; }
-
-    /// <summary>
-    ///     Id of the project where the room is located
-    /// </summary>
-    [Required]
-    public Guid ProjectId { get; set; }
 
     /// <summary>
     ///     Event name from the table

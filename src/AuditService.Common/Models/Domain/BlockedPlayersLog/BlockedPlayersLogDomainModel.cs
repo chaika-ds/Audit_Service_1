@@ -8,8 +8,6 @@ public class BlockedPlayersLogDomainModel : BlockedPlayersLogBaseModel
 {
     public BlockedPlayersLogDomainModel()
     {
-        HallName = string.Empty;
-        ProjectName = string.Empty;
         PlayerLogin = string.Empty;
         LastVisitIpAddress = string.Empty;
         Platform = string.Empty;
@@ -17,7 +15,7 @@ public class BlockedPlayersLogDomainModel : BlockedPlayersLogBaseModel
         BrowserVersion = string.Empty;
         Language = string.Empty;
     }
-
+    
     /// <summary>
     ///     Date and time of the blocked (ISO 8601 UTC standard)
     /// </summary>

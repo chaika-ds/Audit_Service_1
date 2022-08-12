@@ -17,6 +17,12 @@ public abstract class BaseVisitLogResponseDto
     }
 
     /// <summary>
+    ///     Node Id
+    /// </summary>
+    [Required]
+    public Guid NodeId { get; set; }
+
+    /// <summary>
     ///     Login
     /// </summary>
     [Required]

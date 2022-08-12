@@ -76,7 +76,6 @@ public class PlayerChangesLogDomainRequestHandlerTest
         //Assert
         Equal(expected.ModuleName, actual.ModuleName);
         Equal(expected.NodeId, actual.NodeId);
-        Equal(expected.ProjectId, actual.ProjectId);
         Equal(expected.ModuleName, actual.ModuleName);
         Equal(expected.EventCode, actual.EventCode);
         Equal(expected.EventInitiator, actual.EventInitiator);

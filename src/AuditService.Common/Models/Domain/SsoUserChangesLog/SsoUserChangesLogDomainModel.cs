@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AuditService.Common.Enums;
 
 namespace AuditService.Common.Models.Domain.SsoUserChangesLog;
 
@@ -22,18 +21,6 @@ public class SsoUserChangesLogDomainModel
     /// </summary>
     [Required]
     public Guid NodeId { get; set; }
-
-    /// <summary>
-    ///     Node type
-    /// </summary>
-    [Required]
-    public NodeType NodeType { get; set; }
-
-    /// <summary>
-    ///     Project Id
-    /// </summary>
-    [Required]
-    public Guid ProjectId { get; set; }
 
     /// <summary>
     ///     User Id

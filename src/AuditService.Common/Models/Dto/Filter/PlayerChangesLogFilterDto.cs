@@ -14,19 +14,15 @@ namespace AuditService.Common.Models.Dto.Filter
         }
 
         /// <summary>
-        ///     User login
+        ///     The Id of the player by whom the changes were made
         /// </summary>
-        public string? Login { get; set; }
+        [Required]
+        public Guid PlayerId { get; set; }
 
         /// <summary>
         ///     IP address of the user making the change
         /// </summary>
         public string? IpAddress { get; set; }
-
-        /// <summary>
-        ///     Language for localization
-        /// </summary>
-        public string? Language { get; set; }
 
         /// <summary>
         /// Event keys

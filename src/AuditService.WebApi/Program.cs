@@ -2,6 +2,7 @@
 using AuditService.Setup;
 using AuditService.Setup.Middleware;
 using AuditService.Setup.ServiceConfigurations;
+using AuditService.Setup.ServiceConfigurations.Swagger;
 using AuditService.WebApi;
 using KIT.NLog;
 
@@ -34,6 +35,7 @@ try
     app.MapControllers();
     app.UseRouting();
 
+    app.UseMiddleware<SetRequestContextMiddleware>();
     app.UseMiddleware<AppMiddlewareException>();
 
     app.Run();

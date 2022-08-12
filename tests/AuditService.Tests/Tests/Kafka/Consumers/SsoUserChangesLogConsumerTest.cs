@@ -84,8 +84,6 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
         var model = new SsoUserChangesLogConsumerMessage()
         {
             NodeId = Guid.NewGuid(),
-            NodeType = NodeType.HALL,
-            ProjectId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
             UserLogin = "test@gmail.com",
             UserRoles = new List<UserRoleDomainModel>(){ new ("","")},
@@ -105,8 +103,6 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
         var result =  TransformSourceModel(model);
 
         Assert.Equal(model.NodeId, result.NodeId);
-        Assert.Equal(model.NodeType, result.NodeType);
-        Assert.Equal(model.ProjectId, result.ProjectId);
         Assert.Equal(model.UserId, result.UserId);
         Assert.Equal(model.UserLogin, result.Login);
         Assert.Equal(model.UserRoles, result.UserRoles);

@@ -14,9 +14,4 @@ public class UserVisitLogFilterDto : BaseVisitLogFilterDto
     ///     User role 
     /// </summary>
     public string? UserRole { get; set; }
-
-    /// <summary>
-    ///     Node Id
-    /// </summary>
-    public Guid? NodeId { get; set; }
 }

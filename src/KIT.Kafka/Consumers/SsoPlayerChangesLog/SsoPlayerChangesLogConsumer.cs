@@ -49,10 +49,9 @@ public class SsoPlayerChangesLogConsumer : BaseMigrationConsumer<SsoPlayerChange
             Authorization = sourceModel.PlayerAuthorization,
             Timestamp = sourceModel.EventDateTime,
             Type = VisitLogType.Player,
-            ProjectId = sourceModel.ProjectId,
             PlayerId = sourceModel.PlayerId,
             Login = DefineLogin(sourceModel),
-            HallId = sourceModel.HallId
+            NodeId = sourceModel.NodeId
         };
 
     /// <summary>

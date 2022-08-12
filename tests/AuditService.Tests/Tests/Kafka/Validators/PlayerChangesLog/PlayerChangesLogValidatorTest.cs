@@ -46,7 +46,6 @@ public class PlayerChangesLogValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.NodeId);
-        result.ShouldHaveValidationErrorFor(log => log.ProjectId);
         result.ShouldHaveValidationErrorFor(log => log.PlayerId);
     }
 

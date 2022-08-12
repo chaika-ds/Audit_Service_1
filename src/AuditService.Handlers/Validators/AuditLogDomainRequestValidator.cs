@@ -9,7 +9,7 @@ namespace AuditService.Handlers.Validators;
 /// <summary>
 ///     Audit log request validator
 /// </summary>
-public class AuditLogDomainRequestValidator : LogRequestBaseValidator<AuditLogFilterDto, LogSortDto, AuditLogTransactionDomainModel>
+public class AuditLogDomainRequestValidator : LogRequestBaseValidator<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>
 {
     public AuditLogDomainRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator) : base(paginationRequestValidator, logFilterValidator)
     {

@@ -33,10 +33,4 @@ public class UserVisitLogResponseDto : BaseVisitLogResponseDto
     [ExportName("UserRoles")]
     [JsonIgnore]
     public List<string> UserRolesStrings  => UserRoles.Select(userRole => $"{userRole.Code}={userRole.Name}").ToList();
-
-    /// <summary>
-    ///     Node Id
-    /// </summary>
-    [Required]
-    public Guid NodeId { get; set; }
 }

@@ -91,9 +91,8 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
                 AuthorizationType = ""
             },
             EventType = "Create",
-            ProjectId = Guid.NewGuid(),
             PlayerId = Guid.NewGuid(),
-            HallId = Guid.NewGuid()
+            NodeId = Guid.NewGuid()
         };
         
         var result = TransformSourceModel(model);
@@ -102,10 +101,9 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
         Assert.Equal(model.PlayerAuthorization, result.Authorization);
         Assert.Equal(model.EventDateTime, result.Timestamp);
         Assert.Equal(VisitLogType.Player, result.Type);
-        Assert.Equal(model.ProjectId, result.ProjectId);
         Assert.Equal(model.PlayerId, result.PlayerId);
         Assert.Equal(DefineLoginFake(model), result.Login);
-        Assert.Equal(model.HallId, result.HallId);
+        Assert.Equal(model.NodeId, result.NodeId);
         
         
         Assert.IsType<VisitLogDomainModel>(result);

@@ -48,7 +48,6 @@ internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerCha
         var dto = new PlayerChangesLogDomainModel
         {
             PlayerId = Guid.NewGuid(),
-            ProjectId = Guid.NewGuid(),
             NodeId = Guid.NewGuid(),
             Timestamp = DateTime.Now.GetRandomItem(_random),
             IpAddress = "0.0.0.0",
