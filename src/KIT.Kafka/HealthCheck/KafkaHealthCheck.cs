@@ -33,53 +33,47 @@ public class KafkaHealthCheck : IKafkaHealthCheck
     /// <returns>Represents the result of a health check</returns>
     public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
     {
-        var message = $"Check Kafka healthy on {DateTime.UtcNow}";
-        
         var stopwatch = new Stopwatch();
         
+        stopwatch.Start();
+        
+        var healthCheckResult = await CheckHealthResultAsync(cancellationToken);
+        
+        stopwatch.Stop();
+
+        return new HealthCheckComponentsDto
+        {
+            Name = nameof(HealthCheckConst.Kafka),
+            RequestTime = stopwatch.ElapsedMilliseconds,
+            Status = healthCheckResult.Status == HealthStatus.Healthy,
+        };
+    }
+
+    /// <summary>
+    ///     Check the health of the kafka service
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Represents the result of a health check</returns>
+    private async Task<HealthCheckResult> CheckHealthResultAsync(CancellationToken cancellationToken = default)
+    {
+        var message = $"Check Kafka healthy on {DateTime.UtcNow}";
         try
         {
-            stopwatch.Start();
-            
             var task = _kafkaProducer.SendAsync(message, _kafkaTopics.HealthCheck);
 
             if (await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(1), cancellationToken)) == task)
-            {
-                stopwatch.Stop();
+                return HealthCheckResult.Healthy();
 
-                return new HealthCheckComponentsDto()
-                {
-                    Name = nameof(HealthCheckConst.Kafka),
-                    RequestTime = stopwatch.ElapsedMilliseconds,
-                    Status = HealthCheckResult.Healthy().Status == HealthStatus.Healthy
-                };
-            }
-
-            stopwatch.Stop();
-            
             var errorMessage = "The kafka service is not responding";
-            
             _logger.LogError(errorMessage, message);
-            
-            return new HealthCheckComponentsDto()
-            {
-                Name = nameof(HealthCheckConst.Kafka),
-                RequestTime = stopwatch.ElapsedMilliseconds,
-                Status =HealthCheckResult.Degraded(errorMessage).Status == HealthStatus.Healthy
-            };
+            return HealthCheckResult.Degraded(errorMessage);
         }
         catch (Exception ex)
         {
-            stopwatch.Stop();
-
             _logger.LogException(ex, "Kafka service health check failed", message);
-            
-            return new HealthCheckComponentsDto()
-            {
-                Name = nameof(HealthCheckConst.Kafka),
-                RequestTime = stopwatch.ElapsedMilliseconds,
-                Status = HealthCheckResult.Unhealthy(ex.Message, ex).Status == HealthStatus.Healthy
-            };
+            return HealthCheckResult.Unhealthy(ex.Message, ex);
         }
+
     }
+    
 }

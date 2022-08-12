@@ -43,9 +43,9 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     {
         var response = new HealthCheckResponseDto();
 
-        response.Components.Add(HealthCheckConst.Kafka, await CheckKafkaHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Kafka, await _kafkaHealthCheck.CheckHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Redis, await _redisHealthCheck.CheckHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
-        response.Components.Add(HealthCheckConst.Redis, await CheckRedisHealthAsync(cancellationToken));
 
         response.HealthCheckVersion = await GetVersionDtoAsync();
 
@@ -74,24 +74,6 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
             Status = status
         };
     }
-
-
-    /// <summary>
-    ///     Handle a request for a health check of the Kafka service
-    /// </summary>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckKafkaHealthAsync(CancellationToken cancellationToken) =>
-        await _kafkaHealthCheck.CheckHealthAsync(cancellationToken);
-
-    
-    /// <summary>
-    ///     Handle a request for a health check of the Redis service
-    /// </summary>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Service health check result</returns>
-    private async Task<HealthCheckComponentsDto> CheckRedisHealthAsync(CancellationToken cancellationToken)=>
-        await _redisHealthCheck.CheckHealthAsync(cancellationToken);
 
 
     /// <summary>
