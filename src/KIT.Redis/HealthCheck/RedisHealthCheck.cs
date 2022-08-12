@@ -1,5 +1,8 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
+using AuditService.Common.Consts;
 using AuditService.Common.Extensions;
+using AuditService.Common.Models.Dto;
 using KIT.NLog.Extensions;
 using KIT.Redis.Consts;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -33,8 +36,31 @@ public sealed class RedisHealthCheck : IRedisHealthCheck
     ///     Check the health of the Redis service
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Represents the result of a health check with millisecond</returns>
+    public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
+    {
+        var stopwatch = new Stopwatch();
+
+        stopwatch.Start();
+
+        var healthCheckResult = await CheckHealthResultAsync();
+
+        stopwatch.Stop();
+
+        return new HealthCheckComponentsDto
+        {
+            Name = HealthCheckConst.Redis,
+            RequestTime = stopwatch.ElapsedMilliseconds,
+            Status = healthCheckResult.Status == HealthStatus.Healthy,
+        };
+    }
+
+
+    /// <summary>
+    ///     Check the health of the Redis service
+    /// </summary>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default)
+    private async Task<HealthCheckResult> CheckHealthResultAsync()
     {
         var message = $"Check Redis healthy on {DateTime.UtcNow}";
         try

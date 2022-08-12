@@ -1,4 +1,7 @@
-﻿using KIT.Kafka.Settings.Interfaces;
+﻿using System.Diagnostics;
+using AuditService.Common.Consts;
+using AuditService.Common.Models.Dto;
+using KIT.Kafka.Settings.Interfaces;
 using KIT.NLog.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -27,8 +30,31 @@ public class KafkaHealthCheck : IKafkaHealthCheck
     ///     Check the health of the kafka service
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Represents the result of a health check with millisecond</returns>
+    public async Task<HealthCheckComponentsDto> CheckHealthAsync(CancellationToken cancellationToken = default)
+    {
+        var stopwatch = new Stopwatch();
+        
+        stopwatch.Start();
+        
+        var healthCheckResult = await CheckHealthResultAsync(cancellationToken);
+        
+        stopwatch.Stop();
+
+        return new HealthCheckComponentsDto
+        {
+            Name = HealthCheckConst.Kafka,
+            RequestTime = stopwatch.ElapsedMilliseconds,
+            Status = healthCheckResult.Status == HealthStatus.Healthy,
+        };
+    }
+
+    /// <summary>
+    ///     Check the health of the kafka service
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Represents the result of a health check</returns>
-    public async Task<HealthCheckResult> CheckHealthAsync(CancellationToken cancellationToken = default)
+    private async Task<HealthCheckResult> CheckHealthResultAsync(CancellationToken cancellationToken = default)
     {
         var message = $"Check Kafka healthy on {DateTime.UtcNow}";
         try
@@ -47,5 +73,7 @@ public class KafkaHealthCheck : IKafkaHealthCheck
             _logger.LogException(ex, "Kafka service health check failed", message);
             return HealthCheckResult.Unhealthy(ex.Message, ex);
         }
+
     }
+    
 }

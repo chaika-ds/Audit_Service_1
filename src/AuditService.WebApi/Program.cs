@@ -18,6 +18,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddHealthChecks();
     builder.Services.AddElasticSearch();
+    builder.Services.AddGitLabClient();
     builder.Services.AdditionalConfigurations();
     builder.Services.AddSwagger();
     builder.Services.RegisterServices(builder.Environment.EnvironmentName);

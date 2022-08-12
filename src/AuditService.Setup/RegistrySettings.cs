@@ -20,5 +20,6 @@ public static class RegistrySettings
         services.AddSettings<IElasticSearchSettings, ElasticSearchSettings>();
         services.AddSettings<IElasticIndexSettings, ElasticSearchSettings>();
         services.AddSettings<ISwaggerSettings, SwaggerSettings>();
+        services.AddSettings<IGitlabSettings, GitlabSettings>();  
     }
 }

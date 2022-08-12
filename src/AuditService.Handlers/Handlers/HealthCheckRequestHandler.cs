@@ -1,54 +1,75 @@
-﻿using AuditService.Common.Models.Dto;
+﻿using System.Diagnostics;
+using AuditService.Common.Consts;
+using AuditService.Common.Models.Dto;
+using AuditService.Setup.AppSettings;
 using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Nest;
+using GitLabApiClient;
+
 
 namespace AuditService.Handlers.Handlers;
 
 /// <summary>
 ///     Service health check request handler
 /// </summary>
-public class HealthCheckRequestHandler : IRequestHandler<CheckElkHealthRequest, bool>,
-    IRequestHandler<CheckKafkaHealthRequest, bool>, IRequestHandler<CheckRedisHealthRequest, bool>
+public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>
 {
+    private readonly IMediator _mediator;
     private readonly IElasticClient _elasticClient;
     private readonly IKafkaHealthCheck _kafkaHealthCheck;
     private readonly IRedisHealthCheck _redisHealthCheck;
 
-    public HealthCheckRequestHandler(IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
+
+    public HealthCheckRequestHandler(IMediator mediator, IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
         IRedisHealthCheck redisHealthCheck)
     {
         _elasticClient = elasticClient;
         _kafkaHealthCheck = kafkaHealthCheck;
         _redisHealthCheck = redisHealthCheck;
+        _mediator = mediator;
+    }
+
+    /// <summary>
+    ///     Handle a request for a health check of the all services
+    /// </summary>
+    /// <param name="request">All service health check request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Service health check result</returns>
+    public async Task<HealthCheckResponseDto> Handle(CheckHealthRequest request, CancellationToken cancellationToken)
+    {
+        var response = new HealthCheckResponseDto();
+
+        response.Components.Add(HealthCheckConst.Kafka, await _kafkaHealthCheck.CheckHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Redis, await _redisHealthCheck.CheckHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
+
+        response.GitLabVersionResponse = await _mediator.Send(new GitLabRequest(), cancellationToken);
+
+        return response;
     }
 
     /// <summary>
     ///     Handle a request for a health check of the Elk service
     /// </summary>
-    /// <param name="request">Elk service health check request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Service health check result</returns>
-    public async Task<bool> Handle(CheckElkHealthRequest request, CancellationToken cancellationToken) =>
-        (await _elasticClient.Cluster.HealthAsync(ct: cancellationToken)).ApiCall.Success;
+    private async Task<HealthCheckComponentsDto> CheckElkHealthAsync(CancellationToken cancellationToken)
+    {
+        var stopwatch = new Stopwatch();
 
-    /// <summary>
-    ///     Handle a request for a health check of the Kafka service
-    /// </summary>
-    /// <param name="request">Kafka service health check request</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Service health check result</returns>
-    public async Task<bool> Handle(CheckKafkaHealthRequest request, CancellationToken cancellationToken) =>
-        (await _kafkaHealthCheck.CheckHealthAsync(cancellationToken)).Status == HealthStatus.Healthy;
+        stopwatch.Start();
 
-    /// <summary>
-    ///     Handle a request for a health check of the Redis service
-    /// </summary>
-    /// <param name="request">Redis service health check request</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Service health check result</returns>
-    public async Task<bool> Handle(CheckRedisHealthRequest request, CancellationToken cancellationToken) =>
-        (await _redisHealthCheck.CheckHealthAsync(cancellationToken)).Status == HealthStatus.Healthy;
+        var status = (await _elasticClient.Cluster.HealthAsync(ct: cancellationToken)).ApiCall.Success;
+
+        stopwatch.Stop();
+
+        return new HealthCheckComponentsDto()
+        {
+            Name = HealthCheckConst.Elk,
+            RequestTime = stopwatch.ElapsedMilliseconds,
+            Status = status
+        };
+    }
 }

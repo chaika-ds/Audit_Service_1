@@ -25,15 +25,6 @@ public class HealthCheckController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
-    public async Task<IActionResult> IndexAsync(CancellationToken cancellationToken)
-    {
-        var response = new HealthCheckDto
-        {
-            Kafka = await _mediator.Send(new CheckKafkaHealthRequest(), cancellationToken),
-            Elk = await _mediator.Send(new CheckElkHealthRequest(), cancellationToken),
-            Redis = await _mediator.Send(new CheckRedisHealthRequest(), cancellationToken)
-        };
-
-        return StatusCode(response.IsSuccess() ? (int)HttpStatusCode.OK : (int)HttpStatusCode.InternalServerError, response);
-    }
+    public async Task<HealthCheckResponseDto> IndexAsync(CancellationToken cancellationToken) =>
+        await _mediator.Send(new CheckHealthRequest(), cancellationToken);
 }

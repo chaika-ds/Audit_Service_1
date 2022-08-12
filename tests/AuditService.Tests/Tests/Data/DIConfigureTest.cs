@@ -84,10 +84,7 @@ public class DIConfigureTest
                 LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto,
                     BlockedPlayersLogResponseDto>, PageResponseDto<BlockedPlayersLogResponseDto>>
             , BlockedPlayersLogRequestHandler>(ServiceLifetime.Transient);
-        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckElkHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
-        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
-        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckKafkaHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
-        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckRedisHealthRequest, bool>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
+        serviceCollectionFake.IsRegisteredService<IRequestHandler<CheckHealthRequest, HealthCheckResponseDto>, HealthCheckRequestHandler>(ServiceLifetime.Transient);
 
         serviceCollectionFake.IsRegisteredService<IRequestHandler<LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto,
                 PlayerChangesLogResponseDto>,
