@@ -5,6 +5,11 @@ namespace AuditService.Common.Models.Dto;
 /// </summary>
 public class HealthCheckComponentsDto
 {
+    public HealthCheckComponentsDto()
+    {
+        Name = string.Empty;
+    }
+
     /// <summary>
     ///    RequestTime in milliseconds
     /// </summary>

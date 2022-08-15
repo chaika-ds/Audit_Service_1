@@ -34,4 +34,9 @@ public class BlockedPlayersLogResponseDto : BlockedPlayersLogBriefBaseModel
     /// </summary>
     [Required]
     public DateTime Timestamp { get; set; }
+
+    /// <summary>
+    ///     Node name
+    /// </summary>
+    public string? NodeName { get; set; }
 }

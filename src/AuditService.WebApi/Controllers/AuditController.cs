@@ -91,6 +91,18 @@ public class AuditController : ControllerBase
         [FromQuery] LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto> request, CancellationToken cancellationToken)
         => await _mediator.Send(request, cancellationToken);
 
+
+    /// <summary>
+    ///     Allows you to get a list of losses log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("losseslog")]
+    [Authorization("Audit.Journal.GetLossesLog")]
+    [Produces(mediaType.Json, Type = typeof(PageResponseDto<LossesLogResponseDto>))]
+    public async Task<PageResponseDto<LossesLogResponseDto>> GetLossesLogAsync(
+        [FromQuery] LogFilterRequestDto<LossesLogFilterDto, LossesLogSortDto, LossesLogResponseDto> request, CancellationToken cancellationToken)
+        => await _mediator.Send(request, cancellationToken);
+
     /// <summary>
     ///     Export players visit log by filter
     /// </summary>

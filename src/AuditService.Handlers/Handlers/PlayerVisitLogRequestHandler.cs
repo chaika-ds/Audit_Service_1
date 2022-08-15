@@ -4,6 +4,9 @@ using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Filter.VisitLog;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Common.Models.Dto.VisitLog;
+using AuditService.SettingsService.Commands.BaseEntities;
+using AuditService.SettingsService.Commands.GetRootNodeTree;
+using AuditService.SettingsService.Extensions;
 using MediatR;
 
 namespace AuditService.Handlers.Handlers;
@@ -15,10 +18,12 @@ public class PlayerVisitLogRequestHandler : IRequestHandler<LogFilterRequestDto<
     PageResponseDto<PlayerVisitLogResponseDto>>
 {
     private readonly IMediator _mediator;
+    private readonly SettingsServiceCommands _settingsServiceCommands;
 
-    public PlayerVisitLogRequestHandler(IMediator mediator)
+    public PlayerVisitLogRequestHandler(IMediator mediator, SettingsServiceCommands settingsServiceCommands)
     {
         _mediator = mediator;
+        _settingsServiceCommands = settingsServiceCommands;
     }
 
     /// <summary>
@@ -37,25 +42,36 @@ public class PlayerVisitLogRequestHandler : IRequestHandler<LogFilterRequestDto<
                 Sort = request.Sort
             }, cancellationToken);
 
-        return new PageResponseDto<PlayerVisitLogResponseDto>(response.Pagination, response.List.Select(MapToPlayerVisitLogResponseDto));
+        return new PageResponseDto<PlayerVisitLogResponseDto>(response.Pagination, await GenerateResponseModelsAsync(response.List, cancellationToken));
     }
 
     /// <summary>
-    ///     Map to response DTO model
+    ///     Generate response models.
+    ///     Formation of a PlayerVisitLogResponseDto based on a PlayerVisitLogDomainModel
     /// </summary>
-    /// <param name="model">Player visit log</param>
-    /// <returns>Player visit log(DTO)</returns>
-    private PlayerVisitLogResponseDto MapToPlayerVisitLogResponseDto(PlayerVisitLogDomainModel model)
-        => new()
-        {
-            PlayerId = model.PlayerId,
-            NodeId = model.NodeId,
-            OperatingSystem = model.Authorization.OperatingSystem,
-            Browser = model.Authorization.Browser,
-            AuthorizationMethod = model.Authorization.AuthorizationType!,
-            DeviceType = model.Authorization.DeviceType,
-            Ip = model.Ip,
-            Login = model.Login,
-            VisitTime = model.Timestamp
-        };
+    /// <param name="domainModels">Domain models</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Response models</returns>
+    private async Task<IEnumerable<PlayerVisitLogResponseDto>> GenerateResponseModelsAsync(
+        IEnumerable<PlayerVisitLogDomainModel> domainModels, CancellationToken cancellationToken)
+    {
+        var rootNode = await _settingsServiceCommands.GetCommand<IGetRootNodeTreeCommand>().ExecuteAsync(cancellationToken);
+
+        return from domainModel in domainModels
+            join node in rootNode.IncludeChildren() on domainModel.NodeId equals node.Uuid into nodes
+            from node in nodes.DefaultIfEmpty()
+            select new PlayerVisitLogResponseDto
+            {
+                PlayerId = domainModel.PlayerId,
+                NodeId = domainModel.NodeId,
+                OperatingSystem = domainModel.Authorization.OperatingSystem,
+                Browser = domainModel.Authorization.Browser,
+                AuthorizationMethod = domainModel.Authorization.AuthorizationType!,
+                DeviceType = domainModel.Authorization.DeviceType,
+                Ip = domainModel.Ip,
+                Login = domainModel.Login,
+                VisitTime = domainModel.Timestamp,
+                NodeName = node?.Title
+            };
+    }
 }
