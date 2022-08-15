@@ -2,6 +2,9 @@
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
+using AuditService.SettingsService.Commands.BaseEntities;
+using AuditService.SettingsService.Commands.GetRootNodeTree;
+using AuditService.SettingsService.Extensions;
 using MediatR;
 
 namespace AuditService.Handlers.Handlers
@@ -13,10 +16,12 @@ namespace AuditService.Handlers.Handlers
         IRequestHandler<LogFilterRequestDto<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogResponseDto>, PageResponseDto<BlockedPlayersLogResponseDto>>
     {
         private readonly IMediator _mediator;
+        private readonly SettingsServiceCommands _settingsServiceCommands;
 
-        public BlockedPlayersLogRequestHandler(IMediator mediator)
+        public BlockedPlayersLogRequestHandler(IMediator mediator, SettingsServiceCommands settingsServiceCommands)
         {
             _mediator = mediator;
+            _settingsServiceCommands = settingsServiceCommands;
         }
 
         /// <summary>
@@ -35,29 +40,40 @@ namespace AuditService.Handlers.Handlers
                     Filter = request.Filter
                 }, cancellationToken);
             
-            return new PageResponseDto<BlockedPlayersLogResponseDto>(response.Pagination, response.List.Select(MapToBlockedPlayersLogResponseDto));
+            return new PageResponseDto<BlockedPlayersLogResponseDto>(response.Pagination, await GenerateResponseModelsAsync(response.List, cancellationToken));
         }
 
         /// <summary>
-        ///     Perform mapping to the DTO model
+        ///     Generate response models.
+        ///     Formation of a BlockedPlayersLogResponseDto based on a BlockedPlayersLogDomainModel
         /// </summary>
-        /// <param name="model">Log of blocked players(Domain model)</param>
-        /// <returns>Blocked player log response model</returns>
-        private static BlockedPlayersLogResponseDto MapToBlockedPlayersLogResponseDto(BlockedPlayersLogDomainModel model)
-            => new()
-            {
-                BlockingDate = model.BlockingDate,
-                PreviousBlockingDate = model.PreviousBlockingDate,
-                PlayerLogin = model.PlayerLogin,
-                PlayerId = model.PlayerId,
-                BlocksCounter = model.BlocksCounter,
-                Browser = model.Browser,
-                NodeId = model.NodeId,
-                Language = model.Language,
-                OperatingSystem = model.Platform,
-                PlayerIp = model.LastVisitIpAddress,
-                Timestamp = model.Timestamp,
-                BrowserVersion = model.BrowserVersion
-            };
+        /// <param name="domainModels">Domain models</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Response models</returns>
+        private async Task<IEnumerable<BlockedPlayersLogResponseDto>> GenerateResponseModelsAsync(
+            IEnumerable<BlockedPlayersLogDomainModel> domainModels, CancellationToken cancellationToken)
+        {
+            var rootNode = await _settingsServiceCommands.GetCommand<IGetRootNodeTreeCommand>().ExecuteAsync(cancellationToken);
+
+            return from domainModel in domainModels
+                join node in rootNode.IncludeChildren() on domainModel.NodeId equals node.Uuid into nodes
+                from node in nodes.DefaultIfEmpty()
+                select new BlockedPlayersLogResponseDto
+                {
+                    BlockingDate = domainModel.BlockingDate,
+                    PreviousBlockingDate = domainModel.PreviousBlockingDate,
+                    PlayerLogin = domainModel.PlayerLogin,
+                    PlayerId = domainModel.PlayerId,
+                    BlocksCounter = domainModel.BlocksCounter,
+                    Browser = domainModel.Browser,
+                    NodeId = domainModel.NodeId,
+                    Language = domainModel.Language,
+                    OperatingSystem = domainModel.Platform,
+                    PlayerIp = domainModel.LastVisitIpAddress,
+                    Timestamp = domainModel.Timestamp,
+                    BrowserVersion = domainModel.BrowserVersion,
+                    NodeName = node?.Title
+                };
+        }
     }
 }

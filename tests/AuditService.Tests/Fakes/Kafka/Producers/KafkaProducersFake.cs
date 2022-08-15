@@ -15,7 +15,7 @@ public class KafkaProducersFake : IKafkaProducer
     /// <summary>
     /// Fake SendAsync Method
     /// </summary>
-    public Task SendAsync<T>(T obj, string topic, object key = null)
+    public Task SendAsync<T>(T obj, string topic, object? key = null)
     {
         IsSendAsyncExecuted = true;
         

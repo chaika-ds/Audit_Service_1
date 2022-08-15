@@ -1,12 +1,10 @@
 ﻿using System.Diagnostics;
 using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
-using AuditService.Setup.AppSettings;
 using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Nest;
-using GitLabApiClient;
 
 
 namespace AuditService.Handlers.Handlers;

@@ -1,4 +1,8 @@
-﻿using AuditService.Setup.AppSettings;
+﻿using AuditService.Common.Contexts;
+using AuditService.SettingsService.Commands.BaseEntities;
+using AuditService.SettingsService.Commands.GetRootNodeTree;
+using AuditService.Setup.AppSettings;
+using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +60,13 @@ namespace AuditService.Tests.Fakes.ServiceData
             RegisterServices(services);
             services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();
             services.AddScoped<IElasticIndexSettings, ElasticSearchSettingsFake>();
+            services.AddScoped<IGetRootNodeTreeCommand, GetRootNodeTreeCommandFake>();
+            services.AddScoped<SettingsServiceCommands>();
+            services.AddTransient(_ => new RequestContext
+            {
+                Language = "en", 
+                XNodeId = Guid.NewGuid().ToString()
+            });
             services.AddLogging();
         }
     }

@@ -11,7 +11,8 @@
       "AuditLog": "$ELK_INDEX_AUDITLOG",
       "PlayerChangesLog": "$ELK_INDEX_PLAYER_CHANGES_LOG",
       "BlockedPlayersLog": "$ELK_INDEX_BLOCKED_PlAYERS_LOG",
-      "VisitLog": "$ELK_INDEX_VISIT_LOG"
+      "VisitLog": "$ELK_INDEX_VISIT_LOG",
+      "LossesLog": "$ELK_INDEX_LOSSES_LOG"
     }
   },
   "Kafka": {

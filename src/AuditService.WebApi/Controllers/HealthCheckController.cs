@@ -1,4 +1,3 @@
-using System.Net;
 using AuditService.Common.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

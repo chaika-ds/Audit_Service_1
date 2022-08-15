@@ -11,6 +11,7 @@ using KIT.Kafka.Consumers.PlayerChangesLog;
 using KIT.Kafka.Consumers.SsoPlayerChangesLog;
 using KIT.Kafka.Consumers.SsoUserChangesLog;
 using KIT.Kafka.Consumers.VisitLog;
+using KIT.Kafka.Consumers.VisitLog.Validators;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings;
 using KIT.Kafka.Settings.Interfaces;
@@ -100,7 +101,8 @@ public static class KafkaConfigurator
         services.AddSingleton<IKafkaProducer, KafkaProducer>();
         services.AddHostedService<PushPermissionService>();
         services.AddSingleton<IKafkaHealthCheck, KafkaHealthCheck>();
-        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblyContaining<AuditLogConsumerMessageValidator>(ServiceLifetime.Transient, 
+            assemblyScanResult => assemblyScanResult.ValidatorType != typeof(AuthorizationDataDomainModelValidator));
         services.ConfigureRocketChat();
         return services;
     }
