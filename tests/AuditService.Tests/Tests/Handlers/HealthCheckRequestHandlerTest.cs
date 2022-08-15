@@ -1,3 +1,4 @@
+using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
 using AuditService.Handlers.Handlers;
 using AuditService.Tests.Fakes.Setup.ELK;
@@ -37,11 +38,17 @@ public class HealthCheckRequestHandlerTest
         mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(Task.FromResult(new GitLabVersionResponseDto()));
         
         var handle = new HealthCheckRequestHandler(mediatorMock.Object, _elasticClient, kafkaHcMock.Object, redisHcMock.Object);
-        await handle.Handle(new CheckHealthRequest(), CancellationToken.None);
+        var response = await handle.Handle(new CheckHealthRequest(), CancellationToken.None);
 
         
         kafkaHcMock.Verify(x =>x.CheckHealthAsync(CancellationToken.None), Times.Once());
         redisHcMock.Verify(x => x.CheckHealthAsync(CancellationToken.None), Times.Once());
         mediatorMock.Verify(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None), Times.Once());
+        
+        IsType<HealthCheckResponseDto>(response);
+        Contains(HealthCheckConst.Kafka, response.Components);
+        Contains(HealthCheckConst.Elk, response.Components);
+        Contains(HealthCheckConst.Redis, response.Components);
+        NotNull(response.GitLabVersionResponse);
     }
 }
