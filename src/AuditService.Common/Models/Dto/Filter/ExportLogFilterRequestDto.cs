@@ -17,6 +17,7 @@ public class ExportLogFilterRequestDto<TFilter, TSort> : IRequest<ExportFileResp
     {
         Sort = new TSort();
         Filter = new TFilter();
+        FileType = ExportType.Csv;
     }
 
     /// <summary>

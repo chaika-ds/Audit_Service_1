@@ -19,4 +19,9 @@ public static class HealthCheckConst
     ///     Redis 
     /// </summary>
     public const string Redis = "Redis";
+
+    /// <summary>
+    ///     Minio
+    /// </summary>
+    public const string Minio = "Minio";
 }
