@@ -26,7 +26,7 @@ public class HealthCheckRequestHandlerTest
     ///     Testing Handle Method
     /// </summary>
     [Fact]
-    public async Task CheckHandle_Result_EachServiceCalledOnce()
+    public async Task CheckHandle_Result_EachServiceCalledOnceAsync()
     {
         var mediatorMock = new Mock<IMediator>();
         var kafkaHcMock = new Mock<IKafkaHealthCheck>();
