@@ -57,4 +57,9 @@ public abstract class BaseVisitLogResponseDto
     /// </summary>
     [Required]
     public DateTime VisitTime { get; set; }
+
+    /// <summary>
+    ///     Node name
+    /// </summary>
+    public string? NodeName { get; set; }
 }

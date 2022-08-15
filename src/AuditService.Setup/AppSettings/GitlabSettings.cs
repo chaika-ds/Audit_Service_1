@@ -8,7 +8,14 @@ namespace AuditService.Setup.AppSettings;
 /// </summary>
 internal class GitlabSettings : IGitlabSettings
 {
-    public GitlabSettings(IConfiguration configuration) => ApplySettings(configuration);
+    public GitlabSettings(IConfiguration configuration)
+    {
+        Url = configuration["Gitlab:Url"];
+        ProjectId = configuration["Gitlab:ProjectId"];
+        Username = configuration["Gitlab:Username"];
+        Password = configuration["Gitlab:Password"];
+        BranchName = configuration["Gitlab:BranchName"];
+    }
 
     /// <summary>
     ///     Repository URL
@@ -34,13 +41,4 @@ internal class GitlabSettings : IGitlabSettings
     ///     Branch name
     /// </summary>
     public string BranchName { get; set; }
-
-    private void ApplySettings(IConfiguration configuration)
-    {
-        Url = configuration["Gitlab:Url"];
-        ProjectId = configuration["Gitlab:ProjectId"];
-        Username = configuration["Gitlab:Username"];
-        Password = configuration["Gitlab:Password"];
-        BranchName = configuration["Gitlab:BranchName"];
-    }
 }
