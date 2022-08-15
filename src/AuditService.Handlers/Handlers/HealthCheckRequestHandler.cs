@@ -2,6 +2,7 @@
 using AuditService.Common.Consts;
 using AuditService.Common.Models.Dto;
 using KIT.Kafka.HealthCheck;
+using KIT.Minio.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Nest;
@@ -18,14 +19,16 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
     private readonly IElasticClient _elasticClient;
     private readonly IKafkaHealthCheck _kafkaHealthCheck;
     private readonly IRedisHealthCheck _redisHealthCheck;
+    private readonly IMinioHealthCheck _minioHealthCheck;
 
 
     public HealthCheckRequestHandler(IMediator mediator, IElasticClient elasticClient, IKafkaHealthCheck kafkaHealthCheck,
-        IRedisHealthCheck redisHealthCheck)
+        IRedisHealthCheck redisHealthCheck, IMinioHealthCheck minioHealthCheck)
     {
         _elasticClient = elasticClient;
         _kafkaHealthCheck = kafkaHealthCheck;
         _redisHealthCheck = redisHealthCheck;
+        _minioHealthCheck = minioHealthCheck;
         _mediator = mediator;
     }
 
@@ -42,6 +45,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
         response.Components.Add(HealthCheckConst.Kafka, await _kafkaHealthCheck.CheckHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Redis, await _redisHealthCheck.CheckHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
+        response.Components.Add(HealthCheckConst.Minio, await _minioHealthCheck.CheckHealthAsync(cancellationToken));
 
         response.GitLabVersionResponse = await _mediator.Send(new GitLabRequest(), cancellationToken);
 

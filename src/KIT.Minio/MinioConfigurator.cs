@@ -1,5 +1,6 @@
 ﻿using bgTeam.Extensions;
 using KIT.Minio.Commands.SaveFileWithSharing;
+using KIT.Minio.HealthCheck;
 using KIT.Minio.Settings;
 using KIT.Minio.Settings.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,5 +43,6 @@ public static class MinioConfigurator
     {
         services.AddTransient<IFileStorageService, MinioServiceClient>();
         services.AddTransient<ISaveFileWithSharingCommand, SaveFileWithSharingCommand>();
+        services.AddTransient<IMinioHealthCheck, MinioHealthCheck>();
     }
 }

@@ -17,7 +17,7 @@ using sort = AuditService.Common.Models.Dto.Sort;
 namespace AuditService.Handlers.Handlers.DomainRequestHandlers
 {
     /// <summary>
-    /// The base request handler for receiving the log
+    ///     The base request handler for receiving the log
     /// </summary>
     /// <typeparam name="TFilter">Filter model type</typeparam>
     /// <typeparam name="TSort">Sort model type</typeparam>

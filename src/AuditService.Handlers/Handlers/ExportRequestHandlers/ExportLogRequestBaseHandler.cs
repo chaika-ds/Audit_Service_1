@@ -77,7 +77,7 @@ public abstract class ExportLogRequestBaseHandler<TFilter, TSort, TResponse> : I
             Sort = request.Sort
         }, cancellationToken);
 
-        if (response.Pagination.PageCount == response.Pagination.PageNumber)
+        if (response.Pagination.PageCount == response.Pagination.PageNumber || response.Pagination.PageCount == decimal.Zero)
             return response.List;
 
         pagination.PageNumber = response.Pagination.PageNumber + 1;

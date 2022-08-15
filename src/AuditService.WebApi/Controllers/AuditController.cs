@@ -124,4 +124,16 @@ public class AuditController : ControllerBase
     public async Task<ExportFileResponseDto> ExportUsersVisitLogAsync(
         [FromQuery] ExportLogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto> request, CancellationToken cancellationToken)
         => await _mediator.Send(request, cancellationToken);
+
+
+    /// <summary>
+    ///     Export losses log by filter
+    /// </summary>
+    [HttpGet]
+    [Route("losseslog/export")]
+    [Authorization("Audit.Journal.ExportLossesLog")]
+    [Produces(mediaType.Json, Type = typeof(ExportFileResponseDto))]
+    public async Task<ExportFileResponseDto> ExportLossesLogAsync(
+        [FromQuery] ExportLogFilterRequestDto<LossesLogFilterDto, LossesLogSortDto> request, CancellationToken cancellationToken)
+        => await _mediator.Send(request, cancellationToken);
 }
