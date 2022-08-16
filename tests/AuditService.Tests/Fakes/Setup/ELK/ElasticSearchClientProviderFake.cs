@@ -29,6 +29,7 @@ internal static class ElasticSearchClientProviderFake
         {
             hits = new
             {
+                total = new { value = elkResponse.Count },
                 hits = Enumerable.Range(1, elkResponse!.Count).Select(i => (object)new
                 {
                     _index = elasticIndex,
