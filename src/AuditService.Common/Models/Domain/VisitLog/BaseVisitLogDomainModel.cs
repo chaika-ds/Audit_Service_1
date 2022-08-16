@@ -33,7 +33,7 @@ public abstract class BaseVisitLogDomainModel : INodeId
     ///     Ge visit log type
     /// </summary>
     /// <returns>Visit log type</returns>
-    public VisitLogType GeVisitLogType() => Enum.Parse<VisitLogType>(Type);
+    public VisitLogType? GeVisitLogType() => Enum.TryParse<VisitLogType>(Type, out var type) ? type : null;
 
     /// <summary>
     ///     Login

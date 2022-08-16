@@ -13,7 +13,7 @@
         "name": "role_1"
       }
     ],
-    "type": 0,
+    "type": "User",
     "projectId": "86f6b68c-6c32-43fb-89a1-d71bdf341573",
     "login": "loginUser_0",
     "ip": "27.1.0.0",
@@ -27,7 +27,7 @@
   {
     "hallId": "ee814ce5-d71f-4e36-af25-388a92369369",
     "playerId": "e56f9eb5-88bb-41d0-acf3-c6101f3195be",
-    "type": 1,
+    "type": "Player",
     "projectId": "2ee701c9-af46-453f-95ec-4b1a06b7d730",
     "login": "login_3",
     "ip": "127.0.0.3",
