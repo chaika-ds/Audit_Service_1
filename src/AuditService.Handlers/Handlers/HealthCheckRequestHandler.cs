@@ -47,7 +47,7 @@ public class HealthCheckRequestHandler : IRequestHandler<CheckHealthRequest, Hea
         response.Components.Add(HealthCheckConst.Elk, await CheckElkHealthAsync(cancellationToken));
         response.Components.Add(HealthCheckConst.Minio, await _minioHealthCheck.CheckHealthAsync(cancellationToken));
 
-        response.GitLabVersionResponse = await _mediator.Send(new GitLabRequest(), cancellationToken);
+        response.Version = await _mediator.Send(new GitLabRequest(), cancellationToken);
 
         return response;
     }
