@@ -31,24 +31,24 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
         if (ConfigurationModel?.Type == VisitLogType.Player)
             return Task.FromResult(new VisitLogDomainModel
             {
-                Type = VisitLogType.Player,
-                Timestamp = DateTime.Now.AddHours(-randomValue),
+                Type = VisitLogType.Player.ToString(),
+                Timestamp = DateTime.Now.AddMonths(-2),
                 Authorization = CreateAuthorizationDataDomainModel(randomValue),
                 Ip = $"127.0.0.{randomValue}",
-                Login = $"login_{randomValue}",
-                NodeId = Guid.NewGuid(),
+                Login = $"login_{Guid.NewGuid().ToString()}",
+                NodeId = Guid.Parse("84b7447a-9b4e-4826-a075-6d52080d67cb"),
                 PlayerId = Guid.NewGuid()
             });
 
         return Task.FromResult(new VisitLogDomainModel
         {
-            Type = VisitLogType.User,
-            Timestamp = DateTime.Now.AddHours(-randomValue),
+            Type = VisitLogType.User.ToString(),
+            Timestamp = DateTime.Now.AddMonths(-2),
             Authorization = CreateAuthorizationDataDomainModel(randomValue, false),
             Ip = $"27.1.0.{randomValue}",
-            Login = $"loginUser_{randomValue}",
+            Login = $"login_{Guid.NewGuid().ToString()}",
             UserId = Guid.NewGuid(),
-            NodeId = Guid.NewGuid(),
+            NodeId = Guid.Parse("84b7447a-9b4e-4826-a075-6d52080d67cb"),
             UserRoles = new List<UserRoleDomainModel>
             {
                 new($"code_{randomValue}", $"role_{randomValue}"),
@@ -62,13 +62,13 @@ internal class VisitLogGenerator : LogDataGenerator<VisitLogDomainModel, VisitLo
     /// </summary>
     /// <param name="indexes">List of index</param>
     /// <returns>Index for ELK</returns>
-    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.VisitLog;
+    protected override string? GetIndex(IElasticIndexSettings indexes) => $"{indexes.VisitLog}-2022.06";
 
     /// <summary>
     ///     Get the field by which identification will be made
     /// </summary>
     /// <returns>Identifier name</returns>
-    protected override string GetIdentifierName() => nameof(VisitLogDomainModel.Timestamp);
+    protected override string GetIdentifierName() => nameof(VisitLogDomainModel.Login);
 
     /// <summary>
     ///     Get resources to generate data

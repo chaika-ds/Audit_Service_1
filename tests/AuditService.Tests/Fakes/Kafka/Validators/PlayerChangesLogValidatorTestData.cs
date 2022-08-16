@@ -54,8 +54,8 @@ internal class PlayerChangesLogValidatorTestData
         Dictionary<string, PlayerAttributeDomainModel> value) =>
         new()
         {
-            OldValues = value,
-            NewValues = value
+            OldValue = value,
+            NewValue = value
         };
 
 

@@ -52,6 +52,6 @@ public class SsoUserChangesLogConsumer : BaseMigrationConsumer<SsoUserChangesLog
             Ip = sourceModel.UserIp,
             Authorization = sourceModel.UserAuthorization,
             Timestamp = sourceModel.Timestamp,
-            Type = VisitLogType.User
+            Type = VisitLogType.User.ToString()
         };
 }

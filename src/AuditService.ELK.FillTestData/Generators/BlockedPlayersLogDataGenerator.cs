@@ -26,7 +26,7 @@ internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLo
     /// <summary>
     ///    Set Index of elastic
     /// </summary>
-    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.BlockedPlayersLog;
+    protected override string? GetIndex(IElasticIndexSettings indexes) => $"{indexes.BlockedPlayersLog}-2022.06";
     
     /// <summary>
     ///    Set identifier of index
@@ -47,12 +47,12 @@ internal class BlockedPlayersLogDataGenerator: LogDataGenerator<BlockedPlayersLo
         var dto = new BlockedPlayersLogDomainModel
         {
             PlayerId = Guid.NewGuid(),
-            NodeId = Guid.NewGuid(),
+            NodeId = Guid.Parse("84b7447a-9b4e-4826-a075-6d52080d67cb"),
             PlayerLogin = "player@gmail.com",
             Language = "en",
             Timestamp = DateTime.Now.GetRandomItem(_random),
             PreviousBlockingDate = DateTime.Now.GetRandomItem(_random),
-            BlockingDate = DateTime.Now.GetRandomItem(_random),
+            BlockingDate = DateTime.Now.AddMonths(-2),
             Browser = "chrome",
             BlocksCounter = 3,
             BrowserVersion = "1",

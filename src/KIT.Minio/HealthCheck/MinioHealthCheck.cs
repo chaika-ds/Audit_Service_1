@@ -15,18 +15,15 @@ namespace KIT.Minio.HealthCheck;
 /// </summary>
 internal class MinioHealthCheck : IMinioHealthCheck
 {
+    private readonly IFileStorageSettings _settings;
     private readonly IMinioBucketSettings _minioBucketSettings;
     private readonly ILogger<MinioHealthCheck> _logger;
-    private readonly MinioClient _minioClient;
 
     public MinioHealthCheck(IFileStorageSettings settings, IMinioBucketSettings minioBucketSettings, ILogger<MinioHealthCheck> logger)
     {
+        _settings = settings;
         _minioBucketSettings = minioBucketSettings;
         _logger = logger;
-        _minioClient = new MinioClient().WithEndpoint(settings.Endpoint).WithCredentials(settings.AccessKey, settings.SecretKey).Build();
-
-        if (settings.WithSSL)
-            _minioClient.WithSSL();
     }
 
     /// <summary>
@@ -56,8 +53,9 @@ internal class MinioHealthCheck : IMinioHealthCheck
     {
         try
         {
+            var minioClient = CreateMinioClient();
             var bucketExistsArgs = new BucketExistsArgs().WithBucket(_minioBucketSettings.BucketName);
-            var isExists = await _minioClient.BucketExistsAsync(bucketExistsArgs, cancellationToken);
+            var isExists = await minioClient.BucketExistsAsync(bucketExistsArgs, cancellationToken);
             return isExists ? HealthCheckResult.Healthy() : HealthCheckResult.Degraded();
         }
         catch (Exception ex)
@@ -65,5 +63,22 @@ internal class MinioHealthCheck : IMinioHealthCheck
             _logger.LogException(ex, $"Check Minio healthy on {DateTime.UtcNow}");
             return HealthCheckResult.Unhealthy(ex.Message, ex);
         }
+    }
+
+    /// <summary>
+    ///     Create minio client
+    /// </summary>
+    /// <returns>Minio client</returns>
+    private MinioClient CreateMinioClient()
+    {
+        var minioClient = new MinioClient()
+            .WithEndpoint(_settings.Endpoint)
+            .WithCredentials(_settings.AccessKey, _settings.SecretKey)
+            .Build();
+
+        if (_settings.WithSSL)
+            minioClient.WithSSL();
+
+        return minioClient;
     }
 }

@@ -160,7 +160,7 @@ public class LogRequestBaseHandlerTest
             _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
-            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
+            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.GetModuleName()).First();
         EventDomainModel[] events = LogRequestBaseHandlerResponsesFake.GetTestEventDomainModelArray();
 
         var playerChangesLogResponseDto =
@@ -189,7 +189,7 @@ public class LogRequestBaseHandlerTest
             _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponseNotAllKey()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
-            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
+            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.GetModuleName()).First();
         var events = LogRequestBaseHandlerResponsesFake.GetTestEventDomainModelArray();
 
         //Act
@@ -216,7 +216,7 @@ public class LogRequestBaseHandlerTest
             _handlersMock.LocalizerMock(LogRequestBaseHandlerResponsesFake.GetTestTryLocalizeResponse()), new RequestContext());
 
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupedModels = LogRequestBaseHandlerResponsesFake
-            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.ModuleName).First();
+            .GetTestPlayerChangesLogDomainModel().GroupBy(model => model.GetModuleName()).First();
         var events = LogRequestBaseHandlerResponsesFake.GetTestEventDomainModelArray();
 
         //Act
