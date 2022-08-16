@@ -9,7 +9,7 @@ public class HealthCheckResponseDto
     {
         Timestamp = DateTime.Now;
         Components = new Dictionary<string, HealthCheckComponentsDto>();
-        GitLabVersionResponse = new GitLabVersionResponseDto();
+        Version = new GitLabVersionResponseDto();
     }
 
     /// <summary>
@@ -21,9 +21,9 @@ public class HealthCheckResponseDto
     ///     Components
     /// </summary>
     public IDictionary<string, HealthCheckComponentsDto> Components { get; set; }
-    
+
     /// <summary>
     ///     Version
     /// </summary>
-    public GitLabVersionResponseDto GitLabVersionResponse { get; set; }
+    public GitLabVersionResponseDto Version { get; set; }
 }

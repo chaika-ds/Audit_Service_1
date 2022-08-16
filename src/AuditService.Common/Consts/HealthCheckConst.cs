@@ -8,20 +8,20 @@ public static class HealthCheckConst
     /// <summary>
     ///     Kafka 
     /// </summary>
-    public const string Kafka = "Kafka";
+    public const string Kafka = "kafka";
     
     /// <summary>
     ///     Elastic 
     /// </summary>
-    public const string Elk = "Elk";
+    public const string Elk = "elk";
     
     /// <summary>
     ///     Redis 
     /// </summary>
-    public const string Redis = "Redis";
+    public const string Redis = "redis";
 
     /// <summary>
     ///     Minio
     /// </summary>
-    public const string Minio = "Minio";
+    public const string Minio = "minio";
 }
