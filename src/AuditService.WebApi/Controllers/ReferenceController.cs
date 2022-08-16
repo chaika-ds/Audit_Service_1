@@ -42,7 +42,7 @@ public class ReferenceController
     /// <param name="cancellationToken">Cancellation token for request</param>
     [HttpGet]
     [Route("auditlog/categories")]
-    [Authorization("Audit.Journal.GetAuditlog")]
+   // [Authorization("Audit.Journal.GetAuditlog")]
     [Produces(mediaType.Json, Type = typeof(IDictionary<ModuleName, CategoryDomainModel[]>))]
     public async Task<IDictionary<ModuleName, CategoryDomainModel[]>> GetCategoriesAsync(CancellationToken cancellationToken)
         => await _mediator.Send(new GetCategoriesRequest(), cancellationToken);

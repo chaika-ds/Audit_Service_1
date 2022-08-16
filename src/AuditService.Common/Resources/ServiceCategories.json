@@ -6,19 +6,15 @@
       "Action": [
         {
           "Name": "CREATE",
-          "Description": "Создание поля для ввода ключей на форме игрового контракта (глобально)"
+          "Description": "Факт создания, редактирования либо удаления PPS ключей"
         },
         {
           "Name": "UPDATE",
-          "Description": ""
-        },
-        {
-          "Name": "SOFT_DELETE",
-          "Description": ""
+          "Description": "Факт создания, редактирования либо удаления PPS ключей"
         },
         {
           "Name": "DELETE",
-          "Description": ""
+          "Description": "Факт создания, редактирования либо удаления PPS ключей"
         }
       ]
     },
@@ -87,6 +83,16 @@
       ]
     },
     {
+      "CategoryCode": "PAYMENTS_PAYMENT_CONTRACTS_LIMITS",
+      "CategoryName": "Payment: Payment contracts - Limits",
+      "Action": [
+        {
+          "Name": "UPDATE",
+          "Description": "Редактирование лимита"
+        }
+      ]
+    },
+    {
       "CategoryCode": "PAYMENTS_PAYMENT_METHODS",
       "CategoryName": "Payments: Payment methods",
       "Action": [
@@ -96,11 +102,11 @@
         },
         {
           "Name": "CREATE",
-          "Description": "Факт создания нового метода контракта на зале. \n\nВсе параметры сохранить"
+          "Description": "Факт создания нового платежного метода"
         },
         {
           "Name": "UPDATE",
-          "Description": "Факт изменения статуса активности контракта провайдера на зале\nФакт редактирования лимитов по валюте платежного метода "
+          "Description": "Редактирование метода"
         },
         {
           "Name": "SOFT_DELETE",
@@ -108,7 +114,17 @@
         },
         {
           "Name": "DELETE",
-          "Description": "Необходимо сохранить ВСЕ параметры, так как удаленные контракты доступны к просмотру админу платформы"
+          "Description": "Факт удаления контракта на зале"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "PAYMENTS_PAYMENT_METHODS_LIMITS",
+      "CategoryName": "Payments: Payment methods - Limits",
+      "Action": [
+        {
+          "Name": "UPDATE",
+          "Description": "Редактирование лимита"
         }
       ]
     },
@@ -194,99 +210,17 @@
       "Action": [
         {
           "Name": "VIEW",
-          "Description": "Факт просмотра журнала."
-        }
-      ]
-    }
-  ],
-  "SS": [
-    {
-      "CategoryCode" : "SSO_USERS_ROLES",
-      "CategoryName" : "Users: Roles",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Управление ролями (создание, редактирование, удаление)"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : ""
-        },
-        {
-          "Name" : "DELETE",
-          "Description" : ""
-        },
-        {
-          "Name" : "SOFT_DELETE",
-          "Description" : ""
+          "Description": "Факт просмотра страницы деталей запроса на вывод"
         }
       ]
     },
     {
-      "CategoryCode" : "SSO_USERS_USERS",
-      "CategoryName" : "Users: Users",
-      "Action" : [
+      "CategoryCode": "PAYMENT_PROJECT_SETTINGS_MONEY",
+      "CategoryName": "Settings: Project settings - Money",
+      "Action": [
         {
-          "Name" : "CREATE",
-          "Description" : "Создание пользователя МВО"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Назначить пользователя на узел/Отозвать пользователя с узла/Изменить данные пользователя/Изменение ролей пользователя"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_DEFAULT_REGISTRATION_FORM",
-      "CategoryName" : "Users: Authorization and registration - Default registration form",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Изменение настроек дефолтной формы регистрации\nИзменение набора элементов формы регистрации"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_ADDITIONAL_REGISTRATION_FORM",
-      "CategoryName" : "Users: Authorization and registration - Additional registration form",
-      "Action" : [
-        {
-          "Name" : "CREATE",
-          "Description" : "Создание дополнительных форм регистрации"
-        },
-        {
-          "Name" : "UPDATE",
-          "Description" : "Pедактирование дополнительных форм регистрации"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY",
-      "CategoryName" : "Users: Authorization and registration - Login & Password recovery",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Настройки логина и восстановления пароля"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA",
-      "CategoryName" : "Users: Authorization and registration - Players data",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Изменение настроек никнеймов/аватаров"
-        }
-      ]
-    },
-    {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PASSWORD_SETTINGS",
-      "CategoryName" : "Users: Authorization and registration - Password settings",
-      "Action" : [
-        {
-          "Name" : "UPDATE",
-          "Description" : "Настройки поля ввода пароля\n"
+          "Name": "UPDATE",
+          "Description": "Редактирование настроек авто/упрощенных выводов"
         }
       ]
     }
@@ -349,26 +283,6 @@
         {
           "Name": "UPDATE",
           "Description": "Общие настройки проекта"
-        }
-      ]
-    },
-    {
-      "CategoryCode": "SETTINGS_PROJECT_SETTINGS_MONEY",
-      "CategoryName": "Settings: Project settings - Money",
-      "Action": [
-        {
-          "Name": "UPDATE",
-          "Description": "Настройки проекта по вводу/выводу средств"
-        }
-      ]
-    },
-    {
-      "CategoryCode": "SETTINGS_PROJECT_SETTINGS_PLAYER_SETTINGS",
-      "CategoryName": "Settings: Project settings - Player settings",
-      "Action": [
-        {
-          "Name": "UPDATE",
-          "Description": "Настройки игроков на проекте"
         }
       ]
     },
@@ -461,7 +375,7 @@
         },
         {
           "Name" : "UPDATE",
-          "Description" : "Назначить пользователя на узел/Отозвать пользователя с узла/Изменить данные пользователя/Изменение ролей пользователя"
+          "Description" : "Назначить пользователя на узел/Отвязать пользователя с узла\nИзменить данные пользователя\nИзменение ролей пользователя\nАктивация/деактивация ограничений пользователя\nИзменение пароля пользователя\nДобавление/удаление допустимого IP посещения \nДобавление/удаление допустимой страны посещения "
         }
       ]
     },
@@ -485,37 +399,183 @@
         },
         {
           "Name" : "UPDATE",
-          "Description" : "Pедактирование дополнительных форм регистрации"
+          "Description" : "Редактирование дополнительных форм регистрации\nАктивация/деактивация дополнительных форм регистрации"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление дополнительных форм регистрации"
         }
       ]
     },
     {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY",
-      "CategoryName" : "Users: Authorization and registration - Login & Password recovery",
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY_REG_FORM",
+      "CategoryName" : "Users: Authorization and registration - Login & Password recovery - Registration form settings",
       "Action" : [
         {
           "Name" : "UPDATE",
-          "Description" : "Настройки логина и восстановления пароля"
+          "Description" : "Настройки полей форм регистрации"
         }
       ]
     },
     {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA",
-      "CategoryName" : "Users: Authorization and registration - Players data",
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY_AUTH_FORMS",
+      "CategoryName" : "Users: Authorization and registration - Login & Password recovery - Authorization forms",
       "Action" : [
         {
           "Name" : "UPDATE",
-          "Description" : "Изменение настроек никнеймов/аватаров"
+          "Description" : "Настройки полей форм авторизации"
         }
       ]
     },
     {
-      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PASSWORD_SETTINGS",
-      "CategoryName" : "Users: Authorization and registration - Password settings",
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY_LOGIN_SETTINGS",
+      "CategoryName" : "Users: Authorization and registration - Login & Password recovery - Login settings",
       "Action" : [
         {
           "Name" : "UPDATE",
-          "Description" : "Настройки поля ввода пароля\n"
+          "Description" : "Настройки параметров авторизации"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_LOGIN_AND_PASSWORD_RECOVERY_PASSWORD_RECOVERY",
+      "CategoryName" : "Users: Authorization and registration - Login & Password recovery - Password settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Настройки параметров восстановления пароля"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA_NICKNAME_SETTINGS",
+      "CategoryName" : "Users: Authorization and registration - Players data - Nickname settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение настроек никнеймов"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA_NICKNAME_GENERATOR",
+      "CategoryName" : "Users: Authorization and registration - Players data - Nickname generator",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение параметров генерации никнеймов"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PLAYERS_DATA_AVATAR_SETTINGS",
+      "CategoryName" : "Users: Authorization and registration - Players data - Avatar settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение параметров аватаров"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PASSWORD_SETTINGS_PASSWORD_FIELD",
+      "CategoryName" : "Users: Authorization and registration - Password settings - Password field",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Настройки отображения поля ввода пароля"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_PASSWORD_SETTINGS_PASSWORD_FIELD",
+      "CategoryName" : "Users: Authorization and registration - Password settings - Password difficulty",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Настройки сложности пароля"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_PLAYER_MANAGEMENT",
+      "CategoryName" : "Users: Player managment",
+      "Action" : [
+        {
+          "Name" : "EXPORT",
+          "Description" : "Экспорт списка игроков"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_PLAYER_MANAGEMENT_LOGOUT",
+      "CategoryName" : "Users: Player management - Logout",
+      "Action" : [
+        {
+          "Name" : "BULK",
+          "Description" : "Разлогин всех игроков на зале\nв newValue ничего не передавать"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_PROJECT_SETTINGS_PLAYER_SETTINGS",
+      "CategoryName" : "Settings: Project settings - Player settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение настроек игроков на проекте"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_USERS_AUTH_AND_REG_ACCESS_CODE",
+      "CategoryName" : "Users: Authorization and registration - Access code",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Изменение настроек кода доступа на проекте"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_SETTINGS_SOCIAL_NETWORKS_SMAS_SETTINGS",
+      "CategoryName" : "Settings: Social networks - SMAS Settings",
+      "Action" : [
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование настроек подключения к SMAS"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "SSO_SETTINGS_SOCIAL_NETWORKS_SOCIAL_SETTINGS",
+      "CategoryName" : "Settings: Social networks - Social Settings",
+      "Action" :  [
+        {
+          "Name" : "CREATE",
+          "Description" : "Добавление социальной сети на проекте (в результате синхронизации с SMAS)"
+        },
+        {
+          "Name" : "UPDATE",
+          "Description" : "Редактирование настроек социальной сети на проекте"
+        },
+        {
+          "Name" : "DELETE",
+          "Description" : "Удаление настроек социальной сети с проекта"
+        }
+      ]
+    },
+    {
+      "CategoryCode" : "RG_MODULE_STATUS",
+      "CategoryName" : "Responsible gaming: Module status",
+      "Action" : [
+        {
+          "Name" : "ENABLE",
+          "Description" : "Подключение функционала RG к проекту"
+        },
+        {
+          "Name" : "DISABLE",
+          "Description" : "Деактивация функционала RG на проекте"
         }
       ]
     }
@@ -532,10 +592,6 @@
         {
           "Name": "UPDATE",
           "Description": "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
-        },
-        {
-          "Name": "SOFT_DELETE",
-          "Description": "Удаление провайдера"
         }
       ]
     },
@@ -550,10 +606,6 @@
         {
           "Name": "UPDATE",
           "Description": "Редактирование провайдера\nИзменение глобального статуса активности\nПривязка/отвязка провайдера к/от проекта\nИзменение статуса активности на проекте"
-        },
-        {
-          "Name": "SOFT_DELETE",
-          "Description": "Удаление провайдера"
         }
       ]
     },
@@ -567,7 +619,7 @@
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование контракта"
+          "Description": "Редактирование контракта\nИзменение статуса активности контракта"
         },
         {
           "Name" : "SOFT_DELETE",
@@ -584,8 +636,12 @@
           "Description": "Синхронизация списка игр"
         },
         {
+          "Name": "CREATE",
+          "Description": "Добавление игры в список игр (автоматически, после добавление игры на глоб. уровне)"
+        },
+        {
           "Name": "UPDATE",
-          "Description": "Редактирование игр (активация/деактивация, добавление игры в группу)"
+          "Description": "Редактирование игры\nИзменение статуса активности на проекте/зале\nМассовая активация/деактивация игр на проекте/зале\nДобавление/удаление игры в/из группу/группы"
         }
       ]
     },
@@ -599,7 +655,7 @@
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование игры"
+          "Description": "Редактирование игры\nИзменение глобального статуса активности\nМассовая активация/деактивация игр на глоб. уровне"
         },
         {
           "Name": "DELETE",
@@ -608,6 +664,24 @@
         {
           "Name": "SYNC",
           "Description": "Синхронизация списка игр"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_ADMIN_GAME_LIST",
+      "CategoryName": "Games: Admin game list",
+      "Action": [
+        {
+          "Name": "SYNC",
+          "Description": "Синхронизация списка игр"
+        },
+        {
+          "Name": "CREATE",
+          "Description": "Добавление игры в список игр (автоматически, после добавление игры на глоб. уровне)"
+        },
+        {
+          "Name": "UPDATE",
+          "Description": "Редактирование игры\nИзменение статуса активности на проекте/зале\nМассовая активация/деактивация игр на проекте/зале\nДобавление/удаление игры в/из группу/группы"
         }
       ]
     },
@@ -621,7 +695,7 @@
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование группы: статус на проекте, статус в группе игр, порядок, рейтинг игры"
+          "Description": "Редактирование группы\n"
         },
         {
           "Name": "SOFT_DELETE",
@@ -638,20 +712,8 @@
       "CategoryName": "Games: Game types",
       "Action": [
         {
-          "Name": "CREATE",
-          "Description": "Создание нового типа игры"
-        },
-        {
           "Name": "UPDATE",
           "Description": "Редактирование типа игры "
-        },
-        {
-          "Name": "SOFT_DELETE",
-          "Description": "Удаление типа игры"
-        },
-        {
-          "Name": "DELETE",
-          "Description": "Удаление типа игры"
         }
       ]
     },
@@ -670,28 +732,6 @@
         {
           "Name": "DELETE",
           "Description": "Удаление типа игры"
-        }
-      ]
-    },
-    {
-      "CategoryCode": "GAMES_GAME_TAGS",
-      "CategoryName": "Games: Game tags",
-      "Action": [
-        {
-          "Name": "CREATE",
-          "Description": "Создание тэга для игры"
-        },
-        {
-          "Name": "UPDATE",
-          "Description": "Редактирование тэга"
-        },
-        {
-          "Name": "SOFT_DELETE",
-          "Description": "Удаление тэга"
-        },
-        {
-          "Name": "DELETE",
-          "Description": "Удаление тэга"
         }
       ]
     },
@@ -723,19 +763,19 @@
       "Action": [
         {
           "Name": "CREATE",
-          "Description": "Создание поля для ввода ключей на форме игрового контракта (глобально)"
+          "Description": "Создание ключей (глобально)"
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование поля"
+          "Description": "Редактирование ключей (глобально)"
         },
         {
           "Name": "SOFT_DELETE",
-          "Description": "Удаление поля"
+          "Description": "Удаление ключей (глобально)"
         },
         {
           "Name": "DELETE",
-          "Description": "Удаление поля"
+          "Description": "Удаление ключей (глобально)"
         }
       ]
     },
@@ -749,25 +789,11 @@
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование провайдера"
+          "Description": "Редактирование провайдера\nИзменение глобального статуса активности"
         },
         {
           "Name": "DELETE",
           "Description": "Удаление провайдера"
-        }
-      ]
-    },
-    {
-      "CategoryCode": "GAMES_ADMIN_API_PROVIDERS",
-      "CategoryName": "Games: Admin API providers",
-      "Action": [
-        {
-          "Name": "CREATE",
-          "Description": "Добавление провайдера на проект"
-        },
-        {
-          "Name": "DELETE",
-          "Description": "Удаление провайдера с проекта"
         }
       ]
     },
@@ -781,11 +807,89 @@
         },
         {
           "Name": "UPDATE",
-          "Description": "Редактирование провайдера"
+          "Description": "Редактирование провайдера\nИзменение глобального статуса активности"
         },
         {
           "Name": "DELETE",
           "Description": "Удаление провайдера"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_CONTRACT_LIMITS",
+      "CategoryName": "Games: Game Contract Limits Management",
+      "Action": [
+        {
+          "Name": "CREATE",
+          "Description": "Создание группы игровых контрактов (системой)"
+        },
+        {
+          "Name": "UPDATE",
+          "Description": "Изменение имени группы игровых контрактов (админом)\nИзменение лимита группы игровых контрактов (админом в МБО) "
+        },
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_CONTRACT_LIMITS_MOVEMENTS",
+      "CategoryName": "Games: Game contracts limits movements",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_SESSIONS",
+      "CategoryName": "Games: Game Sessions",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка игровых сессий"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_SESSIONS_TRANSACTIONS",
+      "CategoryName": "Games: Game Sessions transactions",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка игровых транзакций сессии"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_ROUNDS",
+      "CategoryName": "Games: Game Rounds",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка игровых раундов"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_ROUNDS_TRANSACTIONS",
+      "CategoryName": "Games: Game rounds transactions",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка игровых транзакций раунда"
+        }
+      ]
+    },
+    {
+      "CategoryCode": "GAMES_GAME_FREESPINS_CAMPAIGNS",
+      "CategoryName": "Game: Free Spins Campaigns",
+      "Action": [
+        {
+          "Name": "EXPORT",
+          "Description": "Экспорт списка кампаний"
         }
       ]
     }
@@ -1166,8 +1270,16 @@
       "CategoryName": "Bonuses: Module settings - Settings",
       "Action": [
         {
+          "Name": "CREATE",
+          "Description": "Создание настройки бонусного модуля"
+        },
+        {
           "Name": "UPDATE",
           "Description": "Редактирование параметров бонусного модуля"
+        },
+        {
+          "Name": "DELETE",
+          "Description": "Удаление настройки"
         }
       ]
     },
@@ -1338,14 +1450,18 @@
       ]
     }
   ],
-  "BO": [
+  "RG": [
     {
-      "CategoryCode": "BUSINESS_INTELLIGENCE_STATISTICS_TABLE",
-      "CategoryName": "Casino constructor: Lobby",
+      "CategoryCode": "RG_MODULE_STATUS",
+      "CategoryName": "Responsible gaming: Module status",
       "Action": [
         {
-          "Name": "EXPORT",
-          "Description": "Экспорт таблицы со статистикой"
+          "Name": "ENABLE",
+          "Description": "Подключение функционала RG к проекту"
+        },
+        {
+          "Name": "DISABLE",
+          "Description": "Деактивация функционала RG на проекте"
         }
       ]
     }

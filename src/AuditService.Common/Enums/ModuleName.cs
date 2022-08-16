@@ -112,5 +112,13 @@ public enum ModuleName
     /// </summary>
     [Description("BALANCE SERVICE")]
     [Localization(Key = "balance-back")]
-    BJS = 14
+    BJS = 14,
+    
+    
+    /// <summary>
+    ///     RESPONSIBLE GAMING
+    /// </summary>
+    [Description("RESPONSIBLE GAMING SERVICE")]
+    [Localization(Key = "balance-back")]
+    RG = 15
 }
