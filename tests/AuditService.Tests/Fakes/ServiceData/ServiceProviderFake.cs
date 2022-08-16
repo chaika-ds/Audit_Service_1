@@ -2,9 +2,11 @@
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
+using AuditService.Tests.Fakes.Minio;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
+using KIT.Minio.Commands.SaveFileWithSharing;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.Redis;
 using static AuditService.Handlers.DiConfigure;
@@ -40,11 +42,33 @@ namespace AuditService.Tests.Fakes.ServiceData
         ///     Get service provider for reference request
         /// </summary>
         /// <returns>Service provider</returns>
-        internal static IServiceProvider GetServiceProviderForReferenceRequestHandler()
+        internal static IServiceProvider GetServiceProviderForLogHandlers()
         {
             var services = new ServiceCollection();
 
             RegistrationServices(services);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
+        ///     Get service provider for export log handlers
+        /// </summary>
+        /// <typeparam name="T">Type of elk document</typeparam>
+        /// <param name="jsonContent">Json with content for elk in byte[] formate</param>
+        /// <param name="index">Elk index</param>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForExportLogHandlers<T>(byte[] jsonContent, string index)
+        {
+            var services = new ServiceCollection();
+
+            RegistrationServices(services);
+
+            services.AddScoped(_ => ElasticSearchClientProviderFake.GetFakeElasticSearchClient<T>(jsonContent, index));
+
+            services.AddScoped<ISaveFileWithSharingCommand, SaveFileWithSharingCommandFake>();
 
             var serviceProvider = services.BuildServiceProvider();
 

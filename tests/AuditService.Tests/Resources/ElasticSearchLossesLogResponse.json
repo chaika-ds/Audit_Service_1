@@ -1,0 +1,18 @@
+[
+  {
+    "createDate": "2022-08-15T13:02:51.0506243+06:00",
+    "nodeId": "84b7447a-9b4e-4826-a075-6d52080d67cb",
+    "login": "login_12",
+    "playerId": "abdb9a4e-e49d-43ec-bde2-aa3ecaed1e55",
+    "currencyCode": "CurrencyCode_12",
+    "lastDeposit": 62
+  },
+  {
+    "createDate": "2022-08-15T13:02:50.8259532+06:00",
+    "nodeId": "84b7447a-9b4e-4826-a075-6d52080d67cb",
+    "login": "login_41",
+    "playerId": "b5a9195d-852b-438d-a8fa-42fe8f64cd12",
+    "currencyCode": "CurrencyCode_41",
+    "lastDeposit": 91
+  }
+]
