@@ -13,6 +13,7 @@ public abstract class BaseVisitLogDomainModel : INodeId
     {
         Login = string.Empty;
         Ip = string.Empty;
+        Type = string.Empty;
         Authorization = new AuthorizationDataDomainModel();
     }
 
@@ -26,7 +27,13 @@ public abstract class BaseVisitLogDomainModel : INodeId
     ///     Type of the log of visits
     /// </summary>
     [Required]
-    public VisitLogType Type { get; set; }
+    public string Type { get; set; }
+
+    /// <summary>
+    ///     Ge visit log type
+    /// </summary>
+    /// <returns>Visit log type</returns>
+    public VisitLogType GeVisitLogType() => Enum.Parse<VisitLogType>(Type);
 
     /// <summary>
     ///     Login

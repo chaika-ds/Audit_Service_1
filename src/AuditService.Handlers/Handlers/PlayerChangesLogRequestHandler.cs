@@ -64,7 +64,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
     private async Task<IEnumerable<PlayerChangesLogResponseDto>> GenerateResponseModelsAsync(
         IEnumerable<PlayerChangesLogDomainModel> domainModels, string? language, CancellationToken cancellationToken)
     {
-        var groupedModels = domainModels.GroupBy(model => model.ModuleName);
+        var groupedModels = domainModels.GroupBy(model => model.GetModuleName());
         var eventByModules = await _mediator.Send(new GetEventsRequest(), cancellationToken);
 
         return await groupedModels.SelectManyAsync(
@@ -99,7 +99,7 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupeModels, string? language, CancellationToken cancellationToken)
     {
         var keysForLocalization =
-            groupeModels.SelectMany(model => model.NewValues.Keys.Union(model.OldValues.Keys)).Distinct().ToList();
+            groupeModels.SelectMany(model => model.NewValue.Keys.Union(model.OldValue.Keys)).Distinct().ToList();
         return await _localizer.TryLocalize(new LocalizeKeysRequest(groupeModels.Key, language, keysForLocalization),
             cancellationToken);
     }
@@ -122,8 +122,8 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
             IpAddress = model.IpAddress,
             Reason = model.Reason,
             Timestamp = model.Timestamp,
-            NewValue = model.NewValues.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys)),
-            OldValue = model.OldValues.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys))
+            NewValue = model.NewValue.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys)),
+            OldValue = model.OldValue.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys))
         };
 
 

@@ -31,7 +31,7 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
     /// <returns>Query container after applying the filter</returns>
     protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<UserVisitLogDomainModel> descriptor, UserVisitLogFilterDto filter)
     {
-        container &= descriptor.Term(t => t.Type, VisitLogType.User);
+        container &= descriptor.Match(t => t.Field(x => x.Type).Query(VisitLogType.User.ToString()));
 
         if (filter.UserId.HasValue)
             container &= descriptor.Term(t => t.UserId, filter.UserId.Value);

@@ -73,7 +73,7 @@ internal class VisitLogValidatorTestData
         {
             return new()
             {
-                Type = logType,
+                Type = logType.ToString(),
                 NodeId = guidValue,
                 PlayerId = guidValue
             };
@@ -81,7 +81,7 @@ internal class VisitLogValidatorTestData
 
         return new()
         {
-            Type = logType,
+            Type = logType.ToString(),
             NodeId = guidValue,
             UserId = guidValue
         };
@@ -121,7 +121,7 @@ internal class VisitLogValidatorTestData
         List<UserRoleDomainModel>? userRoleValue, VisitLogType logType) =>
         new()
         {
-            Type = logType,
+            Type = logType.ToString(),
             UserRoles = userRoleValue
         };
 

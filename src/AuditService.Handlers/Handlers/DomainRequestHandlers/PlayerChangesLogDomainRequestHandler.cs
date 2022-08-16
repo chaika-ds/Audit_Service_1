@@ -28,7 +28,7 @@ public class PlayerChangesLogDomainRequestHandler : LogDomainRequestBaseHandler<
         if (!string.IsNullOrEmpty(filter.IpAddress))
             container &= descriptor.Match(t => t.Field(x => x.IpAddress).Query(filter.IpAddress));
 
-        container &= descriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId);
+        container &= descriptor.Term(t => t.PlayerId, filter.PlayerId);
         container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
         container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 

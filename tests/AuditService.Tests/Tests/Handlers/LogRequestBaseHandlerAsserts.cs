@@ -56,20 +56,20 @@ public static class LogRequestBaseHandlerAsserts
         {
             log.NewValue.ToList().ForEach(nVal =>
             {
-                Contains(nVal.Value, playerChangesLogMock.SelectMany(l => l.NewValues.Select(x => x.Value.Value)));
-                Contains(nVal.Type, playerChangesLogMock.SelectMany(l => l.NewValues.Select(x => x.Value.Type)));
+                Contains(nVal.Value, playerChangesLogMock.SelectMany(l => l.NewValue.Select(x => x.Value.Value)));
+                Contains(nVal.Type, playerChangesLogMock.SelectMany(l => l.NewValue.Select(x => x.Value.Type)));
 
-                var mockNewValues = playerChangesLogMock.SelectMany(l => l.NewValues.Where(t => t.Value.Value == nVal.Value)).FirstOrDefault();
+                var mockNewValues = playerChangesLogMock.SelectMany(l => l.NewValue.Where(t => t.Value.Value == nVal.Value)).FirstOrDefault();
 
                 Equal(nVal.Label, mockNewValues.Value.IsTranslatable ? localizedKeys[mockNewValues.Key] : mockNewValues.Key);
             });
 
             log.OldValue.ToList().ForEach(oVal =>
             {
-                Contains(oVal.Value, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Value)));
-                Contains(oVal.Type, playerChangesLogMock.SelectMany(l => l.OldValues.Select(x => x.Value.Type)));
+                Contains(oVal.Value, playerChangesLogMock.SelectMany(l => l.OldValue.Select(x => x.Value.Value)));
+                Contains(oVal.Type, playerChangesLogMock.SelectMany(l => l.OldValue.Select(x => x.Value.Type)));
 
-                var mockOldValues = playerChangesLogMock.SelectMany(l => l.OldValues.Where(t => t.Value.Value == oVal.Value)).FirstOrDefault();
+                var mockOldValues = playerChangesLogMock.SelectMany(l => l.OldValue.Where(t => t.Value.Value == oVal.Value)).FirstOrDefault();
 
                 Equal(oVal.Label, mockOldValues.Value.IsTranslatable ? localizedKeys[mockOldValues.Key] : mockOldValues.Key);
             });

@@ -30,7 +30,7 @@ public class PlayerVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<Pl
     /// <returns>Query container after applying the filter</returns>
     protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<PlayerVisitLogDomainModel> descriptor, PlayerVisitLogFilterDto filter)
     {
-        container &= descriptor.Term(t => t.Type, VisitLogType.Player);
+        container &= descriptor.Match(t => t.Field(x => x.Type).Query(VisitLogType.Player.ToString()));
 
         if (filter.PlayerId.HasValue)
             container &= descriptor.Term(t => t.PlayerId, filter.PlayerId.Value);
