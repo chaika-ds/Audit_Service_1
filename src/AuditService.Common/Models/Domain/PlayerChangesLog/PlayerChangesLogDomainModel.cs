@@ -15,9 +15,9 @@ public class PlayerChangesLogDomainModel : INodeId
         IpAddress = string.Empty;
         ModuleName = string.Empty;
         EventInitiator = string.Empty;
-        OldValue = new Dictionary<string, PlayerAttributeDomainModel>();
-        NewValue = new Dictionary<string, PlayerAttributeDomainModel>();
         User = new UserInitiatorDomainModel();
+        OldValue = new List<PlayerAttributeDomainModel>();
+        NewValue = new List<PlayerAttributeDomainModel>();
     }
 
     /// <summary>
@@ -71,12 +71,12 @@ public class PlayerChangesLogDomainModel : INodeId
     /// <summary>
     ///     Old user attributes
     /// </summary>
-    public Dictionary<string, PlayerAttributeDomainModel> OldValue { get; set; }
+    public List<PlayerAttributeDomainModel> OldValue { get; set; }
 
     /// <summary>
     ///     New user attributes
     /// </summary>
-    public Dictionary<string, PlayerAttributeDomainModel> NewValue { get; set; }
+    public List<PlayerAttributeDomainModel> NewValue { get; set; }
 
     /// <summary>
     ///     Reason for the change
