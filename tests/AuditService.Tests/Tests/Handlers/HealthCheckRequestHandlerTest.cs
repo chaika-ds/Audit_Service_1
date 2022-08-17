@@ -19,6 +19,7 @@ public class HealthCheckRequestHandlerTest
     private readonly IElasticClient _elasticClient;
     private readonly Mock<IKafkaHealthCheck> _kafkaHcMock;
     private readonly Mock<IRedisHealthCheck> _redisHcMock;
+    private readonly HealthCheckRequestHandler _handle;
 
     public HealthCheckRequestHandlerTest()
     {
@@ -26,6 +27,8 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock = new Mock<IMediator>();
         _kafkaHcMock = new Mock<IKafkaHealthCheck>();
         _redisHcMock = new Mock<IRedisHealthCheck>();
+        
+        _handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
     }
 
     /// <summary>
@@ -40,8 +43,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(Task.FromResult(new GitLabVersionResponseDto()));
 
         //Act
-        var handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
-        var response = await handle.Handle(new CheckHealthRequest(), CancellationToken.None);
+        var response = await _handle.Handle(new CheckHealthRequest(), CancellationToken.None);
 
         //Assert
         _kafkaHcMock.Verify(x => x.CheckHealthAsync(CancellationToken.None), Times.Once());
@@ -67,9 +69,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(Task.FromResult(new GitLabVersionResponseDto()));
 
         //Act
-        var handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
-
-        var ex = await ThrowsAsync<Exception>(async () => await handle.Handle(new CheckHealthRequest(), CancellationToken.None));
+        var ex = await ThrowsAsync<Exception>(async () => await _handle.Handle(new CheckHealthRequest(), CancellationToken.None));
 
         //Assert
         _kafkaHcMock.Verify(x => x.CheckHealthAsync(CancellationToken.None), Times.Once());
@@ -92,9 +92,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(Task.FromResult(new GitLabVersionResponseDto()));
 
         //Act
-        var handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
-
-        var ex = await ThrowsAsync<Exception>(async () => await handle.Handle(new CheckHealthRequest(), CancellationToken.None));
+        var ex = await ThrowsAsync<Exception>(async () => await _handle.Handle(new CheckHealthRequest(), CancellationToken.None));
 
         //Assert
         _kafkaHcMock.Verify(x => x.CheckHealthAsync(CancellationToken.None), Times.Once());
@@ -117,9 +115,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Setup(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(() => throw new Exception("Redis error"));
 
         //Act
-        var handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
-
-        var ex = await ThrowsAsync<Exception>(async () => await handle.Handle(new CheckHealthRequest(), CancellationToken.None));
+        var ex = await ThrowsAsync<Exception>(async () => await _handle.Handle(new CheckHealthRequest(), CancellationToken.None));
 
         //Assert
         _kafkaHcMock.Verify(x => x.CheckHealthAsync(CancellationToken.None), Times.Once());
