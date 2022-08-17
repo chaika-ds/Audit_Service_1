@@ -47,7 +47,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
                 container &= descriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
 
             if (filter.Action.Any())
-                container &= descriptor.Terms(t => t.Field(w => w.ActionName.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.Action.Select(@enum => @enum.ToString())));
+                container &= descriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action.Select(@enum => @enum.ToString())));
 
             container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).GreaterThan(filter.TimestampFrom));
             container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));

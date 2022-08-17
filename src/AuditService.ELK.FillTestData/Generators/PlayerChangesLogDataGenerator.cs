@@ -51,39 +51,7 @@ internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerCha
             Timestamp = DateTime.Now.AddMonths(-2),
             IpAddress = "0.0.0.0",
             Reason = "Updated",
-            OldValue = new Dictionary<string, PlayerAttributeDomainModel>
-            {
-                {"first", new PlayerAttributeDomainModel
-                {
-                    Type = "type",
-                    Value = "value",
-                    IsTranslatable = true
-                }},
-
-                {"second", new PlayerAttributeDomainModel
-                {
-                    Type = "type2",
-                    Value = "value2",
-                    IsTranslatable = false
-                }}
-
-            },
-            NewValue = new Dictionary<string, PlayerAttributeDomainModel>
-            {
-                {"first", new PlayerAttributeDomainModel
-                {
-                    Type = "type",
-                    Value = "value",
-                    IsTranslatable = true
-                }},
-
-                {"second", new PlayerAttributeDomainModel
-                {
-                    Type = "type2",
-                    Value = "value2",
-                    IsTranslatable = false
-                }}
-            },
+           
             User = new UserInitiatorDomainModel
             {
                 Id = Guid.NewGuid(),

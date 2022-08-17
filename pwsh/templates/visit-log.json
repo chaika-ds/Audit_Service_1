@@ -1,0 +1,58 @@
+{
+  "index_patterns": ["aus-sso-visit-log", "aus-sso-visit-log*"],
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+		
+        "properties": {
+            "nodeId": {
+				"type": "keyword"
+			},
+			"playerId": {
+				"type": "keyword"
+			},
+			"userId": {
+				"type": "keyword"
+			},
+			"userRoles":{
+				"properties":{
+					"code": {
+						"type": "text"
+					},
+					"name": {
+						"type": "keyword"
+					}
+				}
+			},
+			"type": {
+				"type": "keyword"
+			},
+			"login": {
+				"type": "keyword"
+			},
+			"ip": {
+				"type": "keyword"
+			},
+			"authorization":{
+				"properties":{
+					"deviceType": {
+						"type": "keyword"
+					},
+					"operatingSystem": {
+						"type": "keyword"
+					},
+					"browser": {
+						"type": "keyword"
+					},
+					"authorizationType": {
+						"type": "keyword"
+					}
+				}
+			},
+			"timestamp": {
+				"type": "date"
+			}
+        }
+    }
+}
