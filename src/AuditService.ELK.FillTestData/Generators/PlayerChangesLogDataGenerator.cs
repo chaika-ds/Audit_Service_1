@@ -1,6 +1,5 @@
 using AuditService.Common.Enums;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
-using AuditService.Common.Models.Dto;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
 using AuditService.ELK.FillTestData.Resources;
@@ -27,12 +26,12 @@ internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerCha
     /// <summary>
     ///    Set Index of elastic
     /// </summary>
-    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.PlayerChangesLog;
+    protected override string? GetIndex(IElasticIndexSettings indexes) => $"{indexes.PlayerChangesLog}-2022.06";
     
     /// <summary>
     ///    Set identifier of index
     /// </summary>
-    protected override string GetIdentifierName() => nameof(PlayerChangesLogResponseDto.UserId);
+    protected override string GetIdentifierName() => nameof(PlayerChangesLogDomainModel.PlayerId);
 
     /// <summary>
     ///    Override resource data
@@ -48,21 +47,52 @@ internal class PlayerChangesLogDataLogDataGenerator : LogDataGenerator<PlayerCha
         var dto = new PlayerChangesLogDomainModel
         {
             PlayerId = Guid.NewGuid(),
-            NodeId = Guid.NewGuid(),
-            Timestamp = DateTime.Now.GetRandomItem(_random),
+            NodeId = Guid.Parse("84b7447a-9b4e-4826-a075-6d52080d67cb"),
+            Timestamp = DateTime.Now.AddMonths(-2),
             IpAddress = "0.0.0.0",
             Reason = "Updated",
-            OldValues = new Dictionary<string, PlayerAttributeDomainModel>(),
-            NewValues = new Dictionary<string, PlayerAttributeDomainModel>(),
+            OldValue = new Dictionary<string, PlayerAttributeDomainModel>
+            {
+                {"first", new PlayerAttributeDomainModel
+                {
+                    Type = "type",
+                    Value = "value",
+                    IsTranslatable = true
+                }},
+
+                {"second", new PlayerAttributeDomainModel
+                {
+                    Type = "type2",
+                    Value = "value2",
+                    IsTranslatable = false
+                }}
+
+            },
+            NewValue = new Dictionary<string, PlayerAttributeDomainModel>
+            {
+                {"first", new PlayerAttributeDomainModel
+                {
+                    Type = "type",
+                    Value = "value",
+                    IsTranslatable = true
+                }},
+
+                {"second", new PlayerAttributeDomainModel
+                {
+                    Type = "type2",
+                    Value = "value2",
+                    IsTranslatable = false
+                }}
+            },
             User = new UserInitiatorDomainModel
             {
                 Id = Guid.NewGuid(),
                 UserAgent = $"agent_{Guid.NewGuid()}",
                 Email = "test@gmail.com"
             },
-            EventCode = "Code",
-            ModuleName = ConfigurationModel?.ModuleName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            EventInitiator = ConfigurationModel?.EventInitiator ?? Enum.GetValues<EventInitiator>().GetRandomItem(_random),
+            EventCode = "SSO_PASSWORD_CHANGED",
+            ModuleName = ModuleName.SSO.ToString(),
+            EventInitiator = (ConfigurationModel?.EventInitiator ?? Enum.GetValues<EventInitiator>().GetRandomItem(_random)).ToString()
         };
 
         return Task.FromResult(dto);

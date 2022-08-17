@@ -42,7 +42,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
                 Timestamp = FakeValues.Timestamp2,
-                NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()
                     {
@@ -57,7 +57,7 @@ internal class LogRequestBaseHandlerResponsesFake
                     }
 
                 },
-                OldValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey7"] = new()
                     {
@@ -72,7 +72,7 @@ internal class LogRequestBaseHandlerResponsesFake
                         IsTranslatable = true
                     }
                 },
-                ModuleName = ModuleName.CCR
+                ModuleName = ModuleName.CCR.ToString()
             };
     }
 
@@ -108,7 +108,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 IpAddress = FakeValues.IpAddress1,
                 Reason = FakeValues.Reason1,
                 Timestamp = FakeValues.Timestamp1,
-                NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey1"] = new()
                     {
@@ -123,7 +123,7 @@ internal class LogRequestBaseHandlerResponsesFake
                     }
 
                 },
-                OldValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey3"] = new()
                     {
@@ -138,7 +138,7 @@ internal class LogRequestBaseHandlerResponsesFake
                         IsTranslatable = true
                     }
                 },
-                ModuleName = ModuleName.BI
+                ModuleName = ModuleName.BI.ToString()
             },
             new()
             {
@@ -152,7 +152,7 @@ internal class LogRequestBaseHandlerResponsesFake
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
                 Timestamp = FakeValues.Timestamp2,
-                NewValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey5"] = new()
                     {
@@ -167,7 +167,7 @@ internal class LogRequestBaseHandlerResponsesFake
                     }
 
                 },
-                OldValues = new Dictionary<string, PlayerAttributeDomainModel>()
+                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
                 {
                     ["TestKey7"] = new()
                     {
@@ -182,7 +182,7 @@ internal class LogRequestBaseHandlerResponsesFake
                         IsTranslatable = true
                     }
                 },
-                ModuleName = ModuleName.CCR
+                ModuleName = ModuleName.CCR.ToString()
             }
         };
     }

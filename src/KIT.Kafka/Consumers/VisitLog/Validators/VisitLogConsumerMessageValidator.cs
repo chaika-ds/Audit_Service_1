@@ -17,7 +17,7 @@ public class VisitLogConsumerMessageValidator : AbstractValidator<VisitLogConsum
         RuleFor(message => message.Authorization).NotNull();
         RuleFor(model => model.NodeId).NotEmpty().NotEqual(Guid.Empty);
 
-        When(message => message.Type == VisitLogType.Player, () =>
+        When(message => message.GeVisitLogType() == VisitLogType.Player, () =>
         {
             RuleFor(model => model.PlayerId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(model => model.Authorization)

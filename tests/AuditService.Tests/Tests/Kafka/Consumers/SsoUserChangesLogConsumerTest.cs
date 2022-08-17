@@ -109,7 +109,7 @@ public class SsoUserChangesLogConsumerTest : SsoUserChangesLogConsumer
         Assert.Equal(model.UserIp, result.Ip);
         Assert.Equal(model.UserAuthorization, result.Authorization);
         Assert.Equal(model.Timestamp, result.Timestamp);
-        Assert.Equal(VisitLogType.User, result.Type);
+        Assert.Equal(VisitLogType.User.ToString(), result.Type);
 
         Assert.IsType<VisitLogDomainModel>(result);
     }

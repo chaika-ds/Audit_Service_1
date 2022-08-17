@@ -74,8 +74,8 @@ public class PlayerChangesLogValidatorTest
         var result = _validatorTest.TestValidate(PlayerChangesLogValidatorTestData.GetPlayerChangesLogOldNewValueConsumerMessage(value));
 
         //Assert
-        result.ShouldHaveValidationErrorFor(log => log.OldValues);
-        result.ShouldHaveValidationErrorFor(log => log.NewValues);
+        result.ShouldHaveValidationErrorFor(log => log.OldValue);
+        result.ShouldHaveValidationErrorFor(log => log.NewValue);
     }
 
     /// <summary>

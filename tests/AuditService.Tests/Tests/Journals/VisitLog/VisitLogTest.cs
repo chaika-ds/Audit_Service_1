@@ -68,7 +68,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             };
             
             var expected = JsonConvert.DeserializeObject<List<PlayerVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
-               ?.FirstOrDefault(x => x.Type == VisitLogType.Player);
+               ?.FirstOrDefault(x => x.Type == VisitLogType.Player.ToString());
 
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
@@ -137,7 +137,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             };
             
             var expected = JsonConvert.DeserializeObject<List<UserVisitLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchVisitLogResponse))
-               ?.FirstOrDefault(x => x.Type == VisitLogType.User);
+               ?.FirstOrDefault(x => x.Type == VisitLogType.User.ToString());
 
             //Act 
             var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
@@ -239,7 +239,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
 
             var expected = resultForDomainModelHandler.List
-                ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.User);
+                ?.FirstOrDefault(x => x.Type == VisitLogType.User.ToString());
 
             var filter = new LogFilterRequestDto<UserVisitLogFilterDto, UserVisitLogSortDto, UserVisitLogResponseDto>()
             {
@@ -294,7 +294,7 @@ namespace AuditService.Tests.Tests.Journals.VisitLog
             var resultForDomainModelHandler = await mediatorService.Send(filterForDomainModelHandler, new TaskCanceledException().CancellationToken);
 
             var expected = resultForDomainModelHandler.List
-                ?.FirstOrDefault(x => x.Type == Common.Enums.VisitLogType.Player);
+                ?.FirstOrDefault(x => x.Type == VisitLogType.Player.ToString());
 
             var filter = new LogFilterRequestDto<PlayerVisitLogFilterDto, PlayerVisitLogSortDto, PlayerVisitLogResponseDto>()
             {

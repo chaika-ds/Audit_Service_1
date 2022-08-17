@@ -100,7 +100,7 @@ public class SsoPlayerChangesLogConsumerTest : SsoPlayerChangesLogConsumer
         Assert.Equal(model.LastVisitIp, result.Ip);
         Assert.Equal(model.PlayerAuthorization, result.Authorization);
         Assert.Equal(model.EventDateTime, result.Timestamp);
-        Assert.Equal(VisitLogType.Player, result.Type);
+        Assert.Equal(VisitLogType.Player.ToString(), result.Type);
         Assert.Equal(model.PlayerId, result.PlayerId);
         Assert.Equal(DefineLoginFake(model), result.Login);
         Assert.Equal(model.NodeId, result.NodeId);
