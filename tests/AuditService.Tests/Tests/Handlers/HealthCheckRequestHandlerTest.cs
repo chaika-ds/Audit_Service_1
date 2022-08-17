@@ -6,7 +6,6 @@ using KIT.Kafka.HealthCheck;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Moq;
-using Nest;
 
 namespace AuditService.Tests.Tests.Handlers;
 
@@ -16,19 +15,18 @@ namespace AuditService.Tests.Tests.Handlers;
 public class HealthCheckRequestHandlerTest
 {
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly IElasticClient _elasticClient;
     private readonly Mock<IKafkaHealthCheck> _kafkaHcMock;
     private readonly Mock<IRedisHealthCheck> _redisHcMock;
     private readonly HealthCheckRequestHandler _handle;
 
     public HealthCheckRequestHandlerTest()
     {
-        _elasticClient = ElasticSearchClientProviderFake.GetFakeElasticSearchClient("");
+        var elasticClient = ElasticSearchClientProviderFake.GetFakeElasticSearchClient("");
         _mediatorMock = new Mock<IMediator>();
         _kafkaHcMock = new Mock<IKafkaHealthCheck>();
         _redisHcMock = new Mock<IRedisHealthCheck>();
         
-        _handle = new HealthCheckRequestHandler(_mediatorMock.Object, _elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
+        _handle = new HealthCheckRequestHandler(_mediatorMock.Object, elasticClient, _kafkaHcMock.Object, _redisHcMock.Object);
     }
 
     /// <summary>
