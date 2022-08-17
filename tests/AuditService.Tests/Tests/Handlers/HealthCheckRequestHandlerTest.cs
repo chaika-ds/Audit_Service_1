@@ -77,6 +77,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Verify(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None), Times.Never());
 
         NotNull(ex.Message);
+        IsType<Exception>(ex);
     }
 
     /// <summary>
@@ -101,6 +102,7 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Verify(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None), Times.Never());
 
         NotNull(ex.Message);
+        IsType<Exception>(ex);
     }
 
     /// <summary>
@@ -125,5 +127,6 @@ public class HealthCheckRequestHandlerTest
         _mediatorMock.Verify(x => x.Send(It.IsAny<GitLabRequest>(), CancellationToken.None), Times.Once());
 
         NotNull(ex.Message);
+        IsType<Exception>(ex);
     }
 }
