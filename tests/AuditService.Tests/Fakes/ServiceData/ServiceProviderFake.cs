@@ -6,8 +6,14 @@ using AuditService.Tests.Fakes.Minio;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
+using AuditService.Tests.Fakes.Setup.Minio;
+using bgTeam.Extensions;
+using KIT.Minio;
 using KIT.Minio.Commands.SaveFileWithSharing;
+using KIT.Minio.Commands.SaveFileWithSharing.Models;
+using KIT.Minio.Settings.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Tolar.MinioService.Client;
 using Tolar.Redis;
 using static AuditService.Handlers.DiConfigure;
 
@@ -47,6 +53,27 @@ namespace AuditService.Tests.Fakes.ServiceData
             var services = new ServiceCollection();
 
             RegistrationServices(services);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
+        ///     Get service provider for minio
+        /// </summary>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForMinio()
+        {
+            var services = ServiceCollectionFake.CreateServiceCollectionFake();
+
+            services.ConfigureMinio();
+
+            services.AddSettings<IFileStorageSettings, MinioSettingsFake>();
+
+            services.AddScoped<IMinioSharingFilesSettings, MinioSharingFilesSettingsFake>();
+
+            services.AddLogging();
 
             var serviceProvider = services.BuildServiceProvider();
 
