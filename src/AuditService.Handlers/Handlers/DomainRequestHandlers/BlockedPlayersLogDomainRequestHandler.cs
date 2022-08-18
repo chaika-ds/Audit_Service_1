@@ -3,11 +3,9 @@ using AuditService.Common.Extensions;
 using AuditService.Common.Models.Domain.BlockedPlayersLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Consts;
 using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
-using ISort = Nest.ISort;
 
 namespace AuditService.Handlers.Handlers.DomainRequestHandlers;
 
@@ -44,13 +42,13 @@ public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler
             container &= descriptor.Match(t => t.Field(x => x.PlayerLogin).Query(filter.PlayerLogin));
 
         if (filter.PlayerId.HasValue)
-            container &= descriptor.Term(t => t.PlayerId.Suffix(ElasticConst.SuffixKeyword), filter.PlayerId.Value);
+            container &= descriptor.Term(t => t.PlayerId, filter.PlayerId.Value);
 
         if (!string.IsNullOrEmpty(filter.PlayerIp))
             container &= descriptor.Match(t => t.Field(x => x.LastVisitIpAddress).Query(filter.PlayerIp));
 
         if (filter.NodeId.HasValue)
-            container &= descriptor.Term(t => t.NodeId.Suffix(ElasticConst.SuffixKeyword), filter.NodeId.Value);
+            container &= descriptor.Term(t => t.NodeId, filter.NodeId.Value);
 
         if (!string.IsNullOrEmpty(filter.Platform))
             container &= descriptor.Match(t => t.Field(x => x.Platform).Query(filter.Platform));
@@ -74,19 +72,6 @@ public class BlockedPlayersLogDomainRequestHandler : LogDomainRequestBaseHandler
     /// <returns>Query index</returns>
     protected override string? GetQueryIndex(IElasticIndexSettings elasticIndexSettings) =>
         elasticIndexSettings.BlockedPlayersLog;
-
-    /// <summary>
-    ///     Apply sorting to query
-    /// </summary>
-    /// <param name="sortDescriptor">Query sort descriptor</param>
-    /// <param name="logSortModel">Model to apply sorting</param>
-    /// <returns>Sorted query</returns>
-    protected override IPromise<IList<ISort>> ApplySorting(SortDescriptor<BlockedPlayersLogDomainModel> sortDescriptor, BlockedPlayersLogSortDto logSortModel)
-        => logSortModel.FieldSortType switch
-        {
-            BlockedPlayersLogSortType.Version => sortDescriptor.Field(field => field.BrowserVersion.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            _ => base.ApplySorting(sortDescriptor, logSortModel)
-        };
 
     /// <summary>
     ///     Get the name of the column to sort

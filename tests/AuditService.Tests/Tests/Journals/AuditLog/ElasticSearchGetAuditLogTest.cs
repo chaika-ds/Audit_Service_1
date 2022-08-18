@@ -22,7 +22,7 @@ public class ElasticSearchGetAuditLogTest
     public async Task GetAuditLogs_CreateAuditLog_ResultWithAuditLogs()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchAuditLogResponse, TestResources.DefaultIndex);
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
@@ -48,7 +48,7 @@ public class ElasticSearchGetAuditLogTest
     public async Task AuditLogResponseValidation_CreateAuditLog_HandlerResponseСorrespondsToTheExpected()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchAuditLogResponse, TestResources.DefaultIndex);
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
@@ -61,7 +61,7 @@ public class ElasticSearchGetAuditLogTest
             }
         };
 
-        var expected = JsonConvert.DeserializeObject<List<AuditLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
+        var expected = JsonConvert.DeserializeObject<List<AuditLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchAuditLogResponse))
             ?.FirstOrDefault();
 
         //Act 
@@ -77,8 +77,5 @@ public class ElasticSearchGetAuditLogTest
         Equal(expected.NodeId, actual.NodeId);
         Equal(expected.CategoryCode, actual.CategoryCode);
         Equal(expected.RequestUrl, actual.RequestUrl);
-        Equal(expected.RequestBody, actual.RequestBody);
-        Equal(expected.OldValue, actual.OldValue);
-        Equal(expected.NewValue, actual.NewValue);
     }
 }

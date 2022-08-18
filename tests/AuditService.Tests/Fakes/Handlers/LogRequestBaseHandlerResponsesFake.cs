@@ -42,31 +42,34 @@ internal class LogRequestBaseHandlerResponsesFake
                 IpAddress = FakeValues.IpAddress2,
                 Reason = FakeValues.Reason2,
                 Timestamp = FakeValues.Timestamp2,
-                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
+                NewValue = new List<PlayerAttributeDomainModel>
                 {
-                    ["TestKey5"] = new()
+                    new()
                     {
+                        Key = "TestKey5",
                         Type = FakeValues.Type5,
                         Value = FakeValues.Value5,
                         IsTranslatable = true
                     },
-                    ["TestKey6"] = new()
+                    new()
                     {
+                        Key = "TestKey6",
                         Type = FakeValues.Type6,
                         Value = FakeValues.Value6
                     }
-
                 },
-                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
+                OldValue = new List<PlayerAttributeDomainModel>
                 {
-                    ["TestKey7"] = new()
+                    new()
                     {
+                        Key = "TestKey7",
                         Type = FakeValues.Type7,
                         Value = FakeValues.Value7,
                         IsTranslatable = true
                     },
-                    ["TestKey8"] = new()
+                    new()
                     {
+                        Key = "TestKey8",
                         Type = FakeValues.Type8,
                         Value = FakeValues.Value8,
                         IsTranslatable = true
@@ -108,81 +111,40 @@ internal class LogRequestBaseHandlerResponsesFake
                 IpAddress = FakeValues.IpAddress1,
                 Reason = FakeValues.Reason1,
                 Timestamp = FakeValues.Timestamp1,
-                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
+                NewValue = new List<PlayerAttributeDomainModel>
                 {
-                    ["TestKey1"] = new()
+                    new()
                     {
+                        Key = "TestKey1",
                         Type = FakeValues.Type1,
                         Value = FakeValues.Value1,
                         IsTranslatable = true
                     },
-                    ["TestKey2"] = new()
+                    new()
                     {
+                        Key = "TestKey2",
                         Type = FakeValues.Type2,
                         Value = FakeValues.Value2
                     }
-
                 },
-                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
+                OldValue = new List<PlayerAttributeDomainModel>
                 {
-                    ["TestKey3"] = new()
+                    new()
                     {
+                        Key = "TestKey3",
                         Type = FakeValues.Type3,
                         Value = FakeValues.Value3,
                         IsTranslatable = true
                     },
-                    ["TestKey4"] = new()
+                    new()
                     {
+                        Key = "TestKey4",
                         Type = FakeValues.Type4,
                         Value = FakeValues.Value4,
                         IsTranslatable = true
                     }
                 },
                 ModuleName = ModuleName.BI.ToString()
-            },
-            new()
-            {
-                User = new()
-                {
-                    Email = FakeValues.UserLogin2,
-                    Id = FakeValues.UserId2,
-                    UserAgent = FakeValues.UserAgent2
-                },
-                EventCode = FakeValues.EventCode2,
-                IpAddress = FakeValues.IpAddress2,
-                Reason = FakeValues.Reason2,
-                Timestamp = FakeValues.Timestamp2,
-                NewValue = new Dictionary<string, PlayerAttributeDomainModel>()
-                {
-                    ["TestKey5"] = new()
-                    {
-                        Type = FakeValues.Type5,
-                        Value = FakeValues.Value5,
-                        IsTranslatable = true
-                    },
-                    ["TestKey6"] = new()
-                    {
-                        Type = FakeValues.Type6,
-                        Value = FakeValues.Value6
-                    }
-
-                },
-                OldValue = new Dictionary<string, PlayerAttributeDomainModel>()
-                {
-                    ["TestKey7"] = new()
-                    {
-                        Type = FakeValues.Type7,
-                        Value = FakeValues.Value7,
-                        IsTranslatable = true
-                    },
-                    ["TestKey8"] = new()
-                    {
-                        Type = FakeValues.Type8,
-                        Value = FakeValues.Value8,
-                        IsTranslatable = true
-                    }
-                },
-                ModuleName = ModuleName.CCR.ToString()
             }
         };
     }

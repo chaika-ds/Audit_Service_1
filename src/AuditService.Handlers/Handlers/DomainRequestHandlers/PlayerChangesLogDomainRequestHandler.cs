@@ -1,7 +1,6 @@
 ﻿using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Consts;
 using AuditService.Setup.AppSettings;
 using Nest;
 
@@ -33,7 +32,7 @@ public class PlayerChangesLogDomainRequestHandler : LogDomainRequestBaseHandler<
         container &= descriptor.DateRange(t => t.Field(w => w.Timestamp).LessThan(filter.TimestampTo));
 
         if (filter.EventKeys.Any())
-            container &= descriptor.Terms(t => t.Field(w => w.EventCode.Suffix(ElasticConst.SuffixKeyword)).Terms(filter.EventKeys));
+            container &= descriptor.Terms(t => t.Field(w => w.EventCode).Terms(filter.EventKeys));
         
         return container;
     }

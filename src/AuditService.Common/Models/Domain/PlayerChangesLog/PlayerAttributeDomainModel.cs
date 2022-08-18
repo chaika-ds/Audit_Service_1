@@ -10,10 +10,17 @@ public class PlayerAttributeDomainModel : BasePlayerAttributeDomainModel
 {
     public PlayerAttributeDomainModel()
     {
+        Key = string.Empty;
         Value = string.Empty;
         Type = string.Empty;
         IsTranslatable = false;
     }
+
+    /// <summary>
+    ///      Attribute key or localization code  
+    /// </summary>
+    [Required]
+    public string Key { get; set; }
 
     /// <summary>
     ///     Flag indicating the need for translation

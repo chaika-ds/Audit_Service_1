@@ -99,9 +99,8 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
         IGrouping<ModuleName, PlayerChangesLogDomainModel> groupeModels, string? language, CancellationToken cancellationToken)
     {
         var keysForLocalization =
-            groupeModels.SelectMany(model => model.NewValue.Keys.Union(model.OldValue.Keys)).Distinct().ToList();
-        return await _localizer.TryLocalize(new LocalizeKeysRequest(groupeModels.Key, language, keysForLocalization),
-            cancellationToken);
+            groupeModels.SelectMany(model => model.NewValue.Select(attr => attr.Key).Union(model.OldValue.Select(attr => attr.Key))).Distinct().ToList();
+        return await _localizer.TryLocalize(new LocalizeKeysRequest(groupeModels.Key, language, keysForLocalization), cancellationToken);
     }
 
     /// <summary>
@@ -122,8 +121,8 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
             IpAddress = model.IpAddress,
             Reason = model.Reason,
             Timestamp = model.Timestamp,
-            NewValue = model.NewValue.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys)),
-            OldValue = model.OldValue.Select(attribute => LocalizePlayerAttribute(attribute, localizedKeys))
+            NewValue = model.NewValue.Select(attr => LocalizePlayerAttribute(attr, localizedKeys)),
+            OldValue = model.OldValue.Select(attr => LocalizePlayerAttribute(attr, localizedKeys))
         };
 
 
@@ -134,11 +133,11 @@ public class PlayerChangesLogRequestHandler : IRequestHandler<
     /// <param name="localizedKeys">Directory of localized keys</param>
     /// <returns>Localized attribute player, reflects changed fields</returns>
     private static LocalizedPlayerAttributeDomainModel LocalizePlayerAttribute(
-        KeyValuePair<string, PlayerAttributeDomainModel> attribute, IDictionary<string, string> localizedKeys)
+        PlayerAttributeDomainModel attribute, IDictionary<string, string> localizedKeys)
         => new()
         {
-            Value = attribute.Value.Value,
-            Type = attribute.Value.Type,
-            Label = attribute.Value.IsTranslatable ? localizedKeys[attribute.Key] : attribute.Key
+            Value = attribute.Value,
+            Type = attribute.Type,
+            Label = attribute.IsTranslatable ? localizedKeys[attribute.Key] : attribute.Key
         };
 }

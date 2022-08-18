@@ -1,0 +1,81 @@
+{
+  "index_patterns": ["aus-system-auditlog2", "aus-system-auditlog2*"],
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+		
+        "properties": {
+            "moduleName": {
+				"type": "keyword"
+			},
+			"nodeId": {
+				"type": "keyword"
+			},
+			"actionName": {
+				"type": "keyword"
+			},
+			"categoryCode": {
+				"type": "keyword"
+			},
+			"requestUrl": {
+				"type": "text"
+			},
+			"timestamp": {
+				"type": "date"
+			},
+			"entityName": {
+				"type": "text"
+			},
+			"entityId": {
+				"type": "keyword"
+			},
+			"user": {
+				"properties":{
+					"id": {
+						"type": "keyword"
+					},
+					"ip": {
+						"type": "text"
+					},
+					"email": {
+						"type": "keyword"
+					},
+					"userAgent": {
+						"type": "text"
+					}
+				}
+			},
+			"requestBody": {
+				"properties":{
+					"key":{
+						"type": "text"
+					},
+					"value":{
+						"type": "text"
+					}
+				}
+			},
+			"oldValue": {
+				"properties":{
+					"key":{
+						"type": "text"
+					},
+					"value":{
+						"type": "text"
+					}
+				}
+			},
+			"newValue": {
+				"properties":{
+					"key":{
+						"type": "text"
+					},
+					"value":{
+						"type": "text"
+					}
+				}
+			}
+        }
+    }
+}

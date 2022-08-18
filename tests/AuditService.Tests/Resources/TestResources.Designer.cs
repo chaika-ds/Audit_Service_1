@@ -109,9 +109,9 @@ namespace AuditService.Tests.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ElasticSearchLossesLogResponse {
+        public static byte[] ElasticSearchAuditLogResponse {
             get {
-                object obj = ResourceManager.GetObject("ElasticSearchLossesLogResponse", resourceCulture);
+                object obj = ResourceManager.GetObject("ElasticSearchAuditLogResponse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -119,9 +119,9 @@ namespace AuditService.Tests.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ElasticSearchResponse {
+        public static byte[] ElasticSearchLossesLogResponse {
             get {
-                object obj = ResourceManager.GetObject("ElasticSearchResponse", resourceCulture);
+                object obj = ResourceManager.GetObject("ElasticSearchLossesLogResponse", resourceCulture);
                 return ((byte[])(obj));
             }
         }

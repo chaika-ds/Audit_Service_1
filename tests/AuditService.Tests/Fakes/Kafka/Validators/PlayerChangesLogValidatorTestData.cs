@@ -54,8 +54,20 @@ internal class PlayerChangesLogValidatorTestData
         Dictionary<string, PlayerAttributeDomainModel> value) =>
         new()
         {
-            OldValue = value,
-            NewValue = value
+            OldValue = value.Select(w => new PlayerAttributeDomainModel
+            {
+                Key = w.Key,
+                Type = w.Value.Type,
+                Value = w.Value.Value,
+                IsTranslatable = w.Value.IsTranslatable
+            }).ToList(),
+            NewValue = value.Select(w => new PlayerAttributeDomainModel
+            {
+                Key = w.Key,
+                Type = w.Value.Type,
+                Value = w.Value.Value,
+                IsTranslatable = w.Value.IsTranslatable
+            }).ToList()
         };
 
 

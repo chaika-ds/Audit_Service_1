@@ -19,7 +19,7 @@ public class PlayerChangesLogConsumerMessageValidator : AbstractValidator<Player
         RuleFor(message => message.User).NotNull().SetValidator(userValidator);
         RuleFor(message => message.OldValue).NotEmpty();
         RuleFor(message => message.NewValue).NotEmpty();
-        RuleForEach(message => message.OldValue.Values).SetValidator(playerAttributeValidator);
-        RuleForEach(message => message.NewValue.Values).SetValidator(playerAttributeValidator);
+        RuleForEach(message => message.OldValue).SetValidator(playerAttributeValidator);
+        RuleForEach(message => message.NewValue).SetValidator(playerAttributeValidator);
     }
 }

@@ -18,7 +18,7 @@ public class SsoPlayerChangesLogDomainModel
     ///     NodeId Id
     /// </summary>
     [Required]
-    public Guid NodeId { get; set; }
+    public Guid HallId { get; set; }
 
     /// <summary>
     ///     Player Id
