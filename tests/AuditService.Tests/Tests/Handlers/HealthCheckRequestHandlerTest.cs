@@ -120,7 +120,7 @@ public class HealthCheckRequestHandlerTest
         //Arrange 
         _kafkaHcMock.Setup(x => x.CheckHealthAsync(CancellationToken.None)).Returns(Task.FromResult(new HealthCheckComponentsDto()));
         _redisHcMock.Setup(x => x.CheckHealthAsync(CancellationToken.None)).Returns(Task.FromResult(new HealthCheckComponentsDto()));
-        _gitlabRequestMock.Setup(x => x.Handle(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(() => throw new Exception("Redis error"));
+        _gitlabRequestMock.Setup(x => x.Handle(It.IsAny<GitLabRequest>(), CancellationToken.None)).Returns(() => throw new Exception("Gitlab  error"));
     
         var serviceProvider = ServiceProviderFake.GetServiceProviderForHealthCheckHandlers(_gitlabRequestMock.Object, _kafkaHcMock.Object, _redisHcMock.Object);
         
