@@ -50,7 +50,7 @@ public class BlockedPlayersLogRequestHandlerTest
     public async Task BlockedPlayersLogResponseValidation_CreateBlockedPlayersLog_HandlerResponseCorrespondsToTheExpected()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<BlockedPlayersLogDomainModel>(TestResources.ElasticSearchResponse, TestResources.DefaultIndex);
+        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<BlockedPlayersLogDomainModel>(TestResources.BlockedPlayersLogResponse, TestResources.DefaultIndex);
 
         var mediatorService = serviceProvider.GetRequiredService<IMediator>();
 
@@ -63,7 +63,7 @@ public class BlockedPlayersLogRequestHandlerTest
             }
         };
         
-        var expected = JsonConvert.DeserializeObject<List<BlockedPlayersLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchResponse))
+        var expected = JsonConvert.DeserializeObject<List<BlockedPlayersLogDomainModel>>(Encoding.Default.GetString(TestResources.BlockedPlayersLogResponse))
                 ?.FirstOrDefault();
 
         //Act 

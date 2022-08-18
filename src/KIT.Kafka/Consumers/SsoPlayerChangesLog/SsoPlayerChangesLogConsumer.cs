@@ -51,7 +51,7 @@ public class SsoPlayerChangesLogConsumer : BaseMigrationConsumer<SsoPlayerChange
             Type = VisitLogType.Player.ToString(),
             PlayerId = sourceModel.PlayerId,
             Login = DefineLogin(sourceModel),
-            NodeId = sourceModel.NodeId
+            NodeId = sourceModel.HallId
         };
 
     /// <summary>

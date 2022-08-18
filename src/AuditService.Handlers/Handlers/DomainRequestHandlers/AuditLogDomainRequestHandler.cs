@@ -2,7 +2,6 @@
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Consts;
 using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;

@@ -61,11 +61,23 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, Aud
             ModuleName = (ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random)).ToString(),
             ActionName = (ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random)).ToString(),
             RequestUrl = "PUT: contracts/contractId?param=value",
-            RequestBody = new List<KeyValuePair<string, string>> { new("test11", "test11"), new("test44", "test42") },
+            RequestBody = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value1"},
+                new() {Key = "key2", Value = "value2"}
+            },
             Timestamp = DateTime.Now.AddMonths(-2),
             EntityName = nameof(AuditLogDomainModel),
-            OldValue = new List<KeyValuePair<string, string>> {new("test", "test"), new("test2", "test2") },
-            NewValue = new List<KeyValuePair<string, string>> { new("test3", "test3"), new("test4", "test4") },
+            OldValue = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value1"},
+                new() {Key = "key2", Value = "value2"}
+            },
+            NewValue = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value3"},
+                new() {Key = "key2", Value = "value4"}
+            },
             User = new IdentityUserDomainModel
             {
                 Id = uid,
