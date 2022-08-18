@@ -11,10 +11,10 @@ var appBuilder = Host.CreateDefaultBuilder(args)
 var host = appBuilder.Build();
 using var scope = host.Services.CreateScope();
 
-// await scope.ServiceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
-// await scope.ServiceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>().GenerateAsync();
-// await scope.ServiceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
-// await scope.ServiceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
-// await scope.ServiceProvider.GetRequiredService<LossesLogGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<LossesLogGenerator>().GenerateAsync();
 
 Environment.Exit(1);
