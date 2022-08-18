@@ -61,7 +61,7 @@ public static class LogRequestBaseHandlerAsserts
 
                 var mockNewValues = playerChangesLogMock.SelectMany(l => l.NewValues.Where(t => t.Value.Value == nVal.Value)).FirstOrDefault();
 
-                Equal(nVal.Label, mockNewValues.Value.IsTranslatable ? localizedKeys[mockNewValues.Key] : mockNewValues.Key);
+                Equal(nVal.Label, mockNewValues!.Value.IsTranslatable ? localizedKeys[mockNewValues.Key] : mockNewValues.Key);
             });
 
             log.OldValue.ToList().ForEach(oVal =>
@@ -71,7 +71,7 @@ public static class LogRequestBaseHandlerAsserts
 
                 var mockOldValues = playerChangesLogMock.SelectMany(l => l.OldValues.Where(t => t.Value.Value == oVal.Value)).FirstOrDefault();
 
-                Equal(oVal.Label, mockOldValues.Value.IsTranslatable ? localizedKeys[mockOldValues.Key] : mockOldValues.Key);
+                Equal(oVal.Label, mockOldValues!.Value.IsTranslatable ? localizedKeys[mockOldValues.Key] : mockOldValues.Key);
             });
         });
     }
