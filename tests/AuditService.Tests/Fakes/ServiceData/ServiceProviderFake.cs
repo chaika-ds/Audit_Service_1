@@ -1,11 +1,16 @@
 ﻿using AuditService.Common.Contexts;
+using AuditService.Common.Models.Dto;
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
+using KIT.Kafka.HealthCheck;
+using KIT.Redis.HealthCheck;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Tolar.Redis;
 using static AuditService.Handlers.DiConfigure;
 
@@ -37,6 +42,29 @@ namespace AuditService.Tests.Fakes.ServiceData
         }
 
         /// <summary>
+        ///     Get service provider for Health check handlers
+        /// </summary>
+        /// <param name="ritLabRequestHandler"></param>
+        /// <param name="kafkaHcMock"></param>
+        /// <param name="redisHcMock"></param>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> ritLabRequestHandler, IKafkaHealthCheck kafkaHcMock, IRedisHealthCheck redisHcMock)
+        {
+            var services = new ServiceCollection();
+
+            RegistrationServices(services);
+
+            services.AddScoped(_ => ElasticSearchClientProviderFake.GetFakeElasticSearchClient(""));
+            services.AddScoped(_ => kafkaHcMock);
+            services.AddScoped(_ => redisHcMock);
+            services.AddScoped(_ => ritLabRequestHandler);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
         ///     Get service provider for reference request
         /// </summary>
         /// <returns>Service provider</returns>
@@ -55,7 +83,7 @@ namespace AuditService.Tests.Fakes.ServiceData
         ///     Registration default services 
         /// </summary>
         /// <param name="services">service collection</param>
-        private static void RegistrationServices(ServiceCollection services)
+        private static void RegistrationServices(IServiceCollection services)
         {
             RegisterServices(services);
             services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();
