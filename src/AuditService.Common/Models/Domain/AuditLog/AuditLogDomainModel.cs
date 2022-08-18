@@ -15,6 +15,9 @@ public class AuditLogDomainModel : INodeId
         User = new IdentityUserDomainModel();
         ActionName = string.Empty;
         ModuleName = string.Empty;
+        OldValue = new List<AuditLogAttributeDomainModel>();
+        NewValue = new List<AuditLogAttributeDomainModel>();
+        RequestBody = new List<AuditLogAttributeDomainModel>();
     }
 
     /// <summary>
@@ -55,7 +58,7 @@ public class AuditLogDomainModel : INodeId
     /// <summary>
     ///     The JSON representation of the request
     /// </summary>
-    public object? RequestBody { get; set; }
+    public List<AuditLogAttributeDomainModel> RequestBody { get; set; }
 
     /// <summary>
     ///     Date and time of the event (ISO 8601 UTC standard)
@@ -76,12 +79,12 @@ public class AuditLogDomainModel : INodeId
     /// <summary>
     ///     JSON representation of the previous value of the entity
     /// </summary>
-    public object? OldValue { get; set; }
+    public List<AuditLogAttributeDomainModel> OldValue { get; set; }
 
     /// <summary>
     ///     JSON representation of a new entity value
     /// </summary>
-    public object? NewValue { get; set; }
+    public List<AuditLogAttributeDomainModel> NewValue { get; set; }
 
     /// <summary>
     ///     User

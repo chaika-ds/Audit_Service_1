@@ -83,11 +83,11 @@ public class LogRequestBaseHandlerTest
 
         //Act
         var responseInvoke =
-            await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
-                domainModels, FakeValues.LanguageTest, _tokenTest);
+            (await handlerTest.Invoke<Task<IEnumerable<PlayerChangesLogResponseDto>>>("GenerateResponseModelsAsync",
+                domainModels, FakeValues.LanguageTest, _tokenTest)).ToList();
 
         ////Assert
-        Equal(playerChangesLogResponseDto.SerializeToString(), responseInvoke.ToList().SerializeToString());
+        Equal(playerChangesLogResponseDto.SerializeToString(), responseInvoke.SerializeToString());
     }
 
     /// <summary>

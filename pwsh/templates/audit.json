@@ -47,7 +47,6 @@
 				}
 			},
 			"requestBody": {
-				"type": "nested",
 				"properties":{
 					"key":{
 						"type": "text"
@@ -58,7 +57,6 @@
 				}
 			},
 			"oldValue": {
-				"type": "nested",
 				"properties":{
 					"key":{
 						"type": "text"
@@ -69,7 +67,6 @@
 				}
 			},
 			"newValue": {
-				"type": "nested",
 				"properties":{
 					"key":{
 						"type": "text"
