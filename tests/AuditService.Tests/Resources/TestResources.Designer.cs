@@ -89,6 +89,15 @@ namespace AuditService.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .csv.
+        /// </summary>
+        public static string CsvExtension {
+            get {
+                return ResourceManager.GetString("CsvExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to aus-system-auditlog2.
         /// </summary>
         public static string DefaultIndex {
@@ -100,9 +109,19 @@ namespace AuditService.Tests.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ElasticSearchResponse {
+        public static byte[] ElasticSearchAuditLogResponse {
             get {
-                object obj = ResourceManager.GetObject("ElasticSearchResponse", resourceCulture);
+                object obj = ResourceManager.GetObject("ElasticSearchAuditLogResponse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ElasticSearchLossesLogResponse {
+            get {
+                object obj = ResourceManager.GetObject("ElasticSearchLossesLogResponse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -114,6 +133,24 @@ namespace AuditService.Tests.Resources {
             get {
                 object obj = ResourceManager.GetObject("ElasticSearchVisitLogResponse", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .xlsx.
+        /// </summary>
+        public static string ExcelExtension {
+            get {
+                return ResourceManager.GetString("ExcelExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as-losseslog.
+        /// </summary>
+        public static string LossesLog {
+            get {
+                return ResourceManager.GetString("LossesLog", resourceCulture);
             }
         }
         

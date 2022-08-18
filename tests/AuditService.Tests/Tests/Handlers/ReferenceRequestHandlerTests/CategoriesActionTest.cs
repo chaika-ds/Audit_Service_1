@@ -19,7 +19,7 @@ namespace AuditService.Tests.Tests.Handlers.ReferenceRequestHandlerTests
 
         public CategoriesActionTest()
         {
-            var serviceProvider = ServiceProviderFake.GetServiceProviderForReferenceRequestHandler();
+            var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers();
             _mediatorService = serviceProvider.GetRequiredService<IMediator>();
         }
 

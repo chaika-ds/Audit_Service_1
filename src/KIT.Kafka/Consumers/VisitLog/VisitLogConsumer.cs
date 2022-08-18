@@ -37,7 +37,7 @@ public class VisitLogConsumer : BaseValidationConsumer<VisitLogConsumerMessage>
         if (context.Message is null)
             return ModuleName.SSO.Description();
 
-        var sourceInfo = context.Message.Type == VisitLogType.Player ? "players-changes" : "users-changes";
+        var sourceInfo = context.Message.GeVisitLogType() == VisitLogType.Player ? "players-changes" : "users-changes";
 
         return $"{ModuleName.SSO.Description()}({sourceInfo})";
     }

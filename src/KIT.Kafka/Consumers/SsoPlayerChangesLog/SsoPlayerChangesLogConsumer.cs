@@ -48,10 +48,10 @@ public class SsoPlayerChangesLogConsumer : BaseMigrationConsumer<SsoPlayerChange
             Ip = sourceModel.LastVisitIp,
             Authorization = sourceModel.PlayerAuthorization,
             Timestamp = sourceModel.EventDateTime,
-            Type = VisitLogType.Player,
+            Type = VisitLogType.Player.ToString(),
             PlayerId = sourceModel.PlayerId,
             Login = DefineLogin(sourceModel),
-            NodeId = sourceModel.NodeId
+            NodeId = sourceModel.HallId
         };
 
     /// <summary>

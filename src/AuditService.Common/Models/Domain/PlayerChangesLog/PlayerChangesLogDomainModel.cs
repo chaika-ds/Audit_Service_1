@@ -13,16 +13,24 @@ public class PlayerChangesLogDomainModel : INodeId
     {
         EventCode = string.Empty;
         IpAddress = string.Empty;
-        OldValues = new Dictionary<string, PlayerAttributeDomainModel>();
-        NewValues = new Dictionary<string, PlayerAttributeDomainModel>();
+        ModuleName = string.Empty;
+        EventInitiator = string.Empty;
         User = new UserInitiatorDomainModel();
+        OldValue = new List<PlayerAttributeDomainModel>();
+        NewValue = new List<PlayerAttributeDomainModel>();
     }
+
+    /// <summary>
+    ///     Get module name
+    /// </summary>
+    /// <returns>Module name</returns>
+    public ModuleName GetModuleName() => Enum.Parse<ModuleName>(ModuleName);
 
     /// <summary>
     ///     Enumeration of module names
     /// </summary>
     [Required]
-    public ModuleName ModuleName { get; set; }
+    public string ModuleName { get; set; }
 
     /// <summary>
     ///     Player's room Id
@@ -40,7 +48,7 @@ public class PlayerChangesLogDomainModel : INodeId
     ///     Enumeration of event initiator
     /// </summary>
     [Required]
-    public EventInitiator EventInitiator { get; set; }
+    public string EventInitiator { get; set; }
 
     /// <summary>
     ///     Date and time of the event
@@ -63,12 +71,12 @@ public class PlayerChangesLogDomainModel : INodeId
     /// <summary>
     ///     Old user attributes
     /// </summary>
-    public Dictionary<string, PlayerAttributeDomainModel> OldValues { get; set; }
+    public List<PlayerAttributeDomainModel> OldValue { get; set; }
 
     /// <summary>
     ///     New user attributes
     /// </summary>
-    public Dictionary<string, PlayerAttributeDomainModel> NewValues { get; set; }
+    public List<PlayerAttributeDomainModel> NewValue { get; set; }
 
     /// <summary>
     ///     Reason for the change

@@ -33,7 +33,7 @@ public class PlayerChangesLogConsumer : BaseValidationConsumer<PlayerChangesLogC
     /// <returns>Responsible service name</returns>
     protected override string? GetResponsibleServiceName(ConsumeContext<PlayerChangesLogConsumerMessage> context)
     {
-        var moduleName = context.Message?.ModuleName ?? GetModuleNameFromMessage(context.OriginalContext.Data);
+        var moduleName = context.Message?.GetModuleName() ?? GetModuleNameFromMessage(context.OriginalContext.Data);
         return moduleName?.Description();
     }
 }

@@ -15,5 +15,6 @@ await scope.ServiceProvider.GetRequiredService<AuditLogDataGenerator>().Generate
 await scope.ServiceProvider.GetRequiredService<BlockedPlayersLogDataGenerator>().GenerateAsync();
 await scope.ServiceProvider.GetRequiredService<PlayerChangesLogDataLogDataGenerator>().GenerateAsync();
 await scope.ServiceProvider.GetRequiredService<VisitLogGenerator>().GenerateAsync();
+await scope.ServiceProvider.GetRequiredService<LossesLogGenerator>().GenerateAsync();
 
 Environment.Exit(1);

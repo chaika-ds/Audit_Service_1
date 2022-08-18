@@ -130,9 +130,6 @@
     <comment>default index for testing</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ElasticSearchResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ElasticSearchResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BlockedPlayersLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>BlockedPlayersLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -149,5 +146,23 @@
   </data>
   <data name="ElasticSearchVisitLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ElasticSearchVisitLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ElasticSearchLossesLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ElasticSearchLossesLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LossesLog" xml:space="preserve">
+    <value>as-losseslog</value>
+    <comment>losses log</comment>
+  </data>
+  <data name="CsvExtension" xml:space="preserve">
+    <value>.csv</value>
+    <comment>csv extension</comment>
+  </data>
+  <data name="ExcelExtension" xml:space="preserve">
+    <value>.xlsx</value>
+    <comment>excel extension</comment>
+  </data>
+  <data name="ElasticSearchAuditLogResponse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ElasticSearchAuditLogResponse.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

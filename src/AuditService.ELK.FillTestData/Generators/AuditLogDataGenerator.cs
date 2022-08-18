@@ -34,7 +34,7 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, Aud
     /// <summary>
     ///    Set Index of elastic
     /// </summary>
-    protected override string? GetIndex(IElasticIndexSettings indexes) => indexes.AuditLog;
+    protected override string? GetIndex(IElasticIndexSettings indexes) => $"{indexes.AuditLog}-2022.06";
     
     /// <summary>
     ///    Set identifier of index
@@ -57,15 +57,27 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, Aud
         var dto = new AuditLogDomainModel
         {
             EntityId = Guid.NewGuid().ToString(),
-            NodeId = Guid.NewGuid(),
-            ModuleName = ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random),
-            ActionName = ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random),
+            NodeId = Guid.Parse("84b7447a-9b4e-4826-a075-6d52080d67cb"),
+            ModuleName = (ConfigurationModel?.ServiceName ?? Enum.GetValues<ModuleName>().GetRandomItem(_random)).ToString(),
+            ActionName = (ConfigurationModel?.ActionName ?? Enum.GetValues<ActionType>().GetRandomItem(_random)).ToString(),
             RequestUrl = "PUT: contracts/contractId?param=value",
-            RequestBody = "{ 'myjson': 0 }",
-            Timestamp = DateTime.Now.GetRandomItem(_random),
+            RequestBody = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value1"},
+                new() {Key = "key2", Value = "value2"}
+            },
+            Timestamp = DateTime.Now.AddMonths(-2),
             EntityName = nameof(AuditLogDomainModel),
-            OldValue = "{ 'value': '0' }",
-            NewValue = "{ 'value': '1' }",
+            OldValue = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value1"},
+                new() {Key = "key2", Value = "value2"}
+            },
+            NewValue = new List<AuditLogAttributeDomainModel>
+            {
+                new() {Key = "key1", Value = "value3"},
+                new() {Key = "key2", Value = "value4"}
+            },
             User = new IdentityUserDomainModel
             {
                 Id = uid,
@@ -76,7 +88,7 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, Aud
         };
 
         dto.CategoryCode = string.IsNullOrEmpty(ConfigurationModel?.CategoryCode)
-            ? await _categoryDictionary.GetCategoryAsync(dto.ModuleName, _random)
+            ? await _categoryDictionary.GetCategoryAsync(dto.GetModuleName(), _random)
             : ConfigurationModel.CategoryCode;
 
         return dto;

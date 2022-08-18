@@ -99,46 +99,6 @@ internal class LogRequestBaseHandlerTestRequests
                         Value = FakeValues.Value4
                     }
                 }
-            },
-            new ()
-            {
-                EventKey = FakeValues.EventKey2,
-                EventName = FakeValues.EventName2,
-                IpAddress = FakeValues.IpAddress2,
-                Timestamp = FakeValues.Timestamp2,
-                Reason = FakeValues.Reason2,
-                UserId = FakeValues.UserId2,
-                UserLogin = FakeValues.UserLogin2,
-                NewValue = new List<LocalizedPlayerAttributeDomainModel>()
-                {
-                    new()
-                    {
-                        Label = FakeValues.LocalizeValue5,
-                        Type = FakeValues.Type5,
-                        Value = FakeValues.Value5
-                    },
-                    new ()
-                    {
-                        Label = "TestKey6",
-                        Type = FakeValues.Type6,
-                        Value = FakeValues.Value6
-                    }
-                },
-                OldValue = new List<LocalizedPlayerAttributeDomainModel>()
-                {
-                    new()
-                    {
-                        Label = FakeValues.LocalizeValue7,
-                        Type = FakeValues.Type7,
-                        Value = FakeValues.Value7
-                    },
-                    new()
-                    {
-                        Label = FakeValues.LocalizeValue8,
-                        Type = FakeValues.Type8,
-                        Value = FakeValues.Value8
-                    }
-                }
             }
         };
     }

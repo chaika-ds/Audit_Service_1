@@ -23,7 +23,7 @@ public class ReferenceRequestHandlerTest
     /// </summary>
     public ReferenceRequestHandlerTest()
     {
-        _mediator = ServiceProviderFake.GetServiceProviderForReferenceRequestHandler().GetRequiredService<IMediator>();
+        _mediator = ServiceProviderFake.GetServiceProviderForLogHandlers().GetRequiredService<IMediator>();
     }
 
     /// <summary>

@@ -23,6 +23,8 @@ using KIT.Kafka;
 using KIT.Kafka.BackgroundServices;
 using KIT.Kafka.HealthCheck;
 using KIT.Kafka.Settings.Interfaces;
+using KIT.Minio;
+using KIT.Minio.Settings.Interfaces;
 using KIT.Redis;
 using KIT.Redis.HealthCheck;
 using MediatR;
@@ -36,6 +38,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Tolar.Authenticate.Impl;
 using Tolar.Kafka;
+using Tolar.MinioService.Client;
+using Tolar.MinioService.Client.Impl;
 using Tolar.Redis;
 using DiConfigure = AuditService.Handlers.DiConfigure;
 using GetCategoriesRequest = AuditService.Common.Models.Dto.GetCategoriesRequest;
@@ -52,6 +56,22 @@ public class DIConfigureTest
     public DIConfigureTest()
     {
         serviceCollectionFake = ServiceCollectionFake.CreateServiceCollectionFake();
+    }
+
+    /// <summary>
+    /// Testing ConfigureRedis Method
+    /// </summary>
+    [Fact]
+    public void ConfigureMinio_ServicesInjection_Injected()
+    {
+        //Act
+        serviceCollectionFake.ConfigureMinio();
+
+        // Assert
+        serviceCollectionFake.IsRegisteredSettings<IFileStorageSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IMinioBucketSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IMinioSharingFilesSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredService<IFileStorageService, MinioServiceClient>(ServiceLifetime.Transient);
     }
 
     /// <summary>

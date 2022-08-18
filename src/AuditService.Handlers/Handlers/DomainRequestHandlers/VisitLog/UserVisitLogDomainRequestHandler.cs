@@ -4,11 +4,9 @@ using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.VisitLog;
 using AuditService.Common.Models.Dto.Filter.VisitLog;
 using AuditService.Common.Models.Dto.Sort;
-using AuditService.Handlers.Consts;
 using AuditService.Handlers.PipelineBehaviors.Attributes;
 using AuditService.Setup.AppSettings;
 using Nest;
-using ISort = Nest.ISort;
 
 namespace AuditService.Handlers.Handlers.DomainRequestHandlers.VisitLog;
 
@@ -31,7 +29,7 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
     /// <returns>Query container after applying the filter</returns>
     protected override QueryContainer ApplyFilter(QueryContainer container, QueryContainerDescriptor<UserVisitLogDomainModel> descriptor, UserVisitLogFilterDto filter)
     {
-        container &= descriptor.Term(t => t.Type, VisitLogType.User);
+        container &= descriptor.Match(t => t.Field(x => x.Type).Query(VisitLogType.User.ToString()));
 
         if (filter.UserId.HasValue)
             container &= descriptor.Term(t => t.UserId, filter.UserId.Value);
@@ -52,23 +50,6 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
     protected override string? GetQueryIndex(IElasticIndexSettings elasticIndexSettings) => elasticIndexSettings.VisitLog;
 
     /// <summary>
-    ///     Apply sorting to query
-    /// </summary>
-    /// <param name="sortDescriptor">Query sort descriptor</param>
-    /// <param name="logSortModel">Model to apply sorting</param>
-    /// <returns>Sorted query</returns>
-    protected override IPromise<IList<ISort>> ApplySorting(SortDescriptor<UserVisitLogDomainModel> sortDescriptor, UserVisitLogSortDto logSortModel)
-        => logSortModel.FieldSortType switch
-        {
-            UserVisitLogSortType.Login => sortDescriptor.Field(field => field.Login.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            UserVisitLogSortType.Ip => sortDescriptor.Field(field => field.Ip.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            UserVisitLogSortType.Browser => sortDescriptor.Field(field => field.Authorization.Browser.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            UserVisitLogSortType.DeviceType => sortDescriptor.Field(field => field.Authorization.DeviceType.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            UserVisitLogSortType.OperatingSystem => sortDescriptor.Field(field => field.Authorization.OperatingSystem.Suffix(ElasticConst.SuffixKeyword), (SortOrder)logSortModel.SortableType),
-            _ => base.ApplySorting(sortDescriptor, logSortModel)
-        };
-
-    /// <summary>
     ///     Get the name of the column to sort
     /// </summary>
     /// <param name="logSortModel">Model to apply sorting</param>
@@ -78,6 +59,11 @@ public class UserVisitLogDomainRequestHandler : LogDomainRequestBaseHandler<User
         {
             UserVisitLogSortType.NodeId => nameof(UserVisitLogDomainModel.NodeId).ToCamelCase(),
             UserVisitLogSortType.VisitTime => nameof(UserVisitLogDomainModel.Timestamp).ToCamelCase(),
+            UserVisitLogSortType.Login => nameof(UserVisitLogDomainModel.Login).ToCamelCase(),
+            UserVisitLogSortType.Ip => nameof(UserVisitLogDomainModel.Ip).ToCamelCase(),
+            UserVisitLogSortType.Browser => $"{nameof(UserVisitLogDomainModel.Authorization).ToCamelCase()}.{nameof(AuthorizationDataDomainModel.Browser).ToCamelCase()}",
+            UserVisitLogSortType.DeviceType => $"{nameof(UserVisitLogDomainModel.Authorization).ToCamelCase()}.{nameof(AuthorizationDataDomainModel.DeviceType).ToCamelCase()}",
+            UserVisitLogSortType.OperatingSystem => $"{nameof(UserVisitLogDomainModel.Authorization).ToCamelCase()}.{nameof(AuthorizationDataDomainModel.OperatingSystem).ToCamelCase()}",
             _ => nameof(UserVisitLogDomainModel.Timestamp).ToCamelCase()
         };
 

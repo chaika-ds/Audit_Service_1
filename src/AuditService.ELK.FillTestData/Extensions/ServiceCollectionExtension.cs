@@ -29,6 +29,7 @@ namespace AuditService.ELK.FillTestData.Extensions
             services.AddTransient<AuditLogDataGenerator>();
             services.AddTransient<BlockedPlayersLogDataGenerator>();
             services.AddTransient<PlayerChangesLogDataLogDataGenerator>();
+            services.AddTransient<LossesLogGenerator>();
 
             services.AddElasticSearch();
         }

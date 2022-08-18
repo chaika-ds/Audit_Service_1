@@ -13,13 +13,24 @@ public class AuditLogDomainModel : INodeId
     {
         CategoryCode = string.Empty;
         User = new IdentityUserDomainModel();
+        ActionName = string.Empty;
+        ModuleName = string.Empty;
+        OldValue = new List<AuditLogAttributeDomainModel>();
+        NewValue = new List<AuditLogAttributeDomainModel>();
+        RequestBody = new List<AuditLogAttributeDomainModel>();
     }
+
+    /// <summary>
+    ///     Get module name
+    /// </summary>
+    /// <returns>Module name</returns>
+    public ModuleName GetModuleName() => Enum.Parse<ModuleName>(ModuleName);
 
     /// <summary>
     ///     Module Name
     /// </summary>
     [Required]
-    public ModuleName ModuleName { get; set; }
+    public string ModuleName { get; set; }
 
     /// <summary>
     ///     ID of the node where the change occurred
@@ -31,7 +42,7 @@ public class AuditLogDomainModel : INodeId
     ///     Type of action
     /// </summary>
     [Required]
-    public ActionType ActionName { get; set; }
+    public string ActionName { get; set; }
 
     /// <summary>
     ///     Category of actions (depending on modules)
@@ -47,7 +58,7 @@ public class AuditLogDomainModel : INodeId
     /// <summary>
     ///     The JSON representation of the request
     /// </summary>
-    public string? RequestBody { get; set; }
+    public List<AuditLogAttributeDomainModel> RequestBody { get; set; }
 
     /// <summary>
     ///     Date and time of the event (ISO 8601 UTC standard)
@@ -68,12 +79,12 @@ public class AuditLogDomainModel : INodeId
     /// <summary>
     ///     JSON representation of the previous value of the entity
     /// </summary>
-    public string? OldValue { get; set; }
+    public List<AuditLogAttributeDomainModel> OldValue { get; set; }
 
     /// <summary>
     ///     JSON representation of a new entity value
     /// </summary>
-    public string? NewValue { get; set; }
+    public List<AuditLogAttributeDomainModel> NewValue { get; set; }
 
     /// <summary>
     ///     User
