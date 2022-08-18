@@ -1,4 +1,5 @@
 ﻿using AuditService.Common.Contexts;
+using AuditService.Common.Models.Dto;
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
@@ -8,10 +9,14 @@ using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
 using AuditService.Tests.Fakes.Setup.Minio;
 using bgTeam.Extensions;
+using KIT.Kafka.HealthCheck;
 using KIT.Minio;
 using KIT.Minio.Commands.SaveFileWithSharing;
 using KIT.Minio.Commands.SaveFileWithSharing.Models;
+using KIT.Minio.HealthCheck;
 using KIT.Minio.Settings.Interfaces;
+using KIT.Redis.HealthCheck;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.MinioService.Client;
 using Tolar.Redis;
@@ -96,6 +101,31 @@ namespace AuditService.Tests.Fakes.ServiceData
             services.AddScoped(_ => ElasticSearchClientProviderFake.GetFakeElasticSearchClient<T>(jsonContent, index));
 
             services.AddScoped<ISaveFileWithSharingCommand, SaveFileWithSharingCommandFake>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+        
+        /// <summary>
+        ///     Get service provider for Health check handlers
+        /// </summary>
+        /// <param name="ritLabRequestHandler"></param>
+        /// <param name="kafkaHcMock"></param>
+        /// <param name="redisHcMock"></param>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> ritLabRequestHandler,
+            IKafkaHealthCheck kafkaHcMock, IRedisHealthCheck redisHcMock, IMinioHealthCheck minioHealthCheckMock)
+        {
+            var services = new ServiceCollection();
+
+            RegistrationServices(services);
+
+            services.AddScoped(_ => ElasticSearchClientProviderFake.GetFakeElasticSearchClient(""));
+            services.AddScoped(_ => kafkaHcMock);
+            services.AddScoped(_ => redisHcMock);
+            services.AddScoped(_ => ritLabRequestHandler);
+            services.AddScoped(_ => minioHealthCheckMock);
 
             var serviceProvider = services.BuildServiceProvider();
 
