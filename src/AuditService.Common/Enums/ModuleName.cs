@@ -119,6 +119,6 @@ public enum ModuleName
     ///     RESPONSIBLE GAMING
     /// </summary>
     [Description("RESPONSIBLE GAMING SERVICE")]
-    [Localization(Key = "balance-back")]
+    [Localization(Key = "")]
     RG = 15
 }
