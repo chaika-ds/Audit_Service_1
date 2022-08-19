@@ -1,5 +1,4 @@
-﻿using System.Text;
-using AuditService.Common.Helpers;
+﻿using AuditService.Common.Helpers;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
@@ -7,10 +6,11 @@ using AuditService.Setup.AppSettings;
 using AuditService.Tests.Fakes.Handlers;
 using AuditService.Tests.Fakes.Journals;
 using AuditService.Tests.Fakes.ServiceData;
+using AuditService.Tests.Helpers.Journals;
 using AuditService.Tests.Resources;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace AuditService.Tests.Tests.Journals.PlayerChangesLog;
 
@@ -41,17 +41,8 @@ public class PlayerChangesLogDomainRequestHandlerTest
     [Fact]
     public async Task Send_PlayerChangesLogFilterSend_ReturnsNotEmptyResultAsync()
     {
-        //Arrange
-        var cts = new CancellationTokenSource();
-        var mediatorService = _serviceProvider.GetRequiredService<IMediator>();
-
-        var filter = new LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>();
-
-        //Act 
-        var result = await mediatorService.Send(filter, cts.Token);
-
-        //Assert
-        NotEmpty(result.List);
+        await LogsTestHelper<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel, PlayerChangesLogDomainModel>
+            .CheckReturnResult(TestResources.PlayerChangesLog, _playerChangesLogDomainModel);
     }
 
     /// <summary>
@@ -61,15 +52,12 @@ public class PlayerChangesLogDomainRequestHandlerTest
     public async Task PlayerChangesLogResponseValidation_CreatePlayerChangesLog_HandlerResponseСorrespondsToTheExpected()
     {
         //Arrange
-        var mediatorService = _serviceProvider.GetRequiredService<IMediator>();
-
-        var filter = new LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>();
-
         var expected = JsonConvert.DeserializeObject<List<PlayerChangesLogDomainModel>>(Encoding.Default.GetString(_playerChangesLogDomainModel))             
             ?.FirstOrDefault();
 
         //Act 
-        var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+        var result = await LogsTestHelper<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel, PlayerChangesLogDomainModel>
+            .GetLogHandlerResponse(TestResources.PlayerChangesLog, _playerChangesLogDomainModel);
 
         var actual = result.List.FirstOrDefault(x => x.PlayerId == expected.PlayerId);
 
