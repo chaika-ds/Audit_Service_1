@@ -28,6 +28,9 @@ internal class ElasticSearchSettingsFake : IElasticSearchSettings
     /// </summary>
     public string? VisitLog { get; set; }
 
+    /// <summary>
+    ///     Losses log
+    /// </summary>
     public string? LossesLog { get; set; }
 
     /// <summary>
@@ -54,7 +57,7 @@ internal class ElasticSearchSettingsFake : IElasticSearchSettings
         AuditLog = TestResources.DefaultIndex;
         PlayerChangesLog = TestResources.PlayerChangesLog;
         BlockedPlayersLog = TestResources.BlockedPlayersLog;
-        LossesLog = TestResources.VisitLog;
+        LossesLog = TestResources.LossesLog;
         ConnectionUrl = TestResources.ConnectionUrl;
     }
 }

@@ -1,13 +1,10 @@
 using AuditService.Common.Enums;
 using AuditService.Common.Extensions;
 using AuditService.Common.Models.Dto;
-using AuditService.Handlers;
 using AuditService.Tests.Fakes.ServiceData;
-using AuditService.Tests.Fakes.Setup;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Tolar.Redis;
 
 namespace AuditService.Tests.Tests.Handlers;
 

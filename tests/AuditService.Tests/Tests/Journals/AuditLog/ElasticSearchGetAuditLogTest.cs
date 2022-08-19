@@ -2,6 +2,7 @@
 using AuditService.Common.Models.Dto.Filter;
 using AuditService.Common.Models.Dto.Sort;
 using AuditService.Tests.Fakes.ServiceData;
+using AuditService.Tests.Helpers.Journals;
 using AuditService.Tests.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,24 +22,8 @@ public class ElasticSearchGetAuditLogTest
     [Fact]
     public async Task GetAuditLogs_CreateAuditLog_ResultWithAuditLogs()
     {
-        //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchAuditLogResponse, TestResources.DefaultIndex);
-
-        var mediatorService = serviceProvider.GetRequiredService<IMediator>();
-
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>()
-        {
-            Filter = new ()
-            {
-                TimestampFrom = DateTime.Now,
-                TimestampTo = DateTime.Now
-            }
-        };
-
-        var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
-
-        //Assert
-        True(result.List.Any());
+        await LogsTestHelper<AuditLogFilterDto, LogSortDto, AuditLogDomainModel, AuditLogDomainModel>
+               .CheckReturnResult(TestResources.DefaultIndex, TestResources.ElasticSearchAuditLogResponse);
     }
 
     /// <summary>
@@ -48,24 +33,13 @@ public class ElasticSearchGetAuditLogTest
     public async Task AuditLogResponseValidation_CreateAuditLog_HandlerResponseСorrespondsToTheExpected()
     {
         //Arrange
-        var serviceProvider = ServiceProviderFake.GetServiceProviderForLogHandlers<AuditLogDomainModel>(TestResources.ElasticSearchAuditLogResponse, TestResources.DefaultIndex);
-
-        var mediatorService = serviceProvider.GetRequiredService<IMediator>();
-
-        var filter = new LogFilterRequestDto<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>()
-        {
-            Filter = new ()
-            {
-                TimestampFrom = DateTime.Now,
-                TimestampTo = DateTime.Now
-            }
-        };
-
-        var expected = JsonConvert.DeserializeObject<List<AuditLogDomainModel>>(Encoding.Default.GetString(TestResources.ElasticSearchAuditLogResponse))
+        var expected = LogsTestHelper<AuditLogFilterDto, LogSortDto, AuditLogDomainModel, AuditLogDomainModel>
+            .GetExpectedDomainModels(TestResources.BlockedPlayersLog, TestResources.BlockedPlayersLogResponse)
             ?.FirstOrDefault();
 
         //Act 
-        var result = await mediatorService.Send(filter, new TaskCanceledException().CancellationToken);
+        var result = await LogsTestHelper<AuditLogFilterDto, LogSortDto, AuditLogDomainModel, AuditLogDomainModel>
+            .GetLogHandlerResponse(TestResources.BlockedPlayersLog, TestResources.BlockedPlayersLogResponse);
 
         var actual = result.List.FirstOrDefault(x => x.EntityId == expected.EntityId);
 
