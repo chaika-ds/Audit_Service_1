@@ -29,15 +29,15 @@ public class FillTestDataTest
     /// <summary>
     ///     Test of audit log data generator
     /// </summary>
-    [Fact]
-    internal async Task Test_of_audit_log_data_generator()
-    {
-        var serviceProvider = GetServiceProvider(TestResources.DefaultIndex);
-
-        await serviceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
-        
-        Assert.True(true);
-    }
+    // [Fact]
+    // internal async Task Test_of_audit_log_data_generator()
+    // {
+    //     var serviceProvider = GetServiceProvider(TestResources.DefaultIndex);
+    //
+    //     await serviceProvider.GetRequiredService<AuditLogDataGenerator>().GenerateAsync();
+    //     
+    //     Assert.True(true);
+    // }
 
     /// <summary>
     ///     Test of blocked players log data generator
