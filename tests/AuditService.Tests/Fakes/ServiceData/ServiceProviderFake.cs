@@ -1,5 +1,6 @@
 ﻿using AuditService.Common.Contexts;
 using AuditService.Common.Models.Dto;
+using AuditService.Localization;
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
@@ -84,6 +85,21 @@ namespace AuditService.Tests.Fakes.ServiceData
 
             return serviceProvider;
         }
+        
+        /// <summary>
+        ///     Get service provider for Localization
+        /// </summary>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForLocalization()
+        {
+            var services = ServiceCollectionFake.CreateServiceCollectionFake();
+
+            services.ConfigureLocalization();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
 
         /// <summary>
         ///     Get service provider for export log handlers
@@ -106,13 +122,14 @@ namespace AuditService.Tests.Fakes.ServiceData
 
             return serviceProvider;
         }
-        
+
         /// <summary>
         ///     Get service provider for Health check handlers
         /// </summary>
         /// <param name="ritLabRequestHandler"></param>
         /// <param name="kafkaHcMock"></param>
         /// <param name="redisHcMock"></param>
+        /// <param name="minioHealthCheckMock"></param>
         /// <returns>Service provider</returns>
         internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> ritLabRequestHandler,
             IKafkaHealthCheck kafkaHcMock, IRedisHealthCheck redisHcMock, IMinioHealthCheck minioHealthCheckMock)
