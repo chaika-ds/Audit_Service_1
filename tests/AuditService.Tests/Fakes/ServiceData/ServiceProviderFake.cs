@@ -1,9 +1,12 @@
 ﻿using AuditService.Common.Contexts;
 using AuditService.Common.Models.Dto;
 using AuditService.Localization;
+using AuditService.Localization.Localizer.Storage;
+using AuditService.Localization.Settings;
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
+using AuditService.Tests.Fakes.Localization;
 using AuditService.Tests.Fakes.Minio;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
@@ -16,6 +19,7 @@ using KIT.Minio.Commands.SaveFileWithSharing;
 using KIT.Minio.Commands.SaveFileWithSharing.Models;
 using KIT.Minio.HealthCheck;
 using KIT.Minio.Settings.Interfaces;
+using KIT.Redis;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -92,9 +96,19 @@ namespace AuditService.Tests.Fakes.ServiceData
         /// <returns>Service provider</returns>
         internal static IServiceProvider GetServiceProviderForLocalization()
         {
-            var services = ServiceCollectionFake.CreateServiceCollectionFake();
+            var services = new ServiceCollection();
 
             services.ConfigureLocalization();
+
+            RegistrationServices(services);
+
+            services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();
+            
+            services.AddSingleton<IRedisCacheStorageSettings, RedisCacheStorageSettingsFake>();
+            
+            services.AddSingleton<ILocalizationSourceSettings, LocalizationSourceSettingsFake>();
+            
+            services.AddSingleton<ILocalizationStorage, RedisCacheStorageFake>();
 
             var serviceProvider = services.BuildServiceProvider();
 
