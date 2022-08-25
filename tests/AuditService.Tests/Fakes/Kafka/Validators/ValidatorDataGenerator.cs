@@ -1,4 +1,5 @@
 ﻿using AuditService.Common.Models.Domain;
+using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Common.Models.Domain.PlayerChangesLog;
 using DocumentFormat.OpenXml.Office2010.PowerPoint;
 
@@ -42,7 +43,7 @@ public class ValidatorDataGenerator
         get
         {
             yield return new object[] { null! };
-            yield return new object[] { default(IdentityUserDomainModel)! };
+            yield return new object[] { default(AuditLogUserDomainModel)! };
         }
     }
 

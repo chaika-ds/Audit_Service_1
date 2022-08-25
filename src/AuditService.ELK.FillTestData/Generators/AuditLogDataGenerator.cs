@@ -1,5 +1,4 @@
 using AuditService.Common.Enums;
-using AuditService.Common.Models.Domain;
 using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.ELK.FillTestData.Models;
 using AuditService.ELK.FillTestData.Patterns.Template;
@@ -78,11 +77,11 @@ internal class AuditLogDataGenerator : LogDataGenerator<AuditLogDomainModel, Aud
                 new() {Key = "key1", Value = "value3"},
                 new() {Key = "key2", Value = "value4"}
             },
-            User = new IdentityUserDomainModel
+            User = new AuditLogUserDomainModel
             {
                 Id = uid,
                 Ip = "127.0.0.0",
-                Email = $"login_{uid}",
+                Login = $"login_{uid}",
                 UserAgent = $"agent_{uid}"
             }
         };

@@ -43,7 +43,7 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
                 container &= descriptor.Match(t => t.Field(x => x.User.Ip).Query(filter.Ip));
 
             if (!string.IsNullOrEmpty(filter.Login))
-                container &= descriptor.Match(t => t.Field(x => x.User.Email).Query(filter.Login));
+                container &= descriptor.Match(t => t.Field(x => x.User.Login).Query(filter.Login));
 
             if (filter.Action.Any())
                 container &= descriptor.Terms(t => t.Field(w => w.ActionName).Terms(filter.Action.Select(@enum => @enum.ToString())));

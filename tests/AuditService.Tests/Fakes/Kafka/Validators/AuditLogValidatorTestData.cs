@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Models.Domain.AuditLog;
 using KIT.Kafka.Consumers.AuditLog;
 
 namespace AuditService.Tests.Fakes.Kafka.Validators;
@@ -48,7 +48,7 @@ internal class AuditLogValidatorTestData
     /// <param name="userRoleValue">Testing User values</param>
     /// <returns>VisitLogConsumerMessage</returns>
     internal static AuditLogConsumerMessage GetVisitLogUserConsumerMessage(
-        IdentityUserDomainModel userRoleValue) =>
+        AuditLogUserDomainModel userRoleValue) =>
         new()
         {
             User = userRoleValue
@@ -59,11 +59,11 @@ internal class AuditLogValidatorTestData
     /// </summary>
     /// <param name="stringValue">Testing string value</param>
     /// <returns>IdentityUserDomainModel</returns>
-    internal static IdentityUserDomainModel GetIdentityUserDomainStringModel(string stringValue) =>
+    internal static AuditLogUserDomainModel GetIdentityUserDomainStringModel(string stringValue) =>
         new()
         {
             Ip = stringValue,
-            Email = stringValue,
+            Login = stringValue,
             UserAgent = stringValue
         };
 
@@ -72,7 +72,7 @@ internal class AuditLogValidatorTestData
     /// </summary>
     /// <param name="guidValue">Testing Guid value</param>
     /// <returns>IdentityUserDomainModel</returns>
-    internal static IdentityUserDomainModel GetIdentityUserDomainGuidModel(Guid guidValue) =>
+    internal static AuditLogUserDomainModel GetIdentityUserDomainGuidModel(Guid guidValue) =>
         new()
         {
             Id = guidValue
@@ -85,6 +85,6 @@ internal class AuditLogValidatorTestData
     internal static List<string> GetIdentityUserDomainModelIpName() =>
         new()
         {
-            $"User.{nameof(IdentityUserDomainModel.Ip)}"
+            $"User.{nameof(AuditLogUserDomainModel.Ip)}"
         };
 }

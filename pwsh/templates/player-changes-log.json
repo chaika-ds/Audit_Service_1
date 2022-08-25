@@ -4,77 +4,76 @@
     "number_of_shards": 1
   },
   "mappings": {
-		
+    "properties": {
+      "moduleName": {
+        "type": "keyword"
+      },
+      "nodeId": {
+        "type": "keyword"
+      },
+      "eventCode": {
+        "type": "keyword"
+      },
+      "eventInitiator": {
+        "type": "keyword"
+      },
+      "timestamp": {
+        "type": "date"
+      },
+      "playerId": {
+        "type": "keyword"
+      },
+      "ipAddress": {
+        "type": "keyword"
+      },
+      "oldValue": {
         "properties": {
-            "nodeId": {
-				"type": "keyword"
-			},
-			"moduleName": {
-				"type": "keyword"
-			},
-			"eventCode": {
-				"type": "keyword"
-			},
-			"eventInitiator": {
-				"type": "keyword"
-			},
-			"timestamp": {
-				"type": "date"
-			},
-			"playerId": {
-				"type": "keyword"
-			},
-			"ipAddress": {
-				"type": "keyword"
-			},
-			"reason": {
-				"type": "text"
-			},
-			"user": {
-				"properties":{
-					"id": {
-						"type": "keyword"
-					},
-					"email": {
-						"type": "keyword"
-					},
-					"userAgent": {
-						"type": "text"
-					}
-				}
-			},
-			"oldValue": {
-				"properties":{
-					"key":{
-						"type": "text"
-					},
-					"isTranslatable": {
-						"type": "boolean"
-					},
-					"value": {
-						"type": "text"
-					},
-					"type": {
-						"type": "text"
-					}
-				}
-			},
-			"newValue": {
-				"properties":{
-					"key":{
-						"type": "text"
-					},
-					"isTranslatable": {
-						"type": "boolean"
-					},
-					"value": {
-						"type": "text"
-					},
-					"type": {
-						"type": "text"
-					}
-				}
-			}
+          "key": {
+            "type": "text"
+          },
+          "isTranslatable": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": "text"
+          },
+          "type": {
+            "type": "text"
+          }
         }
+      },
+      "newValue": {
+        "properties": {
+          "key": {
+            "type": "text"
+          },
+          "isTranslatable": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": "text"
+          },
+          "type": {
+            "type": "text"
+          }
+        }
+      },
+      "reason": {
+        "type": "text"
+      },
+      "user": {
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "email": {
+            "type": "keyword"
+          },
+          "userAgent": {
+            "type": "text"
+          }
+        }
+      }
     }
+  }
 }

@@ -1,5 +1,4 @@
-﻿using AuditService.Common.Models.Domain;
-using AuditService.Common.Models.Domain.PlayerChangesLog;
+﻿using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Tests.Extensions;
 using AuditService.Tests.Fakes.Kafka.Validators;
 using FluentValidation.TestHelper;
@@ -33,9 +32,9 @@ public class IdentityUserDomainModelValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.Ip);
-        result.ShouldHaveValidationErrorFor(log => log.Email);
+        result.ShouldHaveValidationErrorFor(log => log.Login);
         result.ShouldHaveValidationErrorFor(log => log.UserAgent);
-        ValidatorAsserts<IdentityUserDomainModel>.AssertDomainModelNames(result, PlayerChangesLogValidatorTestData.GetUserInitiatorDomainModelNames());
+        ValidatorAsserts<AuditLogUserDomainModel>.AssertDomainModelNames(result, PlayerChangesLogValidatorTestData.GetUserInitiatorDomainModelNames());
 
     }
 
@@ -52,6 +51,6 @@ public class IdentityUserDomainModelValidatorTest
 
         //Assert
         result.ShouldHaveValidationErrorFor(log => log.Id);
-        ValidatorAsserts<IdentityUserDomainModel>.AssertDomainModelNames(result, AuditLogValidatorTestData.GetIdentityUserDomainModelIpName());
+        ValidatorAsserts<AuditLogUserDomainModel>.AssertDomainModelNames(result, AuditLogValidatorTestData.GetIdentityUserDomainModelIpName());
     }
 }
