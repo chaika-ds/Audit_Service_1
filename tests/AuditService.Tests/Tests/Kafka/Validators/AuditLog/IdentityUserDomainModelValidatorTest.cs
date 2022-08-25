@@ -34,7 +34,7 @@ public class IdentityUserDomainModelValidatorTest
         result.ShouldHaveValidationErrorFor(log => log.Ip);
         result.ShouldHaveValidationErrorFor(log => log.Login);
         result.ShouldHaveValidationErrorFor(log => log.UserAgent);
-        ValidatorAsserts<AuditLogUserDomainModel>.AssertDomainModelNames(result, PlayerChangesLogValidatorTestData.GetUserInitiatorDomainModelNames());
+        ValidatorAsserts<AuditLogUserDomainModel>.AssertDomainModelNames(result, AuditLogValidatorTestData.GetIdentityUserDomainModelIpName());
 
     }
 
