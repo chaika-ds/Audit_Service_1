@@ -4,26 +4,25 @@
     "number_of_shards": 1
   },
   "mappings": {
-		
-        "properties": {
-            "nodeId": {
-				"type": "keyword"
-			},
-			"createDate": {
-				"type": "date"
-			},
-			"login": {
-				"type": "keyword"
-			},
-			"playerId": {
-				"type": "keyword"
-			},
-			"currencyCode": {
-				"type": "keyword"
-			},
-			"lastDeposit": {
-				"type": "double"
-			}
-        }
+    "properties": {
+      "nodeId": {
+        "type": "keyword"
+      },
+      "createDate": {
+        "type": "date"
+      },
+      "login": {
+        "type": "keyword"
+      },
+      "playerId": {
+        "type": "keyword"
+      },
+      "currencyCode": {
+        "type": "keyword"
+      },
+      "lastDeposit": {
+        "type": "double"
+      }
     }
+  }
 }

@@ -4,44 +4,40 @@
     "number_of_shards": 1
   },
   "mappings": {
-		
-        "properties": {
-            "nodeId": {
-				"type": "keyword"
-			},
-			"playerLogin": {
-				"type": "keyword"
-			},
-			"playerId": {
-				"type": "keyword"
-			},
-			"blockingDate": {
-				"type": "date"
-			},
-			"previousBlockingDate": {
-				"type": "date"
-			},
-			"blocksCounter": {
-				"type": "integer"
-			},
-			"browser": {
-				"type": "keyword"
-			},
-			"browserVersion": {
-				"type": "keyword"
-			},
-			"language": {
-				"type": "keyword"
-			},
-			"lastVisitIpAddress": {
-				"type": "keyword"
-			},
-			"platform": {
-				"type": "keyword"
-			},
-			"timestamp": {
-				"type": "date"
-			}
-        }
+    "properties": {
+      "nodeId": {
+        "type": "keyword"
+      },
+      "blockingDate": {
+        "type": "date"
+      },
+      "previousBlockingDate": {
+        "type": "date"
+      },
+      "blocksCounter": {
+        "type": "integer"
+      },
+      "playerLogin": {
+        "type": "keyword"
+      },
+      "playerId": {
+        "type": "keyword"
+      },
+      "lastVisitIpAddress": {
+        "type": "keyword"
+      },
+      "platform": {
+        "type": "keyword"
+      },
+      "browser": {
+        "type": "keyword"
+      },
+      "browserVersion": {
+        "type": "keyword"
+      },
+      "language": {
+        "type": "keyword"
+      }
     }
+  }
 }

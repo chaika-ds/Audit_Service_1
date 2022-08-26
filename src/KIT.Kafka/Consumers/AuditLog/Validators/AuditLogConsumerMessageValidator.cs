@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Models.Domain.AuditLog;
 using FluentValidation;
 
 namespace KIT.Kafka.Consumers.AuditLog.Validators;
@@ -8,7 +8,7 @@ namespace KIT.Kafka.Consumers.AuditLog.Validators;
 /// </summary>
 public class AuditLogConsumerMessageValidator : AbstractValidator<AuditLogConsumerMessage>
 {
-    public AuditLogConsumerMessageValidator(IValidator<IdentityUserDomainModel> userValidator)
+    public AuditLogConsumerMessageValidator(IValidator<AuditLogUserDomainModel> userValidator)
     {
         RuleFor(message => message.NodeId).NotEmpty();
         RuleFor(message => message.CategoryCode).NotEmpty();

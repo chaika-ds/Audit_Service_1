@@ -1,4 +1,4 @@
-﻿using AuditService.Common.Models.Domain;
+﻿using AuditService.Common.Models.Domain.AuditLog;
 using AuditService.Tests.Fakes.Kafka.Validators;
 using FluentValidation.TestHelper;
 using KIT.Kafka.Consumers.AuditLog.Validators;
@@ -65,7 +65,7 @@ public class AuditLogConsumerMessageValidatorTest
     /// </summary>
     /// <param name="userRoleValue">UserRoles values for validation error testing</param>
     [Theory, MemberData(nameof(ValidatorDataGenerator.GetIdentityUserDomainModelValues), MemberType = typeof(ValidatorDataGenerator))]
-    public void AuditLogConsumerMessageValidator_InsertUserNotValidParams_ShouldHaveValidationError(IdentityUserDomainModel userRoleValue)
+    public void AuditLogConsumerMessageValidator_InsertUserNotValidParams_ShouldHaveValidationError(AuditLogUserDomainModel userRoleValue)
     {
         //Act
         var result = _validatorTest.TestValidate(AuditLogValidatorTestData.GetVisitLogUserConsumerMessage(userRoleValue));

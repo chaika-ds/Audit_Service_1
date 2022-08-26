@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuditService.Common.Models.Domain;
+namespace AuditService.Common.Models.Domain.AuditLog;
 
 /// <summary>
 ///     User info
 /// </summary>
-public class IdentityUserDomainModel
+public class AuditLogUserDomainModel
 {
-    public IdentityUserDomainModel()
+    public AuditLogUserDomainModel()
     {
         Ip = string.Empty;
-        Email = string.Empty;
+        Login = string.Empty;
         UserAgent = string.Empty;
     }
 
@@ -30,7 +30,7 @@ public class IdentityUserDomainModel
     ///     Login/Email
     /// </summary>
     [Required]
-    public string Email { get; set; }
+    public string Login { get; set; }
 
     /// <summary>
     ///     Data about internet browser

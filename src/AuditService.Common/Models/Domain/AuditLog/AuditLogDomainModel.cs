@@ -12,7 +12,7 @@ public class AuditLogDomainModel : INodeId
     public AuditLogDomainModel()
     {
         CategoryCode = string.Empty;
-        User = new IdentityUserDomainModel();
+        User = new AuditLogUserDomainModel();
         ActionName = string.Empty;
         ModuleName = string.Empty;
         OldValue = new List<AuditLogAttributeDomainModel>();
@@ -90,5 +90,5 @@ public class AuditLogDomainModel : INodeId
     ///     User
     /// </summary>
     [Required]
-    public IdentityUserDomainModel User { get; set; }
+    public AuditLogUserDomainModel User { get; set; }
 }
