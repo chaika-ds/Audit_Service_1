@@ -140,12 +140,12 @@ namespace AuditService.Tests.Fakes.ServiceData
         /// <summary>
         ///     Get service provider for Health check handlers
         /// </summary>
-        /// <param name="ritLabRequestHandler"></param>
+        /// <param name="gitLabRequestHandler"></param>
         /// <param name="kafkaHcMock"></param>
         /// <param name="redisHcMock"></param>
         /// <param name="minioHealthCheckMock"></param>
         /// <returns>Service provider</returns>
-        internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> ritLabRequestHandler,
+        internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> gitLabRequestHandler,
             IKafkaHealthCheck kafkaHcMock, IRedisHealthCheck redisHcMock, IMinioHealthCheck minioHealthCheckMock)
         {
             var services = new ServiceCollection();
@@ -155,7 +155,7 @@ namespace AuditService.Tests.Fakes.ServiceData
             services.AddScoped(_ => ElasticSearchClientProviderFake.GetFakeElasticSearchClient(""));
             services.AddScoped(_ => kafkaHcMock);
             services.AddScoped(_ => redisHcMock);
-            services.AddScoped(_ => ritLabRequestHandler);
+            services.AddScoped(_ => gitLabRequestHandler);
             services.AddScoped(_ => minioHealthCheckMock);
 
             var serviceProvider = services.BuildServiceProvider();
