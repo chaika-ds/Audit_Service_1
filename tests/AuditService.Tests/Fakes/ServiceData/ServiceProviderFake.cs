@@ -1,8 +1,12 @@
 ﻿using AuditService.Common.Contexts;
 using AuditService.Common.Models.Dto;
+using AuditService.Localization;
+using AuditService.Localization.Localizer.Storage;
+using AuditService.Localization.Settings;
 using AuditService.SettingsService.Commands.BaseEntities;
 using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
+using AuditService.Tests.Fakes.Localization;
 using AuditService.Tests.Fakes.Minio;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
@@ -15,6 +19,7 @@ using KIT.Minio.Commands.SaveFileWithSharing;
 using KIT.Minio.Commands.SaveFileWithSharing.Models;
 using KIT.Minio.HealthCheck;
 using KIT.Minio.Settings.Interfaces;
+using KIT.Redis;
 using KIT.Redis.HealthCheck;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,6 +89,31 @@ namespace AuditService.Tests.Fakes.ServiceData
 
             return serviceProvider;
         }
+        
+        /// <summary>
+        ///     Get service provider for Localization
+        /// </summary>
+        /// <returns>Service provider</returns>
+        internal static IServiceProvider GetServiceProviderForLocalization()
+        {
+            var services = new ServiceCollection();
+
+            services.ConfigureLocalization();
+
+            RegistrationServices(services);
+
+            services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();
+            
+            services.AddSingleton<IRedisCacheStorageSettings, RedisCacheStorageSettingsFake>();
+            
+            services.AddSingleton<ILocalizationSourceSettings, LocalizationSourceSettingsFake>();
+            
+            services.AddSingleton<ILocalizationStorage, RedisCacheStorageFake>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
 
         /// <summary>
         ///     Get service provider for export log handlers
@@ -106,13 +136,14 @@ namespace AuditService.Tests.Fakes.ServiceData
 
             return serviceProvider;
         }
-        
+
         /// <summary>
         ///     Get service provider for Health check handlers
         /// </summary>
         /// <param name="ritLabRequestHandler"></param>
         /// <param name="kafkaHcMock"></param>
         /// <param name="redisHcMock"></param>
+        /// <param name="minioHealthCheckMock"></param>
         /// <returns>Service provider</returns>
         internal static IServiceProvider GetServiceProviderForHealthCheckHandlers(IRequestHandler<GitLabRequest, GitLabVersionResponseDto> ritLabRequestHandler,
             IKafkaHealthCheck kafkaHcMock, IRedisHealthCheck redisHcMock, IMinioHealthCheck minioHealthCheckMock)
