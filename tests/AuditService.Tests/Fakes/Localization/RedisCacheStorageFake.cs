@@ -9,9 +9,15 @@ namespace AuditService.Tests.Fakes.Localization;
 public class RedisCacheStorageFake: ILocalizationStorage
 {
     public static LocalizationResourceParameters LocalizationResourceParameters = null!;
-    public static  List<string> Languages = new();
-    public static  int ClearResourcesCalled = 0;
-    
+    public static List<string> Languages = new();
+    public static int ClearResourcesCalled = 0;
+
+    public RedisCacheStorageFake()
+    {
+        LocalizationResourceParameters = null;
+        Languages = new List<string>();
+        ClearResourcesCalled = 0;
+    }
     
     /// <summary>
     ///     Get localization resources from storage
