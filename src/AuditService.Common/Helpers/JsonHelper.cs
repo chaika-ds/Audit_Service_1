@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace AuditService.Common.Helpers;
 
@@ -13,6 +14,7 @@ public static class JsonHelper
         return JsonConvert.SerializeObject(obj, new JsonSerializerSettings
         {
             Formatting = Formatting.None,
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
             Converters = new List<JsonConverter> { new StringEnumConverter() }
         });
     }
