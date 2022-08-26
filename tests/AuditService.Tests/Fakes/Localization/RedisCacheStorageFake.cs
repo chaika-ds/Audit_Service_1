@@ -8,6 +8,11 @@ namespace AuditService.Tests.Fakes.Localization;
 /// </summary>
 public class RedisCacheStorageFake: ILocalizationStorage
 {
+    public static LocalizationResourceParameters LocalizationResourceParameters = null!;
+    public static  List<string> Languages = new();
+    public static  int ClearResourcesCalled = 0;
+    
+    
     /// <summary>
     ///     Get localization resources from storage
     /// </summary>
@@ -31,9 +36,9 @@ public class RedisCacheStorageFake: ILocalizationStorage
     /// <param name="localizationResources">Localization resources for store in storage</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task execution result</returns>
-    public Task SetResources(LocalizationResources localizationResources, CancellationToken cancellationToken)
+    public async Task SetResources(LocalizationResources localizationResources, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await Task.CompletedTask;
     }
 
     /// <summary>
@@ -42,8 +47,14 @@ public class RedisCacheStorageFake: ILocalizationStorage
     /// <param name="resourceParameters">Localization resource parameters</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task execution result</returns>
-    public Task ClearResources(LocalizationResourceParameters resourceParameters, CancellationToken cancellationToken)
+    public async Task ClearResources(LocalizationResourceParameters resourceParameters, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        Languages.Add(resourceParameters.Language);
+        
+        LocalizationResourceParameters = resourceParameters;
+
+        ClearResourcesCalled++;
+        
+        await Task.CompletedTask;
     }
 }
