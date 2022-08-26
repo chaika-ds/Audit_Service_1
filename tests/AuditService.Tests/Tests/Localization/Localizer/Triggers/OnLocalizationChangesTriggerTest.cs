@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AuditService.Tests.Tests.Localization.Localizer.Triggers;
 
+/// <summary>
+///     OnLocalizationChangesTrigger  test
+/// </summary>
 public class OnLocalizationChangesTriggerTest
 {
     private readonly IOnLocalizationChangesTrigger _onLocalizationChangesTrigger;
