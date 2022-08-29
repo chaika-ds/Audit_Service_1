@@ -11,8 +11,9 @@ namespace AuditService.Handlers.Validators;
 /// </summary>
 public class BlockedPlayersLogRequestValidator : LogRequestBaseValidator<BlockedPlayersLogFilterDto, BlockedPlayersLogSortDto, BlockedPlayersLogDomainModel>
 {
-    public BlockedPlayersLogRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator) 
+    public BlockedPlayersLogRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator, IpAddressValidator ipAddressValidator) 
         : base(paginationRequestValidator, logFilterValidator)
     {
+        RuleFor(requestDto => requestDto.Filter.PlayerIp).SetValidator(ipAddressValidator!);
     }
 }

@@ -11,11 +11,11 @@ namespace AuditService.Handlers.Validators;
 /// </summary>
 public class AuditLogDomainRequestValidator : LogRequestBaseValidator<AuditLogFilterDto, LogSortDto, AuditLogDomainModel>
 {
-    public AuditLogDomainRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator) : base(paginationRequestValidator, logFilterValidator)
+    public AuditLogDomainRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator, IpAddressValidator ipAddressValidator) : base(paginationRequestValidator, logFilterValidator)
     {
         When(model => !string.IsNullOrEmpty(model.Filter.Ip), () =>
         {
-            RuleFor(requestDto => requestDto.Filter.Ip).SetValidator(new IpAddressValidator()!);
+            RuleFor(requestDto => requestDto.Filter.Ip).SetValidator(ipAddressValidator!);
         });
     }
 }
