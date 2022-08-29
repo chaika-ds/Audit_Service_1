@@ -1,6 +1,5 @@
 ﻿using AuditService.Common.Contexts;
 using AuditService.Common.Enums;
-using AuditService.Common.Exceptions;
 using AuditService.Common.Extensions;
 using AuditService.Common.Models.Dto;
 using AuditService.Common.Models.Dto.Filter;
@@ -126,9 +125,6 @@ namespace AuditService.Handlers.Handlers.DomainRequestHandlers
             if (selectedNodeIds.Any())
                 container &= queryContainerDescriptor.Terms(t => t.Field(f => f.NodeId).Terms(selectedNodeIds));
 
-            if (filter.TimestampFrom > filter.TimestampTo)
-                throw new BadRequestException("Invalid filter range time");
-            
             return ApplyFilter(container, queryContainerDescriptor, filter);
         }
 
