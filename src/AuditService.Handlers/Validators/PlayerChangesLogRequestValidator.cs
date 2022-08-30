@@ -12,8 +12,9 @@ namespace AuditService.Handlers.Validators;
 /// </summary>
 public class PlayerChangesLogRequestValidator : LogRequestBaseValidator<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogResponseDto>
 {
-    public PlayerChangesLogRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator) 
+    public PlayerChangesLogRequestValidator(IValidator<PaginationRequestDto> paginationRequestValidator, IValidator<ILogFilter> logFilterValidator, IpAddressValidator ipAddressValidator ) 
         : base(paginationRequestValidator, logFilterValidator)
     {
+        RuleFor(requestDto => requestDto.Filter.IpAddress).SetValidator(ipAddressValidator!);
     }
 }
