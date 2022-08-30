@@ -8,6 +8,7 @@ using AuditService.SettingsService.Commands.GetRootNodeTree;
 using AuditService.Setup.AppSettings;
 using AuditService.Tests.Fakes.Localization;
 using AuditService.Tests.Fakes.Minio;
+using AuditService.Tests.Fakes.RocketChat;
 using AuditService.Tests.Fakes.SettingsService;
 using AuditService.Tests.Fakes.Setup;
 using AuditService.Tests.Fakes.Setup.ELK;
@@ -21,6 +22,10 @@ using KIT.Minio.HealthCheck;
 using KIT.Minio.Settings.Interfaces;
 using KIT.Redis;
 using KIT.Redis.HealthCheck;
+using KIT.RocketChat;
+using KIT.RocketChat.ApiClient;
+using KIT.RocketChat.Settings.Interfaces;
+using KIT.RocketChat.Storage;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tolar.MinioService.Client;
@@ -164,10 +169,58 @@ namespace AuditService.Tests.Fakes.ServiceData
         }
 
         /// <summary>
+        ///     Get service provider for RocketChat
+        /// </summary>
+        /// <param name="IsActive">Status of RocketChat</param>
+        /// <returns>ServiceProvider</returns>
+        internal static IServiceProvider GetServiceProviderForRocketChat(bool IsActive)
+        {
+            var services = ServiceCollectionFake.CreateServiceCollectionFake();
+
+            RegistrationRocketChatServices(services, IsActive);
+
+            services.AddScoped<IRocketChatStorage, RocketChatStorageFake>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
+        ///     Get service provider for RocketChat
+        /// </summary>
+        /// <returns>ServiceProvider</returns>
+        internal static IServiceProvider GetThrowExceptionServiceProviderForRocketChat()
+        {
+            var services = ServiceCollectionFake.CreateServiceCollectionFake();
+
+            RegistrationRocketChatServices(services, true);
+
+            services.AddScoped<IRocketChatStorage, RocketChatStorageThrowExceptionFake>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            return serviceProvider;
+        }
+
+        /// <summary>
+        ///     Registration services for RockeChat
+        /// </summary>
+        /// <param name="services">service collection</param>
+        private static void RegistrationRocketChatServices(IServiceCollection services, bool IsActive)
+        {
+            services.ConfigureRocketChat();
+            services.AddLogging();
+            services.AddSingleton<IRocketChatApiSettings>(_ => new RocketChatApiSettingsFake(IsActive));
+            services.AddScoped<IRocketChatApiClient, RocketChatApiClientFake>();
+        }
+
+        /// <summary>
         ///     Registration default services 
         /// </summary>
         /// <param name="services">service collection</param>
-        private static void RegistrationServices(ServiceCollection services)
+        /// <param name="IsActive">Status of RocketChat</param>
+        private static void RegistrationServices(IServiceCollection services)
         {
             RegisterServices(services);
             services.AddSingleton<IRedisRepository, RedisReposetoryForCachePipelineBehaviorFake>();

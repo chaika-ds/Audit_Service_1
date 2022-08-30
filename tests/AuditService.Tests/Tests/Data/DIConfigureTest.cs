@@ -27,6 +27,8 @@ using KIT.Minio;
 using KIT.Minio.Settings.Interfaces;
 using KIT.Redis;
 using KIT.Redis.HealthCheck;
+using KIT.RocketChat;
+using KIT.RocketChat.Settings.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -129,6 +131,21 @@ public class DIConfigureTest
         serviceCollectionFake.IsRegisteredService<IRequestHandler<
             LogFilterRequestDto<PlayerChangesLogFilterDto, LogSortDto, PlayerChangesLogDomainModel>,
             PageResponseDto<PlayerChangesLogDomainModel>>, PlayerChangesLogDomainRequestHandler>(ServiceLifetime.Transient);
+    }
+
+    /// <summary>
+    /// Testing RocketChatConfiguration
+    /// </summary>
+    [Fact]
+    public void RocketChatConfiguration_ServicesInjection_Injected()
+    {
+        //Act
+        serviceCollectionFake.ConfigureRocketChat();
+
+        // Assert
+        serviceCollectionFake.IsRegisteredSettings<IRocketChatApiSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IRocketChatMethodsSettings>(ServiceLifetime.Singleton);
+        serviceCollectionFake.IsRegisteredSettings<IRocketChatStorageSettings>(ServiceLifetime.Singleton);
     }
 
     /// <summary>
