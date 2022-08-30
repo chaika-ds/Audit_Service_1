@@ -44,6 +44,7 @@ services:
         exit 1
       fi
     - notify deploy --env ${K8S_ENV} --service-name ${CI_PROJECT_NAME} --version ${CI_IMAGE_TAG} --commit ${CI_COMMIT_SHA}
+    - notify rocket --message "Deploy of service *${CI_PROJECT_NAME}* succeeded. Env - *${K8S_ENV}*. Service version - *${CI_IMAGE_TAG}*."
 
 .k8sdeploy:
   # only:
@@ -83,6 +84,7 @@ services:
         exit 1
       fi
     - notify deploy --env ${K8S_ENV} --service-name ${CI_PROJECT_NAME} --version ${CI_IMAGE_TAG} --commit ${CI_COMMIT_SHA}
+    - notify rocket --message "Deploy of service *${CI_PROJECT_NAME}* succeeded. Env - *${K8S_ENV}*. Service version - *${CI_IMAGE_TAG}*."
 
 test deploy:
   extends: .k8sdeployuat
