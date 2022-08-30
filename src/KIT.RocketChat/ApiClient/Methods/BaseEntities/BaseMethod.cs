@@ -37,7 +37,7 @@ public abstract class BaseMethod<TRequest, TResponse> : IBaseMethod where TReque
     /// <param name="requestModel">Request model</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Response/Result of the request</returns>
-    public async Task<BaseApiResponse<TResponse>> ExecuteAsync(BaseApiRequest<TRequest> requestModel, CancellationToken cancellationToken)
+    public virtual async Task<BaseApiResponse<TResponse>> ExecuteAsync(BaseApiRequest<TRequest> requestModel, CancellationToken cancellationToken)
     {
         try
         {
